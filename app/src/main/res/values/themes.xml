@@ -1,0 +1,106 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppThemeBase" parent="Base.Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:windowBackground">@color/very_light_gray</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:typeface">monospace</item>
+        <item name="colorControlNormal">@color/green</item>
+        <item name="colorControlActivated">@color/green</item>
+        <!-- Contextual actionbar background -->
+        <item name="android:actionModeBackground">@color/green</item>
+        <!-- Large text color (in actionbar and toolbar)-->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- Medium text color -->
+        <item name="android:textColorSecondary">@color/green</item>
+        <!-- Small text color -->
+        <item name="android:textColorTertiary">@color/dark_gray</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:editTextColor">@color/dark_gray</item>
+        <item name="editTextColor">@color/dark_gray</item>
+        <!-- Text selection color -->
+        <item name="android:textColorHighlight">@color/white_transparent</item>
+        <item name="colorButtonNormal">@color/green</item>
+        <!-- ButtonStyle -->
+        <item name="android:buttonStyle">@style/MyButton</item>
+        <!-- EditText style -->
+        <item name="editTextStyle">@style/MyEditText</item>
+        <item name="android:editTextStyle">@style/MyEditText</item>
+        <!-- Toolbar Style -->
+        <item name="toolbarStyle">@style/MyToolbar</item>
+        <!-- RadioButton style -->
+        <item name="android:radioButtonStyle">@style/MyRadioButton</item>
+        <!-- Checkbox style -->
+        <item name="android:checkboxStyle">@style/MyCheckbox</item>
+        <!-- Spinner style -->
+        <item name="android:spinnerStyle">@style/MySpinner</item>
+    </style>
+
+    <style name="AppTheme" parent="AppThemeBase" />
+
+    <style name="AppTheme.FullScreen" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.BlackTheme" parent="AppTheme">
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.Transparent" />
+
+    <style name="AppTheme.FullTransparent" />
+
+    <style name="MyButton" parent="Widget.AppCompat.Button">
+        <item name="android:minHeight">40dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">start</item>
+    </style>
+
+    <style name="MyEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="MyRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="MyCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="WhiteControlsToolbar" parent="MyToolbar">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
+    <style name="MySpinner" parent="Base.Widget.AppCompat.Spinner">
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="CropActivityTheme" parent="android:Theme.DeviceDefault" tools:ignore="NewApi">
+        <item name="cropImageStyle">@style/Widget.CropImageView</item>
+    </style>
+
+    <style name="Widget.CropImageView" parent="android:Widget">
+        <item name="showThirds">false</item>
+        <item name="showCircle">false</item>
+        <item name="showHandles">always</item>
+        <item name="highlightColor">#f3f3f3</item>
+    </style>
+
+</resources>

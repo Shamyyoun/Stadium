@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.stadium.player">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- =============== Application Section =============== -->
+    <application
+        android:name=".StadiumApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- ===================== Fabric ===================== -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e9858325e96ab141768816a0883f5c39d5192ac4" />
+
+        <!-- ===================== Facebook ===================== -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_id" />
+
+        <!-- ===================== Crop Library ========================= -->
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:theme="@style/CropActivityTheme" />
+
+        <!-- ======================= Activities ======================= -->
+        <activity
+            android:name=".activities.SplashActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.FullTransparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan" />
+    </application>
+</manifest>

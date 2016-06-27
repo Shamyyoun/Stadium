@@ -1,0 +1,30 @@
+<resources>
+    <!-- main strings -->
+    <string name="app_name">Stadium</string>
+    <string name="facebook_id">1709501949303586</string>
+
+
+    <!-- untranslated strings -->
+    <string name="empty_string"></string>
+
+
+    <!-- translated strings -->
+    <string name="ok">موافق</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="unplug_mobile_cable_from_computer">من فضلك، قم بفصل كابل الموبايل من الكمبيوتر</string>
+    <string name="something_went_wrong_please_try_again">حدث خطأٌ ما، برجاء المحاولة مرة أخرى</string>
+    <string name="no_internet_connection">لا يوجد اتصال بالانترنت</string>
+    <string name="please_wait_dotted">برجاء الانتظار...</string>
+    <string name="search">بحث</string>
+    <string name="login1">تسجيل الدخول</string>
+    <string name="login2">الدخول</string>
+    <string name="phone_number">رقم الجوال</string>
+    <string name="password">كلمة المرور</string>
+    <string name="forget_it_q">نسيتها؟</string>
+    <string name="login_with_facebook">الدخول بواسطة الفيسبوك</string>
+    <string name="dont_have_account_signup_now">ليس لديك حساب؟ <b>سجل الآن</b></string>
+
+
+    <!-- Arrays -->
+</resources>
