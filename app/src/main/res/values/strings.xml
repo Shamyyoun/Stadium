@@ -34,6 +34,10 @@
     <string name="by_mail">عن طريق البريد الالكتروني</string>
     <string name="by_mobile">عن طريق الجوال</string>
     <string name="select">اختيار</string>
+    <string name="contact_us">تواصل معنا</string>
+    <string name="about_app">عن التطبيق</string>
+    <string name="settings">الاعدادات</string>
+    <string name="logout">تسجيل الخروج</string>
 
 
     <!-- Arrays -->

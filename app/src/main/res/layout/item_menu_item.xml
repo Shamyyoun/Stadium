@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:background="?attr/selectableItemBackground"
+    android:padding="13dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="15dp"
+        android:drawableRight="@drawable/phone_icon"
+        android:gravity="center_vertical|right"
+        android:text="تواصل معنا"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/medium_text"
+        android:textStyle="bold" />
+</FrameLayout>

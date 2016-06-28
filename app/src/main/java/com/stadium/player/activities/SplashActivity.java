@@ -26,7 +26,7 @@ public class SplashActivity extends ParentActivity {
             @Override
             public void run() {
                 // goto suitable activity
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         };
