@@ -67,4 +67,9 @@
         <item name="android:background">@drawable/rounded_corners_orange_stroked_edittext_bg</item>
     </style>
 
+    <style name="OrangeRadioButton" parent="MyRadioButton">
+        <item name="android:theme">@style/OrangeWidget</item>
+        <item name="android:textColor">@color/orange_radiobutton_text</item>
+    </style>
+
 </resources>

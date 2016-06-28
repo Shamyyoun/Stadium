@@ -30,6 +30,10 @@
     <string name="mobile_no_here_dotted">رقم الجوال هنا...</string>
     <string name="close">اغلاق</string>
     <string name="forget_password_success_msg">تمت العملية بنجاح\nوسوف تصلك كلمة المرور الجديدة على بريدك الالكتروني</string>
+    <string name="restore_password_method">طريقة استعادة كلمة المرور</string>
+    <string name="by_mail">عن طريق البريد الالكتروني</string>
+    <string name="by_mobile">عن طريق الجوال</string>
+    <string name="select">اختيار</string>
 
 
     <!-- Arrays -->
