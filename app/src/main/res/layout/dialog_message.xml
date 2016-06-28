@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/dialog_bg"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/view_dialog_toolbar" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:lineSpacingExtra="7dp"
+            android:textSize="@dimen/medium_text"
+            tools:text="الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا " />
+    </LinearLayout>
+
+    <com.stadium.player.views.DarkenedButton
+        android:id="@+id/btn_close"
+        style="@style/DialogOrangeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="@string/close" />
+</FrameLayout>

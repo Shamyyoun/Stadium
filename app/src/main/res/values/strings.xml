@@ -28,6 +28,8 @@
     <string name="forget_password_q">نسيت كلمة المرور؟</string>
     <string name="please_enter_your_mobile_no">من فضلك ادخل رقم الجوال الخاص بك</string>
     <string name="mobile_no_here_dotted">رقم الجوال هنا...</string>
+    <string name="close">اغلاق</string>
+    <string name="forget_password_success_msg">تمت العملية بنجاح\nوسوف تصلك كلمة المرور الجديدة على بريدك الالكتروني</string>
 
 
     <!-- Arrays -->

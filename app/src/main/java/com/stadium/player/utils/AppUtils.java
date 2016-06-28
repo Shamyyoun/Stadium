@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stadium.player.Const;
 import com.stadium.player.R;
+import com.stadium.player.dialogs.MessageDialog;
 
 import java.util.List;
 
@@ -12,7 +13,39 @@ import java.util.List;
  * A class, with utility methods useful only for the current project "private car"
  */
 public class AppUtils {
+    /**
+     * method, used to show message dialog with string ids
+     *
+     * @param context
+     * @param titleId
+     * @param msgId
+     * @return
+     */
+    public static MessageDialog showMessageDialog(Context context, int titleId, int msgId) {
+        return showMessageDialog(context, context.getString(titleId), context.getString(msgId));
+    }
 
+    /**
+     * method, used to show message dialog with strings
+     *
+     * @param context
+     * @param title
+     * @param msg
+     * @return
+     */
+    public static MessageDialog showMessageDialog(Context context, String title, String msg) {
+        MessageDialog dialog = new MessageDialog(context, msg);
+        dialog.setTitle(title);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
+     * method, used to concatenate all parts and form a valid url
+     *
+     * @param pathParts
+     * @return
+     */
     public static String getApiUrl(String... pathParts) {
         String fullUrl = Const.END_POINT;
         for (String pathPart : pathParts) {
