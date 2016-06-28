@@ -63,7 +63,7 @@
         <item name="android:textSize">@dimen/medium_text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">start</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="MyEditText" parent="Widget.AppCompat.EditText">

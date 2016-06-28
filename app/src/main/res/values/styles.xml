@@ -11,6 +11,11 @@
         <item name="android:scaleType">centerCrop</item>
     </style>
 
+    <style name="SingleEllipsizedText">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
     <style name="ScreenTitle">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
@@ -29,6 +34,7 @@
     </style>
 
     <style name="WhiteEditText" parent="MyEditText">
+        <item name="android:theme">@style/WhiteWidget</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
@@ -36,4 +42,29 @@
         <item name="android:background">@drawable/white_button_bg</item>
         <item name="android:textColor">@color/green</item>
     </style>
+
+    <style name="OrangeButton" parent="MyButton">
+        <item name="android:background">@drawable/orange_button_bg</item>
+    </style>
+
+    <style name="DialogOrangeButton" parent="OrangeButton">
+        <item name="android:minHeight">36dp</item>
+        <item name="android:minWidth">110dp</item>
+        <item name="android:textSize">@dimen/below_medium_text</item>
+    </style>
+
+    <style name="OrangeWidget">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/orange</item>
+        <item name="colorAccent">@color/orange</item>
+        <item name="colorControlNormal">@color/orange</item>
+        <item name="colorControlActivated">@color/orange</item>
+        <item name="android:textColorHighlight">@color/orange_transparent</item>
+    </style>
+
+    <style name="OrangeStrokedEditText" parent="MyEditText">
+        <item name="android:theme">@style/OrangeWidget</item>
+        <item name="android:background">@drawable/rounded_corners_orange_stroked_edittext_bg</item>
+    </style>
+
 </resources>

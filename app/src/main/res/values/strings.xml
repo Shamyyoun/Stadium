@@ -24,6 +24,10 @@
     <string name="forget_it_q">نسيتها؟</string>
     <string name="login_with_facebook">الدخول بواسطة الفيسبوك</string>
     <string name="dont_have_account_signup_now">ليس لديك حساب؟ <b>سجل الآن</b></string>
+    <string name="verify">التحقق</string>
+    <string name="forget_password_q">نسيت كلمة المرور؟</string>
+    <string name="please_enter_your_mobile_no">من فضلك ادخل رقم الجوال الخاص بك</string>
+    <string name="mobile_no_here_dotted">رقم الجوال هنا...</string>
 
 
     <!-- Arrays -->

@@ -2,10 +2,10 @@ package com.stadium.player.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -34,8 +34,9 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
         super(context);
         this.context = context;
 
-        // set no title
+        // set no title and transparent bg
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
 
     @Override
@@ -62,18 +63,6 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
     @Override
     public void setTitle(int titleId) {
         setTitle(context.getString(titleId));
-    }
-
-    @Override
-    public void show() {
-        // customize dialog width
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-
-        // show it
-        super.show();
-        getWindow().setAttributes(lp);
     }
 
     @Override

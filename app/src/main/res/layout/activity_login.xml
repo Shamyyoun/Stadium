@@ -60,8 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/phone_number"
-            android:inputType="phone"
-            android:theme="@style/WhiteWidget" />
+            android:inputType="phone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
+                android:onClick="onClick"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -89,8 +89,7 @@
                 android:layout_weight="1"
                 android:hint="@string/password"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:theme="@style/WhiteWidget" />
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <com.stadium.player.views.DarkenedButton
