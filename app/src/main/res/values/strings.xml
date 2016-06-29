@@ -44,6 +44,14 @@
     <string name="players">لاعبين</string>
     <string name="my_team">فرقتي</string>
 
+    <string name="main_information">المعلومات الاساسية</string>
+    <string name="name">الاسم</string>
+    <string name="age">السن</string>
+    <string name="city">المدينة</string>
+    <string name="account_info">معلومات الحساب</string>
+    <string name="sign_up">التسجيل</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="have_account">لديك حساب بالفعل؟</string>
 
     <!-- Arrays -->
 </resources>

@@ -2,7 +2,7 @@
 
     <style name="AppThemeBase" parent="Base.Theme.AppCompat.Light">
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="colorPrimaryDark">@color/green</item>
         <item name="colorAccent">@color/orange</item>
         <item name="android:windowBackground">@color/very_light_gray</item>
         <item name="windowNoTitle">true</item>
