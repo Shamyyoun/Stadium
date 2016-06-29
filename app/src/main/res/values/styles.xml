@@ -72,4 +72,10 @@
         <item name="android:textColor">@color/orange_radiobutton_text</item>
     </style>
 
+    <style name="TabTextView">
+        <item name="android:textColor">@color/tab_title_text</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:clickable">true</item>
+    </style>
+
 </resources>

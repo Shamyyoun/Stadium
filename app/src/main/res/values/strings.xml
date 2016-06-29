@@ -38,6 +38,11 @@
     <string name="about_app">عن التطبيق</string>
     <string name="settings">الاعدادات</string>
     <string name="logout">تسجيل الخروج</string>
+    <string name="home">الرئيسية</string>
+    <string name="stadiums">ملاعب</string>
+    <string name="reservations">الحجوزات</string>
+    <string name="players">لاعبين</string>
+    <string name="my_team">فرقتي</string>
 
 
     <!-- Arrays -->

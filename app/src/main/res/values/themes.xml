@@ -73,6 +73,7 @@
 
     <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:gravity">center_vertical</item>
+        <item name="android:layoutDirection">rtl</item>
     </style>
 
     <style name="MyRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
@@ -82,8 +83,8 @@
 
     <style name="MyCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:textColor">@color/dark_gray</item>
-        <item name="android:layoutDirection">rtl</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layoutDirection">rtl</item>
     </style>
 
     <style name="WhiteControlsToolbar" parent="MyToolbar">
