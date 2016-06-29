@@ -53,5 +53,9 @@
         <activity
             android:name=".activities.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan" />
+
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan" />
     </application>
 </manifest>

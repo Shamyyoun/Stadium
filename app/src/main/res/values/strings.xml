@@ -24,7 +24,14 @@
     <string name="forget_it_q">نسيتها؟</string>
     <string name="login_with_facebook">الدخول بواسطة الفيسبوك</string>
     <string name="dont_have_account_signup_now">ليس لديك حساب؟ <b>سجل الآن</b></string>
-
+    <string name="main_information">المعلومات الاساسية</string>
+    <string name="name">الاسم</string>
+    <string name="age">السن</string>
+    <string name="city">المدينة</string>
+    <string name="account_info">معلومات الحساب</string>
+    <string name="sign_up">التسجيل</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="have_account">لديك حساب بالفعل؟</string>
 
     <!-- Arrays -->
 </resources>
