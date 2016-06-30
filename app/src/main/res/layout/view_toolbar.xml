@@ -14,4 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         tools:text="Title" />
+
+    <ImageButton
+        android:id="@+id/navigation_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:src="@drawable/action_17" />
+
 </android.support.v7.widget.Toolbar>

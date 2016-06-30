@@ -52,6 +52,10 @@
     <string name="sign_up">التسجيل</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
     <string name="have_account">لديك حساب بالفعل؟</string>
+    <string name="creat">انشاء</string>
+    <string name="can_creat_new_team">يمكنك انشاء فريق جديد</string>
+
+
 
     <!-- Arrays -->
 </resources>
