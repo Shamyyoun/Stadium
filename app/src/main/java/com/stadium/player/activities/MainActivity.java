@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stadium.player.R;
+import com.stadium.player.fragments.MyTeamsFragment;
 
 public class MainActivity extends ParentToolbarActivity {
     private static int DRAWER_GRAVITY = Gravity.RIGHT;
@@ -17,6 +18,8 @@ public class MainActivity extends ParentToolbarActivity {
     private TextView tvReservations;
     private TextView tvPlayers;
     private TextView tvMyTeam;
+
+    private MyTeamsFragment myTeamsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class MainActivity extends ParentToolbarActivity {
         tvStadiums = (TextView) findViewById(R.id.tv_stadiums);
         tvReservations = (TextView) findViewById(R.id.tv_reservations);
         tvPlayers = (TextView) findViewById(R.id.tv_players);
-        tvMyTeam = (TextView) findViewById(R.id.tv_my_team);
+        tvMyTeam = (TextView) findViewById(R.id.tv_my_teams);
 
         // add tabs click listeners
         tvHome.setOnClickListener(this);
@@ -54,7 +57,7 @@ public class MainActivity extends ParentToolbarActivity {
             case R.id.tv_stadiums:
             case R.id.tv_reservations:
             case R.id.tv_players:
-            case R.id.tv_my_team:
+            case R.id.tv_my_teams:
                 selectTab(v);
                 break;
 
@@ -105,11 +108,14 @@ public class MainActivity extends ParentToolbarActivity {
                 createOptionsMenu(R.menu.menu_players);
                 break;
 
-            case R.id.tv_my_team:
-                logE("Load My Team");
+            case R.id.tv_my_teams:
+                if (myTeamsFragment == null) {
+                    myTeamsFragment = new MyTeamsFragment();
+                }
+                loadFragment(R.id.container_main, myTeamsFragment);
 
                 // customize the toolbar
-                setTitle(R.string.my_team);
+                setTitle(R.string.my_teams);
                 removeOptionsMenu();
                 break;
         }

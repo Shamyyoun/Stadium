@@ -91,4 +91,8 @@
         <item name="android:background">@drawable/green_button_bg</item>
     </style>
 
+    <style name="SmallOrangeButton" parent="OrangeButton">
+        <item name="android:minHeight">28dp</item>
+    </style>
+
 </resources>

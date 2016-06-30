@@ -38,12 +38,12 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/tv_my_team"
+                    android:id="@+id/tv_my_teams"
                     style="@style/TabTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/my_team_tab_icon"
-                    android:text="@string/my_team" />
+                    android:drawableTop="@drawable/my_teams_tab_icon"
+                    android:text="@string/my_teams" />
 
                 <View
                     android:layout_width="0dp"

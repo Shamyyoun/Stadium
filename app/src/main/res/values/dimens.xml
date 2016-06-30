@@ -10,4 +10,5 @@
     <dimen name="large_text">20sp</dimen>
     <dimen name="drawer_width">200dp</dimen>
     <dimen name="signup_user_image_size">100dp</dimen>
+    <dimen name="my_teams_logo_size">90dp</dimen>
 </resources>
