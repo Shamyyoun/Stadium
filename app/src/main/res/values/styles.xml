@@ -31,11 +31,13 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlActivated">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textColorHighlight">@color/white_transparent</item>
     </style>
 
     <style name="WhiteEditText" parent="MyEditText">
         <item name="android:theme">@style/WhiteWidget</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="backgroundTint">@android:color/white</item>
     </style>
 
     <style name="WhiteButton" parent="MyButton">
@@ -65,6 +67,7 @@
     <style name="OrangeStrokedEditText" parent="MyEditText">
         <item name="android:theme">@style/OrangeWidget</item>
         <item name="android:background">@drawable/rounded_corners_orange_stroked_edittext_bg</item>
+        <item name="backgroundTint">@null</item>
     </style>
 
     <style name="OrangeRadioButton" parent="MyRadioButton">
@@ -76,6 +79,16 @@
         <item name="android:textColor">@color/tab_title_text</item>
         <item name="android:textSize">@dimen/small_text</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="OrangeSectionHeadTextView">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textSize">@dimen/above_medium_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="GreenButton" parent="MyButton">
+        <item name="android:background">@drawable/green_button_bg</item>
     </style>
 
 </resources>

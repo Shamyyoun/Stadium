@@ -9,4 +9,5 @@
     <dimen name="above_medium_text">18sp</dimen>
     <dimen name="large_text">20sp</dimen>
     <dimen name="drawer_width">200dp</dimen>
+    <dimen name="signup_user_image_size">100dp</dimen>
 </resources>

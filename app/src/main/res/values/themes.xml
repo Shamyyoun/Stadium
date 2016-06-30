@@ -2,7 +2,7 @@
 
     <style name="AppThemeBase" parent="Base.Theme.AppCompat.Light">
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/orange</item>
         <item name="android:windowBackground">@color/very_light_gray</item>
         <item name="windowNoTitle">true</item>
@@ -22,7 +22,7 @@
         <item name="android:editTextColor">@color/dark_gray</item>
         <item name="editTextColor">@color/dark_gray</item>
         <!-- Text selection color -->
-        <item name="android:textColorHighlight">@color/white_transparent</item>
+        <item name="android:textColorHighlight">@color/green_transparent</item>
         <item name="colorButtonNormal">@color/green</item>
         <!-- ButtonStyle -->
         <item name="android:buttonStyle">@style/MyButton</item>
@@ -69,6 +69,7 @@
     <style name="MyEditText" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">@dimen/medium_text</item>
         <item name="android:gravity">right</item>
+        <item name="backgroundTint">@color/gray_green_edittext_bg</item>
     </style>
 
     <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">
