@@ -91,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/confirm_password"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword" />
 
             <com.stadium.player.views.DarkenedButton

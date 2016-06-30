@@ -13,4 +13,6 @@
     <color name="black_transparent">#83000000</color>
     <color name="red">#e12424</color>
     <color name="blue">#2c4385</color>
+    <color name="white">#ffffff</color>
+
 </resources>

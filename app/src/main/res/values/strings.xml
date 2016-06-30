@@ -53,6 +53,9 @@
     <string name="have_account_login">لديك حساب بالفعل؟ <b>الدخول</b></string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="contacts">جهات الاتصال</string>
+    <string name="create">انشاء</string>
+    <string name="can_create_new_team">يمكنك انشاء فريق جديد</string>
+
 
 
     <!-- Arrays -->
