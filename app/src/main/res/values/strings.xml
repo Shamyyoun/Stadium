@@ -51,6 +51,8 @@
     <string name="sign_up">التسجيل</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
     <string name="have_account_login">لديك حساب بالفعل؟ <b>الدخول</b></string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="contacts">جهات الاتصال</string>
 
 
     <!-- Arrays -->

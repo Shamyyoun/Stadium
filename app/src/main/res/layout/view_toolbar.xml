@@ -4,8 +4,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/green"
-    android:elevation="6dp">
+    android:background="@color/green">
 
     <TextView
         android:id="@+id/tv_toolbar_title"

@@ -2,11 +2,15 @@ package com.stadium.player;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.facebook.FacebookSdk;
 import com.stadium.player.utils.Utils;
+
+import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -36,5 +40,17 @@ public class StadiumApp extends Application {
      */
     public static StadiumApp getInstance(Context context) {
         return (StadiumApp) context.getApplicationContext();
+    }
+
+    /**
+     * method, used to change the app local language
+     * @param lang
+     */
+    private void changeAppLanguage(String lang) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = new Locale(lang.toLowerCase());
+        res.updateConfiguration(conf, dm);
     }
 }

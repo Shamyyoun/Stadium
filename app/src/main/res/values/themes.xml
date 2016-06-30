@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppThemeBase" parent="Base.Theme.AppCompat.Light">
+        <item name="android:layoutDirection">ltr</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/orange</item>

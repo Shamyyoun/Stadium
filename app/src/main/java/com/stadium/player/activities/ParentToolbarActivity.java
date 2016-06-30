@@ -1,24 +1,21 @@
 package com.stadium.player.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.stadium.player.R;
 
-public class ParentToolbarActivity extends ParentActivity implements SearchView.OnQueryTextListener {
+public class ParentToolbarActivity extends ParentActivity {
     private Toolbar toolbar;
     private TextView tvToolbarTitle;
     private int menuId;
     private boolean enableBack;
-    protected EditText etToolbarSearch;
     private int iconResId;
+    private String toolbarTitle;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -48,6 +45,7 @@ public class ParentToolbarActivity extends ParentActivity implements SearchView.
 
     @Override
     public void setTitle(CharSequence title) {
+        super.setTitle(title);
         if (tvToolbarTitle != null) {
             tvToolbarTitle.setText(title);
         }
@@ -55,6 +53,7 @@ public class ParentToolbarActivity extends ParentActivity implements SearchView.
 
     @Override
     public void setTitle(int titleId) {
+        toolbarTitle = getString(titleId);
         if (tvToolbarTitle != null) {
             tvToolbarTitle.setText(titleId);
         }
@@ -77,6 +76,11 @@ public class ParentToolbarActivity extends ParentActivity implements SearchView.
         invalidateOptionsMenu();
     }
 
+    public void removeOptionsMenu() {
+        menuId = 0;
+        invalidateOptionsMenu();
+    }
+
     public void enableBackButton() {
         enableBack = true;
     }
@@ -89,38 +93,10 @@ public class ParentToolbarActivity extends ParentActivity implements SearchView.
     public boolean onCreateOptionsMenu(Menu menu) {
         if (menuId != 0) {
             getMenuInflater().inflate(menuId, menu);
-
-            // check the search item if exists
-            MenuItem searchItem = menu.findItem(R.id.action_search);
-            if (searchItem != null) {
-                // customize the search item
-                SearchView searchView = (SearchView) searchItem.getActionView();
-                searchView.setMaxWidth(Integer.MAX_VALUE);
-                etToolbarSearch = ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
-                etToolbarSearch.setTextColor(Color.WHITE);
-                etToolbarSearch.setHintTextColor(Color.WHITE);
-
-                // add its listeners
-                searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                    @Override
-                    public boolean onClose() {
-                        showToolbarTitle();
-                        return false;
-                    }
-                });
-                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            hideToolbarTitle();
-                        }
-                    }
-                });
-                searchView.setOnQueryTextListener(this);
-            }
+            return super.onCreateOptionsMenu(menu);
+        } else {
+            return false;
         }
-
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -132,15 +108,5 @@ public class ParentToolbarActivity extends ParentActivity implements SearchView.
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
     }
 }

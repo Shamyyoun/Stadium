@@ -75,22 +75,42 @@ public class MainActivity extends ParentToolbarActivity {
         switch (tvTab.getId()) {
             case R.id.tv_home:
                 logE("Load Home");
+
+                // customize the toolbar
+                setTitle("");
+                createOptionsMenu(R.menu.menu_home);
                 break;
 
             case R.id.tv_stadiums:
                 logE("Load Stadiums");
+
+                // customize the toolbar
+                setTitle(R.string.stadiums);
+                createOptionsMenu(R.menu.menu_stadiums);
                 break;
 
             case R.id.tv_reservations:
                 logE("Load Reservations");
+
+                // customize the toolbar
+                setTitle(R.string.reservations);
+                removeOptionsMenu();
                 break;
 
             case R.id.tv_players:
                 logE("Load Players");
+
+                // customize the toolbar
+                setTitle(R.string.players);
+                createOptionsMenu(R.menu.menu_players);
                 break;
 
             case R.id.tv_my_team:
                 logE("Load My Team");
+
+                // customize the toolbar
+                setTitle(R.string.my_team);
+                removeOptionsMenu();
                 break;
         }
 
