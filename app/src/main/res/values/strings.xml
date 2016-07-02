@@ -54,7 +54,13 @@
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="contacts">جهات الاتصال</string>
     <string name="create">انشاء</string>
+    <string name="team_name">اسم الفريق</string>
+    <string name="team_details">نبذة عن الفريق</string>
     <string name="can_create_new_team">يمكنك انشاء فريق جديد</string>
+    <string name="favorite_stadium">الملعب المفضل</string>
+    <string name="canel">الغاء</string>
+
+
 
 
 
