@@ -63,7 +63,7 @@
             />
 
         <LinearLayout
-            android:id="@+id/tv_favorite_stadium"
+            android:id="@+id/tv_choose_favorite_stadium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/favorite_stadium"
                 android:textColor="@color/green"
-                android:textSize="16sp"
+                android:textSize="@dimen/medium_text"
                 />
             <View
                 android:layout_width="106dp"
@@ -85,7 +85,7 @@
         </LinearLayout>
 
         <com.stadium.player.views.DarkenedButton
-            android:id="@+id/btn_create"
+            android:id="@+id/btn_create_team"
             style="@style/StrokGreenButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

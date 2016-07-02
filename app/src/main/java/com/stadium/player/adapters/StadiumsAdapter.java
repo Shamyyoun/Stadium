@@ -5,20 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.stadium.player.R;
+import com.stadium.player.models.entities.StadiumsItem;
 import com.stadium.player.models.entities.Team;
 import com.stadium.player.utils.Utils;
 
 import java.util.List;
 
 /**
- * Created by Shamyyoun on 19/2/16.
+ * Created by karam on 7/2/16.
  */
-public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
+public class StadiumsAdapter extends ParentRecyclerAdapter<StadiumsItem> {
 
-    public TeamsAdapter(Context context, List<Team> data, int layoutId) {
+    public static int mSelectedItem = 0;
+
+    public StadiumsAdapter(Context context, List<StadiumsItem> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -35,29 +39,28 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     public void onBindViewHolder(ParentViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final Team item = data.get(position);
-        if (item.getTeamClass() != null) {
-            holder.tvClass.setText(item.getTeamClass().getTitle());
-            holder.tvClass.setBackgroundResource(item.getTeamClass().getColorId());
-            holder.tvClass.setVisibility(View.VISIBLE);
+        final StadiumsItem item = data.get(position);
+
+        holder.tv_stadium_name.setText(item.getStadium());
+
+        //make radio check when choose it
+
+        if (position == mSelectedItem) {
+            holder.radio.setChecked(true);
         } else {
-            holder.tvClass.setVisibility(View.GONE);
+            holder.radio.setChecked(false);
         }
-        holder.tvTitle.setText(item.getTitle());
-        Utils.loadImage(context, item.getLogo(), R.drawable.default_team_image, holder.ivLogo);
     }
 
     class ViewHolder extends ParentViewHolder {
-        ImageView ivLogo;
-        TextView tvClass;
-        TextView tvTitle;
+        public RadioButton radio;
+        public TextView tv_stadium_name;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            ivLogo = (ImageView) itemView.findViewById(R.id.iv_logo);
-            tvClass = (TextView) itemView.findViewById(R.id.tv_class);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            radio = (RadioButton) itemView.findViewById(R.id.rb_stadiums);
+            tv_stadium_name = (TextView) itemView.findViewById(R.id.tv_stadiums_name);
         }
     }
 }

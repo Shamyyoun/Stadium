@@ -59,5 +59,9 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".activities.CreateTeamActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 </manifest>
