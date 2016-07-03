@@ -69,7 +69,7 @@ public class CreateTeamActivity extends ParentActivity {
 
                 ChooseStadiumDialog stadiumDialog = new ChooseStadiumDialog(this);
                 stadiumDialog.show();
-                
+
                 break;
         }
     }
