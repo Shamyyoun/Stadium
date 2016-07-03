@@ -58,7 +58,7 @@ public class ChooseStadiumDialog  extends ParentDialog {
     private List<StadiumsItem> getData() {
         List<StadiumsItem> stadiumsItems = new ArrayList<>();
 
-        String names[] = {"ملعب الاهلي", "ملعب النسور"};
+        String names[] = {"ملعب الاهلي", "ملعب النسور", "ملعب الاهلي", "ملعب النسور","ملعب الاهلي", "ملعب النسور"};
 
 
         for (int i = 0; i < names.length; i++) {

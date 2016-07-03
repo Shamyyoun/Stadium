@@ -40,10 +40,13 @@
         <item name="backgroundTint">@android:color/white</item>
     </style>
 
+
+
     <style name="WhiteButton" parent="MyButton">
         <item name="android:background">@drawable/white_button_bg</item>
         <item name="android:textColor">@color/green</item>
     </style>
+
 
     <style name="OrangeButton" parent="MyButton">
         <item name="android:background">@drawable/orange_button_bg</item>
@@ -64,8 +67,23 @@
         <item name="android:textColorHighlight">@color/orange_transparent</item>
     </style>
 
+    <style name="GreenWidget">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="colorControlNormal">@color/green</item>
+        <item name="colorControlActivated">@color/green</item>
+        <item name="android:textColorHighlight">@color/green_transparent</item>
+    </style>
+
     <style name="OrangeStrokedEditText" parent="MyEditText">
         <item name="android:theme">@style/OrangeWidget</item>
+        <item name="android:background">@drawable/rounded_corners_orange_stroked_edittext_bg</item>
+        <item name="backgroundTint">@null</item>
+    </style>
+
+    <style name="GreenStrokedEditText" parent="MyEditText">
+        <item name="android:theme">@style/GreenWidget</item>
         <item name="android:background">@drawable/rounded_corners_orange_stroked_edittext_bg</item>
         <item name="backgroundTint">@null</item>
     </style>
@@ -96,6 +114,7 @@
     <style name="GreenButton" parent="MyButton">
         <item name="android:background">@drawable/green_button_bg</item>
     </style>
+
     <style name="StrokGreenButton" parent="MyButton">
         <item name="android:background">@drawable/strock_green_button</item>
     </style>

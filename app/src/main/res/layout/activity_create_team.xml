@@ -54,12 +54,13 @@
 
 
         <EditText
+            style="@style/GreenStrokedEditText"
             android:id="@+id/et_team_details"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:inputType="textMultiLine"
-            android:background="@drawable/square_edit"
             android:layout_marginTop="10dp"
+            android:imeOptions="actionDone"
             />
 
         <LinearLayout

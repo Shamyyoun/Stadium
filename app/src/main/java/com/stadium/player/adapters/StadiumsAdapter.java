@@ -4,14 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.stadium.player.R;
 import com.stadium.player.models.entities.StadiumsItem;
-import com.stadium.player.models.entities.Team;
-import com.stadium.player.utils.Utils;
 
 import java.util.List;
 
@@ -47,6 +44,7 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<StadiumsItem> {
 
         if (position == mSelectedItem) {
             holder.radio.setChecked(true);
+            holder.tv_stadium_name.setTextColor(context.getResources().getColor(R.color.orange));
         } else {
             holder.radio.setChecked(false);
         }
@@ -58,7 +56,7 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<StadiumsItem> {
 
         public ViewHolder(final View itemView) {
             super(itemView);
-
+            itemView.setClickable(true);
             radio = (RadioButton) itemView.findViewById(R.id.rb_stadiums);
             tv_stadium_name = (TextView) itemView.findViewById(R.id.tv_stadiums_name);
         }
