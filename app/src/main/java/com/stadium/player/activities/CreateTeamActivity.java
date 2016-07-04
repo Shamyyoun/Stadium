@@ -13,7 +13,7 @@ import com.stadium.player.dialogs.ChooseStadiumDialog;
 /**
  * Created by karam on 7/2/16.
  */
-public class CreateTeamActivity extends ParentActivity {
+public class CreateTeamActivity extends ParentToolbarActivity {
 
     //Buttons
     private Button createTeam;
@@ -32,25 +32,26 @@ public class CreateTeamActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
 
+        //toolbar setting
+        enableBackButton();
+        setTitle(getResources().getString(R.string.add_team));
+
         //Init EditText
-        et_teamName = (EditText) findViewById(R.id.et_team_name);
+        et_teamName = (EditText) findViewById(R.id.et_name);
         et_teamDescription = (EditText) findViewById(R.id.et_team_details);
         // Init button in creat team screen
         createTeam = (Button) findViewById(R.id.btn_create_team);
         cancel = (Button) findViewById(R.id.btn_cancel_team);
-        // Init Linear that open choose stadium
-        chooseStadium = (LinearLayout) findViewById(R.id.tv_choose_favorite_stadium);
         // Add click listener to activity components
         createTeam.setOnClickListener(this);
         cancel.setOnClickListener(this);
-        chooseStadium.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btn_create_team:
                 // get data from editText and put in Variables
@@ -61,14 +62,7 @@ public class CreateTeamActivity extends ParentActivity {
 
             case R.id.btn_cancel_team:
 
-                startActivity(new Intent(this , MainActivity.class));
-
-                break;
-
-            case R.id.tv_choose_favorite_stadium:
-
-                ChooseStadiumDialog stadiumDialog = new ChooseStadiumDialog(this);
-                stadiumDialog.show();
+                startActivity(new Intent(this, MainActivity.class));
 
                 break;
         }

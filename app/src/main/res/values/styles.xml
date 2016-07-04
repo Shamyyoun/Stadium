@@ -67,15 +67,6 @@
         <item name="android:textColorHighlight">@color/orange_transparent</item>
     </style>
 
-    <style name="GreenWidget">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green</item>
-        <item name="colorAccent">@color/green</item>
-        <item name="colorControlNormal">@color/green</item>
-        <item name="colorControlActivated">@color/green</item>
-        <item name="android:textColorHighlight">@color/green_transparent</item>
-    </style>
-
     <style name="OrangeStrokedEditText" parent="MyEditText">
         <item name="android:theme">@style/OrangeWidget</item>
         <item name="android:background">@drawable/rounded_corners_orange_stroked_edittext_bg</item>
@@ -83,7 +74,6 @@
     </style>
 
     <style name="GreenStrokedEditText" parent="MyEditText">
-        <item name="android:theme">@style/GreenWidget</item>
         <item name="android:background">@drawable/rounded_corners_orange_stroked_edittext_bg</item>
         <item name="backgroundTint">@null</item>
     </style>
@@ -105,7 +95,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="GrayTextView">
+    <style name="GraySectionHeadTextView">
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">@dimen/above_medium_text</item>
         <item name="android:textStyle">bold</item>

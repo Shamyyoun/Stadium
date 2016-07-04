@@ -57,12 +57,10 @@
     <string name="team_name">اسم الفريق</string>
     <string name="team_details">نبذة عن الفريق</string>
     <string name="can_create_new_team">يمكنك انشاء فريق جديد</string>
-    <string name="favorite_stadium">الملعب المفضل</string>
+    <string name="favorite_stadium_u"><u>الملعب المفضل</u></string>
     <string name="canel">الغاء</string>
     <string name="choose">اختيار</string>
-
-
-
+    <string name="add_team">اضافة فريق</string>
 
 
 
