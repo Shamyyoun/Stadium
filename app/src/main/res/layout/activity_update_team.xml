@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/view_toolbar" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/green"
+                android:gravity="center_horizontal"
+                android:paddingBottom="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_photo"
+                    style="@style/CroppedImageView"
+                    android:layout_width="@dimen/my_teams_logo_size"
+                    android:layout_height="@dimen/my_teams_logo_size"
+                    android:src="@drawable/default_team_image"
+                    app:riv_oval="true" />
+
+                <ImageView
+                    android:id="@+id/tv_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/iv_photo"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/rounded_update"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/dark_gray" />
+
+            <EditText
+                android:id="@+id/et_team_details"
+                style="@style/GreenStrokedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:textColor="@color/dark_gray" />
+
+            <Spinner
+                android:id="@+id/sp_stadium"
+                style="@style/MySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/sp_captine"
+                style="@style/MySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/sp_captineAssistant"
+                style="@style/MySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <com.stadium.player.views.DarkenedButton
+                android:id="@+id/btn_update"
+                style="@style/StrokGreenButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/update"
+                android:textColor="@color/green" />
+
+            <com.stadium.player.views.DarkenedButton
+                android:id="@+id/btn_cancel"
+                style="@style/GreenButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/canel" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

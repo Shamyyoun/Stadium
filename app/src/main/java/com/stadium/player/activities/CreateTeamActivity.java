@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.stadium.player.R;
 import com.stadium.player.dialogs.ChooseStadiumDialog;
+import com.stadium.player.views.DarkenedImageButton;
 
 /**
  * Created by karam on 7/2/16.
@@ -26,6 +27,8 @@ public class CreateTeamActivity extends ParentToolbarActivity {
     // variable to save user inputs
     private String teamName;
     private String teamDescription;
+    //ImageButton
+    private DarkenedImageButton ib_teamImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class CreateTeamActivity extends ParentToolbarActivity {
         enableBackButton();
         setTitle(getResources().getString(R.string.add_team));
 
+        ib_teamImage = (DarkenedImageButton) findViewById(R.id.ib_image);
         //Init EditText
         et_teamName = (EditText) findViewById(R.id.et_name);
         et_teamDescription = (EditText) findViewById(R.id.et_team_details);

@@ -59,6 +59,11 @@
         <activity
             android:name=".activities.CreateTeamActivity"
             android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+
+        <activity
+            android:name=".activities.UpdateTeamActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

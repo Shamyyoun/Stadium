@@ -16,7 +16,8 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
 
-        <ImageButton
+        <com.stadium.player.views.DarkenedImageButton
+            android:id="@+id/ib_image"
             style="@style/NormalImageView"
             android:layout_width="@dimen/signup_user_image_size"
             android:layout_height="wrap_content"
