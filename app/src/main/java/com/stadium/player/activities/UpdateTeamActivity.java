@@ -36,6 +36,10 @@ public class UpdateTeamActivity extends ParentToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_team);
 
+        //toolbar setting
+        enableBackButton();
+        setTitle(getResources().getString(R.string.update_team));
+
         //init All views
         updateTeam = (DarkenedButton) findViewById(R.id.btn_update);
         cancel = (DarkenedButton) findViewById(R.id.btn_cancel);
