@@ -7,7 +7,6 @@ import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.facebook.FacebookSdk;
 import com.stadium.player.utils.Utils;
 
 import java.util.Locale;
@@ -25,9 +24,6 @@ public class StadiumApp extends Application {
         // override default font
         Utils.overrideFont(this, "MONOSPACE", "app_font.ttf");
 
-        // init Facebook sdk
-        FacebookSdk.sdkInitialize(this);
-
         // init Crashlytics disabled for debugging mode
         Crashlytics crashlytics = new Crashlytics.Builder()
                 .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
@@ -44,6 +40,7 @@ public class StadiumApp extends Application {
 
     /**
      * method, used to change the app local language
+     *
      * @param lang
      */
     private void changeAppLanguage(String lang) {

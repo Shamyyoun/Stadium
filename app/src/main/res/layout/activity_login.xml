@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -29,7 +29,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="20dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/login1"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/above_medium_text"
@@ -96,17 +96,8 @@
             style="@style/WhiteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="30dp"
             android:text="@string/login2" />
-
-        <com.stadium.player.views.DarkenedButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/facebook_button_bg"
-            android:drawableLeft="@drawable/facebook_f"
-            android:paddingLeft="25dp"
-            android:text="@string/login_with_facebook" />
 
         <TextView
             android:layout_width="wrap_content"

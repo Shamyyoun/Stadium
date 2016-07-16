@@ -22,16 +22,6 @@
             android:name="io.fabric.ApiKey"
             android:value="e9858325e96ab141768816a0883f5c39d5192ac4" />
 
-        <!-- ===================== Facebook ===================== -->
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_id" />
 
         <!-- ===================== Crop Library ========================= -->
         <activity
@@ -44,6 +34,10 @@
             android:noHistory="true"
             android:theme="@style/AppTheme.FullTransparent">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -58,19 +52,11 @@
 
         <activity
             android:name=".activities.CreateTeamActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
         <activity
             android:name=".activities.UpdateTeamActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
     </application>
 </manifest>
