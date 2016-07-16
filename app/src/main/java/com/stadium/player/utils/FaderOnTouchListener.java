@@ -14,8 +14,6 @@ public class FaderOnTouchListener implements View.OnTouchListener {
     public FaderOnTouchListener(final View view) {
         super();
         this.view = view;
-
-
     }
 
     public boolean onTouch(final View view, final MotionEvent motionEvent) {

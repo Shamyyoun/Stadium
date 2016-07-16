@@ -34,7 +34,6 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     @Override
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
-
         // set data
         final Team item = data.get(position);
         if (item.getTeamClass() != null) {

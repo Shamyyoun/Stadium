@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green"
+        android:paddingBottom="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <com.stadium.player.views.DarkenedImageButton
+            android:id="@+id/ib_image"
+            style="@style/NormalImageView"
+            android:layout_width="@dimen/signup_user_image_size"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/forms_60" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/team_name"
+            android:singleLine="true" />
+
+        <TextView
+            style="@style/GraySectionHeadTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:text="@string/team_details" />
+
+        <EditText
+            android:id="@+id/et_team_details"
+            style="@style/GreenStrokedEditText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical"
+            android:layout_marginTop="10dp"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorite_stadium_u"
+            android:textColor="@color/green"
+            android:textSize="@dimen/medium_text" />
+
+        <com.stadium.player.views.DarkenedButton
+            android:id="@+id/btn_create_team"
+            style="@style/StrokGreenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/create"
+            android:textColor="@color/green" />
+
+        <com.stadium.player.views.DarkenedButton
+            android:id="@+id/btn_cancel_team"
+            style="@style/GreenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/canel" />
+    </LinearLayout>
+</LinearLayout>
