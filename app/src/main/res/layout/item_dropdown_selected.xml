@@ -3,6 +3,7 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_corners_gray_stroked_white_widget_bg"
-    android:drawableRight="@drawable/dropdown_arrow"
-    android:textSize="14sp" />
+    android:background="?attr/editTextBackground"
+    android:backgroundTint="@color/gray_green_edittext_bg"
+    android:drawableLeft="@drawable/dropdown_arrow"
+    android:gravity="right" />

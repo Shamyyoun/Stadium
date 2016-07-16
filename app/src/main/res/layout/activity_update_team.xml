@@ -1,112 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_toolbar" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/green"
+        android:gravity="center_horizontal"
+        android:paddingBottom="12dp">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/view_toolbar" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_photo"
+            style="@style/CroppedImageView"
+            android:layout_width="@dimen/update_team_image_size"
+            android:layout_height="@dimen/update_team_image_size"
+            android:clickable="true"
+            android:src="@drawable/default_team_image"
+            app:riv_oval="true" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/iv_photo"
+            android:layout_marginRight="-5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_update" />
+    </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/green"
-                android:gravity="center_horizontal"
-                android:paddingBottom="12dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="15dp">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/iv_photo"
-                    style="@style/CroppedImageView"
-                    android:layout_width="@dimen/my_teams_logo_size"
-                    android:layout_height="@dimen/my_teams_logo_size"
-                    android:src="@drawable/default_team_image"
-                    app:riv_oval="true" />
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/team_name"
+            android:singleLine="true" />
 
-                <ImageView
-                    android:id="@+id/tv_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/iv_photo"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/rounded_update"
-                    android:gravity="center" />
-
-            </RelativeLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/et_team_details"
+            style="@style/GreenStrokedEditText"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="15dp">
+            android:hint="@string/team_details"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:textSize="@dimen/below_medium_text" />
 
-            <EditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textColor="@color/dark_gray" />
+        <Spinner
+            android:id="@+id/sp_stadium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
-            <EditText
-                android:id="@+id/et_team_details"
-                style="@style/GreenStrokedEditText"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:inputType="textMultiLine"
-                android:scrollbars="vertical"
-                android:textColor="@color/dark_gray" />
+        <Spinner
+            android:id="@+id/sp_captain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
-            <Spinner
-                android:id="@+id/sp_stadium"
-                style="@style/MySpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+        <Spinner
+            android:id="@+id/sp_assistant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
-            <Spinner
-                android:id="@+id/sp_captine"
-                style="@style/MySpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+        <com.stadium.player.views.DarkenedButton
+            android:id="@+id/btn_update"
+            style="@style/StrokedGreenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/update" />
 
-            <Spinner
-                android:id="@+id/sp_captineAssistant"
-                style="@style/MySpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
-
-            <com.stadium.player.views.DarkenedButton
-                android:id="@+id/btn_update"
-                style="@style/StrokGreenButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/update"
-                android:textColor="@color/green" />
-
-            <com.stadium.player.views.DarkenedButton
-                android:id="@+id/btn_cancel"
-                style="@style/GreenButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/canel" />
-
-        </LinearLayout>
-
+        <com.stadium.player.views.DarkenedButton
+            android:id="@+id/btn_cancel"
+            style="@style/GreenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/cancel" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

@@ -35,7 +35,7 @@ public class ParentToolbarActivity extends ParentActivity {
             // check if enable back
             if (enableBack) {
                 // set the back icon
-                toolbar.setNavigationIcon(R.drawable.action_back);
+                toolbar.setNavigationIcon(R.drawable.back_icon);
             } else if (iconResId != 0) {
                 // set this icon
                 toolbar.setNavigationIcon(iconResId);
@@ -93,10 +93,9 @@ public class ParentToolbarActivity extends ParentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (menuId != 0) {
             getMenuInflater().inflate(menuId, menu);
-            return super.onCreateOptionsMenu(menu);
-        } else {
-            return false;
         }
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -104,7 +103,6 @@ public class ParentToolbarActivity extends ParentActivity {
         if (item.getItemId() == android.R.id.home && enableBack) {
             onBackPressed();
             return true;
-
         } else {
             return super.onOptionsItemSelected(item);
         }

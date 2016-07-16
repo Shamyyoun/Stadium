@@ -52,11 +52,13 @@
 
         <activity
             android:name=".activities.CreateTeamActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:label="@string/add_team"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
         <activity
             android:name=".activities.UpdateTeamActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
+            android:label="@string/update_team"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
+
 </manifest>

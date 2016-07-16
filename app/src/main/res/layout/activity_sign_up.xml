@@ -37,38 +37,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="@string/main_info"
-                />
+                android:text="@string/main_info" />
 
             <EditText
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:backgroundTint="@color/gray"
                 android:capitalize="words"
                 android:hint="@string/name"
-                android:singleLine="true"
-                android:backgroundTint="@color/gray"
-                />
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/et_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/age"
-                android:inputType="number"
                 android:backgroundTint="@color/gray"
-                />
+                android:hint="@string/age"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/et_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
                 android:capitalize="words"
                 android:hint="@string/city"
-                android:singleLine="true"
-                android:backgroundTint="@color/gray"
-                />
+                android:singleLine="true" />
 
             <TextView
                 style="@style/OrangeSectionHeadTextView"
@@ -83,29 +79,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:hint="@string/phone_number"
-                android:inputType="phone"
                 android:backgroundTint="@color/gray"
-                />
+                android:hint="@string/phone_number"
+                android:inputType="phone" />
 
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:inputType="textPassword"
                 android:backgroundTint="@color/gray"
-                />
+                android:hint="@string/password"
+                android:inputType="textPassword" />
 
             <EditText
                 android:id="@+id/et_re_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
                 android:hint="@string/confirm_password"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:backgroundTint="@color/gray"
-                />
+                android:inputType="textPassword" />
 
             <com.stadium.player.views.DarkenedButton
                 style="@style/GreenButton"
