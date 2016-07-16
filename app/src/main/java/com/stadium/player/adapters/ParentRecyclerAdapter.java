@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 5/11/16.
  */
-public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<ParentViewHolder> {
+public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<ParentRecyclerViewHolder> {
     protected Context context;
     protected List<Item> data;
     protected int layoutId;

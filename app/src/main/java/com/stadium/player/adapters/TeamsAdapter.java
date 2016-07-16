@@ -23,7 +23,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     }
 
     @Override
-    public ParentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
         ViewHolder holder = new ViewHolder(itemView);
         holder.setOnItemClickListener(itemClickListener);
@@ -32,7 +32,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     }
 
     @Override
-    public void onBindViewHolder(ParentViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
 
         // set data
@@ -48,7 +48,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         Utils.loadImage(context, item.getLogo(), R.drawable.default_team_image, holder.ivLogo);
     }
 
-    class ViewHolder extends ParentViewHolder {
+    class ViewHolder extends ParentRecyclerViewHolder {
         ImageView ivLogo;
         TextView tvClass;
         TextView tvTitle;

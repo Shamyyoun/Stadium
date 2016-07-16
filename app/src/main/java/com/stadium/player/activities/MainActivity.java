@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stadium.player.R;
+import com.stadium.player.fragments.HomeFragment;
 import com.stadium.player.fragments.MyTeamsFragment;
 
 public class MainActivity extends ParentToolbarActivity {
@@ -19,6 +20,7 @@ public class MainActivity extends ParentToolbarActivity {
     private TextView tvPlayers;
     private TextView tvMyTeam;
 
+    private HomeFragment homeFragment;
     private MyTeamsFragment myTeamsFragment;
 
     @Override
@@ -45,6 +47,11 @@ public class MainActivity extends ParentToolbarActivity {
         tvReservations.setOnClickListener(this);
         tvPlayers.setOnClickListener(this);
         tvMyTeam.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
 
         // select home tab by default
         selectTab(tvHome);
@@ -77,11 +84,15 @@ public class MainActivity extends ParentToolbarActivity {
         // switch to load the tab fragment
         switch (tvTab.getId()) {
             case R.id.tv_home:
-                logE("Load Home");
+                if (homeFragment == null) {
+                    homeFragment = new HomeFragment();
+                }
+                loadFragment(R.id.container_main, homeFragment);
 
                 // customize the toolbar
-                setTitle("");
+                setTitle(R.string.home);
                 createOptionsMenu(R.menu.menu_home);
+
                 break;
 
             case R.id.tv_stadiums:

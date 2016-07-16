@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
     <color name="green">#0ea184</color>
     <color name="green_transparent">#570ea184</color>
     <color name="dark_green">#06735d</color>
@@ -14,5 +15,7 @@
     <color name="red">#e12424</color>
     <color name="blue">#2c4385</color>
     <color name="white">#ffffff</color>
+    <color name="cyan">#70cad2</color>
+    <color name="light_red">#fb4b51</color>
 
 </resources>

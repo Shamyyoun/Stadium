@@ -21,7 +21,7 @@ public class MenuItemsAdapter extends ParentRecyclerAdapter<MenuItem> {
     }
 
     @Override
-    public ParentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
         ViewHolder holder = new ViewHolder(itemView);
         holder.setOnItemClickListener(itemClickListener);
@@ -30,7 +30,7 @@ public class MenuItemsAdapter extends ParentRecyclerAdapter<MenuItem> {
     }
 
     @Override
-    public void onBindViewHolder(ParentViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
 
         // set data
@@ -39,7 +39,7 @@ public class MenuItemsAdapter extends ParentRecyclerAdapter<MenuItem> {
         holder.tvTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, item.getIconResId(), 0);
     }
 
-    class ViewHolder extends ParentViewHolder {
+    class ViewHolder extends ParentRecyclerViewHolder {
         View itemView;
         TextView tvTitle;
 

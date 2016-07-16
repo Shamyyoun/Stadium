@@ -8,8 +8,8 @@ import com.stadium.player.interfaces.OnItemClickListener;
 /**
  * Created by Shamyyoun on 5/11/16.
  */
-public class ParentViewHolder extends RecyclerView.ViewHolder {
-    public ParentViewHolder(final View itemView) {
+public class ParentRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public ParentRecyclerViewHolder(final View itemView) {
         super(itemView);
     }
 
