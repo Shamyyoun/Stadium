@@ -36,7 +36,7 @@ public class HomeFragment extends ParentFragment {
         for (int i = 0; i < 30; i++) {
             data.add(new Notification());
         }
-        NotificationsAdapter adapter = new NotificationsAdapter(activity, R.layout.item_notifications, data);
+        NotificationsAdapter adapter = new NotificationsAdapter(activity, R.layout.item_notification, data);
         listView.setAdapter(adapter);
 
         // add global layout listener

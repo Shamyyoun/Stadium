@@ -4,12 +4,12 @@
     <item
         android:id="@+id/action_contacts"
         android:icon="@drawable/contacts_icon"
-        android:title="@string/contacts"
+        android:name="@string/contacts"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/search_icon"
-        android:title="@string/search"
+        android:name="@string/search"
         app:showAsAction="always" />
 </menu>

@@ -1,19 +1,29 @@
 package com.stadium.player.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.stadium.player.R;
+import com.stadium.player.adapters.StadiumsAdapter;
 import com.stadium.player.dialogs.OrderStadiumsDialog;
+import com.stadium.player.models.entities.Stadium;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shamyyoun on 7/2/16.
  */
 public class StadiumsFragment extends ParentFragment {
     private TextView tvOrderBy;
+    private RecyclerView recyclerView;
+    private StadiumsAdapter adapter;
+    private List<Stadium> data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -21,6 +31,14 @@ public class StadiumsFragment extends ParentFragment {
 
         // init views
         tvOrderBy = (TextView) findViewById(R.id.tv_order_by);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        // customize the recycler view
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        data = getDummyData();
+        adapter = new StadiumsAdapter(activity, data, R.layout.item_stadium);
+        recyclerView.setAdapter(adapter);
 
         // add click listeners
         tvOrderBy.setOnClickListener(this);
@@ -37,5 +55,15 @@ public class StadiumsFragment extends ParentFragment {
         } else {
             super.onClick(v);
         }
+    }
+
+    private List<Stadium> getDummyData() {
+        List<Stadium> data = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            Stadium stadium = new Stadium();
+            data.add(stadium);
+        }
+
+        return data;
     }
 }

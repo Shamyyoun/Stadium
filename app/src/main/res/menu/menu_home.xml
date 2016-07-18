@@ -4,6 +4,6 @@
     <item
         android:id="@+id/action_edit_profile"
         android:icon="@drawable/edit_icon"
-        android:title="@string/edit_profile"
+        android:name="@string/edit_profile"
         app:showAsAction="always" />
 </menu>

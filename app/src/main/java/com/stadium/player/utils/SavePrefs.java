@@ -36,7 +36,7 @@ public class SavePrefs<T> {
         return (T) new Gson().fromJson(data, cls);
     }
 
-    //clear all preferences file with the name cls.getName()
+    //clear all preferences file with the name cls.getTitle()
     public void clear() {
         prefs.edit().clear().apply();
     }

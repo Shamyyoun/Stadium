@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.stadium.player.R;
-import com.stadium.player.adapters.StadiumsAdapter;
-import com.stadium.player.models.entities.StadiumsItem;
+import com.stadium.player.adapters.FavoriteStadiumsAdapter;
+import com.stadium.player.models.entities.Stadium;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ public class ChooseStadiumDialog  extends ParentDialog {
 
     private RecyclerView rvStadiums;
     private Button btnClose;
-    private List<StadiumsItem> data;
-    private StadiumsAdapter stadiumsAdapter;
+    private List<Stadium> data;
+    private FavoriteStadiumsAdapter stadiumsAdapter;
 
     public ChooseStadiumDialog(final Context context) {
         super(context);
@@ -35,7 +35,7 @@ public class ChooseStadiumDialog  extends ParentDialog {
         data = getData();
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         rvStadiums.setLayoutManager(layoutManager);
-        stadiumsAdapter = new StadiumsAdapter(context, data, R.layout.item_stadium);
+        stadiumsAdapter = new FavoriteStadiumsAdapter(context, data, R.layout.item_favorite_stadium);
         rvStadiums.setAdapter(stadiumsAdapter);
 
 
@@ -55,14 +55,15 @@ public class ChooseStadiumDialog  extends ParentDialog {
 
 
     // fill data
-    private List<StadiumsItem> getData() {
-        List<StadiumsItem> stadiumsItems = new ArrayList<>();
+    private List<Stadium> getData() {
+        List<Stadium> stadiumsItems = new ArrayList<>();
 
         String names[] = {"ملعب الاهلي", "ملعب النسور", "ملعب الاهلي", "ملعب النسور","ملعب الاهلي", "ملعب النسور"};
 
 
         for (int i = 0; i < names.length; i++) {
-            StadiumsItem newStadium = new StadiumsItem(names[i]);
+            Stadium newStadium = new Stadium();
+            newStadium.setTitle(names[i]);
 
             stadiumsItems.add(newStadium);
         }

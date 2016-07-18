@@ -40,6 +40,9 @@
         <item name="android:spinnerStyle">@style/MySpinner</item>
         <!-- ListView style -->
         <item name="android:listViewStyle">@style/MyListView</item>
+        <!-- RatingBar style -->
+        <item name="android:ratingBarStyle">@style/MyRatingBar</item>
+        <item name="ratingBarStyle">@style/MyRatingBar</item>
     </style>
 
     <style name="AppTheme" parent="AppThemeBase" />
@@ -103,6 +106,11 @@
     <style name="MyListView" parent="Widget.AppCompat.ListView">
         <item name="android:drawSelectorOnTop">false</item>
         <item name="android:listSelector">#00000000</item>
+    </style>
+
+    <style name="MyRatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/orange</item>
+        <item name="colorControlActivated">@color/orange</item>
     </style>
 
     <style name="CropActivityTheme" parent="android:Theme.DeviceDefault" tools:ignore="NewApi">
