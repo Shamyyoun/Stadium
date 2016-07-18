@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,25 +12,27 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <com.stadium.player.views.DarkenedButton
-            style="@style/SmallOrangeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/plus_icon"
-            android:paddingLeft="10dp"
-            android:text="@string/create"
-            android:textSize="@dimen/below_medium_text" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="@string/can_create_new_team" />
+            android:text="@string/arrange_players"
+            android:textColor="@color/orange"
+            android:textSize="10sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrange_icon"
+            android:layout_marginLeft="4dp"/>
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_teams"
+        android:id="@+id/rv_players"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="-3dp" />
+        android:layout_marginTop="8dp">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

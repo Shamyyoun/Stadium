@@ -68,10 +68,7 @@
     <string name="confirm">تأكيد</string>
     <string name="refuse">رفض</string>
     <string name="my_contacts">جهات اتصالي</string>
-
-
-
-
+    <string name="arrange_players">الترتيب بواسطة تقييم اللاعب</string>
 
 
     <!-- Arrays -->

@@ -19,9 +19,10 @@ import java.util.List;
  * Created by karam on 6/30/16.
  */
 public class MyTeamsFragment extends ParentFragment {
-    private RecyclerView recyclerView;
+
+    private RecyclerView rvMyTeams;
     private List<Team> data;
-    private TeamsAdapter adapter;
+    private TeamsAdapter teamsAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,15 +32,14 @@ public class MyTeamsFragment extends ParentFragment {
         data = getDummyData();
 
         // customize the recycler view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        rvMyTeams = (RecyclerView) findViewById(R.id.rv_teams);
         GridLayoutManager layoutManager = new GridLayoutManager(activity, 3);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new TeamsAdapter(activity, data, R.layout.item_team);
-        recyclerView.setAdapter(adapter);
+        rvMyTeams.setLayoutManager(layoutManager);
+        teamsAdapter = new TeamsAdapter(activity, data, R.layout.item_team);
+        rvMyTeams.setAdapter(teamsAdapter);
 
         return rootView;
     }
-
     public List<Team> getDummyData() {
         List<Team> teams = new ArrayList<>();
         for (int i = 0; i < 30; i++) {

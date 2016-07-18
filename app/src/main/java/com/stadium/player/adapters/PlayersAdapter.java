@@ -10,18 +10,16 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.stadium.player.R;
-import com.stadium.player.models.entities.Contacts;
-import com.stadium.player.models.entities.Team;
-import com.stadium.player.utils.Utils;
+import com.stadium.player.models.entities.Players;
 
 import java.util.List;
 
 /**
- * Created by karam on 7/17/16.
+ * Created by karam on 7/18/16.
  */
-public class ContactsAdapter extends ParentRecyclerAdapter<Contacts> {
+public class PlayersAdapter  extends ParentRecyclerAdapter<Players> {
 
-    public ContactsAdapter(Context context, List<Contacts> data, int layoutId) {
+    public PlayersAdapter(Context context, List<Players> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -38,27 +36,28 @@ public class ContactsAdapter extends ParentRecyclerAdapter<Contacts> {
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final Contacts item = data.get(position);
+        final Players item = data.get(position);
 
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+
         RoundedImageView ivImage;
         ImageView ivAdd;
         TextView tvName;
         TextView tvPosition;
-        TextView tvPhone;
-        RatingBar rbContact;
+        TextView tvAddress;
+        RatingBar rbPlayer;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            ivImage = (RoundedImageView) itemView.findViewById(R.id.iv_contact);
+            ivImage = (RoundedImageView) itemView.findViewById(R.id.iv_player);
             ivAdd = (ImageView) itemView.findViewById(R.id.iv_add);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvPosition = (TextView) itemView.findViewById(R.id.tv_position);
-            tvPhone = (TextView) itemView.findViewById(R.id.tv_phone);
-            rbContact = (RatingBar) itemView.findViewById(R.id.rb_contact);
+            tvAddress = (TextView) itemView.findViewById(R.id.tv_address);
+            rbPlayer = (RatingBar) itemView.findViewById(R.id.rb_player);
 
 
 
