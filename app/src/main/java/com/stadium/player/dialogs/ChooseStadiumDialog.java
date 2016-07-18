@@ -38,7 +38,6 @@ public class ChooseStadiumDialog  extends ParentDialog {
         stadiumsAdapter = new StadiumsAdapter(context, data, R.layout.item_stadium);
         rvStadiums.setAdapter(stadiumsAdapter);
 
-
         // customize the close button
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,11 +47,9 @@ public class ChooseStadiumDialog  extends ParentDialog {
         });
     }
 
-
     public void setOnCloseClickListener(View.OnClickListener closeClickListener) {
         btnClose.setOnClickListener(closeClickListener);
     }
-
 
     // fill data
     private List<StadiumsItem> getData() {
@@ -60,13 +57,10 @@ public class ChooseStadiumDialog  extends ParentDialog {
 
         String names[] = {"ملعب الاهلي", "ملعب النسور", "ملعب الاهلي", "ملعب النسور","ملعب الاهلي", "ملعب النسور"};
 
-
         for (int i = 0; i < names.length; i++) {
             StadiumsItem newStadium = new StadiumsItem(names[i]);
-
             stadiumsItems.add(newStadium);
         }
-
         return stadiumsItems;
     }
 }

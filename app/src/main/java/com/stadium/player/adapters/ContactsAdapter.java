@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -47,6 +48,7 @@ public class ContactsAdapter  extends ParentRecyclerAdapter<Contacts> {
         TextView tvName;
         TextView tvPosition;
         TextView tvPhone;
+        RatingBar rbContact;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -56,6 +58,8 @@ public class ContactsAdapter  extends ParentRecyclerAdapter<Contacts> {
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvPosition = (TextView) itemView.findViewById(R.id.tv_position);
             tvPhone = (TextView) itemView.findViewById(R.id.tv_phone);
+            rbContact = (RatingBar) itemView.findViewById(R.id.rb_contact);
+
 
 
         }
