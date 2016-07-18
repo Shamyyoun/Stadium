@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.stadium.player.R;
-import com.stadium.player.adapters.StadiumsAdapter;
-import com.stadium.player.models.entities.StadiumsItem;
+import com.stadium.player.adapters.FavoriteStadiumsAdapter;
+import com.stadium.player.models.entities.Stadium;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ public class ChooseStadiumDialog  extends ParentDialog {
 
     private RecyclerView rvStadiums;
     private Button btnClose;
-    private List<StadiumsItem> data;
-    private StadiumsAdapter stadiumsAdapter;
+    private List<Stadium> data;
+    private FavoriteStadiumsAdapter favoriteStadiumsAdapter;
 
     public ChooseStadiumDialog(final Context context) {
         super(context);
@@ -35,8 +35,8 @@ public class ChooseStadiumDialog  extends ParentDialog {
         data = getData();
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         rvStadiums.setLayoutManager(layoutManager);
-        stadiumsAdapter = new StadiumsAdapter(context, data, R.layout.item_stadium);
-        rvStadiums.setAdapter(stadiumsAdapter);
+        favoriteStadiumsAdapter = new FavoriteStadiumsAdapter(context, data, R.layout.item_favorite_stadium);
+        rvStadiums.setAdapter(favoriteStadiumsAdapter);
 
         // customize the close button
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -52,15 +52,15 @@ public class ChooseStadiumDialog  extends ParentDialog {
     }
 
     // fill data
-    private List<StadiumsItem> getData() {
-        List<StadiumsItem> stadiumsItems = new ArrayList<>();
+    private List<Stadium> getData() {
+        List<Stadium> stadia = new ArrayList<>();
 
         String names[] = {"ملعب الاهلي", "ملعب النسور", "ملعب الاهلي", "ملعب النسور","ملعب الاهلي", "ملعب النسور"};
 
         for (int i = 0; i < names.length; i++) {
-            StadiumsItem newStadium = new StadiumsItem(names[i]);
-            stadiumsItems.add(newStadium);
+            Stadium newStadium = new Stadium(names[i]);
+            stadia.add(newStadium);
         }
-        return stadiumsItems;
+        return stadia;
     }
 }

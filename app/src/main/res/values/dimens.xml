@@ -15,4 +15,8 @@
     <dimen name="home_user_image_size">90dp</dimen>
     <dimen name="home_user_image_bg_size">100dp</dimen>
     <dimen name="update_team_image_size">90dp</dimen>
+    <dimen name="player_info_image_size">90dp</dimen>
+    <dimen name="player_info_stroke_size">100dp</dimen>
+
+
 </resources>

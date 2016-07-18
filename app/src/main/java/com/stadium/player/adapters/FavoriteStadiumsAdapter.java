@@ -8,18 +8,18 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.stadium.player.R;
-import com.stadium.player.models.entities.StadiumsItem;
+import com.stadium.player.models.entities.Stadium;
 
 import java.util.List;
 
 /**
  * Created by karam on 7/2/16.
  */
-public class StadiumsAdapter extends ParentRecyclerAdapter<StadiumsItem> {
+public class FavoriteStadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
 
     public static int mSelectedItem = 0;
 
-    public StadiumsAdapter(Context context, List<StadiumsItem> data, int layoutId) {
+    public FavoriteStadiumsAdapter(Context context, List<Stadium> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -36,7 +36,7 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<StadiumsItem> {
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final StadiumsItem item = data.get(position);
+        final Stadium item = data.get(position);
 
         holder.tv_stadium_name.setText(item.getStadium());
 

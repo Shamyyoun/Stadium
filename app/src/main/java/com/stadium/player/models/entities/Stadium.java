@@ -3,19 +3,19 @@ package com.stadium.player.models.entities;
 /**
  * Created by karam on 7/2/16.
  */
-public class StadiumsItem {
+public class Stadium {
 
-    private String stadium;
+    private String title ;
 
-    public StadiumsItem(String name) {
-        this.stadium = name;
+    public Stadium(String name) {
+        this.title  = name;
     }
 
     public String getStadium() {
-        return stadium;
+        return title ;
     }
 
     public void setStadium(String stadium) {
-        this.stadium = stadium;
+        this.title  = stadium;
     }
 }

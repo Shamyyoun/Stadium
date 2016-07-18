@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -42,9 +43,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
                     android:layout_weight="3"
-                    android:orientation="vertical"
-                    android:layout_marginRight="4dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="مدافع"
-                            android:textSize="12sp"/>
+                            android:textSize="@dimen/below_medium_text" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -68,8 +69,8 @@
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="احمد محمود كرم"
-                            android:textSize="12sp" />
+                            android:text="احمد محمود "
+                            android:textSize="@dimen/below_medium_text" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -87,7 +88,7 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:text="الرياض"
-                            android:textSize="10sp"/>
+                            android:textSize="@dimen/small_text" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -107,19 +108,21 @@
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/iv_player"
+                        style="@style/CroppedImageView"
                         android:layout_width="60dp"
-                        android:layout_height="60dp" />
+                        android:layout_height="60dp"
+                        android:src="@drawable/default_image"
+                        app:riv_oval="true" />
 
                     <RatingBar
                         android:id="@+id/rb_player"
                         style="@style/Base.Widget.AppCompat.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:numStars="5"
                         android:rating="5"
-                        android:stepSize="0.5"
-
-                        />
+                        android:stepSize="0.5" />
 
                 </LinearLayout>
             </LinearLayout>
