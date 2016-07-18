@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.stadium.player.R;
 import com.stadium.player.fragments.HomeFragment;
 import com.stadium.player.fragments.MyTeamsFragment;
+import com.stadium.player.fragments.StadiumsFragment;
 
 public class MainActivity extends ParentToolbarActivity {
     private static int DRAWER_GRAVITY = Gravity.RIGHT;
@@ -21,6 +22,7 @@ public class MainActivity extends ParentToolbarActivity {
     private TextView tvMyTeam;
 
     private HomeFragment homeFragment;
+    private StadiumsFragment stadiumsFragment;
     private MyTeamsFragment myTeamsFragment;
 
     @Override
@@ -96,7 +98,10 @@ public class MainActivity extends ParentToolbarActivity {
                 break;
 
             case R.id.tv_stadiums:
-                logE("Load Stadiums");
+                if (stadiumsFragment == null) {
+                    stadiumsFragment = new StadiumsFragment();
+                }
+                loadFragment(R.id.container_main, stadiumsFragment);
 
                 // customize the toolbar
                 setTitle(R.string.stadiums);

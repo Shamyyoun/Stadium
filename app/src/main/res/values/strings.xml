@@ -67,9 +67,10 @@
     <string name="can_create_new_team_start_now">يمكنك انشاء فريق جديد. ابدأ الآن</string>
     <string name="confirm">تأكيد</string>
     <string name="refuse">رفض</string>
-
-
-
+    <string name="stadium_rating">تقييم الملعب</string>
+    <string name="location">الموقع</string>
+    <string name="order">ترتيب</string>
+    <string name="order_by">ترتيب بواسطة</string>
 
 
     <!-- Arrays -->
