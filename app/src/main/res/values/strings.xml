@@ -69,6 +69,13 @@
     <string name="refuse">رفض</string>
     <string name="my_contacts">جهات اتصالي</string>
     <string name="arrange_players">الترتيب بواسطة تقييم اللاعب</string>
+    <string name="add">اضافة</string>
+    <string name="can_add">يمكنك اضافة</string>
+    <string name="to_your_team">الي فريقك</string>
+    <string name="player_teams">افرقة اللاعب</string>
+
+
+
 
 
     <!-- Arrays -->

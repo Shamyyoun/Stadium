@@ -9,56 +9,176 @@
         android:id="@+id/toolbar"
         layout="@layout/view_toolbar" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
-        android:paddingBottom="12dp"
-        android:gravity="center">
+        android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="6dp">
+
+            <LinearLayout
+                android:id="@+id/linear_image"
+                android:layout_width="@dimen/player_info_stroke_size"
+                android:layout_height="@dimen/player_info_stroke_size"
+                android:background="@drawable/green_strokked_circle"
+                android:gravity="center">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_photo"
+                    style="@style/CroppedImageView"
+                    android:layout_width="@dimen/player_info_image_size"
+                    android:layout_height="@dimen/player_info_image_size"
+                    android:src="@drawable/default_team_image"
+                    app:riv_oval="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tv_class"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignRight="@+id/linear_image"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/green_strokked_circle"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mediam_star" />
+
+                <TextView
+                    android:id="@+id/tv_evaluation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.5"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/very_small_text" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/linear_image"
-            android:layout_width="@dimen/player_info_stroke_size"
-            android:layout_height="@dimen/player_info_stroke_size"
-            android:background="@drawable/green_strokked_circle"
-            android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/iv_image"
-                style="@style/CroppedImageView"
-                android:layout_width="@dimen/player_info_image_size"
-                android:layout_height="@dimen/player_info_image_size"
-                android:src="@drawable/default_team_image"
-                app:riv_oval="true"
-                />
+            <TextView
+                android:id="@+id/tv_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="مدافع"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="."
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="احمد كرم"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/tv_class"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/green_strokked_circle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="3dp"
             android:gravity="center"
-            android:orientation="vertical"
-            android:layout_alignRight="@+id/linear_image"
-            >
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="المدينة المنورة"
+                android:textColor="@color/white"
+                android:textSize="@dimen/below_medium_text"
+                android:textStyle="bold" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/mediam_star"
-                />
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/white_location_icon" />
 
-            <TextView
-                android:id="@+id/tv_evaluation"
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_shadowed_panel_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
+        <RatingBar
+            android:id="@+id/rb_player"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:numStars="5"
+            android:rating="2"
+            android:stepSize="0.5"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <com.stadium.player.views.DarkenedButton
+                android:id="@+id/btn_add"
+                style="@style/SmallOrangeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/very_small_text"
-                android:text="4.5"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-    </RelativeLayout>
+                android:drawableLeft="@drawable/plus_icon"
+                android:paddingLeft="10dp"
+                android:text="@string/add"
+                android:textSize="@dimen/below_medium_text" />
 
+            <TextView
+                android:id="@+id/tv_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/can_add" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/player_teams"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:textStyle="bold"
+        android:padding="8dp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_teams"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </LinearLayout>
