@@ -34,6 +34,8 @@ public class PlayerInfoActivity extends ParentToolbarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_info);
+        enableBackButton();
+        setToolbarIcon(R.drawable.menu_icon);
 
         ivPhoto = (RoundedImageView) findViewById(R.id.iv_photo);
         tvEvaluation = (TextView) findViewById(R.id.tv_evaluation);
