@@ -74,6 +74,11 @@
     <string name="add">اضافة</string>
     <string name="can_add_reservation_reserve_q">يمكنك اضافة حجز جديد. حجز الآن؟</string>
     <string name="cancel_reservation">الغاء الحجز</string>
+    <string name="save">حفظ</string>
+    <string name="confirm_attendance">تأكيد الحضور</string>
+    <string name="cancel_u"><u>الغاء</u></string>
+    <string name="confirm_your_attendance_u"><u>تأكيد حضورك</u></string>
+    <string name="confirmed">تم التأكيد</string>
 
 
     <!-- Arrays -->

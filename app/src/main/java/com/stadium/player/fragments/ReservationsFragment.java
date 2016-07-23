@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.stadium.player.R;
 import com.stadium.player.adapters.ReservationsAdapter;
+import com.stadium.player.dialogs.AttendanceDialog;
+import com.stadium.player.interfaces.OnItemClickListener;
 import com.stadium.player.models.entities.Reservation;
 
 import java.util.ArrayList;
@@ -35,6 +37,16 @@ public class ReservationsFragment extends ParentFragment {
         data = getDummyData();
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
         recyclerView.setAdapter(adapter);
+
+        // add the item click listener
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                // show attendance dialog
+                AttendanceDialog dialog = new AttendanceDialog(activity);
+                dialog.show();
+            }
+        });
 
         return rootView;
     }

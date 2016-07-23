@@ -5,17 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.R;
-import com.stadium.player.models.entities.Reservation;
+import com.stadium.player.models.entities.Attendant;
 
 import java.util.List;
 
 /**
  * Created by Shamyyoun on 19/2/16.
  */
-public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
+public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
 
-    public ReservationsAdapter(Context context, List<Reservation> data, int layoutId) {
+    public AttendanceAdapter(Context context, List<Attendant> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -32,17 +31,13 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final Reservation item = data.get(position);
+        final Attendant item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
-        private View layoutContent;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-
-            layoutContent = itemView.findViewById(R.id.layout_content);
-            setClickableRootView(layoutContent);
         }
     }
 }
