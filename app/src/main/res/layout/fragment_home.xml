@@ -31,10 +31,11 @@
                     app:riv_oval="true" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    style="@style/CroppedImageView"
                     android:layout_width="@dimen/home_user_image_size"
                     android:layout_height="@dimen/home_user_image_size"
                     android:layout_gravity="center"
-                    android:src="@drawable/default_user_image"
+                    android:src="@drawable/default_image"
                     app:riv_oval="true" />
 
                 <LinearLayout

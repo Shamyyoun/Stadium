@@ -19,10 +19,17 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class ReservationsFragment extends ParentFragment {
+public class ReservationsFragment extends ParentToolbarFragment {
     private RecyclerView recyclerView;
     private ReservationsAdapter adapter;
     private List<Reservation> data;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle(R.string.reservations);
+        removeOptionsMenu();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

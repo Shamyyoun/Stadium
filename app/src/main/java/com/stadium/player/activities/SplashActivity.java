@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.stadium.player.R;
-import com.stadium.player.utils.Utils;
 
 public class SplashActivity extends ParentActivity {
     private static final int SPLASH_DURATION = 0 * 1000; // TODO
@@ -16,9 +15,6 @@ public class SplashActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        // print the hash key
-        logE("Hash Key: " + Utils.getHashKey(this));
 
         // start splash
         handler = new Handler();

@@ -1,11 +1,11 @@
-package com.stadium.player.fragments;
+package com.stadium.player.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.stadium.player.R;
 import com.stadium.player.adapters.TeamsAdapter;
@@ -16,35 +16,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by karam on 6/30/16.
+ * Created by karam on 7/19/16.
  */
-public class MyTeamsFragment extends ParentToolbarFragment {
+public class PlayerInfoActivity extends ParentToolbarActivity {
+    private ImageView ibBack;
+    private Button btnAdd;
     private RecyclerView recyclerView;
     private List<Team> data;
     private TeamsAdapter adapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.my_teams);
-        removeOptionsMenu();
-    }
+        setContentView(R.layout.activity_player_info);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_my_teams, container, false);
-
-        // prepare the data
-        data = getDummyData();
+        // init views
+        ibBack = (ImageView) findViewById(R.id.ib_back);
+        btnAdd = (Button) findViewById(R.id.btn_add);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         // customize the recycler view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(activity, 3);
         recyclerView.setLayoutManager(layoutManager);
+        data = getDummyData();
         adapter = new TeamsAdapter(activity, data, R.layout.item_team);
         recyclerView.setAdapter(adapter);
 
-        return rootView;
+        // add listeners
+        ibBack.setOnClickListener(this);
+        btnAdd.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ib_back) {
+            onBackPressed();
+        } else if (v.getId() == R.id.btn_add) {
+            // show favorite teams dialog TODO
+        } else {
+            super.onClick(v);
+        }
     }
 
     public List<Team> getDummyData() {

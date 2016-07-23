@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.stadium.player.R;
 import com.stadium.player.fragments.HomeFragment;
 import com.stadium.player.fragments.MyTeamsFragment;
+import com.stadium.player.fragments.PlayersFragment;
 import com.stadium.player.fragments.ReservationsFragment;
 import com.stadium.player.fragments.StadiumsFragment;
 
@@ -25,6 +26,7 @@ public class MainActivity extends ParentToolbarActivity {
     private HomeFragment homeFragment;
     private StadiumsFragment stadiumsFragment;
     private ReservationsFragment reservationsFragment;
+    private PlayersFragment playersFragment;
     private MyTeamsFragment myTeamsFragment;
 
     @Override
@@ -92,11 +94,6 @@ public class MainActivity extends ParentToolbarActivity {
                     homeFragment = new HomeFragment();
                 }
                 loadFragment(R.id.container_main, homeFragment);
-
-                // customize the toolbar
-                setTitle(R.string.home);
-                createOptionsMenu(R.menu.menu_home);
-
                 break;
 
             case R.id.tv_stadiums:
@@ -104,10 +101,6 @@ public class MainActivity extends ParentToolbarActivity {
                     stadiumsFragment = new StadiumsFragment();
                 }
                 loadFragment(R.id.container_main, stadiumsFragment);
-
-                // customize the toolbar
-                setTitle(R.string.stadiums);
-                createOptionsMenu(R.menu.menu_stadiums);
                 break;
 
             case R.id.tv_reservations:
@@ -115,18 +108,13 @@ public class MainActivity extends ParentToolbarActivity {
                     reservationsFragment = new ReservationsFragment();
                 }
                 loadFragment(R.id.container_main, reservationsFragment);
-
-                // customize the toolbar
-                setTitle(R.string.reservations);
-                removeOptionsMenu();
                 break;
 
             case R.id.tv_players:
-                logE("Load Players");
-
-                // customize the toolbar
-                setTitle(R.string.players);
-                createOptionsMenu(R.menu.menu_players);
+                if (playersFragment == null) {
+                    playersFragment = new PlayersFragment();
+                }
+                loadFragment(R.id.container_main, playersFragment);
                 break;
 
             case R.id.tv_my_teams:
@@ -134,10 +122,6 @@ public class MainActivity extends ParentToolbarActivity {
                     myTeamsFragment = new MyTeamsFragment();
                 }
                 loadFragment(R.id.container_main, myTeamsFragment);
-
-                // customize the toolbar
-                setTitle(R.string.my_teams);
-                removeOptionsMenu();
                 break;
         }
 

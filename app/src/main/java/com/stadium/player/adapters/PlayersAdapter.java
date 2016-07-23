@@ -5,16 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.models.entities.Stadium;
+import com.stadium.player.R;
+import com.stadium.player.models.entities.Player;
 
 import java.util.List;
 
 /**
- * Created by Shamyyoun on 7/2/16.
+ * Created by karam on 7/17/16.
  */
-public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
+public class PlayersAdapter extends ParentRecyclerAdapter<Player> {
 
-    public StadiumsAdapter(Context context, List<Stadium> data, int layoutId) {
+    public PlayersAdapter(Context context, List<Player> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -32,13 +33,17 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         final ViewHolder holder = (ViewHolder) viewHolder;
 
         // set data
-        final Stadium item = data.get(position);
+        final Player item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+        private View layoutContent;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+
+            layoutContent = itemView.findViewById(R.id.layout_content);
+            setClickableRootView(layoutContent);
         }
     }
 }

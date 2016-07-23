@@ -19,11 +19,18 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class StadiumsFragment extends ParentFragment {
+public class StadiumsFragment extends ParentToolbarFragment {
     private TextView tvOrderBy;
     private RecyclerView recyclerView;
     private StadiumsAdapter adapter;
     private List<Stadium> data;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle(R.string.stadiums);
+        createOptionsMenu(R.menu.menu_stadiums);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

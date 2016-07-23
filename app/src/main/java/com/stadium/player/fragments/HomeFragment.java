@@ -19,9 +19,16 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class HomeFragment extends ParentFragment {
+public class HomeFragment extends ParentToolbarFragment {
     private ScrollView scrollView;
     private ListView listView;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle(R.string.home);
+        createOptionsMenu(R.menu.menu_home);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

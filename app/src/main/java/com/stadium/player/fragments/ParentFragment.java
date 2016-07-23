@@ -3,23 +3,22 @@ package com.stadium.player.fragments;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
+import com.stadium.player.activities.ParentActivity;
 import com.stadium.player.utils.Utils;
 
 /**
  * Created by Shamyyoun on 5/28/16.
  */
 public class ParentFragment extends Fragment implements View.OnClickListener {
-    protected AppCompatActivity activity;
+    protected ParentActivity activity;
     protected View rootView;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (AppCompatActivity) activity;
+        this.activity = (ParentActivity) activity;
     }
 
     public View findViewById(int id) {

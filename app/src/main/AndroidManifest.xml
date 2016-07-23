@@ -59,6 +59,11 @@
             android:name=".activities.UpdateTeamActivity"
             android:label="@string/update_team"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-    </application>
 
+        <activity
+            android:name=".activities.ContactsActivity"
+            android:label="@string/my_contacts" />
+
+        <activity android:name=".activities.PlayerInfoActivity" />
+    </application>
 </manifest>
