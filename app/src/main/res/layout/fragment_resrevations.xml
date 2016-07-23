@@ -18,20 +18,21 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/plus_icon"
             android:paddingLeft="10dp"
-            android:text="@string/create"
+            android:text="@string/add"
             android:textSize="@dimen/below_medium_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="@string/can_create_new_team" />
+            android:text="@string/can_add_reservation_reserve_q" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-3dp"
-        android:overScrollMode="ifContentScrolls" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical" />
 </LinearLayout>

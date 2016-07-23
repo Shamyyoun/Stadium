@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.stadium.player.R;
 import com.stadium.player.fragments.HomeFragment;
 import com.stadium.player.fragments.MyTeamsFragment;
+import com.stadium.player.fragments.ReservationsFragment;
 import com.stadium.player.fragments.StadiumsFragment;
 
 public class MainActivity extends ParentToolbarActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends ParentToolbarActivity {
 
     private HomeFragment homeFragment;
     private StadiumsFragment stadiumsFragment;
+    private ReservationsFragment reservationsFragment;
     private MyTeamsFragment myTeamsFragment;
 
     @Override
@@ -109,7 +111,10 @@ public class MainActivity extends ParentToolbarActivity {
                 break;
 
             case R.id.tv_reservations:
-                logE("Load Reservations");
+                if (reservationsFragment == null) {
+                    reservationsFragment = new ReservationsFragment();
+                }
+                loadFragment(R.id.container_main, reservationsFragment);
 
                 // customize the toolbar
                 setTitle(R.string.reservations);

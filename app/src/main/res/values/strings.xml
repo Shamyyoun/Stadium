@@ -71,6 +71,9 @@
     <string name="location">الموقع</string>
     <string name="order">ترتيب</string>
     <string name="order_by">ترتيب بواسطة</string>
+    <string name="add">اضافة</string>
+    <string name="can_add_reservation_reserve_q">يمكنك اضافة حجز جديد. حجز الآن؟</string>
+    <string name="cancel_reservation">الغاء الحجز</string>
 
 
     <!-- Arrays -->
