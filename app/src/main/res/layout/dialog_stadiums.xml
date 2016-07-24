@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,22 +16,22 @@
             layout="@layout/view_dialog_toolbar" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_stadiums"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:gravity="end"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:overScrollMode="ifContentScrolls"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scrollbars="vertical" />
     </LinearLayout>
 
     <com.stadium.player.views.DarkenedButton
-        android:id="@+id/btn_close"
+        android:id="@+id/btn_select"
         style="@style/DialogOrangeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:text="@string/choose" />
+        android:text="@string/select" />
 </FrameLayout>
