@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.stadium.player.R;
 import com.stadium.player.adapters.TeamsAdapter;
+import com.stadium.player.dialogs.TeamsDialog;
 import com.stadium.player.models.entities.Team;
 import com.stadium.player.models.enums.TeamClass;
 
@@ -52,7 +53,9 @@ public class PlayerInfoActivity extends ParentToolbarActivity {
         if (v.getId() == R.id.ib_back) {
             onBackPressed();
         } else if (v.getId() == R.id.btn_add) {
-            // show favorite teams dialog TODO
+            // show teams dialog
+            TeamsDialog dialog = new TeamsDialog(this);
+            dialog.show();
         } else {
             super.onClick(v);
         }
