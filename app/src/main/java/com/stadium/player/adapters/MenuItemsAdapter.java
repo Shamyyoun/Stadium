@@ -47,7 +47,7 @@ public class MenuItemsAdapter extends ParentRecyclerAdapter<MenuItem> {
             super(itemView);
 
             this.itemView = itemView;
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvTitle = (TextView) findViewById(R.id.tv_title);
         }
     }
 }

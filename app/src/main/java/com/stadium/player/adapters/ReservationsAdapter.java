@@ -41,7 +41,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            layoutContent = itemView.findViewById(R.id.layout_content);
+            layoutContent = findViewById(R.id.layout_content);
             setClickableRootView(layoutContent);
         }
     }

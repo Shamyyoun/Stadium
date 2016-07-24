@@ -50,7 +50,7 @@ public class RadioButtonsAdapter<T extends Checkable> extends ParentRecyclerAdap
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            radioButton = (RadioButton) itemView.findViewById(R.id.radio_button);
+            radioButton = (RadioButton) findViewById(R.id.radio_button);
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

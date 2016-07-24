@@ -55,9 +55,9 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            ivLogo = (ImageView) itemView.findViewById(R.id.iv_logo);
-            tvClass = (TextView) itemView.findViewById(R.id.tv_class);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            ivLogo = (ImageView) findViewById(R.id.iv_logo);
+            tvClass = (TextView) findViewById(R.id.tv_class);
+            tvTitle = (TextView) findViewById(R.id.tv_title);
         }
     }
 }

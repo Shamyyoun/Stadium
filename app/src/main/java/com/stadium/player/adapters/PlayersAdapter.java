@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.stadium.player.R;
 import com.stadium.player.models.entities.Player;
@@ -38,11 +39,14 @@ public class PlayersAdapter extends ParentRecyclerAdapter<Player> {
 
     class ViewHolder extends ParentRecyclerViewHolder {
         private View layoutContent;
+        private ImageButton ibAdd;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            layoutContent = itemView.findViewById(R.id.layout_content);
+            layoutContent = findViewById(R.id.layout_content);
+            ibAdd = (ImageButton) findViewById(R.id.ib_add);
+
             setClickableRootView(layoutContent);
         }
     }

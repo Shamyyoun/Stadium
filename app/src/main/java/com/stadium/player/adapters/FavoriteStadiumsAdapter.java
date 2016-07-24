@@ -57,8 +57,8 @@ public class FavoriteStadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         public ViewHolder(final View itemView) {
             super(itemView);
             itemView.setClickable(true);
-            radio = (RadioButton) itemView.findViewById(R.id.rb_stadiums);
-            tv_stadium_name = (TextView) itemView.findViewById(R.id.tv_stadiums_name);
+            radio = (RadioButton) findViewById(R.id.rb_stadiums);
+            tv_stadium_name = (TextView) findViewById(R.id.tv_stadiums_name);
         }
     }
 }

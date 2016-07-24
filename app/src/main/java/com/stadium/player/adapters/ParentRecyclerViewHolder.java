@@ -40,4 +40,12 @@ public class ParentRecyclerViewHolder extends RecyclerView.ViewHolder {
     public void setClickableRootView(View clickableRootView) {
         this.clickableRootView = clickableRootView;
     }
+
+    public View findViewById(int viewId) {
+        if (itemView != null) {
+            return itemView.findViewById(viewId);
+        } else {
+            return null;
+        }
+    }
 }
