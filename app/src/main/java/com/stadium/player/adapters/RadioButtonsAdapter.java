@@ -19,10 +19,12 @@ public class RadioButtonsAdapter<T extends Checkable> extends ParentRecyclerAdap
 
     public RadioButtonsAdapter(Context context, List<Checkable> data, int layoutId) {
         super(context, data, layoutId);
+        setSelectedItem(0); // select the first item by default
     }
 
     public RadioButtonsAdapter(Context context, Checkable[] data, int layoutId) {
         super(context, data, layoutId);
+        setSelectedItem(0); // select the first item by default
     }
 
     @Override
@@ -54,14 +56,7 @@ public class RadioButtonsAdapter<T extends Checkable> extends ParentRecyclerAdap
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // deselect the selected item
-                    data.get(selectedItemPosition).setChecked(false);
-                    notifyItemChanged(selectedItemPosition);
-
-                    // select the desired item
-                    data.get(getPosition()).setChecked(true);
-                    notifyItemChanged(getPosition());
-                    selectedItemPosition = getPosition();
+                    setSelectedItem(getPosition());
                 }
             });
         }
@@ -69,5 +64,16 @@ public class RadioButtonsAdapter<T extends Checkable> extends ParentRecyclerAdap
 
     public int getSelectedItemPosition() {
         return selectedItemPosition;
+    }
+
+    public void setSelectedItem(int position) {
+        // deselect the selected item
+        data.get(selectedItemPosition).setChecked(false);
+        notifyItemChanged(selectedItemPosition);
+
+        // select the desired item
+        data.get(position).setChecked(true);
+        notifyItemChanged(position);
+        selectedItemPosition = position;
     }
 }

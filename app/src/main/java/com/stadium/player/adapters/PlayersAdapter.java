@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.stadium.player.R;
+import com.stadium.player.dialogs.TeamsDialog;
 import com.stadium.player.models.entities.Player;
 
 import java.util.List;
@@ -35,6 +36,14 @@ public class PlayersAdapter extends ParentRecyclerAdapter<Player> {
 
         // set data
         final Player item = data.get(position);
+        holder.ibAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // show teams dialog
+                TeamsDialog dialog = new TeamsDialog(context);
+                dialog.show();
+            }
+        });
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
