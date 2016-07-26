@@ -89,6 +89,8 @@
     <string name="can_add_this_player_to_team">يمكنك اضافة هذا اللاعب لفريقك</string>
     <string name="add_player_to">اضافة اللاعب الى</string>
     <string name="favorite_stadium">الملعب المفضل</string>
+    <string name="team_info">بيانات الفريق</string>
+
 
 
     <!-- Arrays -->

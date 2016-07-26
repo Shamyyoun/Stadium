@@ -1,5 +1,6 @@
 package com.stadium.player.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.player.R;
+import com.stadium.player.activities.TeamInfoActivity;
 import com.stadium.player.adapters.TeamsAdapter;
+import com.stadium.player.dialogs.AttendanceDialog;
+import com.stadium.player.interfaces.OnItemClickListener;
 import com.stadium.player.models.entities.Team;
 import com.stadium.player.models.enums.TeamClass;
 
@@ -43,6 +47,14 @@ public class MyTeamsFragment extends ParentToolbarFragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new TeamsAdapter(activity, data, R.layout.item_team);
         recyclerView.setAdapter(adapter);
+
+        // add the item click listener
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+               activity.startActivity(new Intent(getActivity() , TeamInfoActivity.class));
+            }
+        });
 
         return rootView;
     }
