@@ -90,6 +90,10 @@
     <string name="add_player_to">اضافة اللاعب الى</string>
     <string name="favorite_stadium">الملعب المفضل</string>
     <string name="team_info">بيانات الفريق</string>
+    <string name="make_assistant">تعيين مساعد كابتن</string>
+    <string name="delete_from_team">حذف من الفريق</string>
+
+
 
 
 

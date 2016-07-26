@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.stadium.player.R;
+import com.stadium.player.fragments.TeamPlayersFragment;
 import com.stadium.player.fragments.TeamReservationsFragment;
 
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class TeamInfoActivity extends ParentToolbarActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TeamReservationsFragment(), "الحجوزات");
+        adapter.addFragment(new TeamPlayersFragment(), "اللاعبين");
+
         viewPager.setAdapter(adapter);
 
     }
