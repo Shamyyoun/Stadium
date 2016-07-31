@@ -46,7 +46,7 @@ public class SmallIntensityFragment extends ParentFragment {
         data = getDummyData();
         adapter = new SmallIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
         recyclerView.setAdapter(adapter);
-        
+
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

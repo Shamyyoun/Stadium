@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stadium.player.R;
+import com.stadium.player.dialogs.ContactDialog;
+import com.stadium.player.dialogs.StadiumInfoDialog;
 import com.stadium.player.fragments.AverageIntensityFragment;
 import com.stadium.player.fragments.BigIntensityFragment;
 import com.stadium.player.fragments.SmallIntensityFragment;
@@ -34,6 +36,7 @@ public class StadiumOrderActivity extends ParentToolbarActivity {
     private ViewPager viewPager;
 
     private TextView date;
+    private TextView stadiumName;
 
     private ImageButton stadiumContact;
     private ImageButton stadiumLocation;
@@ -53,9 +56,10 @@ public class StadiumOrderActivity extends ParentToolbarActivity {
         setToolbarIcon(R.drawable.search_icon);
 
         // init views
-
         date = (TextView) findViewById(R.id.tv_date);
         date.setOnClickListener(this);
+        stadiumName = (TextView) findViewById(R.id.tv_stadium_name);
+        stadiumName.setOnClickListener(this);
 
         stadiumContact = (ImageButton) findViewById(R.id.ib_contact);
         stadiumContact.setOnClickListener(this);
@@ -116,7 +120,6 @@ public class StadiumOrderActivity extends ParentToolbarActivity {
                 minDate = c.getTime().getTime(); // Twice!
                 datePickerDialog.getDatePicker().setMinDate(minDate);
                 datePickerDialog.show();
-
                 break;
 
             case R.id.iv_left_arrow:
@@ -128,6 +131,14 @@ public class StadiumOrderActivity extends ParentToolbarActivity {
 
             case R.id.ib_contact:
 
+                ContactDialog contactDialog = new ContactDialog(this);
+                contactDialog.show();
+                break;
+
+            case R.id.tv_stadium_name:
+
+                StadiumInfoDialog stadiumInfoDialog = new StadiumInfoDialog(this);
+                stadiumInfoDialog.show();
                 break;
             case R.id.ib_location:
 
