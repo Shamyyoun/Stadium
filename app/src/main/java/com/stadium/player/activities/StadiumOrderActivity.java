@@ -7,10 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.stadium.player.R;
+import com.stadium.player.fragments.AverageIntensityFragment;
+import com.stadium.player.fragments.BigIntensityFragment;
+import com.stadium.player.fragments.SmallIntensityFragment;
 import com.stadium.player.fragments.TeamPlayersFragment;
 import com.stadium.player.fragments.TeamReservationsFragment;
 
@@ -18,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by karam on 7/26/16.
+ * Created by karam on 7/31/16.
  */
-public class TeamInfoActivity extends ParentToolbarActivity {
+public class StadiumOrderActivity extends ParentToolbarActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -29,9 +30,9 @@ public class TeamInfoActivity extends ParentToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_info);
+        setContentView(R.layout.activity_order_stadium);
         setTitle("");
-        setToolbarIcon(R.drawable.edit_icon);
+        setToolbarIcon(R.drawable.search_icon);
 
         // init views
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -48,8 +49,9 @@ public class TeamInfoActivity extends ParentToolbarActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TeamReservationsFragment(), "الحجوزات");
-        adapter.addFragment(new TeamPlayersFragment(), "اللاعبين");
+        adapter.addFragment(new BigIntensityFragment(), "كبيرة (٢٠٠ ريال)");
+        adapter.addFragment(new AverageIntensityFragment(), "متوسطة (١٠٠ ريال)");
+        adapter.addFragment(new SmallIntensityFragment(), "صغيرة (١٠٠ ريال)");
 
         viewPager.setAdapter(adapter);
 

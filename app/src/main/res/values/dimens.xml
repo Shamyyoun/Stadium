@@ -18,5 +18,8 @@
     <dimen name="update_team_image_size">90dp</dimen>
     <dimen name="player_info_image_size">90dp</dimen>
     <dimen name="player_info_stroke_size">100dp</dimen>
+    <dimen name="stadium_info_stroke_size">90dp</dimen>
+    <dimen name="stadium_info_image_size">80dp</dimen>
+
 
 </resources>

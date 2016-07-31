@@ -68,6 +68,9 @@
             android:name=".activities.TeamInfoActivity"
             android:label="@string/team_info" />
 
+        <activity
+            android:name=".activities.StadiumOrderActivity"
+            android:label="@string/stadium_order" />
 
         <activity android:name=".activities.PlayerInfoActivity" />
     </application>

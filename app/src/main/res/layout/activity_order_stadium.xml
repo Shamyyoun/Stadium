@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_toolbar" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.stadium.player.views.DarkenedImageButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/stadium_call_icon" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="5dp">
+
+                            <LinearLayout
+                                android:id="@+id/linear_image"
+                                android:layout_width="@dimen/stadium_info_stroke_size"
+                                android:layout_height="@dimen/stadium_info_stroke_size"
+                                android:background="@drawable/green_strokked_circle"
+                                android:gravity="center">
+
+                                <com.makeramen.roundedimageview.RoundedImageView
+                                    android:id="@+id/iv_photo"
+                                    style="@style/CroppedImageView"
+                                    android:layout_width="@dimen/stadium_info_image_size"
+                                    android:layout_height="@dimen/stadium_info_image_size"
+                                    android:src="@drawable/default_image"
+                                    app:riv_oval="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/tv_class"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_alignRight="@+id/linear_image"
+                                android:background="@drawable/green_strokked_circle"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/small_orange_star" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="5"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/very_small_text" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tv_stadium_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="6dp"
+                            android:drawableRight="@drawable/team_name_icon"
+                            android:text="ملاعب النخبة"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/below_medium_text"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.stadium.player.views.DarkenedImageButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/big_location_icon" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dialog_toolbar_size"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/arrow_left" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/light_date_icon"
+                    android:drawablePadding="8dp"
+                    android:text="2016/04/04" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                style="@style/TeamTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMode="fixed" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/green" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

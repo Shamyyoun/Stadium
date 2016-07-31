@@ -15,6 +15,7 @@ import java.util.List;
  * Created by Shamyyoun on 6/28/16.
  */
 public class TeamsDialog extends ParentDialog {
+
     private RecyclerView recyclerView;
     private RadioButtonsAdapter adapter;
     private List<Team> data;
