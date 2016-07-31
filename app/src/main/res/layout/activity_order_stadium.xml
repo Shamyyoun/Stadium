@@ -27,11 +27,13 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <com.stadium.player.views.DarkenedImageButton
+                    <ImageButton
+                        android:id="@+id/ib_contact"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/stadium_call_icon" />
 
                     <LinearLayout
@@ -99,10 +101,12 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <com.stadium.player.views.DarkenedImageButton
+                    <ImageButton
+                        android:id="@+id/ib_location"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/big_location_icon" />
 
                 </LinearLayout>
@@ -116,23 +120,29 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/iv_left_arrow"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/arrow_left" />
 
                 <TextView
+                    android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:drawableLeft="@drawable/light_date_icon"
                     android:drawablePadding="8dp"
+                    android:gravity="center"
                     android:text="2016/04/04" />
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/iv_right_arrow"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/arrow_right" />
 
             </LinearLayout>

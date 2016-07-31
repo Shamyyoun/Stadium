@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import com.stadium.player.R;
 import com.stadium.player.adapters.BigIntensityAdapter;
 import com.stadium.player.adapters.SmallIntensityAdapter;
+import com.stadium.player.dialogs.ChooseTeamDialog;
+import com.stadium.player.interfaces.OnItemClickListener;
 import com.stadium.player.models.entities.BigIntensity;
 import com.stadium.player.models.entities.SmallIntensity;
 
@@ -44,7 +46,15 @@ public class SmallIntensityFragment extends ParentFragment {
         data = getDummyData();
         adapter = new SmallIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
         recyclerView.setAdapter(adapter);
-
+        
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                // open teams dialog
+                ChooseTeamDialog dialog = new ChooseTeamDialog(activity);
+                dialog.show();
+            }
+        });
         return rootView;
     }
 

@@ -1,5 +1,6 @@
 package com.stadium.player.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.player.R;
+import com.stadium.player.activities.PlayerInfoActivity;
 import com.stadium.player.adapters.AverageIntensityAdapter;
 import com.stadium.player.adapters.TeamReservationsAdapter;
+import com.stadium.player.dialogs.ChooseTeamDialog;
+import com.stadium.player.interfaces.OnItemClickListener;
 import com.stadium.player.models.entities.AverageIntensity;
 import com.stadium.player.models.entities.TeamReservations;
 
@@ -45,6 +49,15 @@ public class AverageIntensityFragment extends ParentFragment {
         data = getDummyData();
         adapter = new AverageIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                // open teams dialog
+                ChooseTeamDialog dialog = new ChooseTeamDialog(activity);
+                dialog.show();
+            }
+        });
 
         return rootView;
     }
