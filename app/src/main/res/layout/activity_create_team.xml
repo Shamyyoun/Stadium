@@ -68,7 +68,7 @@
             android:text="@string/favorite_stadium_u"
             android:textColor="@color/clickable_green_text" />
 
-        <com.stadium.player.views.DarkenedButton
+        <com.stadium.app.views.DarkenedButton
             android:id="@+id/btn_create_team"
             style="@style/StrokedGreenButton"
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/create" />
 
-        <com.stadium.player.views.DarkenedButton
+        <com.stadium.app.views.DarkenedButton
             android:id="@+id/btn_cancel_team"
             style="@style/GreenButton"
             android:layout_width="match_parent"

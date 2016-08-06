@@ -92,7 +92,7 @@
                 android:inputType="textPassword" />
         </LinearLayout>
 
-        <com.stadium.player.views.DarkenedButton
+        <com.stadium.app.views.DarkenedButton
             style="@style/WhiteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

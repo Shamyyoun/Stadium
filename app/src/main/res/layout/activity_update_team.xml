@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" />
 
-        <com.stadium.player.views.DarkenedButton
+        <com.stadium.app.views.DarkenedButton
             android:id="@+id/btn_update"
             style="@style/StrokedGreenButton"
             android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/update" />
 
-        <com.stadium.player.views.DarkenedButton
+        <com.stadium.app.views.DarkenedButton
             android:id="@+id/btn_cancel"
             style="@style/GreenButton"
             android:layout_width="match_parent"

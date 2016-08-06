@@ -80,7 +80,7 @@
             android:padding="10dp"
             android:tag="sticky">
 
-            <com.stadium.player.views.DarkenedButton
+            <com.stadium.app.views.DarkenedButton
                 style="@style/SmallOrangeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                 android:text="@string/can_create_new_team_start_now" />
         </LinearLayout>
 
-        <com.stadium.player.views.ExpandableHeightListView
+        <com.stadium.app.views.ExpandableHeightListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
