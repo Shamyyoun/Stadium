@@ -1,5 +1,6 @@
 package com.stadium.app.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,9 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.StadiumsAdapter;
 import com.stadium.app.dialogs.OrderStadiumsDialog;
 import com.stadium.app.models.entities.Stadium;
+import com.stadium.app.activities.StadiumOrderActivity;
+import com.stadium.app.activities.TeamInfoActivity;
+import com.stadium.app.interfaces.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +53,13 @@ public class StadiumsFragment extends ParentToolbarFragment {
 
         // add click listeners
         tvOrderBy.setOnClickListener(this);
+        // add the item click listener
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                activity.startActivity(new Intent(getActivity() , StadiumOrderActivity.class));
+            }
+        });
 
         return rootView;
     }

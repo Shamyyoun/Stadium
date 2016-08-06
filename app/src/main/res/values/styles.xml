@@ -123,4 +123,17 @@
         <item name="android:textSize">@dimen/small_text</item>
     </style>
 
+    <style name="TeamTab" parent="Base.Widget.Design.TabLayout">
+        <item name="android:background">@android:color/white</item>
+        <item name="tabTextAppearance">@style/MyCustomTabText</item>
+        <item name="tabSelectedTextColor">@color/green</item>
+        <item name="tabIndicatorColor">@color/green</item>
+        <item name="tabIndicatorHeight">3dp</item>
+    </style>
+
+    <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">@dimen/above_medium_text</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
 </resources>

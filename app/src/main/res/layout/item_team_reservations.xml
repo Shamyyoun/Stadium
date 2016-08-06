@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="3dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="1dp">
+
+        <LinearLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/SingleEllipsizedText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:text=" ملاعب النخبة"
+                            android:textSize="@dimen/medium_text"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/location_icon"
+                        android:text="العنوان . جده شارع 9"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/stadium_icon"
+                        android:text="اسم الملعب . ملعب 15"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/clock_icon"
+                        android:text="الموعد 23-7-2016 6:20 PM"
+                        android:textSize="@dimen/small_text" />
+                </LinearLayout>
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        style="@style/CroppedImageView"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:src="@drawable/default_image"
+                        app:riv_oval="true"
+                        android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

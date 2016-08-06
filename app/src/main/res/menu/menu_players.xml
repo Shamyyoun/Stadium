@@ -5,7 +5,8 @@
         android:id="@+id/action_contacts"
         android:icon="@drawable/contacts_icon"
         android:name="@string/contacts"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        />
 
     <item
         android:id="@+id/action_search"

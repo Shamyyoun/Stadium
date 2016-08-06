@@ -1,29 +1,29 @@
-package com.stadium.app.dialogs;
+package com.stadium.player.dialogs;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.stadium.app.R;
-import com.stadium.app.adapters.RadioButtonsAdapter;
-import com.stadium.app.models.entities.Team;
+import com.stadium.player.R;
+import com.stadium.player.adapters.RadioButtonsAdapter;
+import com.stadium.player.models.entities.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Shamyyoun on 6/28/16.
+ * Created by karam on 7/31/16.
  */
-public class TeamsDialog extends ParentDialog {
+public class ChooseTeamDialog extends ParentDialog {
 
     private RecyclerView recyclerView;
     private RadioButtonsAdapter adapter;
     private List<Team> data;
 
-    public TeamsDialog(final Context context) {
+    public ChooseTeamDialog(final Context context) {
         super(context);
-        setContentView(R.layout.dialog_teams);
-        setTitle(R.string.add_player_to);
+        setContentView(R.layout.dialog_choose_team);
+        setTitle(R.string.choose_team);
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
