@@ -95,7 +95,14 @@
     <string name="stadium_order">طلب حجز</string>
     <string name="choose_team">اختار الفريق</string>
     <string name="exit">خروج</string>
-
+    <string name="stade">الاستاد</string>
+    <string name="blocked">المحظور</string>
+    <string name="repeated">المتكرر</string>
+    <string name="today_reservation">حجوزات اليوم</string>
+    <string name="accepted_reservation">حجوزات مقبولة</string>
+    <string name="new_reservation">حجوزات جديدة</string>
+    <string name="stadium_name">خروج</string>
+    <string name="appointment">الموعد</string>
 
 
 

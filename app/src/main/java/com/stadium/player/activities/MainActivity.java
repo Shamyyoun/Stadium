@@ -15,6 +15,7 @@ import com.stadium.player.fragments.ReservationsFragment;
 import com.stadium.player.fragments.StadiumsFragment;
 
 public class MainActivity extends ParentToolbarActivity {
+
     private static int DRAWER_GRAVITY = Gravity.RIGHT;
     private DrawerLayout drawerLayout;
     private TextView tvHome;
