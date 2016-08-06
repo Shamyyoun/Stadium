@@ -1,22 +1,17 @@
-package com.stadium.player.fragments;
+package com.stadium.app.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.R;
-import com.stadium.player.activities.PlayerInfoActivity;
-import com.stadium.player.adapters.AverageIntensityAdapter;
-import com.stadium.player.adapters.TeamReservationsAdapter;
-import com.stadium.player.dialogs.ChooseTeamDialog;
-import com.stadium.player.interfaces.OnItemClickListener;
-import com.stadium.player.models.entities.AverageIntensity;
-import com.stadium.player.models.entities.TeamReservations;
+import com.stadium.app.R;
+import com.stadium.app.adapters.BigIntensityAdapter;
+import com.stadium.app.dialogs.ChooseTeamDialog;
+import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.models.entities.BigIntensity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +19,11 @@ import java.util.List;
 /**
  * Created by karam on 7/31/16.
  */
-public class AverageIntensityFragment extends ParentFragment {
+public class BigIntensityFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
-    private AverageIntensityAdapter adapter;
-    private List<AverageIntensity> data;
+    private BigIntensityAdapter adapter;
+    private List<BigIntensity> data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +42,7 @@ public class AverageIntensityFragment extends ParentFragment {
         GridLayoutManager layoutManager = new GridLayoutManager(activity, 3);
         recyclerView.setLayoutManager(layoutManager);
         data = getDummyData();
-        adapter = new AverageIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
+        adapter = new BigIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
@@ -58,14 +53,13 @@ public class AverageIntensityFragment extends ParentFragment {
                 dialog.show();
             }
         });
-
         return rootView;
     }
 
-    private List<AverageIntensity> getDummyData() {
-        List<AverageIntensity> data = new ArrayList<>();
+    private List<BigIntensity> getDummyData() {
+        List<BigIntensity> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            AverageIntensity item = new AverageIntensity();
+            BigIntensity item = new BigIntensity();
             data.add(item);
         }
 

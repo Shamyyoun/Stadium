@@ -1,21 +1,21 @@
-package com.stadium.player.adapters;
+package com.stadium.app.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.models.entities.Attendant;
-import com.stadium.player.models.entities.BigIntensity;
+import com.stadium.app.R;
+import com.stadium.app.models.entities.TeamReservations;
 
 import java.util.List;
 
 /**
- * Created by karam on 7/31/16.
+ * Created by karam on 7/26/16.
  */
-public class BigIntensityAdapter extends ParentRecyclerAdapter<BigIntensity> {
+public class TeamReservationsAdapter extends ParentRecyclerAdapter<TeamReservations> {
 
-    public BigIntensityAdapter(Context context, List<BigIntensity> data, int layoutId) {
+    public TeamReservationsAdapter(Context context, List<TeamReservations> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -32,13 +32,17 @@ public class BigIntensityAdapter extends ParentRecyclerAdapter<BigIntensity> {
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final BigIntensity item = data.get(position);
+        final TeamReservations item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+        private View layoutContent;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+
+            layoutContent = findViewById(R.id.layout_content);
+            setClickableRootView(layoutContent);
         }
     }
 }

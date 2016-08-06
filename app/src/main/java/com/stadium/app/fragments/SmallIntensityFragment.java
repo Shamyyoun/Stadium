@@ -1,4 +1,4 @@
-package com.stadium.player.fragments;
+package com.stadium.app.fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.R;
-import com.stadium.player.adapters.AverageIntensityAdapter;
-import com.stadium.player.adapters.BigIntensityAdapter;
-import com.stadium.player.dialogs.ChooseTeamDialog;
-import com.stadium.player.interfaces.OnItemClickListener;
-import com.stadium.player.models.entities.AverageIntensity;
-import com.stadium.player.models.entities.BigIntensity;
+import com.stadium.app.R;
+import com.stadium.app.adapters.SmallIntensityAdapter;
+import com.stadium.app.dialogs.ChooseTeamDialog;
+import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.models.entities.SmallIntensity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +19,11 @@ import java.util.List;
 /**
  * Created by karam on 7/31/16.
  */
-public class BigIntensityFragment extends ParentFragment {
+public class SmallIntensityFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
-    private BigIntensityAdapter adapter;
-    private List<BigIntensity> data;
+    private SmallIntensityAdapter adapter;
+    private List<SmallIntensity> data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +42,7 @@ public class BigIntensityFragment extends ParentFragment {
         GridLayoutManager layoutManager = new GridLayoutManager(activity, 3);
         recyclerView.setLayoutManager(layoutManager);
         data = getDummyData();
-        adapter = new BigIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
+        adapter = new SmallIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
@@ -58,10 +56,10 @@ public class BigIntensityFragment extends ParentFragment {
         return rootView;
     }
 
-    private List<BigIntensity> getDummyData() {
-        List<BigIntensity> data = new ArrayList<>();
+    private List<SmallIntensity> getDummyData() {
+        List<SmallIntensity> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            BigIntensity item = new BigIntensity();
+            SmallIntensity item = new SmallIntensity();
             data.add(item);
         }
 

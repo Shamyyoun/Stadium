@@ -1,4 +1,4 @@
-package com.stadium.player.fragments;
+package com.stadium.app.fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.R;
-import com.stadium.player.adapters.BigIntensityAdapter;
-import com.stadium.player.adapters.SmallIntensityAdapter;
-import com.stadium.player.dialogs.ChooseTeamDialog;
-import com.stadium.player.interfaces.OnItemClickListener;
-import com.stadium.player.models.entities.BigIntensity;
-import com.stadium.player.models.entities.SmallIntensity;
+import com.stadium.app.R;
+import com.stadium.app.adapters.AverageIntensityAdapter;
+import com.stadium.app.dialogs.ChooseTeamDialog;
+import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.models.entities.AverageIntensity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +19,11 @@ import java.util.List;
 /**
  * Created by karam on 7/31/16.
  */
-public class SmallIntensityFragment extends ParentFragment {
+public class AverageIntensityFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
-    private SmallIntensityAdapter adapter;
-    private List<SmallIntensity> data;
+    private AverageIntensityAdapter adapter;
+    private List<AverageIntensity> data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +42,7 @@ public class SmallIntensityFragment extends ParentFragment {
         GridLayoutManager layoutManager = new GridLayoutManager(activity, 3);
         recyclerView.setLayoutManager(layoutManager);
         data = getDummyData();
-        adapter = new SmallIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
+        adapter = new AverageIntensityAdapter(activity, data, R.layout.item_stadium_intensity);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
@@ -55,13 +53,14 @@ public class SmallIntensityFragment extends ParentFragment {
                 dialog.show();
             }
         });
+
         return rootView;
     }
 
-    private List<SmallIntensity> getDummyData() {
-        List<SmallIntensity> data = new ArrayList<>();
+    private List<AverageIntensity> getDummyData() {
+        List<AverageIntensity> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            SmallIntensity item = new SmallIntensity();
+            AverageIntensity item = new AverageIntensity();
             data.add(item);
         }
 

@@ -1,4 +1,4 @@
-package com.stadium.player.fragments;
+package com.stadium.app.fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.R;
-import com.stadium.player.adapters.TeamPlayersAdapter;
-import com.stadium.player.adapters.TeamReservationsAdapter;
-import com.stadium.player.models.entities.TeamPlayers;
-import com.stadium.player.models.entities.TeamReservations;
+import com.stadium.app.R;
+import com.stadium.app.adapters.TeamPlayersAdapter;
+import com.stadium.app.models.entities.TeamPlayers;
 
 import java.util.ArrayList;
 import java.util.List;

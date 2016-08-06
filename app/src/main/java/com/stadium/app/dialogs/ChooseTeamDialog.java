@@ -1,12 +1,12 @@
-package com.stadium.player.dialogs;
+package com.stadium.app.dialogs;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.stadium.player.R;
-import com.stadium.player.adapters.RadioButtonsAdapter;
-import com.stadium.player.models.entities.Team;
+import com.stadium.app.R;
+import com.stadium.app.adapters.RadioButtonsAdapter;
+import com.stadium.app.models.entities.Team;
 
 import java.util.ArrayList;
 import java.util.List;

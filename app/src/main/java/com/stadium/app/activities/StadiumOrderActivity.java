@@ -1,4 +1,4 @@
-package com.stadium.player.activities;
+package com.stadium.app.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -11,16 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.stadium.player.R;
-import com.stadium.player.dialogs.ContactDialog;
-import com.stadium.player.dialogs.StadiumInfoDialog;
-import com.stadium.player.fragments.AverageIntensityFragment;
-import com.stadium.player.fragments.BigIntensityFragment;
-import com.stadium.player.fragments.SmallIntensityFragment;
+import com.stadium.app.R;
+import com.stadium.app.dialogs.ContactDialog;
+import com.stadium.app.dialogs.StadiumInfoDialog;
+import com.stadium.app.fragments.AverageIntensityFragment;
+import com.stadium.app.fragments.BigIntensityFragment;
+import com.stadium.app.fragments.SmallIntensityFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;

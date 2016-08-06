@@ -6,7 +6,6 @@ import android.widget.Button;
 
 import com.stadium.app.R;
 import com.stadium.app.utils.AppUtils;
-import com.stadium.app.utils.ViewUtil;
 
 /**
  * Created by Shamyyoun on 6/28/16.
@@ -38,8 +37,8 @@ public class ForgetPasswordDialog extends ParentDialog {
                 // check the current view
                 if (currentView == VIEW_PASSWORD_INPUT) {
                     // switch to next view
-                    ViewUtil.fadeView(layoutMobileInput, false);
-                    ViewUtil.fadeView(layoutMethodChoosing, true);
+                    layoutMobileInput.setVisibility(View.GONE);
+                    layoutMethodChoosing.setVisibility(View.VISIBLE);
                     btnSubmit.setText(R.string.select);
                     currentView = VIEW_METHOD_CHOOSING;
                 } else {

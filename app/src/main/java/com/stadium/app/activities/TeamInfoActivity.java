@@ -1,4 +1,4 @@
-package com.stadium.player.activities;
+package com.stadium.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +10,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.stadium.player.R;
-import com.stadium.player.fragments.TeamPlayersFragment;
-import com.stadium.player.fragments.TeamReservationsFragment;
+import com.stadium.app.R;
+import com.stadium.app.fragments.TeamPlayersFragment;
+import com.stadium.app.fragments.TeamReservationsFragment;
 
 import java.util.ArrayList;
 import java.util.List;

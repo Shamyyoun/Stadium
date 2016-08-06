@@ -1,21 +1,21 @@
-package com.stadium.player.adapters;
+package com.stadium.app.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.models.entities.Attendant;
-import com.stadium.player.models.entities.AverageIntensity;
+import com.stadium.app.R;
+import com.stadium.app.models.entities.TeamPlayers;
 
 import java.util.List;
 
 /**
- * Created by karam on 7/31/16.
+ * Created by karam on 7/26/16.
  */
-public class AverageIntensityAdapter extends ParentRecyclerAdapter<AverageIntensity> {
+public class TeamPlayersAdapter extends ParentRecyclerAdapter<TeamPlayers> {
 
-    public AverageIntensityAdapter(Context context, List<AverageIntensity> data, int layoutId) {
+    public TeamPlayersAdapter(Context context, List<TeamPlayers> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -32,13 +32,17 @@ public class AverageIntensityAdapter extends ParentRecyclerAdapter<AverageIntens
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final AverageIntensity item = data.get(position);
+        final TeamPlayers item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+        private View layoutContent;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+
+            layoutContent = findViewById(R.id.layout_content);
+            setClickableRootView(layoutContent);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.stadium.player.dialogs;
+package com.stadium.app.dialogs;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.stadium.player.R;
+import com.stadium.app.R;
 
 /**
  * Created by karam on 7/31/16.

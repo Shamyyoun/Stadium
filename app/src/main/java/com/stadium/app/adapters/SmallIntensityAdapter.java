@@ -1,21 +1,20 @@
-package com.stadium.player.adapters;
+package com.stadium.app.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.R;
-import com.stadium.player.models.entities.TeamReservations;
+import com.stadium.app.models.entities.SmallIntensity;
 
 import java.util.List;
 
 /**
- * Created by karam on 7/26/16.
+ * Created by karam on 7/31/16.
  */
-public class TeamReservationsAdapter extends ParentRecyclerAdapter<TeamReservations> {
+public class SmallIntensityAdapter extends ParentRecyclerAdapter<SmallIntensity> {
 
-    public TeamReservationsAdapter(Context context, List<TeamReservations> data, int layoutId) {
+    public SmallIntensityAdapter(Context context, List<SmallIntensity> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -32,17 +31,13 @@ public class TeamReservationsAdapter extends ParentRecyclerAdapter<TeamReservati
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final TeamReservations item = data.get(position);
+        final SmallIntensity item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
-        private View layoutContent;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-
-            layoutContent = findViewById(R.id.layout_content);
-            setClickableRootView(layoutContent);
         }
     }
 }

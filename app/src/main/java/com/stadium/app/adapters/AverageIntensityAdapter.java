@@ -1,21 +1,20 @@
-package com.stadium.player.adapters;
+package com.stadium.app.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stadium.player.models.entities.Attendant;
-import com.stadium.player.models.entities.SmallIntensity;
+import com.stadium.app.models.entities.AverageIntensity;
 
 import java.util.List;
 
 /**
  * Created by karam on 7/31/16.
  */
-public class SmallIntensityAdapter extends ParentRecyclerAdapter<SmallIntensity> {
+public class AverageIntensityAdapter extends ParentRecyclerAdapter<AverageIntensity> {
 
-    public SmallIntensityAdapter(Context context, List<SmallIntensity> data, int layoutId) {
+    public AverageIntensityAdapter(Context context, List<AverageIntensity> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -32,7 +31,7 @@ public class SmallIntensityAdapter extends ParentRecyclerAdapter<SmallIntensity>
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final SmallIntensity item = data.get(position);
+        final AverageIntensity item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
