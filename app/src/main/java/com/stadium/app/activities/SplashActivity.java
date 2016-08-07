@@ -7,7 +7,7 @@ import android.os.Handler;
 import com.stadium.app.R;
 
 public class SplashActivity extends ParentActivity {
-    private static final int SPLASH_DURATION = 2 * 1000; // TODO
+    private static final int SPLASH_DURATION = 0 * 1000; // TODO
     private Handler handler;
     private Runnable runnable;
 
@@ -22,7 +22,7 @@ public class SplashActivity extends ParentActivity {
             @Override
             public void run() {
                 // goto suitable activity
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         };
