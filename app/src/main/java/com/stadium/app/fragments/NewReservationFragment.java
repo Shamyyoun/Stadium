@@ -8,20 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.app.R;
-import com.stadium.app.adapters.TeamReservationsAdapter;
-import com.stadium.app.models.entities.TeamReservations;
+import com.stadium.app.adapters.AcceptedReservationAdapter;
+import com.stadium.app.adapters.NewReservationAdapter;
+import com.stadium.app.models.entities.AcceptedReservation;
+import com.stadium.app.models.entities.NewReservation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by karam on 7/26/16.
+ * Created by karam on 8/10/16.
  */
-public class TeamReservationsFragment extends ParentFragment {
+public class NewReservationFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
-    private TeamReservationsAdapter adapter;
-    private List<TeamReservations> data;
+    private NewReservationAdapter adapter;
+    private List<NewReservation> data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class TeamReservationsFragment extends ParentFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_team_reservations, container, false);
+        rootView = inflater.inflate(R.layout.fragment_new_reservations, container, false);
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -40,16 +42,16 @@ public class TeamReservationsFragment extends ParentFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         data = getDummyData();
-        adapter = new TeamReservationsAdapter(activity, data, R.layout.item_team_reservations);
+        adapter = new NewReservationAdapter(activity, data, R.layout.item_new_reservation);
         recyclerView.setAdapter(adapter);
 
         return rootView;
     }
 
-    private List<TeamReservations> getDummyData() {
-        List<TeamReservations> data = new ArrayList<>();
+    private List<NewReservation> getDummyData() {
+        List<NewReservation> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            TeamReservations item = new TeamReservations();
+            NewReservation item = new NewReservation();
             data.add(item);
         }
 

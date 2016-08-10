@@ -103,6 +103,9 @@
     <string name="new_reservation">حجوزات جديدة</string>
     <string name="stadium_name">خروج</string>
     <string name="appointment">الموعد</string>
+    <string name="not_attend">لم يحضر</string>
+    <string name="block_team">حظر الفريق</string>
+    <string name="both">كلاهما</string>
 
 
 
