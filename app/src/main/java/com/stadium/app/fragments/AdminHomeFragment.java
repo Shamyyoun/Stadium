@@ -29,6 +29,7 @@ public class AdminHomeFragment extends ParentToolbarFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.home);
+        createOptionsMenu(R.menu.menu_admin_home);
     }
 
     @Override

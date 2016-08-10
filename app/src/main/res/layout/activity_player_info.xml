@@ -64,14 +64,10 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/small_orange_star" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/small_orange_star"
                         android:text="4.5"
                         android:textColor="@color/white"
                         android:textSize="@dimen/very_small_text" />
