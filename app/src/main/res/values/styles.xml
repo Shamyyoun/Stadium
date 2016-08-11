@@ -34,10 +34,26 @@
         <item name="android:textColorHighlight">@color/white_transparent</item>
     </style>
 
+    <style name="GrayWidget">
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="colorPrimaryDark">@android:color/darker_gray</item>
+        <item name="colorAccent">@android:color/darker_gray</item>
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@android:color/darker_gray</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:textColorHighlight">@color/light_gray</item>
+    </style>
+
     <style name="WhiteEditText" parent="MyEditText">
         <item name="android:theme">@style/WhiteWidget</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="backgroundTint">@android:color/white</item>
+    </style>
+
+    <style name="GrayEditText" parent="MyEditText">
+        <item name="android:theme">@style/GrayWidget</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="backgroundTint">@android:color/darker_gray</item>
     </style>
 
 

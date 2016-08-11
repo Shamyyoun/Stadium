@@ -106,8 +106,8 @@
     <string name="not_attend">لم يحضر</string>
     <string name="block_team">حظر الفريق</string>
     <string name="both">كلاهما</string>
-
-
+    <string name="name_reserve">حجز بااسم</string>
+    <string name="reserve">حجز</string>
 
 
     <!-- Arrays -->

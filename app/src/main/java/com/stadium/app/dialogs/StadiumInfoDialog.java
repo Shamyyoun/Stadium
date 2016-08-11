@@ -15,7 +15,7 @@ public class StadiumInfoDialog  extends ParentDialog {
     private TextView tvInfo;
     private Button btnExit;
 
-    public StadiumInfoDialog(Context context) {
+    public StadiumInfoDialog(Context context ) {
         super(context);
         setContentView(R.layout.dialog_stadium_info);
 

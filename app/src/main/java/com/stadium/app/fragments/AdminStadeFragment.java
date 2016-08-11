@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.stadium.app.R;
 import com.stadium.app.adapters.AdminStadeAdapter;
 import com.stadium.app.adapters.BigIntensityAdapter;
+import com.stadium.app.dialogs.AdminStadeDialog;
 import com.stadium.app.dialogs.ChooseTeamDialog;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.entities.AdminStade;
@@ -73,20 +74,22 @@ public class AdminStadeFragment extends ParentToolbarFragment {
         adapter = new AdminStadeAdapter(activity, data, R.layout.item_admin_stade);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                // open dialog
-
-            }
-        });
-
         // Get Current Date
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH) + 1;
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         date.setText(mDay + "/" + mMonth + "/" + mYear + "");
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                // open dialog
+                AdminStadeDialog dialog = new AdminStadeDialog(activity, "ملعب : ٥", "التاريخ :" + date.getText().toString(), "الوقت : من 09 الي 12");
+                dialog.show();
+
+            }
+        });
 
         return rootView;
     }
