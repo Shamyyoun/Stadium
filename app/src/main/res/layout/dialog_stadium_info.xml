@@ -37,7 +37,7 @@
 
     </LinearLayout>
 
-    <com.stadium.player.views.DarkenedButton
+    <com.stadium.app.views.DarkenedButton
         android:id="@+id/btn_exit"
         style="@style/DialogOrangeButton"
         android:layout_width="wrap_content"
