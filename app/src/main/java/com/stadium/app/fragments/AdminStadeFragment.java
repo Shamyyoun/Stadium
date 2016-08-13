@@ -85,7 +85,8 @@ public class AdminStadeFragment extends ParentToolbarFragment {
             @Override
             public void onItemClick(View view, int position) {
                 // open dialog
-                AdminStadeDialog dialog = new AdminStadeDialog(activity, "ملعب : ٥", "التاريخ :" + date.getText().toString(), "الوقت : من 09 الي 12");
+                AdminStadeDialog dialog = new AdminStadeDialog(activity, "ملعب : ٥", "التاريخ :"
+                        + date.getText().toString(), "الوقت : من 09 الي 12");
                 dialog.show();
 
             }

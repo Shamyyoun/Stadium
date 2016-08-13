@@ -108,6 +108,8 @@
     <string name="both">كلاهما</string>
     <string name="name_reserve">حجز بااسم</string>
     <string name="reserve">حجز</string>
+    <string name="cancel_block">الغاء الحظر</string>
+
 
 
     <!-- Arrays -->
