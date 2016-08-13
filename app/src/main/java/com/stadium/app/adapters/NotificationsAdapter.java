@@ -1,6 +1,5 @@
 package com.stadium.app.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,39 +12,37 @@ import com.stadium.app.models.entities.Notification;
 import java.util.List;
 
 /**
- * Created by Shamyyoun on 7/2/16.
+ * Created by Shamyyoun on 19/2/16.
  */
-public class NotificationsAdapter extends ParentListAdapter<Notification> {
+public class NotificationsAdapter extends ParentRecyclerAdapter<Notification> {
 
-    public NotificationsAdapter(Context context, int layoutId, List<Notification> data) {
-        super(context, layoutId, data);
+    public NotificationsAdapter(Context context, List<Notification> data, int layoutId) {
+        super(context, data, layoutId);
     }
 
     @Override
-    public View getView(int position, View itemView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (itemView == null) {
-            // create the view holder
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            itemView = inflater.inflate(layoutId, parent, false);
-            holder = new ViewHolder();
+    public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
+        ViewHolder holder = new ViewHolder(itemView);
+        holder.setOnItemClickListener(itemClickListener);
 
-            // init views
-            holder.tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-            itemView.setTag(holder);
-        } else {
-            holder = (ViewHolder) itemView.getTag();
-        }
-
-        final Notification item = data.get(position);
-
-        // set data
-//        holder.tvTitle.setText(mobileNumber);
-
-        return itemView;
+        return holder;
     }
 
-    static class ViewHolder extends ParentListViewHolder {
-        TextView tvTitle;
+    @Override
+    public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
+        final ViewHolder holder = (ViewHolder) viewHolder;
+        // set data
+        final Notification item = data.get(position);
+    }
+
+    class ViewHolder extends ParentRecyclerViewHolder {
+        private TextView tvTitle;
+
+        public ViewHolder(final View itemView) {
+            super(itemView);
+
+            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+        }
     }
 }
