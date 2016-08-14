@@ -4,12 +4,13 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.stadium.app.utils.Utils;
 import com.google.gson.Gson;
 import com.koushikdutta.async.future.Future;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
+import com.stadium.app.models.bodies.ParentBody;
+import com.stadium.app.utils.Utils;
 
 import java.io.File;
 import java.util.Calendar;
@@ -30,10 +31,11 @@ public class ConnectionHandler<T> {
     private String tag = ""; // default value to avoid null pointer exception
     private Map<String, List<String>> params; //Ion accepts parameters as a map of key value pair of String and List<String>
     private Map<String, File> files;
+    private ParentBody body;
 
     private Future<String> future;
-
     private long startTime, finishTime;
+    private Gson gson;
 
 
     public ConnectionHandler(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener) {
@@ -67,6 +69,16 @@ public class ConnectionHandler<T> {
         this.files = files;
     }
 
+    public ConnectionHandler(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener, ParentBody body) {
+        this(context, url, cls, listener, body, "");
+    }
+
+    public ConnectionHandler(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener, ParentBody body, String tag) {
+        this(context, url, cls, listener, tag);
+        this.body = body;
+        gson = new Gson();
+    }
+
     private void init(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener, String tag) {
         this.context = context;
         this.url = url;
@@ -81,14 +93,21 @@ public class ConnectionHandler<T> {
 
 
     private void printLogs(int level) {
+        String tag;
+        if (this.tag != null) {
+            tag = "[" + this.tag + "] ";
+        } else {
+            tag = "[" + url + "]\n";
+        }
+
         switch (level) {
             case 0:
                 startTime = System.currentTimeMillis();
-                Log.e(LOG_TAG,  url + "\nrequest started. time=" + Calendar.getInstance().getTime());
+                Log.e(LOG_TAG, tag + "request started. time=" + Calendar.getInstance().getTime());
                 break;
             case 1:
                 finishTime = System.currentTimeMillis();
-                Log.e(LOG_TAG, url + "\nrequest finished and parsing started. time=" + Calendar.getInstance().getTime() + ", Time diff: " + (finishTime - startTime) + " MS");
+                Log.e(LOG_TAG, tag + "request finished and parsing started. time=" + Calendar.getInstance().getTime() + ", Time diff: " + (finishTime - startTime) + " MS");
                 break;
 
         }
@@ -198,6 +217,41 @@ public class ConnectionHandler<T> {
     }
 
     /**
+     * Execute raw post request with json parameters.
+     * (requires at least url)
+     *
+     * @return Future object for cancelling the request.
+     */
+    public Future<String> executeRawJson() {
+        if (url == null) {
+            throw new IllegalArgumentException("No url found.");
+        } else {
+            printLogs(0);
+
+            Builders.Any.B ionBuilder = Ion.with(context)
+                    .load(url)
+                    .setTimeout(timeout)
+                    .addHeader("content-type", "application/json");
+
+            if (body != null) {
+                String bodyJson = gson.toJson(body);
+                Log.e(LOG_TAG, "Request Body: " + bodyJson);
+                ionBuilder.setJsonPojoBody(body);
+            }
+
+            future = ionBuilder.asString()
+                    .setCallback(new FutureCallback<String>() {
+                        @Override
+                        public void onCompleted(Exception e, String result) {
+                            handleOnCompleted(e, result);
+                        }
+                    });
+
+            return future;
+        }
+    }
+
+    /**
      * Handles the completion of the request if (success or fail) and deserialize the string response using the given Class object and executes the  onFail or onSuccess method.
      *
      * @param e      the exception object (may be null if request failed).
@@ -208,7 +262,7 @@ public class ConnectionHandler<T> {
         printLogs(1);  // request finished
 
         if (e != null) { //on request failure
-            e.printStackTrace();
+            Log.e(LOG_TAG, "Error: " + e.getMessage());
             if (!(e instanceof CancellationException))
                 if (listener != null) {
                     listener.onFail(e, tag);
@@ -222,9 +276,8 @@ public class ConnectionHandler<T> {
                 try {
                     listener.onSuccess((T) new Gson().fromJson(result, cls), tag);
                 } catch (Exception ex) {
-                    Log.e(LOG_TAG, "Parsing Exception: " + ex.toString());
+                    Log.e(LOG_TAG, "Error: " + ex.getMessage());
                     listener.onFail(ex, tag);
-                    ex.printStackTrace();
                 }
             }
         }

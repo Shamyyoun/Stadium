@@ -8,16 +8,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stadium.app.R;
-import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.fragments.HomeFragment;
 import com.stadium.app.fragments.MyTeamsFragment;
 import com.stadium.app.fragments.PlayersFragment;
 import com.stadium.app.fragments.ReservationsFragment;
 import com.stadium.app.fragments.StadiumsFragment;
-import com.stadium.app.models.responses.LoginResponse;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends ParentToolbarActivity {
 
@@ -59,25 +54,6 @@ public class MainActivity extends ParentToolbarActivity {
         tvReservations.setOnClickListener(this);
         tvPlayers.setOnClickListener(this);
         tvMyTeam.setOnClickListener(this);
-
-        ///////////////////////////////////////////////////////////////
-        Map<String, String> params = new HashMap<>();
-        params.put("phone", "0554443430");
-        params.put("password", "A123Z");
-
-        String url = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc/user/LOGIN";
-
-        ConnectionHandler connectionHandler = new ConnectionHandler(this, url, LoginResponse.class, this, params, "login");
-        cancelWhenDestroyed(connectionHandler);
-        connectionHandler.executeRaw();
-    }
-
-    @Override
-    public void onSuccess(Object response, String tag) {
-        hideProgressDialog();
-
-        LoginResponse loginResponse = (LoginResponse) response;
-        logE("User Id: " + loginResponse.getId());
     }
 
     @Override

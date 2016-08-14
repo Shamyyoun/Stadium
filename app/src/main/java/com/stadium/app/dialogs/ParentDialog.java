@@ -92,12 +92,11 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
 
     @Override
     public void onSuccess(Object response, String tag) {
-        logE("Req with rag: " + tag + " has been finished with response: " + response.toString());
+        hideProgress();
     }
 
     @Override
     public void onFail(Exception ex, String tag) {
-        logE("Req with rag: " + tag + " has been finished with error: " + ex.getMessage());
         hideProgress();
         Utils.showShortToast(context, R.string.something_went_wrong_please_try_again);
     }

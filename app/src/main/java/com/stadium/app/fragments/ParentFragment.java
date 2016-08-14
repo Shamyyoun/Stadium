@@ -1,19 +1,24 @@
 package com.stadium.app.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.stadium.app.R;
 import com.stadium.app.activities.ParentActivity;
+import com.stadium.app.connection.ConnectionListener;
+import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
 /**
  * Created by Shamyyoun on 5/28/16.
  */
-public class ParentFragment extends Fragment implements View.OnClickListener {
+public class ParentFragment extends Fragment implements View.OnClickListener, ConnectionListener {
     protected ParentActivity activity;
     protected View rootView;
+    protected ProgressDialog progressDialog;
 
     @Override
     public void onAttach(Activity activity) {
@@ -52,5 +57,26 @@ public class ParentFragment extends Fragment implements View.OnClickListener {
         }
         ft.replace(container, fragment);
         ft.commitAllowingStateLoss();
+    }
+
+    public void showProgressDialog() {
+        progressDialog = DialogUtils.showProgressDialog(activity, R.string.please_wait_dotted);
+    }
+
+    public void hideProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onSuccess(Object response, String tag) {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void onFail(Exception ex, String tag) {
+        hideProgressDialog();
+        Utils.showShortToast(activity, R.string.something_went_wrong_please_try_again);
     }
 }
