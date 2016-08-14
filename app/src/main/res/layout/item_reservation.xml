@@ -133,8 +133,8 @@
                     android:drawableLeft="@drawable/cancel_icon"
                     android:drawablePadding="10dp"
                     android:ellipsize="end"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
                     android:singleLine="true"
                     android:text="@string/cancel_reservation"
                     android:textColor="@color/red" />

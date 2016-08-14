@@ -5,7 +5,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.stadium.app.R;
 import com.stadium.app.adapters.TeamsAdapter;
@@ -20,7 +19,6 @@ import java.util.List;
  * Created by karam on 7/19/16.
  */
 public class PlayerInfoActivity extends ParentToolbarActivity {
-    private ImageView ibBack;
     private Button btnAdd;
     private RecyclerView recyclerView;
     private List<Team> data;
@@ -30,9 +28,9 @@ public class PlayerInfoActivity extends ParentToolbarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_info);
+        enableBackButton();
 
         // init views
-        ibBack = (ImageView) findViewById(R.id.ib_back);
         btnAdd = (Button) findViewById(R.id.btn_add);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -44,15 +42,12 @@ public class PlayerInfoActivity extends ParentToolbarActivity {
         recyclerView.setAdapter(adapter);
 
         // add listeners
-        ibBack.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ib_back) {
-            onBackPressed();
-        } else if (v.getId() == R.id.btn_add) {
+        if (v.getId() == R.id.btn_add) {
             // show teams dialog
             TeamsDialog dialog = new TeamsDialog(this);
             dialog.show();
