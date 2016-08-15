@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.koushikdutta.async.future.Future;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.stadium.app.models.bodies.ParentBody;
 import com.stadium.app.utils.Utils;
@@ -33,7 +34,7 @@ public class ConnectionHandler<T> {
     private Map<String, File> files;
     private ParentBody body;
 
-    private Future<String> future;
+    private Future<Response<String>> future;
     private long startTime, finishTime;
     private Gson gson;
 
@@ -118,7 +119,7 @@ public class ConnectionHandler<T> {
      *
      * @return Future object for cancelling the request.
      */
-    public Future<String> executeGet() {
+    public Future<Response<String>> executeGet() {
         if (url == null) {
             throw new IllegalArgumentException("No url found.");
         } else {
@@ -128,9 +129,10 @@ public class ConnectionHandler<T> {
                     .load(url)
                     .setTimeout(timeout)
                     .asString()
-                    .setCallback(new FutureCallback<String>() {
+                    .withResponse()
+                    .setCallback(new FutureCallback<Response<String>>() {
                         @Override
-                        public void onCompleted(Exception e, String result) {
+                        public void onCompleted(Exception e, Response<String> result) {
                             handleOnCompleted(e, result);
                         }
                     });
@@ -145,7 +147,7 @@ public class ConnectionHandler<T> {
      *
      * @return Future object for cancelling the request.
      */
-    public Future<String> executePost() {
+    public Future<Response<String>> executePost() {
         if (url == null) {
             throw new IllegalArgumentException("No url found.");
         } else {
@@ -163,9 +165,10 @@ public class ConnectionHandler<T> {
             }
 
             future = ionBuilder.asString()
-                    .setCallback(new FutureCallback<String>() {
+                    .withResponse()
+                    .setCallback(new FutureCallback<Response<String>>() {
                         @Override
-                        public void onCompleted(Exception e, String result) {
+                        public void onCompleted(Exception e, Response<String> result) {
                             handleOnCompleted(e, result);
                         }
                     });
@@ -180,7 +183,7 @@ public class ConnectionHandler<T> {
      *
      * @return Future object for cancelling the request.
      */
-    public Future<String> executeMultiPart() {
+    public Future<Response<String>> executeMultiPart() {
         if (url == null || (params == null && files == null)) {
             throw new IllegalArgumentException("No url, params or files found.");
         } else {
@@ -205,9 +208,10 @@ public class ConnectionHandler<T> {
             }
 
             future = ionBuilder.asString()
-                    .setCallback(new FutureCallback<String>() {
+                    .withResponse()
+                    .setCallback(new FutureCallback<Response<String>>() {
                         @Override
-                        public void onCompleted(Exception e, String result) {
+                        public void onCompleted(Exception e, Response<String> result) {
                             handleOnCompleted(e, result);
                         }
                     });
@@ -222,7 +226,7 @@ public class ConnectionHandler<T> {
      *
      * @return Future object for cancelling the request.
      */
-    public Future<String> executeRawJson() {
+    public Future<Response<String>> executeRawJson() {
         if (url == null) {
             throw new IllegalArgumentException("No url found.");
         } else {
@@ -231,7 +235,7 @@ public class ConnectionHandler<T> {
             Builders.Any.B ionBuilder = Ion.with(context)
                     .load(url)
                     .setTimeout(timeout)
-                    .addHeader("content-type", "application/json");
+                    .addHeader("Content-Type", "application/json");
 
             if (body != null) {
                 String bodyJson = gson.toJson(body);
@@ -240,9 +244,10 @@ public class ConnectionHandler<T> {
             }
 
             future = ionBuilder.asString()
-                    .setCallback(new FutureCallback<String>() {
+                    .withResponse()
+                    .setCallback(new FutureCallback<Response<String>>() {
                         @Override
-                        public void onCompleted(Exception e, String result) {
+                        public void onCompleted(Exception e, Response<String> result) {
                             handleOnCompleted(e, result);
                         }
                     });
@@ -258,25 +263,31 @@ public class ConnectionHandler<T> {
      * @param result the string response.
      */
     @SuppressWarnings("unchecked")
-    private void handleOnCompleted(Exception e, String result) {
+    private void handleOnCompleted(Exception e, Response<String> result) {
         printLogs(1);  // request finished
 
+        // prepare the result code string
+        int responseCode = 0;
+        if (result != null && result.getHeaders() != null) {
+            responseCode = result.getHeaders().code();
+        }
+
         if (e != null) { //on request failure
-            Log.e(LOG_TAG, "Error: " + e.getMessage());
+            Log.e(LOG_TAG, "Error(" + responseCode + "): " + e.getMessage());
             if (!(e instanceof CancellationException))
                 if (listener != null) {
                     listener.onFail(e, tag);
                 }
-        } else if (result != null) {
-            Log.e(LOG_TAG, "Response: " + result);
+        } else if (result.getResult() != null) {
+            Log.e(LOG_TAG, "Response(" + responseCode + "): " + result.getResult());
 
             if (cls == null && listener != null) { //T must be of type: Object or String
-                listener.onSuccess((T) result, tag);
+                listener.onSuccess((T) result.getResult(), tag);
             } else if (listener != null) {
                 try {
-                    listener.onSuccess((T) new Gson().fromJson(result, cls), tag);
+                    listener.onSuccess((T) new Gson().fromJson(result.getResult(), cls), tag);
                 } catch (Exception ex) {
-                    Log.e(LOG_TAG, "Error: " + ex.getMessage());
+                    Log.e(LOG_TAG, "Error(" + responseCode + "): " + ex.getMessage());
                     listener.onFail(ex, tag);
                 }
             }
