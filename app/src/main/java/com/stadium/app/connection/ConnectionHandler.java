@@ -235,7 +235,8 @@ public class ConnectionHandler<T> {
             Builders.Any.B ionBuilder = Ion.with(context)
                     .load(url)
                     .setTimeout(timeout)
-                    .addHeader("Content-Type", "application/json");
+                    .addHeader("content-type", "application/json")
+                    .addHeader("Accept-Language", "ar");
 
             if (body != null) {
                 String bodyJson = gson.toJson(body);
