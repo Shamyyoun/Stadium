@@ -104,7 +104,6 @@ public class StadiumOrderActivity extends ParentToolbarActivity {
         switch (v.getId()) {
 
             case R.id.tv_date:
-
                 DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override

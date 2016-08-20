@@ -1,44 +1,40 @@
-package com.stadium.app.activities;
+package com.stadium.app.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.stadium.app.R;
-import com.stadium.app.fragments.TeamPlayersFragment;
-import com.stadium.app.fragments.TeamReservationsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by karam on 7/26/16.
+/*
+ * Created by karam on 8/10/16.
  */
-public class TeamInfoActivity extends ParentToolbarActivity {
+public class AdminHomeFragment extends ParentToolbarFragment {
 
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private FloatingActionButton add;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_info);
-        setTitle("");
-        setToolbarIcon(R.drawable.edit_icon);
+        setTitle(R.string.home);
+        createOptionsMenu(R.menu.menu_admin_home);
+    }
 
-        // init views
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_admin_home, container, false);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -46,23 +42,17 @@ public class TeamInfoActivity extends ParentToolbarActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        add = (FloatingActionButton) findViewById(R.id.fab_add);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TeamInfoActivity.this , CreateTeamActivity.class));
-            }
-        });
-
+        return rootView;
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TeamReservationsFragment(), "الحجوزات");
-        adapter.addFragment(new TeamPlayersFragment(), "اللاعبين");
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        adapter.addFragment(new PrecedentReservationFragment(), "حجوزات سابقة");
+        adapter.addFragment(new NewReservationFragment(), "حجوزات جديدة");
+        adapter.addFragment(new AcceptedReservationFragment(), "حجوزات مقبولة");
+        adapter.addFragment(new TodayReservationFragment(), "حجوزات اليوم");
 
         viewPager.setAdapter(adapter);
-
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -93,4 +83,6 @@ public class TeamInfoActivity extends ParentToolbarActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
 }
+

@@ -104,6 +104,13 @@
     <string name="stadium_name">خروج</string>
     <string name="appointment">الموعد</string>
     <string name="player_info">بيانات اللاعب</string>
+    <string name="not_attend">لم يحضر</string>
+    <string name="block_team">حظر الفريق</string>
+    <string name="both">كلاهما</string>
+    <string name="name_reserve">حجز بااسم</string>
+    <string name="reserve">حجز</string>
+    <string name="cancel_block">الغاء الحظر</string>
+
 
 
     <!-- Arrays -->

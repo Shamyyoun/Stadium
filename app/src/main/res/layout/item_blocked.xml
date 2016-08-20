@@ -37,50 +37,60 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <RatingBar
-                            style="?android:attr/ratingBarStyleSmall"
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:isIndicator="true"
-                            android:rating="3.5"
-                            android:theme="@style/MyRatingBar" />
+                            android:src="@drawable/small_block" />
 
                         <TextView
+                            android:id="@+id/tv_block_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="4"
+                            android:textSize="@dimen/small_text"
+                            android:textColor="@color/red"/>
+
+                        <TextView
+                            android:id="@+id/tv_name"
                             style="@style/SingleEllipsizedText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
-                            android:text="ملاعب النخبة"
+                            android:text="فريق الابطال"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tv_captine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/location_icon"
-                        android:text="القاهرة - المعادي - شارع 9 - شارع الحرية"
+                        android:drawableRight="@drawable/captine_icon"
+                        android:text="احمد كرم"
                         android:textSize="@dimen/small_text" />
 
                     <TextView
+                        android:id="@+id/tv_players_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/stadium_icon"
-                        android:text="يحتوي على 15 ملعب"
+                        android:drawableRight="@drawable/team_players_icon"
+                        android:text="يحتوي على 15 لاعب"
                         android:textSize="@dimen/small_text" />
                 </LinearLayout>
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_photo"
                     style="@style/CroppedImageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/default_image"
-                    android:layout_gravity="center"
                     app:riv_oval="true" />
             </LinearLayout>
 
@@ -98,37 +108,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/btn_cancel_block"
                         style="@style/SmallBorderlessButton"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/message_icon"
-                        android:drawablePadding="10dp"
-                        android:ellipsize="end"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:text="shamyyoun@gmail.com" />
+                        android:drawableLeft="@drawable/cancle_block_icon"
+                        android:drawablePadding="20dp"
+                        android:text="@string/cancel_block" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:background="@color/light_gray" />
-
-                    <Button
-                        style="@style/SmallBorderlessButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/gray_phone_icon"
-                        android:drawablePadding="10dp"
-                        android:ellipsize="end"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:text="+201011510905" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
