@@ -110,8 +110,10 @@
     <string name="name_reserve">حجز بااسم</string>
     <string name="reserve">حجز</string>
     <string name="cancel_block">الغاء الحظر</string>
-
+    <string name="required">حقل مطلوب</string>
+    <string name="invalid_phone_no_or_password">رقم جوال خاطيء او كلمة سر خاطئة</string>
 
 
     <!-- Arrays -->
+
 </resources>

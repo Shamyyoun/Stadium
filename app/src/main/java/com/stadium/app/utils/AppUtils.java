@@ -114,7 +114,7 @@ public class AppUtils {
 //     * @param configResponse config response returned from the server
 //     */
 //    public static void cacheConfigs(Context ctx, ConfigResponse configResponse) {
-//        SavePrefs<ConfigResponse> savePrefs = new SavePrefs<>(ctx, ConfigResponse.class);
+//        SharedPrefs<ConfigResponse> savePrefs = new SharedPrefs<>(ctx, ConfigResponse.class);
 //        savePrefs.save(configResponse, Const.CACHE_CONFIGS);
 //    }
 //
@@ -125,7 +125,7 @@ public class AppUtils {
 //     * @return the config response if cached otherwise null.
 //     */
 //    public static ConfigResponse getCachedConfigs(Context ctx) {
-//        SavePrefs<ConfigResponse> savePrefs = new SavePrefs<>(ctx, ConfigResponse.class);
+//        SharedPrefs<ConfigResponse> savePrefs = new SharedPrefs<>(ctx, ConfigResponse.class);
 //        return savePrefs.load(Const.CACHE_CONFIGS);
 //    }
 //
@@ -150,32 +150,32 @@ public class AppUtils {
 //    }
 //
 //    public static void cacheUser(Context ctx, User user) {
-//        SavePrefs<User> savePrefs = new SavePrefs<>(ctx, User.class);
+//        SharedPrefs<User> savePrefs = new SharedPrefs<>(ctx, User.class);
 //        savePrefs.save(user, Const.CACHE_USER);
 //    }
 //
 //    public static User getCachedUser(Context ctx) {
-//        SavePrefs<User> savePrefs = new SavePrefs<>(ctx, User.class);
+//        SharedPrefs<User> savePrefs = new SharedPrefs<>(ctx, User.class);
 //        return savePrefs.load(Const.CACHE_USER);
 //    }
 //
 //    public static void cacheAds(Context ctx, List<Ad> ads) {
-//        SavePrefs<List<Ad>> savePrefs = new SavePrefs<>(ctx, Ad[].class);
+//        SharedPrefs<List<Ad>> savePrefs = new SharedPrefs<>(ctx, Ad[].class);
 //        savePrefs.save(ads, Const.CACHE_ADS);
 //    }
 //
 //    public static List<Ad> getCachedAds(Context ctx) {
-//        SavePrefs<Ad[]> savePrefs = new SavePrefs<>(ctx, Ad[].class);
+//        SharedPrefs<Ad[]> savePrefs = new SharedPrefs<>(ctx, Ad[].class);
 //        return Arrays.asList(savePrefs.load(Const.CACHE_ADS));
 //    }
 //
 //    public static TripInfo getLastCachedTripInfo(Context ctx) {
-//        SavePrefs<TripInfo> savePrefs = new SavePrefs<>(ctx, TripInfo.class);
+//        SharedPrefs<TripInfo> savePrefs = new SharedPrefs<>(ctx, TripInfo.class);
 //        return savePrefs.load(Const.CACHE_LAST_TRIP_INFO);
 //    }
 //
 //    public static CustomerTripRequest getLastCachedTripRequest(Context ctx) {
-//        SavePrefs<CustomerTripRequest> savePrefs = new SavePrefs<>(ctx, CustomerTripRequest.class);
+//        SharedPrefs<CustomerTripRequest> savePrefs = new SharedPrefs<>(ctx, CustomerTripRequest.class);
 //        return savePrefs.load(Const.CACHE_LAST_TRIP_REQUEST);
 //    }
 //
@@ -204,7 +204,7 @@ public class AppUtils {
 //     * @param messages
 //     */
 //    public static void cacheMessages(Context ctx, List<Message> messages) {
-//        SavePrefs<List<Message>> savePrefs = new SavePrefs<>(ctx, Message[].class);
+//        SharedPrefs<List<Message>> savePrefs = new SharedPrefs<>(ctx, Message[].class);
 //        savePrefs.save(messages, Const.CACHE_MESSAGES);
 //    }
 //
@@ -215,7 +215,7 @@ public class AppUtils {
 //     * @return List of messages or null if no messages cached
 //     */
 //    public static List<Message> getCachedMessages(Context ctx) {
-//        SavePrefs<Message[]> savePrefs = new SavePrefs<>(ctx, Message[].class);
+//        SharedPrefs<Message[]> savePrefs = new SharedPrefs<>(ctx, Message[].class);
 //        Message[] messages = savePrefs.load(Const.CACHE_MESSAGES);
 //        if (messages != null)
 //            return Arrays.asList(messages);
@@ -230,15 +230,15 @@ public class AppUtils {
 //     */
 //    public static void clearCache(Context context) {
 //        // clear user prefs
-//        SavePrefs<User> userPrefs = new SavePrefs<>(context, User.class);
+//        SharedPrefs<User> userPrefs = new SharedPrefs<>(context, User.class);
 //        userPrefs.clear();
 //
 //        // clear ads prefs
-//        SavePrefs<List<Ad>> adsPrefs = new SavePrefs<>(context, Ad[].class);
+//        SharedPrefs<List<Ad>> adsPrefs = new SharedPrefs<>(context, Ad[].class);
 //        adsPrefs.clear();
 //
 //        // clear messages prefs
-//        SavePrefs<List<Message>> messagePrefs = new SavePrefs<>(context, Message[].class);
+//        SharedPrefs<List<Message>> messagePrefs = new SharedPrefs<>(context, Message[].class);
 //        messagePrefs.clear();
 //
 //        // clear locale
