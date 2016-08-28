@@ -96,7 +96,8 @@ public class LoginActivity extends ParentActivity {
         User user = (User) response;
         if (user != null && user.getId() != 0) {
             // save it
-            UserController userController = new UserController(this, user);
+            UserController userController = new UserController(this);
+            userController.setUser(user);
             userController.save();
 
             // goto main activity

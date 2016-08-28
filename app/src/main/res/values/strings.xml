@@ -112,6 +112,7 @@
     <string name="cancel_block">الغاء الحظر</string>
     <string name="required">حقل مطلوب</string>
     <string name="invalid_phone_no_or_password">رقم جوال خاطيء او كلمة سر خاطئة</string>
+    <string name="logout_q">تسجيل الخروج؟</string>
 
 
     <!-- Arrays -->

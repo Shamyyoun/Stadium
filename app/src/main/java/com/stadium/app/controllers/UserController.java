@@ -10,33 +10,36 @@ import com.stadium.app.utils.SharedPrefs;
  * Created by Shamyyoun on 8/27/16.
  */
 public class UserController {
+    private static User instance;
     private Context context;
-    private User user;
+    private SharedPrefs<User> prefs;
 
     public UserController(Context context) {
         this.context = context;
-    }
-
-    public UserController(Context context, User user) {
-        this.context = context;
-        this.user = user;
+        prefs = new SharedPrefs(context, User.class);
     }
 
     public void save() {
-        SharedPrefs<User> prefs = new SharedPrefs(context, User.class);
-        prefs.save(user, Const.SP_USER);
+        prefs.save(instance, Const.SP_USER);
     }
 
     public User getUser() {
-        if (user == null) {
-            SharedPrefs<User> prefs = new SharedPrefs(context, User.class);
-            user = prefs.load(Const.SP_USER);
+        if (instance == null) {
+            instance = prefs.load(Const.SP_USER);
         }
 
-        return user;
+        return instance;
+    }
+
+    public void setUser(User user) {
+        instance = user;
     }
 
     public boolean hasLoggedInUser() {
         return getUser() != null;
+    }
+
+    public void removeCurrent() {
+        prefs.remove(Const.SP_USER);
     }
 }

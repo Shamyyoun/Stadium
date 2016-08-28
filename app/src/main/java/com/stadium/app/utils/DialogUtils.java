@@ -1,9 +1,12 @@
 package com.stadium.app.utils;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
+import android.widget.TextView;
 
 import com.stadium.app.R;
 
@@ -54,6 +57,7 @@ public class DialogUtils {
         // create and show the dialog
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        setMessageTypeface(dialog);
 
         return dialog;
     }
@@ -105,6 +109,7 @@ public class DialogUtils {
         // create and show the dialog
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        setMessageTypeface(dialog);
 
         return dialog;
     }
@@ -157,6 +162,21 @@ public class DialogUtils {
         dialog.setCanceledOnTouchOutside(cancelable);
         dialog.setCancelable(cancelable);
         dialog.show();
+        setMessageTypeface(dialog);
         return dialog;
+    }
+
+    /**
+     * method, used to customize the message typeface of a dialog
+     *
+     * @param dialog
+     */
+    private static void setMessageTypeface(Dialog dialog) {
+        try {
+            TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+            textView.setTypeface(Typeface.createFromAsset(dialog.getContext().getAssets(), "app_font.ttf"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

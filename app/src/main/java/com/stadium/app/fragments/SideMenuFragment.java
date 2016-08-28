@@ -1,6 +1,8 @@
 package com.stadium.app.fragments;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.app.R;
+import com.stadium.app.activities.LoginActivity;
 import com.stadium.app.activities.MainActivity;
 import com.stadium.app.adapters.MenuItemsAdapter;
 import com.stadium.app.controllers.MenuItemController;
+import com.stadium.app.controllers.UserController;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.entities.MenuItem;
+import com.stadium.app.utils.DialogUtils;
 
 import java.util.List;
 
@@ -51,8 +56,38 @@ public class SideMenuFragment extends ParentFragment implements OnItemClickListe
 
     @Override
     public void onItemClick(View view, int position) {
-        logE("MenuItem Clicked: " + position);
+        switch (position) {
+            case 0:
+                break;
+
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                logout();
+                break;
+        }
+
         closeMenuDrawer();
+    }
+
+    private void logout() {
+        DialogUtils.showConfirmDialog(activity, R.string.logout_q, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // remove current user
+                UserController userController = new UserController(activity);
+                userController.removeCurrent();
+
+                // goto login activity
+                Intent intent = new Intent(activity, LoginActivity.class);
+                startActivity(intent);
+                activity.finish();
+            }
+        }, null);
     }
 
     private void closeMenuDrawer() {
