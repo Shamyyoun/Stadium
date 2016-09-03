@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.Utils;
 
@@ -92,7 +93,8 @@ public class ForgetPasswordDialog extends ParentDialog {
         showProgress();
 
         // send request
-        ApiRequests.checkEmail(context, this, phone);
+        ConnectionHandler connectionHandler = ApiRequests.checkEmail(context, this, phone);
+        cancelWhenDestroyed(connectionHandler);
     }
 
     @Override
@@ -100,7 +102,7 @@ public class ForgetPasswordDialog extends ParentDialog {
         hideProgress();
 
         switch (tag) {
-            case Const.TAG_CHECK_EMAIL:
+            case Const.API_CHECK_EMAIL:
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
                     switchMethodChoosingView();
@@ -110,7 +112,7 @@ public class ForgetPasswordDialog extends ParentDialog {
                 }
                 break;
 
-            case Const.TAG_FORGET_PASSWORD:
+            case Const.API_FORGET_PASSWORD:
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
                     // show the suitable msg according to selected method
@@ -158,6 +160,7 @@ public class ForgetPasswordDialog extends ParentDialog {
         showProgress();
 
         // send request
-        ApiRequests.forgetPassword(context, this, resetType, phone);
+        ConnectionHandler connectionHandler = ApiRequests.forgetPassword(context, this, resetType, phone);
+        cancelWhenDestroyed(connectionHandler);
     }
 }

@@ -2,7 +2,6 @@ package com.stadium.app;
 
 /**
  * Created by Shamyyoun on 18/12/15.
- * A class contains constants for the application and for some of the utility classes.
  */
 public class Const {
     // App level constants:--------------
@@ -21,8 +20,4 @@ public class Const {
 
     // Response Codes:--------------------
     public static final int SER_CODE_200 = 200;
-
-    // API request tags:------------------
-    public static final String TAG_CHECK_EMAIL = "check_email";
-    public static final String TAG_FORGET_PASSWORD = "forget_password";
 }

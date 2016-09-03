@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.UserController;
 import com.stadium.app.dialogs.ForgetPasswordDialog;
 import com.stadium.app.models.entities.User;
@@ -93,7 +94,8 @@ public class LoginActivity extends ParentActivity {
         showProgressDialog();
 
         // send request
-        ApiRequests.login(this, this, phone, password);
+        ConnectionHandler connectionHandler = ApiRequests.login(this, this, phone, password);
+        cancelWhenDestroyed(connectionHandler);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_LOGIN), User.class, listener, body);
+                AppUtils.getApiUrl(Const.API_LOGIN), User.class, listener, body, Const.API_LOGIN);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -33,7 +33,7 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<ParentResponse> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_CHECK_EMAIL), ParentResponse.class, listener, body, Const.TAG_CHECK_EMAIL);
+                AppUtils.getApiUrl(Const.API_CHECK_EMAIL), ParentResponse.class, listener, body, Const.API_CHECK_EMAIL);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -49,7 +49,7 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<ParentResponse> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_FORGET_PASSWORD), ParentResponse.class, listener, body, Const.TAG_FORGET_PASSWORD);
+                AppUtils.getApiUrl(Const.API_FORGET_PASSWORD), ParentResponse.class, listener, body, Const.API_FORGET_PASSWORD);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
