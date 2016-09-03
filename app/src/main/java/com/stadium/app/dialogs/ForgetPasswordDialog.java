@@ -97,6 +97,26 @@ public class ForgetPasswordDialog extends ParentDialog {
         cancelWhenDestroyed(connectionHandler);
     }
 
+    private void sendResetEmail() {
+        hideKeyboard();
+
+        // prepare params
+        resetType = rgVerifyMethod.getCheckedRadioButtonId() == R.id.rb_by_mail ? 1 : 2;
+        String phone = Utils.getText(etPhone);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgress();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.forgetPassword(context, this, resetType, phone);
+        cancelWhenDestroyed(connectionHandler);
+    }
+
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
         hideProgress();
@@ -142,25 +162,5 @@ public class ForgetPasswordDialog extends ParentDialog {
         layoutMethodChoosing.setVisibility(View.VISIBLE);
         btnSubmit.setText(R.string.select);
         currentView = VIEW_METHOD_CHOOSING;
-    }
-
-    private void sendResetEmail() {
-        hideKeyboard();
-
-        // prepare params
-        resetType = rgVerifyMethod.getCheckedRadioButtonId() == R.id.rb_by_mail ? 1 : 2;
-        String phone = Utils.getText(etPhone);
-
-        // check internet connection
-        if (!Utils.hasConnection(context)) {
-            Utils.showShortToast(context, R.string.no_internet_connection);
-            return;
-        }
-
-        showProgress();
-
-        // send request
-        ConnectionHandler connectionHandler = ApiRequests.forgetPassword(context, this, resetType, phone);
-        cancelWhenDestroyed(connectionHandler);
     }
 }

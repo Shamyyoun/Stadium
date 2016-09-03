@@ -44,27 +44,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/gray"
                 android:capitalize="words"
                 android:hint="@string/name"
+                android:inputType="textCapWords"
+                android:selectAllOnFocus="true"
                 android:singleLine="true" />
 
             <EditText
                 android:id="@+id/et_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
                 android:hint="@string/age"
-                android:inputType="number" />
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
 
-            <EditText
-                android:id="@+id/et_city"
+            <Spinner
+                android:id="@+id/sp_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
-                android:capitalize="words"
-                android:hint="@string/city"
-                android:singleLine="true" />
+                android:layout_marginTop="3dp" />
 
             <TextView
                 style="@style/OrangeSectionHeadTextView"
@@ -75,32 +73,33 @@
                 android:text="@string/account_info" />
 
             <EditText
-                android:id="@+id/et_phone_no"
+                android:id="@+id/et_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/gray"
                 android:hint="@string/phone_number"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:selectAllOnFocus="true" />
 
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true" />
 
             <EditText
                 android:id="@+id/et_re_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
                 android:hint="@string/confirm_password"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true" />
 
             <com.stadium.app.views.DarkenedButton
+                android:id="@+id/btn_register"
                 style="@style/GreenButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,6 +107,7 @@
                 android:text="@string/sign_up" />
 
             <TextView
+                android:id="@+id/tv_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

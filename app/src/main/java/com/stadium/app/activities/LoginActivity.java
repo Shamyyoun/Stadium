@@ -65,6 +65,10 @@ public class LoginActivity extends ParentActivity {
             case R.id.tv_forget_password:
                 forgetPassword();
                 break;
+
+            case R.id.tv_sign_up:
+                signUp();
+                break;
         }
     }
 
@@ -120,5 +124,10 @@ public class LoginActivity extends ParentActivity {
     private void forgetPassword() {
         forgetPasswordDialog = new ForgetPasswordDialog(this);
         forgetPasswordDialog.show();
+    }
+
+    private void signUp() {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 }

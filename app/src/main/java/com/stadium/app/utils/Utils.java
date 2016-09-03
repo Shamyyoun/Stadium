@@ -310,6 +310,17 @@ public class Utils {
     }
 
     /**
+     * Get the EditText text as integer
+     *
+     * @param et
+     * @return the EditText text as integer
+     */
+    public static int getInt(EditText et) {
+        String text = getText(et);
+        return convertToInt(text);
+    }
+
+    /**
      * converts the given timestamp to  readable date.
      *
      * @param timeStamp
@@ -529,6 +540,21 @@ public class Utils {
     public static double convertToDouble(String number) {
         try {
             return Double.parseDouble(number);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * method, used to convert string number to int number
+     *
+     * @param number
+     * @return
+     */
+    public static int convertToInt(String number) {
+        try {
+            return Integer.parseInt(number);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

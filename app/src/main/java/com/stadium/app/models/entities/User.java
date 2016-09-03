@@ -3,9 +3,9 @@ package com.stadium.app.models.entities;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.stadium.app.models.responses.ParentResponse;
+import com.stadium.app.models.responses.ServerResponse;
 
-public class User extends ParentResponse {
+public class User extends ServerResponse {
 
     @SerializedName("AdminStadium")
     @Expose
@@ -48,7 +48,7 @@ public class User extends ParentResponse {
     private int typeID;
     @SerializedName("userCity")
     @Expose
-    private UserCity userCity;
+    private City city;
     @SerializedName("userImage")
     @Expose
     private String userImage;
@@ -236,17 +236,17 @@ public class User extends ParentResponse {
     }
 
     /**
-     * @return The userCity
+     * @return The city
      */
-    public UserCity getUserCity() {
-        return userCity;
+    public City getCity() {
+        return city;
     }
 
     /**
-     * @param userCity The userCity
+     * @param city The city
      */
-    public void setUserCity(UserCity userCity) {
-        this.userCity = userCity;
+    public void setCity(City city) {
+        this.city = city;
     }
 
     /**

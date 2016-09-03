@@ -4,7 +4,7 @@ package com.stadium.app.models.entities;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserCity {
+public class City {
 
     @SerializedName("Id")
     @Expose
@@ -41,4 +41,8 @@ public class UserCity {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name.trim();
+    }
 }

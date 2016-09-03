@@ -5,7 +5,7 @@ import android.content.Context;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.dialogs.MessageDialog;
-import com.stadium.app.models.responses.ParentResponse;
+import com.stadium.app.models.responses.ServerResponse;
 
 /**
  * Created by Shamyyoun on 22/1/16.
@@ -62,9 +62,9 @@ public class AppUtils {
     public static String getResponseError(Context context, Object response) {
         String error = null;
 
-        if (response instanceof ParentResponse) {
-            ParentResponse parentResponse = (ParentResponse) response;
-            error = parentResponse.getErrorMessage();
+        if (response instanceof ServerResponse) {
+            ServerResponse serverResponse = (ServerResponse) response;
+            error = serverResponse.getErrorMessage();
         }
 
         if (Utils.isNullOrEmpty(error)) {

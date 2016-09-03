@@ -3,7 +3,7 @@ package com.stadium.app.models.responses;
 /**
  * Created by Shamyyoun on 9/3/16.
  */
-public class ParentResponse {
+public class ServerResponse {
     private int errorCode;
     private String errorMessage;
 
