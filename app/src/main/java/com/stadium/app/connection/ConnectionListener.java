@@ -1,6 +1,7 @@
 package com.stadium.app.connection;
 
 public interface ConnectionListener<T> {
-    void onSuccess(T response, String tag);
-    void onFail(Exception ex, String tag);
+    void onSuccess(T response, int statusCode, String tag);
+
+    void onFail(Exception ex, int statusCode, String tag);
 }

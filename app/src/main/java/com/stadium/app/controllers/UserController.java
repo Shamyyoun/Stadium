@@ -39,7 +39,8 @@ public class UserController {
         return getUser() != null;
     }
 
-    public void removeCurrent() {
+    public void logout() {
         prefs.remove(Const.SP_USER);
+        setUser(null);
     }
 }

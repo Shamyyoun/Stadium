@@ -80,7 +80,7 @@ public class SideMenuFragment extends ParentFragment implements OnItemClickListe
             public void onClick(DialogInterface dialog, int which) {
                 // remove current user
                 UserController userController = new UserController(activity);
-                userController.removeCurrent();
+                userController.logout();
 
                 // goto login activity
                 Intent intent = new Intent(activity, LoginActivity.class);

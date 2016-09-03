@@ -8,7 +8,7 @@ import com.stadium.app.R;
 import com.stadium.app.controllers.UserController;
 
 public class SplashActivity extends ParentActivity {
-    private static final int SPLASH_DURATION = 2 * 1000;
+    private static final int SPLASH_DURATION = 0 * 1000; // TODO set splash to 2 seconds
     private Handler handler;
     private Runnable runnable;
 

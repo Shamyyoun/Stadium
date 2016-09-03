@@ -91,12 +91,12 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
     }
 
     @Override
-    public void onSuccess(Object response, String tag) {
+    public void onSuccess(Object response, int statusCode, String tag) {
         hideProgress();
     }
 
     @Override
-    public void onFail(Exception ex, String tag) {
+    public void onFail(Exception ex, int statusCode, String tag) {
         hideProgress();
         Utils.showShortToast(context, R.string.something_went_wrong_please_try_again);
     }

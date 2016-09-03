@@ -10,18 +10,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.stadium.app.ApiRequests;
+import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.controllers.UserController;
+import com.stadium.app.dialogs.ForgetPasswordDialog;
 import com.stadium.app.models.bodies.LoginBody;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.Utils;
 
 public class LoginActivity extends ParentActivity {
-    private EditText etPhoneNo;
+    private EditText etPhone;
     private EditText etPassword;
     private Button btnLogin;
     private TextView tvForgetPassword;
     private TextView tvSignUp;
+    private ForgetPasswordDialog forgetPasswordDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class LoginActivity extends ParentActivity {
         setContentView(R.layout.activity_login);
 
         // init views
-        etPhoneNo = (EditText) findViewById(R.id.et_phone_no);
+        etPhone = (EditText) findViewById(R.id.et_phone);
         etPassword = (EditText) findViewById(R.id.et_password);
         btnLogin = (Button) findViewById(R.id.btn_login);
         tvForgetPassword = (TextView) findViewById(R.id.tv_forget_password);
@@ -57,16 +61,24 @@ public class LoginActivity extends ParentActivity {
             case R.id.btn_login:
                 login();
                 break;
+
+            case R.id.tv_forget_password:
+                forgetPassword();
+                break;
         }
     }
 
     private void login() {
-        // validate inputs
-        if (Utils.isEmpty(etPhoneNo)) {
-            etPhoneNo.setError(getString(R.string.required));
+        // prepare params
+        String phone = Utils.getText(etPhone);
+        String password = Utils.getText(etPassword);
+
+        // validate params
+        if (Utils.isEmpty(phone)) {
+            etPhone.setError(getString(R.string.required));
             return;
         }
-        if (Utils.isEmpty(etPassword)) {
+        if (Utils.isEmpty(password)) {
             etPassword.setError(getString(R.string.required));
             return;
         }
@@ -81,20 +93,15 @@ public class LoginActivity extends ParentActivity {
 
         showProgressDialog();
 
-        // create the request body
-        LoginBody body = new LoginBody();
-        body.setPhone(Utils.getText(etPhoneNo));
-        body.setPassword(Utils.getText(etPassword));
-
         // send request
-        ApiRequests.login(this, this, body);
+        ApiRequests.login(this, this, phone, password);
     }
 
     @Override
-    public void onSuccess(Object response, String tag) {
+    public void onSuccess(Object response, int statusCode, String tag) {
         hideProgressDialog();
         User user = (User) response;
-        if (user != null && user.getId() != 0) {
+        if (statusCode == Const.SER_CODE_200) {
             // save it
             UserController userController = new UserController(this);
             userController.setUser(user);
@@ -105,7 +112,12 @@ public class LoginActivity extends ParentActivity {
             startActivity(intent);
             finish();
         } else {
-            Utils.showLongToast(this, R.string.invalid_phone_no_or_password);
+            Utils.showLongToast(this, AppUtils.getResponseError(this, user));
         }
+    }
+
+    private void forgetPassword() {
+        forgetPasswordDialog = new ForgetPasswordDialog(this);
+        forgetPasswordDialog.show();
     }
 }

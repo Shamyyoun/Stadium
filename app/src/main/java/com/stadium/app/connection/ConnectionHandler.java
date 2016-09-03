@@ -10,7 +10,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
-import com.stadium.app.models.bodies.ParentBody;
 import com.stadium.app.utils.Utils;
 
 import java.io.File;
@@ -32,7 +31,7 @@ public class ConnectionHandler<T> {
     private String tag = ""; // default value to avoid null pointer exception
     private Map<String, List<String>> params; //Ion accepts parameters as a map of key value pair of String and List<String>
     private Map<String, File> files;
-    private ParentBody body;
+    private Object body;
 
     private Future<Response<String>> future;
     private long startTime, finishTime;
@@ -70,11 +69,11 @@ public class ConnectionHandler<T> {
         this.files = files;
     }
 
-    public ConnectionHandler(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener, ParentBody body) {
+    public ConnectionHandler(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener, Object body) {
         this(context, url, cls, listener, body, "");
     }
 
-    public ConnectionHandler(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener, ParentBody body, String tag) {
+    public ConnectionHandler(Context context, String url, @Nullable Class<?> cls, ConnectionListener<T> listener, Object body, String tag) {
         this(context, url, cls, listener, tag);
         this.body = body;
         gson = new Gson();
@@ -268,28 +267,28 @@ public class ConnectionHandler<T> {
         printLogs(1);  // request finished
 
         // prepare the result code string
-        int responseCode = 0;
+        int statusCode = 0;
         if (result != null && result.getHeaders() != null) {
-            responseCode = result.getHeaders().code();
+            statusCode = result.getHeaders().code();
         }
 
         if (e != null) { //on request failure
-            Log.e(LOG_TAG, "Error(" + responseCode + "): " + e.getMessage());
+            Log.e(LOG_TAG, "Error(" + statusCode + "): " + e.getMessage());
             if (!(e instanceof CancellationException))
                 if (listener != null) {
-                    listener.onFail(e, tag);
+                    listener.onFail(e, statusCode, tag);
                 }
         } else if (result.getResult() != null) {
-            Log.e(LOG_TAG, "Response(" + responseCode + "): " + result.getResult());
+            Log.e(LOG_TAG, "Response(" + statusCode + "): " + result.getResult());
 
             if (cls == null && listener != null) { //T must be of type: Object or String
-                listener.onSuccess((T) result.getResult(), tag);
+                listener.onSuccess((T) result.getResult(), statusCode, tag);
             } else if (listener != null) {
                 try {
-                    listener.onSuccess((T) new Gson().fromJson(result.getResult(), cls), tag);
+                    listener.onSuccess((T) new Gson().fromJson(result.getResult(), cls), statusCode, tag);
                 } catch (Exception ex) {
-                    Log.e(LOG_TAG, "Error(" + responseCode + "): " + ex.getMessage());
-                    listener.onFail(ex, tag);
+                    Log.e(LOG_TAG, "Error(" + statusCode + "): " + ex.getMessage());
+                    listener.onFail(ex, statusCode, tag);
                 }
             }
         }

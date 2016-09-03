@@ -13,7 +13,16 @@ public class Const {
 
     // APIs:------------------------------
     public static final String API_LOGIN = "LOGIN";
+    public static final String API_CHECK_EMAIL = "CheckEmail";
+    public static final String API_FORGET_PASSWORD = "forgetPassword";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
+
+    // Response Codes:--------------------
+    public static final int SER_CODE_200 = 200;
+
+    // API request tags:------------------
+    public static final String TAG_CHECK_EMAIL = "check_email";
+    public static final String TAG_FORGET_PASSWORD = "forget_password";
 }

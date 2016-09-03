@@ -28,7 +28,8 @@
     <string name="please_enter_your_mobile_no">من فضلك ادخل رقم الجوال الخاص بك</string>
     <string name="mobile_no_here_dotted">رقم الجوال هنا...</string>
     <string name="close">اغلاق</string>
-    <string name="forget_password_success_msg">تمت العملية بنجاح\nوسوف تصلك كلمة المرور الجديدة على بريدك الالكتروني</string>
+    <string name="forget_password_using_email_success_msg">تمت العملية بنجاح\nوسوف تصلك كلمة المرور الجديدة على بريدك الالكتروني</string>
+    <string name="forget_password_using_phone_success_msg">تمت العملية بنجاح\nوسوف تصلك كلمة المرور الجديدة في رسالة على الجوال</string>
     <string name="restore_password_method">طريقة استعادة كلمة المرور</string>
     <string name="by_mail">عن طريق البريد الالكتروني</string>
     <string name="by_mobile">عن طريق الجوال</string>
@@ -111,8 +112,8 @@
     <string name="reserve">حجز</string>
     <string name="cancel_block">الغاء الحظر</string>
     <string name="required">حقل مطلوب</string>
-    <string name="invalid_phone_no_or_password">رقم جوال خاطيء او كلمة سر خاطئة</string>
     <string name="logout_q">تسجيل الخروج؟</string>
+    <string name="error_doing_operation">خطأ اثناء تنفيذ العملية</string>
 
 
     <!-- Arrays -->

@@ -56,12 +56,12 @@ public class ParentActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onSuccess(Object response, String tag) {
+    public void onSuccess(Object response, int statusCode, String tag) {
         hideProgressDialog();
     }
 
     @Override
-    public void onFail(Exception ex, String tag) {
+    public void onFail(Exception ex, int statusCode, String tag) {
         hideProgressDialog();
         Utils.showShortToast(this, R.string.something_went_wrong_please_try_again);
     }

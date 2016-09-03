@@ -5,8 +5,7 @@ import android.content.Context;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.dialogs.MessageDialog;
-
-import java.util.List;
+import com.stadium.app.models.responses.ParentResponse;
 
 /**
  * Created by Shamyyoun on 22/1/16.
@@ -58,22 +57,19 @@ public class AppUtils {
      * method, used to get response errors array as one string or the default string
      *
      * @param context
-     * @param validation
+     * @param response
      */
-    public static String getResponseError(Context context, List<String> validation) {
-        String error = "";
-        if (Utils.isNullOrEmpty(validation)) {
-            error = context.getString(R.string.something_went_wrong_please_try_again);
-        } else {
-            for (int i = 0; i < validation.size(); i++) {
-                if (i != 0) {
-                    error += "\n";
-                }
+    public static String getResponseError(Context context, Object response) {
+        String error = null;
 
-                error += validation.get(i);
-            }
+        if (response instanceof ParentResponse) {
+            ParentResponse parentResponse = (ParentResponse) response;
+            error = parentResponse.getErrorMessage();
         }
 
+        if (Utils.isNullOrEmpty(error)) {
+            error = context.getString(R.string.error_doing_operation);
+        }
         return error;
     }
 

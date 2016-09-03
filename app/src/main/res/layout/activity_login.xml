@@ -55,13 +55,14 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/et_phone_no"
+            android:id="@+id/et_phone"
             style="@style/WhiteEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/phone_number"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:selectAllOnFocus="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,7 +93,8 @@
                 android:layout_weight="1"
                 android:hint="@string/password"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true" />
         </LinearLayout>
 
         <com.stadium.app.views.DarkenedButton
