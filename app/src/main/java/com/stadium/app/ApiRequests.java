@@ -4,9 +4,7 @@ import android.content.Context;
 
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
-import com.stadium.app.models.bodies.CheckEmailBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
-import com.stadium.app.models.bodies.LoginBody;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.models.responses.ParentResponse;
 import com.stadium.app.utils.AppUtils;
@@ -17,7 +15,7 @@ import com.stadium.app.utils.AppUtils;
 public class ApiRequests {
     public static ConnectionHandler<User> login(Context context, ConnectionListener<User> listener, String phone, String password) {
         // create the request body
-        LoginBody body = new LoginBody();
+        User body = new User();
         body.setPhone(phone);
         body.setPassword(password);
 
@@ -28,9 +26,9 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<ParentResponse> checkEmail(Context context, ConnectionListener<ParentResponse> listener,String phone) {
+    public static ConnectionHandler<ParentResponse> checkEmail(Context context, ConnectionListener<ParentResponse> listener, String phone) {
         // create the request body
-        CheckEmailBody body = new CheckEmailBody();
+        User body = new User();
         body.setPhone(phone);
 
         // create & execute the request
@@ -40,12 +38,12 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<ParentResponse> forgetPassword(Context context,ConnectionListener<ParentResponse> listener,
+    public static ConnectionHandler<ParentResponse> forgetPassword(Context context, ConnectionListener<ParentResponse> listener,
                                                                    int resetType, String phone) {
         // create the request body
         ForgetPasswordBody body = new ForgetPasswordBody();
         body.setRestType(resetType);
-        ForgetPasswordBody.User user = new ForgetPasswordBody.User();
+        User user = new User();
         user.setPhone(phone);
         body.setUser(user);
 

@@ -3,8 +3,9 @@ package com.stadium.app.models.bodies;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.stadium.app.models.entities.User;
 
-public class ForgetPasswordBody extends ParentBody {
+public class ForgetPasswordBody {
 
     @SerializedName("restType")
     @Expose
@@ -39,29 +40,5 @@ public class ForgetPasswordBody extends ParentBody {
      */
     public void setUser(User user) {
         this.user = user;
-    }
-
-    /**
-     * User class
-     */
-    public static class User {
-
-        @SerializedName("phone")
-        @Expose
-        private String phone;
-
-        /**
-         * @return The phone
-         */
-        public String getPhone() {
-            return phone;
-        }
-
-        /**
-         * @param phone The phone
-         */
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
     }
 }

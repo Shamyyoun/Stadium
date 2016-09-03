@@ -14,7 +14,6 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.controllers.UserController;
 import com.stadium.app.dialogs.ForgetPasswordDialog;
-import com.stadium.app.models.bodies.LoginBody;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.Utils;
