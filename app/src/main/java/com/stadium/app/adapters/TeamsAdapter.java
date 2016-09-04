@@ -44,7 +44,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
             holder.tvClass.setVisibility(View.GONE);
         }
         holder.tvTitle.setText(item.getTitle());
-        Utils.loadImage(context, item.getLogo(), R.drawable.default_team_image, holder.ivLogo);
+        Utils.loadImage(context, item.getLogo(), R.drawable.default_image, holder.ivLogo);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {

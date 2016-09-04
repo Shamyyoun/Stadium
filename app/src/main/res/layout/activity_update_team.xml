@@ -22,7 +22,7 @@
             android:layout_width="@dimen/update_team_image_size"
             android:layout_height="@dimen/update_team_image_size"
             android:clickable="true"
-            android:src="@drawable/default_team_image"
+            android:src="@drawable/default_image"
             app:riv_oval="true" />
 
         <ImageView
