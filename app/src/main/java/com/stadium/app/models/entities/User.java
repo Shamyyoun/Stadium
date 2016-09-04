@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import com.stadium.app.models.responses.ServerResponse;
 
 public class User extends ServerResponse {
+    public static final int TYPE_PLAYER = 1;
 
     @SerializedName("AdminStadium")
     @Expose

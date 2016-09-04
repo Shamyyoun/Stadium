@@ -153,7 +153,8 @@ public class SignUpActivity extends ParentActivity {
         showProgressDialog();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.createUser(this, this, name, age, city, phone, password, 1);
+        ConnectionHandler connectionHandler = ApiRequests.createUser(this, this, name, age, city, phone,
+                password, User.TYPE_PLAYER);
         cancelWhenDestroyed(connectionHandler);
     }
 
