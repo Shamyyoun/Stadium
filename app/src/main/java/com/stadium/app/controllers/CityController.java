@@ -12,7 +12,13 @@ import java.util.List;
  * Created by Shamyyoun on 9/3/16.
  */
 public class CityController {
-    public static List<City> addDefaultItem(Context context, List<City> cities) {
+    private Context context;
+
+    public CityController(Context context) {
+        this.context = context;
+    }
+
+    public List<City> addDefaultItem(List<City> cities) {
         if (cities == null) {
             cities = new ArrayList<>();
         }

@@ -207,7 +207,8 @@ public class SignUpActivity extends ParentActivity {
 
     private void updateCitiesUI() {
         // prepare cities
-        cities = CityController.addDefaultItem(this, cities);
+        CityController cityController = new CityController(this);
+        cities = cityController.addDefaultItem(cities);
 
         // set the adapter
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_dropdown_selected, cities);

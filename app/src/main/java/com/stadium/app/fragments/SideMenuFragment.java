@@ -46,7 +46,12 @@ public class SideMenuFragment extends ParentFragment implements OnItemClickListe
         rvItems = (RecyclerView) findViewById(R.id.rv_menu_items);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         rvItems.setLayoutManager(layoutManager);
-        menuItems = MenuItemController.getSideMenuItems(activity);
+
+        // get the menu items
+        MenuItemController menuItemController = new MenuItemController(activity);
+        menuItems = menuItemController.getSideMenuItems();
+
+        // set the adapter
         itemsAdapter = new MenuItemsAdapter(activity, menuItems, R.layout.item_menu_item);
         rvItems.setAdapter(itemsAdapter);
         itemsAdapter.setOnItemClickListener(this);

@@ -13,7 +13,13 @@ import java.util.List;
  * Created by Shamyyoun on 6/4/16.
  */
 public class MenuItemController {
-    public static List<MenuItem> getSideMenuItems(Context context) {
+    private Context context;
+
+    public MenuItemController(Context context) {
+        this.context = context;
+    }
+
+    public List<MenuItem> getSideMenuItems() {
         List<MenuItem> menuItems = new ArrayList<>();
 
         MenuItem menuItem1 = new MenuItem(MenuItemType.CONTACT_US, context.getString(R.string.contact_us), R.drawable.phone_icon);
