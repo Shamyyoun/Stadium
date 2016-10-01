@@ -16,7 +16,7 @@ public class User extends ServerResponse {
     private int id;
     @SerializedName("Positon")
     @Expose
-    private Object position;
+    private String position;
     @SerializedName("Rate")
     @Expose
     private int rate;
@@ -85,14 +85,14 @@ public class User extends ServerResponse {
     /**
      * @return The position
      */
-    public Object getPositon() {
+    public String getPosition() {
         return position;
     }
 
     /**
      * @param position The position
      */
-    public void setPosition(Object position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 

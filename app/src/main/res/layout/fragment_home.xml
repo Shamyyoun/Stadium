@@ -32,6 +32,7 @@
                     app:riv_oval="true" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_image"
                     style="@style/CroppedImageView"
                     android:layout_width="@dimen/home_user_image_size"
                     android:layout_height="@dimen/home_user_image_size"
@@ -55,6 +56,7 @@
                         android:src="@drawable/small_orange_star" />
 
                     <TextView
+                        android:id="@+id/tv_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4.5"
@@ -64,6 +66,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -81,6 +84,7 @@
             android:padding="10dp">
 
             <com.stadium.app.views.DarkenedButton
+                android:id="@+id/btn_create_team"
                 style="@style/SmallOrangeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

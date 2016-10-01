@@ -43,4 +43,14 @@ public class UserController {
         prefs.remove(Const.SP_USER);
         setUser(null);
     }
+
+    public String getNamePosition() {
+        User user = getUser();
+        String str = user.getName();
+        if (user.getPosition() != null) {
+            str += " . " + user.getPosition();
+        }
+
+        return str;
+    }
 }
