@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- main strings -->
     <string name="app_name">Stadium</string>
 
@@ -16,6 +16,17 @@
     <string name="no_internet_connection">لا يوجد اتصال بالانترنت</string>
     <string name="please_wait_dotted">برجاء الانتظار...</string>
     <string name="search">بحث</string>
+    <string name="you_need_to_grant_required_permissions">يجب اعطاء الصلاحيات المطلوبة</string>
+    <string name="no_camera_app_found_in_this_device">لا يوجد أي تطبيق للكاميرا على هذا الجهاز</string>
+    <string name="error_fetching_this_image">حدث خطأ اثناء جلب هذه الصورة</string>
+    <string name="crop__saving">جارى حفظ الصورة...</string>
+    <string name="crop__wait">رجاء الأنتظار...</string>
+    <string name="crop__pick_error">الصورة غير متاحة</string>
+    <string name="crop__done">تم</string>
+    <string name="crop__cancel" tools:ignore="ButtonCase">الغاء</string>
+    <string name="from_gallery">اختيار من معرض الصور</string>
+    <string name="from_camera">التقاط من الكاميرا</string>
+    <string name="remove_image">حذف الصورة</string>
     <string name="login1">تسجيل الدخول</string>
     <string name="login2">الدخول</string>
     <string name="phone_number">رقم الجوال</string>
@@ -119,6 +130,13 @@
     <string name="invalid_value">قيمة غير صحيحة</string>
     <string name="please_select_city">من فضلك اختر المدينة</string>
     <string name="passwords_dont_match">كلمتي المرور غير متطابقتين</string>
+    <string name="no_content_here">لا يوجد محتوى</string>
+    <string name="failed_loading_data">فشل تحميل البيانات</string>
+    <string name="tap_to_refresh">اضغط للتحديث</string>
+    <string name="no_stadiums_found">لا يوجد ملاعب </string>
+    <string name="failed_loading_stadiums">فشل تحميل الملاعب</string>
+    <string name="has_d_stadiums">يحتوي على %1$d ملعب</string>
+    <string name="address_c">:العنوان:</string>
 
 
     <!-- Arrays -->

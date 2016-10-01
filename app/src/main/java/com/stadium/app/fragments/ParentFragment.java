@@ -8,14 +8,20 @@ import android.view.View;
 
 import com.stadium.app.R;
 import com.stadium.app.activities.ParentActivity;
+import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shamyyoun on 5/28/16.
  */
 public class ParentFragment extends Fragment implements View.OnClickListener, ConnectionListener {
+    // used to hold connection handlers that should be cancelled when destroyed
+    private final List<ConnectionHandler> connectionHandlers = new ArrayList();
     protected ParentActivity activity;
     protected View rootView;
     protected ProgressDialog progressDialog;
@@ -78,5 +84,19 @@ public class ParentFragment extends Fragment implements View.OnClickListener, Co
     public void onFail(Exception ex, int statusCode, String tag) {
         hideProgressDialog();
         Utils.showShortToast(activity, R.string.something_went_wrong_please_try_again);
+    }
+
+    public void cancelWhenDestroyed(ConnectionHandler connectionHandler) {
+        connectionHandlers.add(connectionHandler);
+    }
+
+    @Override
+    public void onDestroy() {
+        // cancel requests if found
+        for (ConnectionHandler connectionHandler : connectionHandlers) {
+            connectionHandler.cancel(true);
+        }
+
+        super.onDestroy();
     }
 }

@@ -23,7 +23,7 @@ import java.util.concurrent.CancellationException;
 public class ConnectionHandler<T> {
 
     private static final String LOG_TAG = "ConnectionHandler";
-    private int timeout = 45 * 1000; // Ion's default timeout is 30 seconds.
+    private int timeout = 20 * 1000; // Ion's default timeout is 30 seconds.
     private Context context;
     private String url;
     private Class<?> cls;

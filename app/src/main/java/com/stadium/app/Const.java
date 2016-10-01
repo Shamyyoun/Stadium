@@ -16,6 +16,7 @@ public class Const {
     public static final String API_FORGET_PASSWORD = "forgetPassword";
     public static final String API_GET_CITIES = "getCities";
     public static final String API_CREATE_USER = "CreateUser";
+    public static final String API_LIST_OF_STADIUMS = "ListOfStadiums";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

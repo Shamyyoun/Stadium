@@ -32,6 +32,10 @@ import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 
@@ -488,5 +492,29 @@ public class FileUtils {
         // Only return URIs that can be opened with ContentResolver
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         return intent;
+    }
+
+    /**
+     * method, used to copy file to a new path
+     *
+     * @param srcFullName
+     * @param destFullName
+     * @return
+     */
+    public static boolean copy(String srcFullName, String destFullName) {
+        boolean result = false;
+        try {
+            File source = new File(srcFullName);
+            FileChannel src = new FileInputStream(source).getChannel();
+            FileChannel dst = new FileOutputStream(destFullName).getChannel();
+            dst.transferFrom(src, 0, src.size());
+            src.close();
+            dst.close();
+            result = true;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return result;
     }
 }

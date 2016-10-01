@@ -123,6 +123,7 @@ public class LoginActivity extends ParentActivity {
 
     private void forgetPassword() {
         forgetPasswordDialog = new ForgetPasswordDialog(this);
+        forgetPasswordDialog.setPhoneNumber(Utils.getText(etPhone));
         forgetPasswordDialog.show();
     }
 

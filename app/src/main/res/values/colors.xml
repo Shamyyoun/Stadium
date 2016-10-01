@@ -12,7 +12,7 @@
     <color name="light_gray">#d2d2d2</color>
     <color name="very_light_gray">#f3f3f3</color>
     <color name="white_transparent">#57fdfdfd</color>
-    <color name="black_transparent">#83000000</color>
+    <color name="black_transparent">#1d000000</color>
     <color name="light_red">#fb4b51</color>
     <color name="red">#e12424</color>
     <color name="dark_red">#961616</color>

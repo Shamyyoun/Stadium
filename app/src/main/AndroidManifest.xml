@@ -23,7 +23,6 @@
             android:name="io.fabric.ApiKey"
             android:value="da607939978304e5bdac277f3be706343200c524" />
 
-
         <!-- ===================== Crop Library ========================= -->
         <activity
             android:name="com.soundcloud.android.crop.CropImageActivity"

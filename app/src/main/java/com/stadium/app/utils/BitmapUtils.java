@@ -7,10 +7,12 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Base64;
 
 import com.stadium.app.Const;
 import com.stadium.app.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -64,6 +66,35 @@ public class BitmapUtils {
                 if (!file.isDirectory()) file.delete();
             }
         }
+    }
+
+    /**
+     * method, used to resize a bitmap keeping the same ratio and does'nt lose its ratios
+     *
+     * @param bitmapFilePath
+     * @param maxDimen
+     * @return
+     */
+    public static Bitmap resizeBitmap(String bitmapFilePath, int maxDimen) {
+        Bitmap bitmap = BitmapFactory.decodeFile(bitmapFilePath);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        if (width > height) {
+            if (width > maxDimen) {
+                float ratio = (float) maxDimen / (float) width;
+                width = maxDimen;
+                height = (int) ((float) height * ratio);
+            }
+        } else {
+            if (height > maxDimen) {
+                float ratio = (float) maxDimen / (float) height;
+                height = maxDimen;
+                width = (int) ((float) width * ratio);
+            }
+        }
+
+        return resizeBitmap(bitmapFilePath, width, height);
     }
 
     /**
@@ -266,6 +297,16 @@ public class BitmapUtils {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static String encodeBase64(File image) {
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+        byte[] byteArr = os.toByteArray();
+        String encodedImage = Base64.encodeToString(byteArr, Base64.DEFAULT);
+
+        return encodedImage;
     }
 
 }

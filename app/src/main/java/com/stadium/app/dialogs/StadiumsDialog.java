@@ -39,7 +39,7 @@ public class StadiumsDialog extends ParentDialog {
         List<Stadium> data = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Stadium item = new Stadium();
-            item.setTitle("الملعب " + i);
+            item.setName("الملعب " + i);
             data.add(item);
         }
 

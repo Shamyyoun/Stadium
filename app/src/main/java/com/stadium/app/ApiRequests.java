@@ -6,6 +6,8 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.entities.City;
+import com.stadium.app.models.entities.Image;
+import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.models.responses.ServerResponse;
 import com.stadium.app.utils.AppUtils;
@@ -65,7 +67,8 @@ public class ApiRequests {
 
     public static ConnectionHandler<User> createUser(Context context, ConnectionListener<User> listener,
                                                      String name, int age, City city,
-                                                     String phone, String password, int userType) {
+                                                     String phone, String password,
+                                                     String encodedImage, int userType) {
         // create the request body
         User body = new User();
         body.setName(name);
@@ -74,10 +77,31 @@ public class ApiRequests {
         body.setPhone(phone);
         body.setPassword(password);
         body.setTypeID(userType);
+        if (encodedImage != null) {
+            Image image = new Image();
+            image.setContentBase64(encodedImage);
+            image.setName("" + System.currentTimeMillis());
+            body.setUserImage(image);
+        }
 
         // create & execute the request
         ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getApiUrl(Const.API_CREATE_USER), User.class, listener, body, Const.API_CREATE_USER);
+        connectionHandler.setTimeout(60 * 1000);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Stadium[]> listOfStadiums(Context context, ConnectionListener<Stadium[]> listener,
+                                                              int id, String token) {
+        // create the request body
+        User body = new User();
+        body.setId(id);
+        body.setToken(token);
+
+        // create & execute the request
+        ConnectionHandler<Stadium[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getApiUrl(Const.API_LIST_OF_STADIUMS), Stadium[].class, listener, body, Const.API_LIST_OF_STADIUMS);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

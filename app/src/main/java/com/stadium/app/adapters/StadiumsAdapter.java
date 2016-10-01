@@ -4,8 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+import com.stadium.app.R;
+import com.stadium.app.controllers.StadiumController;
 import com.stadium.app.models.entities.Stadium;
+import com.stadium.app.utils.Utils;
 
 import java.util.List;
 
@@ -31,14 +38,104 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
 
-        // set data
+        // get objects
         final Stadium item = data.get(position);
+        final StadiumController controller = new StadiumController(item);
+
+        // set basic data
+        holder.tvTitle.setText(item.getName());
+        holder.rbRating.setRating(item.getRate());
+        String capacity = context.getString(R.string.has_d_stadiums, item.getFieldsCount());
+        holder.tvCapacity.setText(capacity);
+
+        // set address if possible
+        String address = controller.getAddress();
+        if (address != null) {
+            holder.tvAddress.setText(getString(R.string.address_c) + " " + address);
+            holder.tvAddress.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvAddress.setVisibility(View.GONE);
+        }
+
+        // load the photo
+        Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivPhoto);
+
+        // set the contact info
+        if (controller.hasContactInfo()) {
+            holder.layoutContactInfo.setVisibility(View.VISIBLE);
+            holder.viewContactInfoDivider.setVisibility(View.VISIBLE);
+
+            // set phone if possible
+            if (!Utils.isNullOrEmpty(item.getPhoneNumber())) {
+                holder.btnPhone.setVisibility(View.VISIBLE);
+                holder.btnPhone.setText(item.getPhoneNumber());
+            } else {
+                holder.btnPhone.setVisibility(View.GONE);
+                holder.viewContactInfoDivider.setVisibility(View.GONE);
+            }
+
+            // set email if possible
+            if (!Utils.isNullOrEmpty(item.getEmail())) {
+                holder.btnEmail.setVisibility(View.VISIBLE);
+                holder.btnEmail.setText(item.getEmail());
+            } else {
+                holder.btnEmail.setVisibility(View.GONE);
+                holder.viewContactInfoDivider.setVisibility(View.GONE);
+            }
+        } else {
+            holder.layoutContactInfo.setVisibility(View.GONE);
+        }
+
+        // add listeners
+        if (controller.hasLocation()) {
+            holder.tvAddress.setClickable(true);
+            holder.tvAddress.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.openMapIntent(context, item.getName(), item.getLatitude(), item.getLongitude());
+                }
+            });
+        } else {
+            holder.tvAddress.setClickable(false);
+        }
+        holder.btnPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.openPhoneIntent(context, item.getPhoneNumber());
+            }
+        });
+        holder.btnEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.openEmailIntent(context, item.getEmail());
+            }
+        });
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+        ImageView ivPhoto;
+        TextView tvTitle;
+        TextView tvAddress;
+        TextView tvCapacity;
+        RatingBar rbRating;
+        View layoutContactInfo;
+        View viewContactInfoDivider;
+        Button btnPhone;
+        Button btnEmail;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+
+            // init views
+            ivPhoto = (ImageView) findViewById(R.id.iv_photo);
+            tvTitle = (TextView) findViewById(R.id.tv_title);
+            tvAddress = (TextView) findViewById(R.id.tv_address);
+            tvCapacity = (TextView) findViewById(R.id.tv_capacity);
+            rbRating = (RatingBar) findViewById(R.id.rb_rating);
+            layoutContactInfo = findViewById(R.id.layout_contact_info);
+            viewContactInfoDivider = findViewById(R.id.view_contact_info_divider);
+            btnPhone = (Button) findViewById(R.id.btn_phone);
+            btnEmail = (Button) findViewById(R.id.btn_email);
         }
     }
 }

@@ -29,6 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -38,6 +39,7 @@
                         android:orientation="horizontal">
 
                         <RatingBar
+                            android:id="@+id/rb_rating"
                             style="?android:attr/ratingBarStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -46,6 +48,7 @@
                             android:theme="@style/MyRatingBar" />
 
                         <TextView
+                            android:id="@+id/tv_title"
                             style="@style/SingleEllipsizedText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -56,18 +59,23 @@
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="?attr/selectableItemBackground"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/location_icon"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="5dp"
                         android:text="القاهرة - المعادي - شارع 9 - شارع الحرية"
                         android:textSize="@dimen/small_text" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/tv_capacity"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/stadium_icon"
                         android:text="يحتوي على 15 ملعب"
@@ -75,16 +83,18 @@
                 </LinearLayout>
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_photo"
                     style="@style/CroppedImageView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/default_image"
-                    android:layout_gravity="center"
                     app:riv_oval="true" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_contact_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -101,6 +111,7 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/btn_email"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -113,12 +124,14 @@
                         android:text="shamyyoun@gmail.com" />
 
                     <View
+                        android:id="@+id/view_contact_info_divider"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:background="@color/light_gray" />
 
                     <Button
+                        android:id="@+id/btn_phone"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

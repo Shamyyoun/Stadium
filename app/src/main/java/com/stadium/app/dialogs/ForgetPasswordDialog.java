@@ -58,6 +58,10 @@ public class ForgetPasswordDialog extends ParentDialog {
         });
     }
 
+    public void setPhoneNumber(String phone) {
+        etPhone.setText(phone);
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_submit) {

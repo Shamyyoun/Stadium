@@ -179,4 +179,73 @@ public class DialogUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * method, used to show list dialog with items array res id
+     * @param context
+     * @param itemsResId
+     * @param itemClickListener
+     * @return
+     */
+    public static AlertDialog showListDialog(Context context, int itemsResId, DialogInterface.OnClickListener itemClickListener) {
+        return showListDialog(context, null, itemsResId, itemClickListener);
+    }
+
+    /**
+     * method, used to show list dialog with items array res id and with passed title
+     * @param context
+     * @param title
+     * @param itemsResId
+     * @param itemClickListener
+     * @return
+     */
+    public static AlertDialog showListDialog(Context context, String title, int itemsResId, DialogInterface.OnClickListener itemClickListener) {
+        String[] items = context.getResources().getStringArray(itemsResId);
+        return showListDialog(context, title, items, itemClickListener);
+    }
+
+    /**
+     * method, used to show list dialog with string items array
+     * @param context
+     * @param items
+     * @param itemClickListener
+     * @return
+     */
+    public static AlertDialog showListDialog(Context context, String[] items, DialogInterface.OnClickListener itemClickListener) {
+        return showListDialog(context, null, items, itemClickListener);
+    }
+    /**
+     * method, used to show list dialog with string items array and with passed title
+     * @param context
+     * @param title
+     * @param items
+     * @param itemClickListener
+     * @return
+     */
+    public static AlertDialog showListDialog(Context context, String title, String[] items, DialogInterface.OnClickListener itemClickListener) {
+        // create the dialog builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        // set title if possible
+        if (title != null) {
+            builder.setTitle(title);
+        }
+
+        // set items and items click listener
+        if (itemClickListener != null) {
+            builder.setItems(items, itemClickListener);
+        } else {
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+        }
+
+        // create the dialog and show it
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        return dialog;
+    }
 }

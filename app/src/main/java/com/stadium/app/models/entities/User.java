@@ -52,7 +52,7 @@ public class User extends ServerResponse {
     private City city;
     @SerializedName("userImage")
     @Expose
-    private String userImage;
+    private Image userImage;
 
     /**
      * @return The adminStadium
@@ -253,14 +253,14 @@ public class User extends ServerResponse {
     /**
      * @return The userImage
      */
-    public String getUserImage() {
+    public Image getUserImage() {
         return userImage;
     }
 
     /**
      * @param userImage The userImage
      */
-    public void setUserImage(String userImage) {
+    public void setUserImage(Image userImage) {
         this.userImage = userImage;
     }
 

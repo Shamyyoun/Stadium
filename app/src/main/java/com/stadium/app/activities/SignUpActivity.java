@@ -1,5 +1,6 @@
 package com.stadium.app.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -8,9 +9,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
@@ -20,8 +24,11 @@ import com.stadium.app.controllers.UserController;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
+import com.stadium.app.utils.BitmapUtils;
+import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +36,12 @@ import java.util.List;
 /**
  * Created by karam on 6/29/16.
  */
-public class SignUpActivity extends ParentActivity {
+public class SignUpActivity extends PicPickerActivity {
+    private static final int IMAGE_ASPECT_X = 1;
+    private static final int IMAGE_ASPECT_Y = 1;
+    private static final int MAX_IMAGE_DIMEN = 400;
+
+    private ImageView ivImage;
     private EditText etName;
     private EditText etAge;
     private Spinner spCity;
@@ -40,6 +52,7 @@ public class SignUpActivity extends ParentActivity {
     private TextView tvLogin;
 
     private List<City> cities;
+    private File image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,7 @@ public class SignUpActivity extends ParentActivity {
         setContentView(R.layout.activity_sign_up);
 
         // init views
+        ivImage = (ImageView) findViewById(R.id.iv_image);
         etName = (EditText) findViewById(R.id.et_name);
         etAge = (EditText) findViewById(R.id.et_age);
         spCity = (Spinner) findViewById(R.id.sp_city);
@@ -57,6 +71,7 @@ public class SignUpActivity extends ParentActivity {
         tvLogin = (TextView) findViewById(R.id.tv_login);
 
         // add listeners
+        ivImage.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
         etRePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -70,9 +85,16 @@ public class SignUpActivity extends ParentActivity {
             }
         });
 
-
         updateCitiesUI();
         loadCities();
+
+        // set the image if saved in the state
+        if (savedInstanceState != null) {
+            image = (File) savedInstanceState.getSerializable("image");
+            if (image != null) {
+                Picasso.with(this).load(image).placeholder(R.drawable.def_user_form_image).into(ivImage);
+            }
+        }
     }
 
     private void loadCities() {
@@ -92,6 +114,10 @@ public class SignUpActivity extends ParentActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_image:
+                chooseImage();
+                break;
+
             case R.id.btn_register:
                 register();
                 break;
@@ -103,6 +129,60 @@ public class SignUpActivity extends ParentActivity {
             default:
                 super.onClick(v);
         }
+    }
+
+    private void chooseImage() {
+        // prepare the appropriate array
+        String[] options;
+        if (image == null) {
+            options = new String[]{
+                    getString(R.string.from_gallery),
+                    getString(R.string.from_camera)
+            };
+        } else {
+            options = new String[]{
+                    getString(R.string.from_gallery),
+                    getString(R.string.from_camera),
+                    getString(R.string.remove_image)
+            };
+        }
+
+        // show list dialog
+        DialogUtils.showListDialog(this, options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // switch the selected item
+                switch (which) {
+                    case 0:
+                        setPickerAspects(IMAGE_ASPECT_X, IMAGE_ASPECT_Y);
+                        setPickerMaxDimen(MAX_IMAGE_DIMEN);
+                        pickFromGallery(0, true);
+                        break;
+
+                    case 1:
+                        setPickerAspects(IMAGE_ASPECT_X, IMAGE_ASPECT_Y);
+                        setPickerMaxDimen(MAX_IMAGE_DIMEN);
+                        captureFromCamera(0, true);
+                        break;
+
+                    case 2:
+                        removeImage();
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onImageReady(int requestCode, File image) {
+        this.image = image;
+        Picasso.with(this).load(image).placeholder(R.drawable.def_user_form_image)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(ivImage);
+    }
+
+    private void removeImage() {
+        image = null;
+        ivImage.setImageResource(R.drawable.def_user_form_image);
     }
 
     private void register() {
@@ -152,9 +232,15 @@ public class SignUpActivity extends ParentActivity {
 
         showProgressDialog();
 
+        // encode image if possible
+        String imageEncoded = null;
+        if (image != null) {
+            imageEncoded = BitmapUtils.encodeBase64(image);
+        }
+
         // send request
         ConnectionHandler connectionHandler = ApiRequests.createUser(this, this, name, age, city, phone,
-                password, User.TYPE_PLAYER);
+                password, imageEncoded, User.TYPE_PLAYER);
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -215,5 +301,11 @@ public class SignUpActivity extends ParentActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_dropdown_selected, cities);
         adapter.setDropDownViewResource(R.layout.item_dropdown);
         spCity.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("image", image);
+        super.onSaveInstanceState(outState);
     }
 }

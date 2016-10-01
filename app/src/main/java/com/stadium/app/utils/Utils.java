@@ -644,4 +644,65 @@ public class Utils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * method, used to open the phone intent using the passed phone number
+     *
+     * @param context
+     * @param phone
+     */
+    public static void openPhoneIntent(Context context, String phone) {
+        if (Utils.isNullOrEmpty(phone)) {
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phone));
+        context.startActivity(intent);
+    }
+
+    /**
+     * method, used to open the email intent using the passed email address
+     *
+     * @param context
+     * @param emailAddress
+     */
+    public static void openEmailIntent(Context context, String emailAddress) {
+        if (Utils.isNullOrEmpty(emailAddress)) {
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+        intent.setType("message/rfc822");
+        context.startActivity(intent);
+    }
+
+    /**
+     * method, used to open the map intent with passed params
+     *
+     * @param context
+     * @param lat
+     * @param lng
+     */
+    public static void openMapIntent(Context context, double lat, double lng) {
+        openMapIntent(context, null, lat, lng);
+    }
+
+    /**
+     * method, used to open the map intent with passed params
+     *
+     * @param context
+     * @param title
+     * @param lat
+     * @param lng
+     */
+    public static void openMapIntent(Context context, String title, double lat, double lng) {
+        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng;
+        if (!isNullOrEmpty(title)) {
+            geoUri += " (" + title + ")";
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+        context.startActivity(intent);
+    }
 }
