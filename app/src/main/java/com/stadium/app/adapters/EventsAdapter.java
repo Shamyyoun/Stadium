@@ -7,16 +7,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.stadium.app.R;
-import com.stadium.app.models.entities.Notification;
+import com.stadium.app.models.entities.Event;
 
 import java.util.List;
 
 /**
  * Created by Shamyyoun on 19/2/16.
  */
-public class NotificationsAdapter extends ParentRecyclerAdapter<Notification> {
+public class EventsAdapter extends ParentRecyclerAdapter<Event> {
 
-    public NotificationsAdapter(Context context, List<Notification> data, int layoutId) {
+    public EventsAdapter(Context context, List<Event> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -33,7 +33,7 @@ public class NotificationsAdapter extends ParentRecyclerAdapter<Notification> {
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final Notification item = data.get(position);
+        final Event item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {

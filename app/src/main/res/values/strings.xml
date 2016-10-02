@@ -137,6 +137,8 @@
     <string name="failed_loading_stadiums">فشل تحميل الملاعب</string>
     <string name="has_d_stadiums">يحتوي على %1$d ملعب</string>
     <string name="address_c">:العنوان:</string>
+    <string name="no_events_yet">لا يوجد احداث حتى الآن</string>
+    <string name="failed_loading_events">فشل تحميل الاحداث</string>
 
 
     <!-- Arrays -->

@@ -6,6 +6,7 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.entities.City;
+import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.Image;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.User;
@@ -24,7 +25,7 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_LOGIN), User.class, listener, body, Const.API_LOGIN);
+                AppUtils.getUserApiUrl(Const.API_LOGIN), User.class, listener, body, Const.API_LOGIN);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -36,7 +37,7 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<ServerResponse> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_CHECK_EMAIL), ServerResponse.class, listener, body, Const.API_CHECK_EMAIL);
+                AppUtils.getUserApiUrl(Const.API_CHECK_EMAIL), ServerResponse.class, listener, body, Const.API_CHECK_EMAIL);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -52,7 +53,7 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<ServerResponse> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_FORGET_PASSWORD), ServerResponse.class, listener, body, Const.API_FORGET_PASSWORD);
+                AppUtils.getUserApiUrl(Const.API_FORGET_PASSWORD), ServerResponse.class, listener, body, Const.API_FORGET_PASSWORD);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -60,7 +61,7 @@ public class ApiRequests {
     public static ConnectionHandler<City[]> getCities(Context context, ConnectionListener<City[]> listener) {
         // create & execute the request
         ConnectionHandler<City[]> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_GET_CITIES), City[].class, listener, Const.API_GET_CITIES);
+                AppUtils.getUserApiUrl(Const.API_GET_CITIES), City[].class, listener, Const.API_GET_CITIES);
         connectionHandler.executeGet();
         return connectionHandler;
     }
@@ -86,23 +87,33 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_CREATE_USER), User.class, listener, body, Const.API_CREATE_USER);
+                AppUtils.getUserApiUrl(Const.API_CREATE_USER), User.class, listener, body, Const.API_CREATE_USER);
         connectionHandler.setTimeout(60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
 
     public static ConnectionHandler<Stadium[]> listOfStadiums(Context context, ConnectionListener<Stadium[]> listener,
-                                                              int id, String token) {
+                                                              int userId, String userToken) {
         // create the request body
         User body = new User();
-        body.setId(id);
-        body.setToken(token);
+        body.setId(userId);
+        body.setToken(userToken);
 
         // create & execute the request
         ConnectionHandler<Stadium[]> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getApiUrl(Const.API_LIST_OF_STADIUMS), Stadium[].class, listener, body, Const.API_LIST_OF_STADIUMS);
+                AppUtils.getUserApiUrl(Const.API_LIST_OF_STADIUMS), Stadium[].class, listener, body, Const.API_LIST_OF_STADIUMS);
         connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Event[]> getEvent(Context context, ConnectionListener<Event[]> listener, int userId) {
+        // prepare the url
+        String url = AppUtils.getUserApiUrl(Const.API_GET_EVENT) + "/" + userId;
+
+        // create & execute the request
+        ConnectionHandler<Event[]> connectionHandler = new ConnectionHandler(context, url, Event[].class, listener, Const.API_GET_EVENT);
+        connectionHandler.executeGet();
         return connectionHandler;
     }
 }

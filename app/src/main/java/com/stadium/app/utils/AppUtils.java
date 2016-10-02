@@ -45,8 +45,8 @@ public class AppUtils {
      * @param pathParts
      * @return
      */
-    public static String getApiUrl(String... pathParts) {
-        String fullUrl = Const.END_POINT;
+    public static String getUserApiUrl(String... pathParts) {
+        String fullUrl = Const.END_POINT + "/" + Const.ROUTE_USER;
         for (String pathPart : pathParts) {
             fullUrl += "/" + pathPart;
         }

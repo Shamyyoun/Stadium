@@ -103,7 +103,8 @@ public class ConnectionHandler<T> {
         switch (level) {
             case 0:
                 startTime = System.currentTimeMillis();
-                Log.e(LOG_TAG, tag + "request started. time=" + Calendar.getInstance().getTime());
+                Log.e(LOG_TAG, tag + "request started. time=" + Calendar.getInstance().getTime()
+                        + "\nUrl: " + url);
                 break;
             case 1:
                 finishTime = System.currentTimeMillis();
@@ -127,6 +128,8 @@ public class ConnectionHandler<T> {
             future = Ion.with(context)
                     .load(url)
                     .setTimeout(timeout)
+                    .addHeader("content-type", "application/json")
+                    .addHeader("Accept-Language", "ar")
                     .asString()
                     .withResponse()
                     .setCallback(new FutureCallback<Response<String>>() {
