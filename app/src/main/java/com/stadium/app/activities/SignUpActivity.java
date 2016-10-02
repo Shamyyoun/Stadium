@@ -37,10 +37,6 @@ import java.util.List;
  * Created by karam on 6/29/16.
  */
 public class SignUpActivity extends PicPickerActivity {
-    private static final int IMAGE_ASPECT_X = 1;
-    private static final int IMAGE_ASPECT_Y = 1;
-    private static final int MAX_IMAGE_DIMEN = 400;
-
     private ImageView ivImage;
     private EditText etName;
     private EditText etAge;
@@ -154,14 +150,14 @@ public class SignUpActivity extends PicPickerActivity {
                 // switch the selected item
                 switch (which) {
                     case 0:
-                        setPickerAspects(IMAGE_ASPECT_X, IMAGE_ASPECT_Y);
-                        setPickerMaxDimen(MAX_IMAGE_DIMEN);
+                        setPickerAspects(Const.IMG_ASPECT_X_PROFILE, Const.IMG_ASPECT_Y_PROFILE);
+                        setPickerMaxDimen(Const.MAX_IMG_DIMEN_PROFILE);
                         pickFromGallery(0, true);
                         break;
 
                     case 1:
-                        setPickerAspects(IMAGE_ASPECT_X, IMAGE_ASPECT_Y);
-                        setPickerMaxDimen(MAX_IMAGE_DIMEN);
+                        setPickerAspects(Const.IMG_ASPECT_X_PROFILE, Const.IMG_ASPECT_Y_PROFILE);
+                        setPickerMaxDimen(Const.MAX_IMG_DIMEN_PROFILE);
                         captureFromCamera(0, true);
                         break;
 

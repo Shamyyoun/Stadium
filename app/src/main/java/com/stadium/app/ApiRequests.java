@@ -116,4 +116,27 @@ public class ApiRequests {
         connectionHandler.executeGet();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<String> editProfile(Context context, ConnectionListener<String> listener,
+                                                        int userId, String userToken,
+                                                        int age, City city, String phone,
+                                                        String position, String email, String bio) {
+        // create the request body
+        User body = new User();
+        body.setId(userId);
+        body.setToken(userToken);
+        body.setAge(age);
+        body.setCity(city);
+        body.setPhone(phone);
+        body.setPosition(position);
+        body.setEmail(email);
+        body.setBio(bio);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_EDIT_PROFILE), String.class, listener, body, Const.API_EDIT_PROFILE);
+        connectionHandler.setTimeout(30 * 1000);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
 }

@@ -1,10 +1,12 @@
 package com.stadium.app.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stadium.app.ApiRequests;
+import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.activities.CreateTeamActivity;
+import com.stadium.app.activities.UpdateProfileActivity;
 import com.stadium.app.adapters.EventsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.UserController;
@@ -139,6 +143,18 @@ public class HomeFragment extends ProgressToolbarFragment implements OnItemClick
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit_profile) {
+            // open update profile activity
+            Intent intent = new Intent(activity, UpdateProfileActivity.class);
+            startActivityForResult(intent, Const.REQ_UPDATE_PROFILE);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void loadData() {
         // check internet connection
         if (!Utils.hasConnection(activity)) {
@@ -174,6 +190,15 @@ public class HomeFragment extends ProgressToolbarFragment implements OnItemClick
     public void onFail(Exception ex, int statusCode, String tag) {
         showError(R.string.failed_loading_events);
         hideProgressDialog();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_UPDATE_PROFILE && resultCode == Activity.RESULT_OK) {
+            updateUserUI();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

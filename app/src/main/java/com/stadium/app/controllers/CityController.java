@@ -30,4 +30,14 @@ public class CityController {
 
         return cities;
     }
+
+    public int getPosition(List<City> cities, City city) {
+        for (int i = 0; i < cities.size(); i++) {
+            if (city.getId() == cities.get(i).getId()) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }

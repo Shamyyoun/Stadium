@@ -139,6 +139,12 @@
     <string name="address_c">:العنوان:</string>
     <string name="no_events_yet">لا يوجد احداث حتى الآن</string>
     <string name="failed_loading_events">فشل تحميل الاحداث</string>
+    <string name="position">المركز</string>
+    <string name="email_address">البريد الالكتروني</string>
+    <string name="bio">النبذة</string>
+    <string name="additional_info">معلومات اضافية</string>
+    <string name="invalid_email_format">صيغة البريد الالكتروني غير صحيحة</string>
+    <string name="profile_updated_successfully">تم تحديث الملف الشخصي بنجاح</string>
 
 
     <!-- Arrays -->

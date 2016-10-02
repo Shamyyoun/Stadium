@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="@string/edit_profile"
         android:id="@+id/action_edit_profile"
         android:icon="@drawable/edit_icon"
         android:name="@string/edit_profile"

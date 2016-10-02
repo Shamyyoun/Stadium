@@ -72,11 +72,15 @@
             android:name=".activities.StadiumOrderActivity"
             android:label="@string/stadium_order" />
 
-        <activity android:name=".activities.PlayerInfoActivity"
-            android:label="@string/player_info"/>
+        <activity
+            android:name=".activities.PlayerInfoActivity"
+            android:label="@string/player_info" />
+
+        <activity android:name=".activities.AdminMainActivity" />
 
         <activity
-            android:name=".activities.AdminMainActivity" />
+            android:name=".activities.UpdateProfileActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
     </application>
 </manifest>

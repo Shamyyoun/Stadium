@@ -20,5 +20,6 @@
     <dimen name="player_info_stroke_size">100dp</dimen>
     <dimen name="stadium_info_stroke_size">90dp</dimen>
     <dimen name="stadium_info_image_size">80dp</dimen>
+    <dimen name="edit_profile_user_image_size">65dp</dimen>
 
 </resources>

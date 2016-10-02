@@ -6,12 +6,12 @@
         android:icon="@drawable/contacts_icon"
         android:name="@string/contacts"
         app:showAsAction="always"
-        android:title="" />
+        android:title="@string/contacts" />
 
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/search_icon"
         android:name="@string/search"
         app:showAsAction="always"
-        android:title="" />
+        android:title="@string/search" />
 </menu>

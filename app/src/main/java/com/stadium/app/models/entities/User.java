@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.stadium.app.models.responses.ServerResponse;
 
-public class User extends ServerResponse {
+public class User extends ServerResponse implements Cloneable {
     public static final int TYPE_PLAYER = 1;
 
     @SerializedName("AdminStadium")
@@ -53,6 +53,9 @@ public class User extends ServerResponse {
     @SerializedName("userImage")
     @Expose
     private Image userImage;
+    @SerializedName("bio")
+    @Expose
+    private String bio;
 
     /**
      * @return The adminStadium
@@ -264,4 +267,17 @@ public class User extends ServerResponse {
         this.userImage = userImage;
     }
 
+    /**
+     * @return The bio
+     */
+    public String getBio() {
+        return bio;
+    }
+
+    /**
+     * @param bio The bio
+     */
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 }
