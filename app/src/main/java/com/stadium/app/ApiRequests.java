@@ -117,7 +117,7 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> editProfile(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler<User> editProfile(Context context, ConnectionListener<User> listener,
                                                         int userId, String userToken,
                                                         int age, City city, String phone,
                                                         String position, String email, String bio) {
@@ -133,8 +133,8 @@ public class ApiRequests {
         body.setBio(bio);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_EDIT_PROFILE), String.class, listener, body, Const.API_EDIT_PROFILE);
+        ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_EDIT_PROFILE), User.class, listener, body, Const.API_EDIT_PROFILE);
         connectionHandler.setTimeout(30 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;

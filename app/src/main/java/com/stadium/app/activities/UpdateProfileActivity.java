@@ -38,7 +38,6 @@ public class UpdateProfileActivity extends ParentActivity {
     private Button btnUpdate;
 
     private List<City> cities;
-    private User tempUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,18 +169,10 @@ public class UpdateProfileActivity extends ParentActivity {
 
         showProgressDialog();
 
-        // save the current values in the tempUser obj
-        tempUser = userController.clone();
-        tempUser.setAge(age);
-        tempUser.setCity(city);
-        tempUser.setPhone(phone);
-        tempUser.setPosition(position);
-        tempUser.setEmail(email);
-        tempUser.setBio(bio);
-
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.editProfile(this, this, tempUser.getId(),
-                tempUser.getToken(), age, city, phone, position, email, bio);
+        User user = userController.getUser();
+        ConnectionHandler connectionHandler = ApiRequests.editProfile(this, this, user.getId(),
+                user.getToken(), age, city, phone, position, email, bio);
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -201,11 +192,11 @@ public class UpdateProfileActivity extends ParentActivity {
                 break;
 
             case Const.API_EDIT_PROFILE:
-                String result = (String) response;
-                if (statusCode == Const.SER_CODE_200 && "true".equalsIgnoreCase(result)) {
+                User user = (User) response;
+                if (statusCode == Const.SER_CODE_200) {
                     // save the new user obj
                     UserController userController = new UserController(this);
-                    userController.setUser(tempUser);
+                    userController.setUser(user);
                     userController.save();
 
                     // show msg
@@ -251,6 +242,9 @@ public class UpdateProfileActivity extends ParentActivity {
             int position = cityController.getPosition(cities, city);
             if (position != -1) {
                 spCity.setSelection(position);
+            } else {
+                cities.add(1, city);
+                spCity.setSelection(1);
             }
         }
     }
