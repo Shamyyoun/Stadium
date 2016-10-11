@@ -193,4 +193,8 @@ public class ParentActivity extends AppCompatActivity implements View.OnClickLis
             return super.onOptionsItemSelected(item);
         }
     }
+
+    public boolean hasToolbar() {
+        return toolbar != null;
+    }
 }
