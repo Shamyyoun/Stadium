@@ -40,7 +40,7 @@ public class TeamsDialog extends ParentDialog {
         List<Team> data = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Team item = new Team();
-            item.setTitle("الفريق " + i);
+            item.setName("الفريق " + i);
             data.add(item);
         }
 

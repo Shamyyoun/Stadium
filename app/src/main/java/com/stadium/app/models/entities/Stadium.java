@@ -1,12 +1,14 @@
 package com.stadium.app.models.entities;
 
+import android.widget.Checkable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 
-public class Stadium implements Serializable {
+public class Stadium implements Serializable, Checkable {
 
     @SerializedName("Id")
     @Expose
@@ -230,4 +232,18 @@ public class Stadium implements Serializable {
         this.stadiumCity = stadiumCity;
     }
 
+    @Override
+    public void setChecked(boolean checked) {
+
+    }
+
+    @Override
+    public boolean isChecked() {
+        return false;
+    }
+
+    @Override
+    public void toggle() {
+
+    }
 }

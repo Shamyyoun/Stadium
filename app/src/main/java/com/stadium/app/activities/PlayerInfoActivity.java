@@ -10,7 +10,6 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.TeamsAdapter;
 import com.stadium.app.dialogs.TeamsDialog;
 import com.stadium.app.models.entities.Team;
-import com.stadium.app.models.enums.TeamClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,17 +59,9 @@ public class PlayerInfoActivity extends ParentToolbarActivity {
         List<Team> teams = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             Team team = new Team();
-            team.setTitle("العنوان " + i);
+            team.setName("العنوان " + i);
             String logo = "https://upload.wikimedia.org/wikipedia/ar/archive/6/6a/20130520191206!Ahly_Fc_new_logo.png";
-            team.setLogo(logo);
-
-            if (i == 14) {
-                team.setTeamClass(TeamClass.A);
-            }
-
-            if (i == 22) {
-                team.setTeamClass(TeamClass.C);
-            }
+            team.setImageLink(logo);
 
             teams.add(team);
         }

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.stadium.app.R;
 import com.stadium.app.models.entities.Team;
-import com.stadium.app.utils.Utils;
 
 import java.util.List;
 
@@ -34,17 +33,17 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     @Override
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
-        // set data
-        final Team item = data.get(position);
-        if (item.getTeamClass() != null) {
-            holder.tvClass.setText(item.getTeamClass().getTitle());
-            holder.tvClass.setBackgroundResource(item.getTeamClass().getColorId());
-            holder.tvClass.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvClass.setVisibility(View.GONE);
-        }
-        holder.tvTitle.setText(item.getTitle());
-        Utils.loadImage(context, item.getLogo(), R.drawable.default_image, holder.ivLogo);
+//        // set data
+//        final Team item = data.get(position);
+//        if (item.getTeamClass() != null) {
+//            holder.tvClass.setText(item.getTeamClass().getTitle());
+//            holder.tvClass.setBackgroundResource(item.getTeamClass().getColorId());
+//            holder.tvClass.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.tvClass.setVisibility(View.GONE);
+//        }
+//        holder.tvTitle.setText(item.getTitle());
+//        Utils.loadImage(context, item.getLogo(), R.drawable.default_image, holder.ivLogo);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
