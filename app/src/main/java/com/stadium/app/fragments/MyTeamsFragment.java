@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by karam on 6/30/16.
  */
-public class MyTeamsFragment extends ParentToolbarFragment {
+public class MyTeamsFragment extends ParentFragment {
     private RecyclerView recyclerView;
     private List<Team> data;
     private TeamsAdapter adapter;

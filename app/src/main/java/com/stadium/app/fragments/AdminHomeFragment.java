@@ -9,8 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.ScrollView;
 
 import com.stadium.app.R;
 
@@ -20,7 +18,7 @@ import java.util.List;
 /*
  * Created by karam on 8/10/16.
  */
-public class AdminHomeFragment extends ParentToolbarFragment {
+public class AdminHomeFragment extends ParentFragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;

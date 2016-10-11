@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class PlayersFragment extends ParentToolbarFragment {
+public class PlayersFragment extends ParentFragment {
 
     private TextView tvOrderBy;
     private RecyclerView recyclerView;

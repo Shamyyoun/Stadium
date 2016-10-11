@@ -9,7 +9,7 @@ import com.stadium.app.R;
 /**
  * Created by karam on 7/10/16.
  */
-public class UpdateTeamActivity extends ParentToolbarActivity {
+public class UpdateTeamActivity extends ParentActivity {
     private Spinner spStadium;
     private Spinner spCaptain;
     private Spinner spAssistant;

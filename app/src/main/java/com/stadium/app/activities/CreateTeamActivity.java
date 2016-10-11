@@ -13,7 +13,7 @@ import com.stadium.app.dialogs.StadiumsDialog;
 /**
  * Created by karam on 7/2/16.
  */
-public class CreateTeamActivity extends ParentToolbarActivity {
+public class CreateTeamActivity extends ParentActivity {
     private ImageView ivImage;
     private EditText etTitle;
     private EditText etDesc;

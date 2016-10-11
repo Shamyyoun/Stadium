@@ -1,9 +1,6 @@
 package com.stadium.app.activities;
 
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,7 +14,7 @@ import com.stadium.app.fragments.AdminStadiumFragment;
 /*
  * Created by karam on 8/10/16.
  */
-public class AdminMainActivity extends ParentToolbarActivity {
+public class AdminMainActivity extends ParentActivity {
 
     private TextView tvHome;
     private TextView tvStadiums;

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by karam on 7/19/16.
  */
-public class PlayerInfoActivity extends ParentToolbarActivity {
+public class PlayerInfoActivity extends ParentActivity {
     private Button btnAdd;
     private RecyclerView recyclerView;
     private List<Team> data;

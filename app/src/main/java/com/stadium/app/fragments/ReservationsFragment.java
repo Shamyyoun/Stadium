@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class ReservationsFragment extends ParentToolbarFragment {
+public class ReservationsFragment extends ParentFragment {
     private RecyclerView recyclerView;
     private ReservationsAdapter adapter;
     private List<Reservation> data;

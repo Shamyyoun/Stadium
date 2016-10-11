@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by karam on 7/26/16.
  */
-public class TeamInfoActivity extends ParentToolbarActivity {
+public class TeamInfoActivity extends ParentActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;

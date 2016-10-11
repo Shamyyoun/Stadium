@@ -14,7 +14,7 @@ import com.stadium.app.views.ErrorView;
 /**
  * Created by Shamyyoun on 3/9/2016.
  */
-public abstract class ProgressToolbarFragment extends ParentToolbarFragment {
+public abstract class ProgressToolbarFragment extends ParentFragment {
     private View mainView;
     private ErrorView errorView;
     private EmptyView emptyView;

@@ -27,7 +27,7 @@ import java.util.List;
 /*
  * Created by karam on 7/31/16.
  */
-public class StadiumOrderActivity extends ParentToolbarActivity {
+public class StadiumOrderActivity extends ParentActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;

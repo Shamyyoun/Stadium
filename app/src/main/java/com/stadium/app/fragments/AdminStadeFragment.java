@@ -2,11 +2,8 @@ package com.stadium.app.fragments;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +13,9 @@ import android.widget.TextView;
 
 import com.stadium.app.R;
 import com.stadium.app.adapters.AdminStadeAdapter;
-import com.stadium.app.adapters.BigIntensityAdapter;
 import com.stadium.app.dialogs.AdminStadeDialog;
-import com.stadium.app.dialogs.ChooseTeamDialog;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.entities.AdminStade;
-import com.stadium.app.models.entities.BigIntensity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +24,7 @@ import java.util.List;
 /*
  * Created by karam on 8/10/16.
  */
-public class AdminStadeFragment extends ParentToolbarFragment {
+public class AdminStadeFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
     private AdminStadeAdapter adapter;

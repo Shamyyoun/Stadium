@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by karam on 7/17/16.
  */
-public class ContactsActivity extends ParentToolbarActivity {
+public class ContactsActivity extends ParentActivity {
     private RecyclerView recyclerView;
     private PlayersAdapter adapter;
     private List<Player> data;
