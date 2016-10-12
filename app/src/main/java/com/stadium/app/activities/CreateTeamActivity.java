@@ -1,5 +1,6 @@
 package com.stadium.app.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,19 +8,35 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
+import com.stadium.app.ApiRequests;
+import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.UserController;
 import com.stadium.app.dialogs.StadiumsDialog;
+import com.stadium.app.models.entities.Team;
+import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.AppUtils;
+import com.stadium.app.utils.BitmapUtils;
+import com.stadium.app.utils.DialogUtils;
+import com.stadium.app.utils.Utils;
+
+import java.io.File;
 
 /**
  * Created by karam on 7/2/16.
  */
-public class CreateTeamActivity extends ParentActivity {
+public class CreateTeamActivity extends PicPickerActivity {
     private ImageView ivImage;
     private EditText etTitle;
     private EditText etDesc;
     private TextView tvFavoriteStadium;
     private Button btnCreate;
     private Button btnCancel;
+
+    private File image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +54,27 @@ public class CreateTeamActivity extends ParentActivity {
         btnCancel = (Button) findViewById(R.id.btn_cancel);
 
         // add listeners
+        ivImage.setOnClickListener(this);
         tvFavoriteStadium.setOnClickListener(this);
         btnCreate.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
+
+        // set the image if saved in the state
+        if (savedInstanceState != null) {
+            image = (File) savedInstanceState.getSerializable("image");
+            if (image != null) {
+                Picasso.with(this).load(image).placeholder(R.drawable.def_form_image).into(ivImage);
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_image:
+                chooseImage();
+                break;
+
             case R.id.tv_favorite_stadium:
                 // show stadiums dialog
                 StadiumsDialog dialog = new StadiumsDialog(this);
@@ -66,7 +96,128 @@ public class CreateTeamActivity extends ParentActivity {
         }
     }
 
-    private void createTeam() {
+    private void chooseImage() {
+        // prepare the appropriate array
+        String[] options;
+        if (image == null) {
+            options = new String[]{
+                    getString(R.string.from_gallery),
+                    getString(R.string.from_camera)
+            };
+        } else {
+            options = new String[]{
+                    getString(R.string.from_gallery),
+                    getString(R.string.from_camera),
+                    getString(R.string.remove_image)
+            };
+        }
 
+        // show list dialog
+        DialogUtils.showListDialog(this, options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // switch the selected item
+                switch (which) {
+                    case 0:
+                        setPickerAspects(Const.IMG_ASPECT_X_TEAM, Const.IMG_ASPECT_Y_TEAM);
+                        setPickerMaxDimen(Const.MAX_IMG_DIMEN_TEAM);
+                        pickFromGallery(0, true);
+                        break;
+
+                    case 1:
+                        setPickerAspects(Const.IMG_ASPECT_X_TEAM, Const.IMG_ASPECT_Y_TEAM);
+                        setPickerMaxDimen(Const.MAX_IMG_DIMEN_TEAM);
+                        captureFromCamera(0, true);
+                        break;
+
+                    case 2:
+                        removeImage();
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onImageReady(int requestCode, File image) {
+        this.image = image;
+        Picasso.with(this).load(image).placeholder(R.drawable.def_form_image)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(ivImage);
+    }
+
+    private void removeImage() {
+        image = null;
+        ivImage.setImageResource(R.drawable.def_form_image);
+    }
+
+    private void createTeam() {
+        // prepare params
+        String title = Utils.getText(etTitle);
+        String desc = Utils.getText(etDesc);
+
+        // validate inputs
+        if (Utils.isEmpty(title)) {
+            etTitle.setError(getString(R.string.required));
+            return;
+        }
+        if (Utils.isEmpty(desc)) {
+            etDesc.setError(getString(R.string.required));
+            return;
+        }
+
+        hideKeyboard();
+
+        // check internet connection
+        if (!Utils.hasConnection(this)) {
+            Utils.showShortToast(this, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // encode image if possible
+        String imageEncoded = null;
+        if (image != null) {
+            imageEncoded = BitmapUtils.encodeBase64(image);
+        }
+
+        // get the user
+        UserController userController = new UserController(this);
+        User user = userController.getUser();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.createTeam(this, this, user.getId(),
+                user.getToken(), title, desc, imageEncoded);
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    @Override
+    public void onSuccess(Object response, int statusCode, String tag) {
+        hideProgressDialog();
+
+        Team team = (Team) response;
+        if (statusCode == Const.SER_CODE_200) {
+            Utils.showShortToast(this, R.string.team_created_successfully);
+            finish();
+        } else {
+            Utils.showLongToast(this, AppUtils.getResponseError(this, team));
+        }
+    }
+
+    @Override
+    public void onFail(Exception ex, int statusCode, String tag) {
+        hideProgressDialog();
+
+        if (Const.API_GET_CITIES.equals(tag)) {
+            Utils.showLongToast(this, R.string.failed_loading_cities);
+        } else {
+            super.onFail(ex, statusCode, tag);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("image", image);
+        super.onSaveInstanceState(outState);
     }
 }

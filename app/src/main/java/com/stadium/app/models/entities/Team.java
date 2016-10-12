@@ -24,10 +24,10 @@ public class Team extends ServerResponse {
     private int blockTimes;
     @SerializedName("captin")
     @Expose
-    private User captin;
+    private User captain;
     @SerializedName("descrption")
     @Expose
-    private String descrption;
+    private String description;
     @SerializedName("imageLink")
     @Expose
     private String imageLink;
@@ -36,7 +36,7 @@ public class Team extends ServerResponse {
     private String name;
     @SerializedName("numberOfPlyers")
     @Expose
-    private int numberOfPlyers;
+    private int numberOfPlayers;
     @SerializedName("players")
     @Expose
     private Object players;
@@ -124,31 +124,31 @@ public class Team extends ServerResponse {
     }
 
     /**
-     * @return The captin
+     * @return The captain
      */
-    public User getCaptin() {
-        return captin;
+    public User getCaptain() {
+        return captain;
     }
 
     /**
-     * @param captin The captin
+     * @param captain The captain
      */
-    public void setCaptin(User captin) {
-        this.captin = captin;
+    public void setCaptain(User captain) {
+        this.captain = captain;
     }
 
     /**
-     * @return The descrption
+     * @return The description
      */
-    public String getDescrption() {
-        return descrption;
+    public String getDescription() {
+        return description;
     }
 
     /**
-     * @param descrption The descrption
+     * @param description The description
      */
-    public void setDescrption(String descrption) {
-        this.descrption = descrption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -180,17 +180,17 @@ public class Team extends ServerResponse {
     }
 
     /**
-     * @return The numberOfPlyers
+     * @return The numberOfPlayers
      */
-    public int getNumberOfPlyers() {
-        return numberOfPlyers;
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
     /**
-     * @param numberOfPlyers The numberOfPlyers
+     * @param numberOfPlayers The numberOfPlayers
      */
-    public void setNumberOfPlyers(int numberOfPlyers) {
-        this.numberOfPlyers = numberOfPlyers;
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     /**

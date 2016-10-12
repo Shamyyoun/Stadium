@@ -9,6 +9,7 @@ import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.Image;
 import com.stadium.app.models.entities.Stadium;
+import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.models.responses.ServerResponse;
 import com.stadium.app.utils.AppUtils;
@@ -81,7 +82,7 @@ public class ApiRequests {
         if (encodedImage != null) {
             Image image = new Image();
             image.setContentBase64(encodedImage);
-            image.setName("" + System.currentTimeMillis());
+            image.setName("");
             body.setUserImage(image);
         }
 
@@ -136,6 +137,32 @@ public class ApiRequests {
         ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_EDIT_PROFILE), User.class, listener, body, Const.API_EDIT_PROFILE);
         connectionHandler.setTimeout(30 * 1000);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Team> createTeam(Context context, ConnectionListener<Team> listener,
+                                                      int userId, String userToken,
+                                                      String title, String desc, String encodedImage) {
+        // create the request body
+        Team body = new Team();
+        User captain = new User();
+        captain.setId(userId);
+        captain.setToken(userToken);
+        body.setCaptain(captain);
+        body.setName(title);
+        body.setDescription(desc);
+        if (encodedImage != null) {
+            Image image = new Image();
+            image.setContentBase64(encodedImage);
+            image.setName("");
+            body.setTeamImage(image);
+        }
+
+        // create & execute the request
+        ConnectionHandler<Team> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CREATE_TEAM), Team.class, listener, body, Const.API_CREATE_TEAM);
+        connectionHandler.setTimeout(60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
