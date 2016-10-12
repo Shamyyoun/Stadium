@@ -3,14 +3,9 @@ package com.stadium.app.models;
 /**
  * Created by Shamyyoun on 7/24/16.
  */
-public class Checkable {
-    private boolean checked;
+public interface Checkable {
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
+    public void setChecked(boolean checked);
 
-    public boolean isChecked() {
-        return checked;
-    }
+    public boolean isChecked();
 }

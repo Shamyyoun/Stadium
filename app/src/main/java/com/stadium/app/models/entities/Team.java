@@ -3,9 +3,10 @@ package com.stadium.app.models.entities;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.stadium.app.models.Checkable;
 import com.stadium.app.models.responses.ServerResponse;
 
-public class Team extends ServerResponse {
+public class Team extends ServerResponse implements Checkable{
 
     @SerializedName("Id")
     @Expose
@@ -52,6 +53,7 @@ public class Team extends ServerResponse {
     @SerializedName("totalRes")
     @Expose
     private int totalRes;
+    private boolean checked;
 
     /**
      * @return The id
@@ -263,4 +265,18 @@ public class Team extends ServerResponse {
         this.totalRes = totalRes;
     }
 
+    @Override
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    @Override
+    public boolean isChecked() {
+        return checked;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

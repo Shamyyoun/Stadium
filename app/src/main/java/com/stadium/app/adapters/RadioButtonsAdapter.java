@@ -14,11 +14,11 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 19/2/16.
  */
-public class RadioButtonsAdapter<T extends Checkable> extends ParentRecyclerAdapter<Checkable> {
+public class RadioButtonsAdapter extends ParentRecyclerAdapter<Checkable> {
     private int selectedItemPosition;
 
-    public RadioButtonsAdapter(Context context, List<Checkable> data, int layoutId) {
-        super(context, data, layoutId);
+    public RadioButtonsAdapter(Context context, List<? extends Checkable> data, int layoutId) {
+        super(context, (List<Checkable>) data, layoutId);
         setSelectedItem(0); // select the first item by default
     }
 
