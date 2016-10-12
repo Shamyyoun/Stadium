@@ -94,7 +94,7 @@ public class ForgetPasswordDialog extends ParentDialog {
             return;
         }
 
-        showProgress();
+        showProgressView();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.checkEmail(context, this, phone);
@@ -114,7 +114,7 @@ public class ForgetPasswordDialog extends ParentDialog {
             return;
         }
 
-        showProgress();
+        showProgressView();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.forgetPassword(context, this, resetType, phone);
@@ -123,7 +123,7 @@ public class ForgetPasswordDialog extends ParentDialog {
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
-        hideProgress();
+        hideProgressView();
 
         switch (tag) {
             case Const.API_CHECK_EMAIL:

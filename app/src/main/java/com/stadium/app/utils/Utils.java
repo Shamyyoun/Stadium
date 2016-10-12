@@ -17,7 +17,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
@@ -704,5 +707,16 @@ public class Utils {
         }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
         context.startActivity(intent);
+    }
+
+    /**
+     * method, used to set the text underlined in the text view
+     * @param textView
+     * @param text
+     */
+    public static void setUnderlined(TextView textView, String text) {
+        SpannableString spannable = new SpannableString(text);
+        spannable.setSpan(new UnderlineSpan(), 0, text.length(), 0);
+        textView.setText(spannable);
     }
 }

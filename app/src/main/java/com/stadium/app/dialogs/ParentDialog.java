@@ -25,7 +25,7 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
     // used to hold connection handlers that should be cancelled when destroyed
     private final List<ConnectionHandler> connectionHandlers = new ArrayList();
     protected Context context;
-    private FrameLayout rootView;
+    protected FrameLayout rootView;
     private TextView tvDialogTitle;
     private ImageButton ibClose;
     private View progressView;
@@ -92,17 +92,17 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
-        hideProgress();
+        hideProgressView();
     }
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        hideProgress();
+        hideProgressView();
         Utils.showShortToast(context, R.string.something_went_wrong_please_try_again);
     }
 
-    public void showProgress() {
-        hideProgress();
+    public void showProgressView() {
+        hideProgressView();
 
         if (rootView != null && progressView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -113,7 +113,7 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
         super.setCancelable(false);
     }
 
-    public void hideProgress() {
+    public void hideProgressView() {
         if (progressView != null) {
             progressView.setVisibility(View.GONE);
         }

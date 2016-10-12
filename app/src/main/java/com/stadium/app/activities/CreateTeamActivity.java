@@ -15,7 +15,10 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.UserController;
-import com.stadium.app.dialogs.StadiumsDialog;
+import com.stadium.app.dialogs.ChooseStadiumDialog;
+import com.stadium.app.interfaces.OnItemSelectedListener;
+import com.stadium.app.models.Checkable;
+import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
@@ -37,6 +40,8 @@ public class CreateTeamActivity extends PicPickerActivity {
     private Button btnCancel;
 
     private File image;
+    private ChooseStadiumDialog stadiumsDialog;
+    private Stadium favoriteStadium;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +81,7 @@ public class CreateTeamActivity extends PicPickerActivity {
                 break;
 
             case R.id.tv_favorite_stadium:
-                // show stadiums dialog
-                StadiumsDialog dialog = new StadiumsDialog(this);
-                dialog.show();
-
+                chooseStadium();
                 break;
 
             case R.id.btn_create:
@@ -150,6 +152,23 @@ public class CreateTeamActivity extends PicPickerActivity {
         ivImage.setImageResource(R.drawable.def_form_image);
     }
 
+    private void chooseStadium() {
+        if (stadiumsDialog == null) {
+            stadiumsDialog = new ChooseStadiumDialog(this);
+            stadiumsDialog.setOnItemSelectedListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(Checkable item) {
+                    favoriteStadium = (Stadium) item;
+                    String favStadiumStr = getString(R.string.favorite_stadium)
+                            + ": " + favoriteStadium.getName();
+                    Utils.setUnderlined(tvFavoriteStadium, favStadiumStr);
+                }
+            });
+        }
+
+        stadiumsDialog.show();
+    }
+
     private void createTeam() {
         // prepare params
         String title = Utils.getText(etTitle);
@@ -162,6 +181,10 @@ public class CreateTeamActivity extends PicPickerActivity {
         }
         if (Utils.isEmpty(desc)) {
             etDesc.setError(getString(R.string.required));
+            return;
+        }
+        if (favoriteStadium == null) {
+            Utils.showShortToast(this, R.string.choose_favorite_stadium);
             return;
         }
 
@@ -187,7 +210,7 @@ public class CreateTeamActivity extends PicPickerActivity {
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.createTeam(this, this, user.getId(),
-                user.getToken(), title, desc, imageEncoded);
+                user.getToken(), title, desc, favoriteStadium.getId(), imageEncoded);
         cancelWhenDestroyed(connectionHandler);
     }
 

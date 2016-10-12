@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class HomeFragment extends ProgressToolbarFragment implements OnItemClickListener {
+public class HomeFragment extends ProgressFragment implements OnItemClickListener {
     private UserController userController;
     private ImageView ivImage;
     private TextView tvRating;

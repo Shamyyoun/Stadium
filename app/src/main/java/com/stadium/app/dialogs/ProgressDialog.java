@@ -1,29 +1,28 @@
-package com.stadium.app.fragments;
+package com.stadium.app.dialogs;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.stadium.app.R;
+import com.stadium.app.fragments.ProgressFragment;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.views.EmptyView;
 import com.stadium.app.views.ErrorView;
 
 /**
- * Created by Shamyyoun on 3/9/2016.
+ * Created by Shamyyoun on 2/17/2016.
  */
-public abstract class ProgressToolbarFragment extends ParentFragment {
+public abstract class ProgressDialog extends ParentDialog {
     private View mainView;
     private ErrorView errorView;
     private EmptyView emptyView;
     private SwipeRefreshLayout swipeLayout;
     private boolean mainIsVisible;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(getContentViewResId(), container, false);
+    public ProgressDialog(Context context) {
+        super(context);
+        setContentView(getContentViewResId());
 
         // init views
         mainView = rootView.findViewById(getMainViewResId());
@@ -50,15 +49,13 @@ public abstract class ProgressToolbarFragment extends ParentFragment {
                 }
             });
         }
-
-        return rootView;
     }
 
     protected abstract int getContentViewResId();
 
     protected abstract int getMainViewResId();
 
-    protected abstract OnRefreshListener getOnRefreshListener();
+    protected abstract ProgressFragment.OnRefreshListener getOnRefreshListener();
 
     protected void showProgress() {
         if (errorView != null)
@@ -68,17 +65,17 @@ public abstract class ProgressToolbarFragment extends ParentFragment {
         if (swipeLayout != null)
             swipeLayout.setRefreshing(false);
 
-        showProgressDialog();
+        showProgressView();
     }
 
     protected void showError(String msg) {
-        hideProgressDialog();
+        hideProgressView();
 
         if (errorView != null && !mainIsVisible) {
             errorView.setError(msg);
             errorView.setVisibility(View.VISIBLE);
         } else {
-            Utils.showLongToast(activity, msg);
+            Utils.showLongToast(context, msg);
         }
         if (emptyView != null)
             emptyView.setVisibility(View.GONE);
@@ -93,7 +90,7 @@ public abstract class ProgressToolbarFragment extends ParentFragment {
     }
 
     protected void showEmpty(String msg) {
-        hideProgressDialog();
+        hideProgressView();
 
         if (errorView != null)
             errorView.setVisibility(View.GONE);
@@ -114,7 +111,7 @@ public abstract class ProgressToolbarFragment extends ParentFragment {
     }
 
     protected void showMain() {
-        hideProgressDialog();
+        hideProgressView();
 
         if (errorView != null)
             errorView.setVisibility(View.GONE);

@@ -1,20 +1,19 @@
-package com.stadium.app.fragments;
+package com.stadium.app.dialogs;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
-import com.stadium.app.adapters.StadiumsAdapter;
+import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.UserController;
-import com.stadium.app.dialogs.OrderStadiumsDialog;
-import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.fragments.ProgressFragment;
+import com.stadium.app.interfaces.OnItemSelectedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.User;
@@ -25,34 +24,34 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Shamyyoun on 7/2/16.
+ * Created by Shamyyoun on 6/28/16.
  */
-public class StadiumsFragment extends ProgressFragment implements OnItemClickListener {
-    private TextView tvOrderBy;
+public class ChooseStadiumDialog extends ProgressDialog {
     private RecyclerView recyclerView;
+    private Button btnSubmit;
+    private RadioButtonsAdapter adapter;
     private List<Stadium> data;
+    private OnItemSelectedListener itemSelectedListener;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTitle(R.string.stadiums);
-        createOptionsMenu(R.menu.menu_stadiums);
+    public ChooseStadiumDialog(final Context context) {
+        super(context);
+        setTitle(R.string.favorite_stadium);
+
+        // init views
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        btnSubmit = (Button) findViewById(R.id.btn_submit);
+
+        // customize the recycler view
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // add click listeners
+        btnSubmit.setOnClickListener(this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        // init views
-        tvOrderBy = (TextView) findViewById(R.id.tv_order_by);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        // customize the recycler view
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // add listeners
-        tvOrderBy.setOnClickListener(this);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // get data from saved bundle if exists
         if (savedInstanceState != null) {
@@ -68,23 +67,21 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
         } else {
             loadData();
         }
-
-        return rootView;
     }
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.fragment_stadiums;
+        return R.layout.dialog_choose_stadium;
     }
 
     @Override
     protected int getMainViewResId() {
-        return R.id.swipe_layout;
+        return R.id.recycler_view;
     }
 
     @Override
-    protected OnRefreshListener getOnRefreshListener() {
-        return new OnRefreshListener() {
+    protected ProgressFragment.OnRefreshListener getOnRefreshListener() {
+        return new ProgressFragment.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadData();
@@ -93,31 +90,31 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
     }
 
     private void updateUI() {
-        StadiumsAdapter adapter = new StadiumsAdapter(activity, data, R.layout.item_stadium);
+        adapter = new RadioButtonsAdapter(context, data, R.layout.item_radio_button);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
         showMain();
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        logE("Item clicked: " + position);
-    }
-
-    @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tv_order_by) {
-            // show order data dialog
-            OrderStadiumsDialog dialog = new OrderStadiumsDialog(activity);
-            dialog.show();
+        if (v.getId() == R.id.btn_submit) {
+            onSubmit();
         } else {
             super.onClick(v);
         }
     }
 
+    private void onSubmit() {
+        if (adapter != null && data != null && itemSelectedListener != null) {
+            itemSelectedListener.onItemSelected(data.get(adapter.getSelectedItemPosition()));
+        }
+
+        dismiss();
+    }
+
     private void loadData() {
         // check internet connection
-        if (!Utils.hasConnection(activity)) {
+        if (!Utils.hasConnection(context)) {
             showError(R.string.no_internet_connection);
             return;
         }
@@ -125,11 +122,11 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
         showProgress();
 
         // get current user
-        UserController userController = new UserController(activity);
+        UserController userController = new UserController(context);
         User user = userController.getUser();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.listOfStadiums(activity, this, user.getId(), user.getToken());
+        ConnectionHandler connectionHandler = ApiRequests.listOfStadiums(context, this, user.getId(), user.getToken());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -152,10 +149,35 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
         showError(R.string.failed_loading_stadiums);
     }
 
+
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public Bundle onSaveInstanceState() {
+        Bundle outState = new Bundle();
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
-        super.onSaveInstanceState(outState);
+
+        return outState;
+    }
+
+    @Override
+    protected void showMain() {
+        btnSubmit.setText(R.string.select);
+        super.showMain();
+    }
+
+    @Override
+    protected void showError(int msgResId) {
+        btnSubmit.setText(R.string.close);
+        super.showError(msgResId);
+    }
+
+    @Override
+    protected void showEmpty(int msgResId) {
+        btnSubmit.setText(R.string.close);
+        super.showEmpty(msgResId);
+    }
+
+    public void setOnItemSelectedListener(OnItemSelectedListener itemSelectedListener) {
+        this.itemSelectedListener = itemSelectedListener;
     }
 }

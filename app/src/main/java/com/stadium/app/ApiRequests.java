@@ -119,9 +119,9 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<User> editProfile(Context context, ConnectionListener<User> listener,
-                                                        int userId, String userToken,
-                                                        int age, City city, String phone,
-                                                        String position, String email, String bio) {
+                                                      int userId, String userToken,
+                                                      int age, City city, String phone,
+                                                      String position, String email, String bio) {
         // create the request body
         User body = new User();
         body.setId(userId);
@@ -142,8 +142,9 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Team> createTeam(Context context, ConnectionListener<Team> listener,
-                                                      int userId, String userToken,
-                                                      String title, String desc, String encodedImage) {
+                                                     int userId, String userToken,
+                                                     String title, String desc,
+                                                     int favStadiumId, String encodedImage) {
         // create the request body
         Team body = new Team();
         User captain = new User();
@@ -152,6 +153,7 @@ public class ApiRequests {
         body.setCaptain(captain);
         body.setName(title);
         body.setDescription(desc);
+        body.setPreferStadiumId(favStadiumId);
         if (encodedImage != null) {
             Image image = new Image();
             image.setContentBase64(encodedImage);

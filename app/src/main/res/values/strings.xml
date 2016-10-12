@@ -146,6 +146,7 @@
     <string name="invalid_email_format">صيغة البريد الالكتروني غير صحيحة</string>
     <string name="profile_updated_successfully">تم تحديث الملف الشخصي بنجاح</string>
     <string name="team_created_successfully">تم انشاء الفريق بنجاح</string>
+    <string name="choose_favorite_stadium">يجب اختيار ملعب مفضل</string>
 
 
     <!-- Arrays -->
