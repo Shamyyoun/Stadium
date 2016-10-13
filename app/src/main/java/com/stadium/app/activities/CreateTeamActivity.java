@@ -183,10 +183,6 @@ public class CreateTeamActivity extends PicPickerActivity {
             etDesc.setError(getString(R.string.required));
             return;
         }
-        if (favoriteStadium == null) {
-            Utils.showShortToast(this, R.string.choose_favorite_stadium);
-            return;
-        }
 
         hideKeyboard();
 
@@ -204,13 +200,16 @@ public class CreateTeamActivity extends PicPickerActivity {
             imageEncoded = BitmapUtils.encodeBase64(image);
         }
 
+        // get the favorite stadium id if possible
+        int favStadiumId = favoriteStadium != null ? favoriteStadium.getId() : 0;
+
         // get the user
         UserController userController = new UserController(this);
         User user = userController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.createTeam(this, this, user.getId(),
-                user.getToken(), title, desc, favoriteStadium.getId(), imageEncoded);
+                user.getToken(), title, desc, favStadiumId, imageEncoded);
         cancelWhenDestroyed(connectionHandler);
     }
 
