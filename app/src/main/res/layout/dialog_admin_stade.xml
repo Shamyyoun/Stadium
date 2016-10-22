@@ -1,99 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_wrapper"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:minHeight="@dimen/min_dialog_height"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/layout_main_content"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_dialog_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/layout_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/dialog_bg"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="50dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="30dp">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/view_dialog_toolbar" />
-
-        <FrameLayout
-            android:id="@+id/layout_content"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingBottom="50dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="30dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_stadium_number"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="ملعب : 5"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/medium_text" />
 
-                <TextView
-                    android:id="@+id/tv_stadium_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="ملعب : 5"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/medium_text" />
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="التاريخ : 12/12/2012"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/medium_text" />
 
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="التاريخ : 12/12/2012"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/medium_text" />
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="الوقت من ٩ الي ١١"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/medium_text" />
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="الوقت من ٩ الي ١١"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/medium_text" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/gray" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/gray" />
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/GrayEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/name_reserve"
+                android:textColor="@color/orange" />
 
-                <EditText
-                    android:id="@+id/et_name"
-                    style="@style/GrayEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="20dp"
-                    android:hint="@string/name_reserve"
-                    android:textColor="@color/orange" />
-
-                <EditText
-                    android:id="@+id/et_phone"
-                    style="@style/GrayEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="20dp"
-                    android:hint="@string/phone_number"
-                    android:inputType="phone"
-                    android:textColor="@color/orange" />
-            </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
+            <EditText
+                android:id="@+id/et_phone"
+                style="@style/GrayEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:textColor="@color/orange" />
+        </LinearLayout>
+    </FrameLayout>
 
     <Button
         android:id="@+id/btn_reserve"
@@ -101,5 +94,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
         android:text="@string/reserve" />
-</FrameLayout>
+</LinearLayout>

@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_wrapper"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:minHeight="@dimen/min_dialog_height"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/layout_main_content"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_dialog_toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/dialog_bg"
-        android:orientation="vertical">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/view_dialog_toolbar" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:overScrollMode="ifContentScrolls" />
-    </LinearLayout>
+        android:overScrollMode="ifContentScrolls" />
 
     <com.stadium.app.views.DarkenedButton
         android:id="@+id/btn_order"
@@ -30,5 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
         android:text="@string/save" />
-</FrameLayout>
+</LinearLayout>

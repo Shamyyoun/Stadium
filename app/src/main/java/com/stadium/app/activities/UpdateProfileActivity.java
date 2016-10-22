@@ -79,7 +79,7 @@ public class UpdateProfileActivity extends ParentActivity {
         etAge.setText("" + user.getAge());
         etPhone.setText(user.getPhone());
         etPosition.setText(user.getPosition());
-        etEmail.setText(user.getEmail());
+        etEmail.setText(user.getEmail().trim());
         etBio.setText(user.getBio());
 
         // set the city

@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:minHeight="@dimen/min_dialog_height"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_dialog_toolbar" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/info_icon" />
+
+    <TextView
+        android:id="@+id/tv_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/dialog_bg"
-        android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:gravity="center">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/view_dialog_toolbar" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/info_icon"/>
-
-        <TextView
-            android:id="@+id/tv_info"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:lineSpacingExtra="10dp"
-            android:text="تم افتتاح الملعب في عام ٢٠١٠ وتم تجهيزه من النجيل الصناعي ذو جود عاليه يساعد علي اللعب بشكل افضل كالمحترفين"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/below_medium_text" />
-
-    </LinearLayout>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:lineSpacingExtra="10dp"
+        android:text="تم افتتاح الملعب في عام ٢٠١٠ وتم تجهيزه من النجيل الصناعي ذو جود عاليه يساعد علي اللعب بشكل افضل كالمحترفين"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/below_medium_text" />
 
     <com.stadium.app.views.DarkenedButton
         android:id="@+id/btn_exit"
@@ -43,5 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
         android:text="@string/exit" />
-</FrameLayout>
+</LinearLayout>
