@@ -82,5 +82,8 @@
             android:name=".activities.UpdateProfileActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
+        <activity
+            android:name=".activities.ProfileImageActivity"
+            android:theme="@style/AppTheme.BlackTheme" />
     </application>
 </manifest>

@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:drawableTop="@drawable/small_orange_star"
                         android:text="4.5"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/very_small_text" />
                 </LinearLayout>
             </RelativeLayout>
@@ -103,7 +103,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_toolbar_size"
-        android:background="@color/white"
+        android:background="@android:color/white"
         android:gravity="center"
         android:orientation="horizontal">
 

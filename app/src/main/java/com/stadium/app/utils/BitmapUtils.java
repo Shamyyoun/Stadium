@@ -309,4 +309,9 @@ public class BitmapUtils {
         return encodedImage;
     }
 
+    public static Bitmap decodeBase64(String encodedImage) {
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
 }

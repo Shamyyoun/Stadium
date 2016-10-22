@@ -168,4 +168,23 @@ public class ApiRequests {
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<String> uploadImage(Context context, ConnectionListener<String> listener,
+                                                     int userId, String userToken, String encodedImage) {
+        // create the request body
+        User body = new User();
+        body.setId(userId);
+        body.setToken(userToken);
+        Image image = new Image();
+        image.setContentBase64(encodedImage);
+        image.setName("");
+        body.setUserImage(image);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_UPLOAD_IMAGE), String.class, listener, body, Const.API_UPLOAD_IMAGE);
+        connectionHandler.setTimeout(60 * 1000);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
 }

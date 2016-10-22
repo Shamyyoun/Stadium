@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@android:color/black">
+
+    <ImageButton
+        android:id="@+id/ib_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="7dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="7dp"
+        android:src="@drawable/edit_icon" />
+
+    <ImageView
+        android:id="@+id/iv_image"
+        style="@style/NormalImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:visibility="gone">
+
+        <com.stadium.app.views.DarkenedButton
+            android:id="@+id/btn_save"
+            style="@style/StrokedGreenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+
+        <com.stadium.app.views.DarkenedButton
+            android:id="@+id/btn_cancel"
+            style="@style/GreenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/cancel" />
+    </LinearLayout>
+</FrameLayout>

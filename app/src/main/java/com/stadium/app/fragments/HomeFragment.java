@@ -2,6 +2,7 @@ package com.stadium.app.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.activities.CreateTeamActivity;
+import com.stadium.app.activities.ProfileImageActivity;
 import com.stadium.app.activities.UpdateProfileActivity;
 import com.stadium.app.adapters.EventsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
@@ -25,6 +27,7 @@ import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.BitmapUtils;
 import com.stadium.app.utils.Utils;
 
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ import java.util.List;
  */
 public class HomeFragment extends ProgressFragment implements OnItemClickListener {
     private UserController userController;
+    private View layoutImage;
     private ImageView ivImage;
     private TextView tvRating;
     private TextView tvName;
@@ -58,6 +62,7 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
         userController = new UserController(activity);
 
         // init views
+        layoutImage = findViewById(R.id.layout_image);
         ivImage = (ImageView) findViewById(R.id.iv_image);
         tvRating = (TextView) findViewById(R.id.tv_rating);
         tvName = (TextView) findViewById(R.id.tv_name);
@@ -69,6 +74,7 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
         recyclerView.setLayoutManager(layoutManager);
 
         // add listeners
+        layoutImage.setOnClickListener(this);
         btnCreateTeam.setOnClickListener(this);
 
         // update the ui
@@ -117,7 +123,13 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
         tvName.setText(userController.getNamePosition());
         tvRating.setText("" + user.getRate());
 
-        Utils.loadImage(activity, user.getImageLink(), R.drawable.default_image, ivImage);
+        // load the profile image
+        if (!Utils.isNullOrEmpty(user.getImageLink())) {
+            Utils.loadImage(activity, user.getImageLink(), R.drawable.default_image, ivImage);
+        } else if (user.getUserImage() != null && !Utils.isNullOrEmpty(user.getUserImage().getContentBase64())) {
+            Bitmap bitmap = BitmapUtils.decodeBase64(user.getUserImage().getContentBase64());
+            ivImage.setImageBitmap(bitmap);
+        }
     }
 
     private void updateEventsUI() {
@@ -134,7 +146,12 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_create_team) {
+        if (v.getId() == R.id.layout_image) {
+            // open profile image activity
+            Intent intent = new Intent(activity, ProfileImageActivity.class);
+            startActivityForResult(intent, Const.REQ_UPDATE_PROFILE_IMAGE);
+            activity.overridePendingTransition(R.anim.scale_fade_enter, R.anim.scale_fade_exit);
+        } else if (v.getId() == R.id.btn_create_team) {
             // open create team activity
             Intent intent = new Intent(activity, CreateTeamActivity.class);
             startActivity(intent);
@@ -194,11 +211,13 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Const.REQ_UPDATE_PROFILE && resultCode == Activity.RESULT_OK) {
-            updateUserUI();
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Const.REQ_UPDATE_PROFILE || requestCode == Const.REQ_UPDATE_PROFILE_IMAGE) {
+                updateUserUI();
+            }
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

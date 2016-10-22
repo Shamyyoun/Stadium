@@ -147,6 +147,8 @@
     <string name="profile_updated_successfully">تم تحديث الملف الشخصي بنجاح</string>
     <string name="team_created_successfully">تم انشاء الفريق بنجاح</string>
     <string name="choose_favorite_stadium">يجب اختيار ملعب مفضل</string>
+    <string name="image_updated_successfully">تم تغيير الصورة بنجاح</string>
+    <string name="failed_updating_image">فشل تغيير الصورة</string>
 
 
     <!-- Arrays -->

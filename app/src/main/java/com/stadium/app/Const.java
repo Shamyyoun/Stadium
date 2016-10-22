@@ -21,6 +21,7 @@ public class Const {
     public static final String API_GET_EVENT = "getEvent";
     public static final String API_EDIT_PROFILE = "editProfile";
     public static final String API_CREATE_TEAM = "CreateTeam";
+    public static final String API_UPLOAD_IMAGE = "UploadImage";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -31,11 +32,12 @@ public class Const {
     // Images uploading:-------------------
     public static final int IMG_ASPECT_X_PROFILE = 1;
     public static final int IMG_ASPECT_Y_PROFILE = 1;
-    public static final int MAX_IMG_DIMEN_PROFILE = 400;
+    public static final int MAX_IMG_DIMEN_PROFILE = 500;
     public static final int IMG_ASPECT_X_TEAM = 1;
     public static final int IMG_ASPECT_Y_TEAM = 1;
-    public static final int MAX_IMG_DIMEN_TEAM = 400;
+    public static final int MAX_IMG_DIMEN_TEAM = 500;
 
     // Activity requests:-------------------
     public static final int REQ_UPDATE_PROFILE = 1;
+    public static final int REQ_UPDATE_PROFILE_IMAGE = 2;
 }

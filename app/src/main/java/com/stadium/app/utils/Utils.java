@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import com.stadium.app.Const;
 
 import java.lang.reflect.Field;
@@ -587,10 +588,15 @@ public class Utils {
      */
     public static void loadImage(Context context, String url, int defImageId, ImageView imageView, Callback callback) {
         if (isNullOrEmpty(url)) {
-            imageView.setImageResource(defImageId);
+            if (defImageId != 0) {
+                imageView.setImageResource(defImageId);
+            }
         } else {
-            Picasso.with(context).load(url).placeholder(defImageId)
-                    .error(defImageId).into(imageView, callback);
+            RequestCreator requestCreator = Picasso.with(context).load(url);
+            if (defImageId != 0) {
+                requestCreator = requestCreator.placeholder(defImageId).error(defImageId);
+            }
+            requestCreator.into(imageView, callback);
         }
     }
 
@@ -711,6 +717,7 @@ public class Utils {
 
     /**
      * method, used to set the text underlined in the text view
+     *
      * @param textView
      * @param text
      */

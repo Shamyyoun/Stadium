@@ -22,8 +22,10 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <FrameLayout
+                android:id="@+id/layout_image"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="@dimen/home_user_image_bg_size"
@@ -113,18 +115,18 @@
             android:layout_height="match_parent">
 
             <com.stadium.app.views.EmptyView
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/empty_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:visibility="gone" />
 
             <com.stadium.app.views.ErrorView
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/error_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:visibility="gone" />
 
