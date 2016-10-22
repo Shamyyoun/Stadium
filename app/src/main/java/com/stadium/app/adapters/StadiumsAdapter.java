@@ -40,7 +40,7 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
 
         // get objects
         final Stadium item = data.get(position);
-        final StadiumController controller = new StadiumController(item);
+        final StadiumController controller = new StadiumController();
 
         // set basic data
         holder.tvTitle.setText(item.getName());
@@ -49,7 +49,7 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         holder.tvCapacity.setText(capacity);
 
         // set address if possible
-        String address = controller.getAddress();
+        String address = controller.getAddress(item);
         if (address != null) {
             holder.tvAddress.setText(getString(R.string.address_c) + " " + address);
             holder.tvAddress.setVisibility(View.VISIBLE);
@@ -61,7 +61,7 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivPhoto);
 
         // set the contact info
-        if (controller.hasContactInfo()) {
+        if (controller.hasContactInfo(item)) {
             holder.layoutContactInfo.setVisibility(View.VISIBLE);
             holder.viewContactInfoDivider.setVisibility(View.VISIBLE);
 
@@ -87,7 +87,7 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         }
 
         // add listeners
-        if (controller.hasLocation()) {
+        if (controller.hasLocation(item)) {
             holder.tvAddress.setClickable(true);
             holder.tvAddress.setOnClickListener(new View.OnClickListener() {
                 @Override

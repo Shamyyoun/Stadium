@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.stadium.app.R;
@@ -15,36 +14,37 @@ import com.stadium.app.R;
  */
 public class ErrorView extends FrameLayout {
     private Context context;
+    private int layoutResId;
     private View rootView;
     private TextView tvError;
-    private ImageButton ibRefresh;
 
     public ErrorView(Context context) {
         super(context);
-        init(context);
+        this.context = context;
     }
 
     public ErrorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        this.context = context;
     }
 
     public ErrorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        this.context = context;
     }
 
-    private void init(Context context) {
-        this.context = context;
-        rootView = LayoutInflater.from(context).inflate(R.layout.view_error, this);
+    public void setLayoutResId(int layoutResId) {
+        this.layoutResId = layoutResId;
+        init();
+    }
+
+    private void init() {
+        rootView = LayoutInflater.from(context).inflate(layoutResId, this);
         tvError = (TextView) rootView.findViewById(R.id.tv_error);
-        ibRefresh = (ImageButton) rootView.findViewById(R.id.ib_refresh);
     }
 
     public void setRefreshListener(OnClickListener clickListener) {
-        if (ibRefresh != null) {
-            ibRefresh.setOnClickListener(clickListener);
-        }
+        rootView.setOnClickListener(clickListener);
     }
 
     public void setError(int msgResId) {

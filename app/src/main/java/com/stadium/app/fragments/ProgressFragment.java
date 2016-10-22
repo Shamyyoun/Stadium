@@ -31,6 +31,10 @@ public abstract class ProgressFragment extends ParentFragment {
         emptyView = (EmptyView) rootView.findViewById(R.id.empty_view);
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_layout);
 
+        // customize views
+        errorView.setLayoutResId(R.layout.view_error);
+        emptyView.setLayoutResId(R.layout.view_empty);
+
         // add refresh click listener if error view is not null
         if (errorView != null) {
             errorView.setRefreshListener(new View.OnClickListener() {

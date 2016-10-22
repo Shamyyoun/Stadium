@@ -14,27 +14,32 @@ import com.stadium.app.R;
  */
 public class EmptyView extends FrameLayout {
     private Context context;
+    private int layoutResId;
     private View rootView;
     private TextView tvEmpty;
 
     public EmptyView(Context context) {
         super(context);
-        init(context);
+        this.context = context;
     }
 
     public EmptyView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        this.context = context;
     }
 
     public EmptyView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        this.context = context;
     }
 
-    private void init(Context context) {
-        this.context = context;
-        rootView = LayoutInflater.from(context).inflate(R.layout.view_empty, this);
+    public void setLayoutResId(int layoutResId) {
+        this.layoutResId = layoutResId;
+        init();
+    }
+
+    private void init() {
+        rootView = LayoutInflater.from(context).inflate(layoutResId, this);
         tvEmpty = (TextView) rootView.findViewById(R.id.tv_empty);
     }
 

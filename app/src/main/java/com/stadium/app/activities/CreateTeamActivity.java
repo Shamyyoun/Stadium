@@ -166,6 +166,10 @@ public class CreateTeamActivity extends PicPickerActivity {
             });
         }
 
+        // set the selected item id if possible
+        if (favoriteStadium != null) {
+            stadiumsDialog.setSelectedItemId(favoriteStadium.getId());
+        }
         stadiumsDialog.show();
     }
 

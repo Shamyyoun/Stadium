@@ -2,10 +2,10 @@ package com.stadium.app.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -36,7 +36,6 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
 
         // set no title and transparent bg
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
 
     @Override
@@ -138,5 +137,16 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
         if (rootView != null) {
             Utils.hideKeyboard(rootView);
         }
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        // customize the dialog width
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        getWindow().setAttributes(layoutParams);
     }
 }

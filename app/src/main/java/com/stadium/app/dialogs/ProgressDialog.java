@@ -5,7 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.stadium.app.R;
-import com.stadium.app.fragments.ProgressFragment;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.views.EmptyView;
 import com.stadium.app.views.ErrorView;
@@ -29,6 +28,10 @@ public abstract class ProgressDialog extends ParentDialog {
         errorView = (ErrorView) rootView.findViewById(R.id.error_view);
         emptyView = (EmptyView) rootView.findViewById(R.id.empty_view);
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_layout);
+
+        // customize views
+        errorView.setLayoutResId(R.layout.view_dialog_error);
+        emptyView.setLayoutResId(R.layout.view_dialog_empty);
 
         // add refresh click listener if error view is not null
         if (errorView != null) {
@@ -55,7 +58,7 @@ public abstract class ProgressDialog extends ParentDialog {
 
     protected abstract int getMainViewResId();
 
-    protected abstract ProgressFragment.OnRefreshListener getOnRefreshListener();
+    protected abstract OnRefreshListener getOnRefreshListener();
 
     protected void showProgress() {
         if (errorView != null)

@@ -11,8 +11,8 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
 import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.StadiumController;
 import com.stadium.app.controllers.UserController;
-import com.stadium.app.fragments.ProgressFragment;
 import com.stadium.app.interfaces.OnItemSelectedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Stadium;
@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.stadium.app.R.string.select;
+
 /**
  * Created by Shamyyoun on 6/28/16.
  */
@@ -32,6 +34,7 @@ public class ChooseStadiumDialog extends ProgressDialog {
     private RadioButtonsAdapter adapter;
     private List<Stadium> data;
     private OnItemSelectedListener itemSelectedListener;
+    private int selectedItemId;
 
     public ChooseStadiumDialog(final Context context) {
         super(context);
@@ -80,8 +83,8 @@ public class ChooseStadiumDialog extends ProgressDialog {
     }
 
     @Override
-    protected ProgressFragment.OnRefreshListener getOnRefreshListener() {
-        return new ProgressFragment.OnRefreshListener() {
+    protected OnRefreshListener getOnRefreshListener() {
+        return new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadData();
@@ -93,6 +96,9 @@ public class ChooseStadiumDialog extends ProgressDialog {
         adapter = new RadioButtonsAdapter(context, data, R.layout.item_radio_button);
         recyclerView.setAdapter(adapter);
         showMain();
+
+        // select an item if possible
+        selectCheckedItem();
     }
 
     @Override
@@ -161,7 +167,7 @@ public class ChooseStadiumDialog extends ProgressDialog {
 
     @Override
     protected void showMain() {
-        btnSubmit.setText(R.string.select);
+        btnSubmit.setText(select);
         super.showMain();
     }
 
@@ -179,5 +185,26 @@ public class ChooseStadiumDialog extends ProgressDialog {
 
     public void setOnItemSelectedListener(OnItemSelectedListener itemSelectedListener) {
         this.itemSelectedListener = itemSelectedListener;
+    }
+
+    public void setSelectedItemId(int selectedItemId) {
+        this.selectedItemId = selectedItemId;
+    }
+
+    private void selectCheckedItem() {
+        StadiumController stadiumController = new StadiumController();
+        int itemPosition = stadiumController.getItemPosition(data, selectedItemId);
+        if (itemPosition != -1) {
+            adapter.setSelectedItem(itemPosition);
+        }
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        if (data != null && adapter != null) {
+            selectCheckedItem();
+        }
     }
 }

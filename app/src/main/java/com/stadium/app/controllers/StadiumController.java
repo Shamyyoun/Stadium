@@ -3,17 +3,13 @@ package com.stadium.app.controllers;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.utils.Utils;
 
+import java.util.List;
+
 /**
  * Created by Shamyyoun on 9/4/16.
  */
 public class StadiumController {
-    private Stadium stadium;
-
-    public StadiumController(Stadium stadium) {
-        this.stadium = stadium;
-    }
-
-    public boolean hasContactInfo() {
+    public boolean hasContactInfo(Stadium stadium) {
         if (Utils.isNullOrEmpty(stadium.getPhoneNumber()) && Utils.isNullOrEmpty(stadium.getEmail())) {
             return false;
         } else {
@@ -21,7 +17,7 @@ public class StadiumController {
         }
     }
 
-    public boolean hasLocation() {
+    public boolean hasLocation(Stadium stadium) {
         if (stadium.getLatitude() == 0 && stadium.getLongitude() == 0) {
             return false;
         } else {
@@ -29,7 +25,7 @@ public class StadiumController {
         }
     }
 
-    public String getAddress() {
+    public String getAddress(Stadium stadium) {
         String address = null;
         if (stadium.getStadiumCity() != null) {
             String cityName = stadium.getStadiumCity().getName();
@@ -51,5 +47,15 @@ public class StadiumController {
         }
 
         return address;
+    }
+
+    public int getItemPosition(List<Stadium> stadiums, int itemId) {
+        for (int i = 0; i < stadiums.size(); i++) {
+            if (stadiums.get(i).getId() == itemId) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

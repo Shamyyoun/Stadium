@@ -6,19 +6,20 @@
     android:background="@color/black_transparent"
     android:clickable="true"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <ProgressBar
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:theme="@style/WhiteWidget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         tools:background="#F00" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:text="@string/please_wait_dotted"
         android:textColor="@android:color/white"
-        android:textSize="16sp" />
+        android:textSize="@dimen/medium_text"
+        tools:background="#F00" />
 </LinearLayout>
