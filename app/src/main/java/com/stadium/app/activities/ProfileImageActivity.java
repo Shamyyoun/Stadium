@@ -58,7 +58,10 @@ public class ProfileImageActivity extends PicPickerActivity {
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
-        // load the profile image
+        loadProfileImage();
+    }
+
+    private void loadProfileImage() {
         User user = userController.getUser();
         if (!Utils.isNullOrEmpty(user.getImageLink())) {
             Utils.loadImage(this, user.getImageLink(), 0, ivImage);
@@ -160,16 +163,20 @@ public class ProfileImageActivity extends PicPickerActivity {
 
             // update the flag
             imageUpdated = true;
+        } else {
+            Utils.showShortToast(this, R.string.failed_updating_image);
         }
     }
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
+        hideProgressDialog();
         Utils.showShortToast(this, R.string.failed_updating_image);
     }
 
     private void cancel() {
         showButtons(false);
+        loadProfileImage();
     }
 
     @Override
