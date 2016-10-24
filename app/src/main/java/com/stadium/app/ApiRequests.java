@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
+import com.stadium.app.models.bodies.ConfirmPresentBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.Event;
@@ -184,6 +185,26 @@ public class ApiRequests {
         ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_UPLOAD_IMAGE), String.class, listener, body, Const.API_UPLOAD_IMAGE);
         connectionHandler.setTimeout(60 * 1000);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> confirmPresent(Context context, ConnectionListener<String> listener,
+                                                        int userId, String userToken, int resId, int type) {
+        // create the request body
+        ConfirmPresentBody body = new ConfirmPresentBody();
+        User player = new User();
+        player.setId(userId);
+        player.setToken(userToken);
+        body.setPlayer(player);
+        ConfirmPresentBody.Res res = new ConfirmPresentBody.Res();
+        res.setId(resId);
+        body.setRes(res);
+        body.setType(type);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CONFIRM_PRESENT), String.class, listener, body, Const.API_CONFIRM_PRESENT);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

@@ -22,6 +22,7 @@ public class Const {
     public static final String API_EDIT_PROFILE = "editProfile";
     public static final String API_CREATE_TEAM = "CreateTeam";
     public static final String API_UPLOAD_IMAGE = "UploadImage";
+    public static final String API_CONFIRM_PRESENT = "confirmPresent";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -40,4 +41,8 @@ public class Const {
     // Activity requests:-------------------
     public static final int REQ_UPDATE_PROFILE = 1;
     public static final int REQ_UPDATE_PROFILE_IMAGE = 2;
+
+    // Event confirm status:-----------------
+    public static final int EVENT_STATUS_CONFIRM = 1;
+    public static final int EVENT_STATUS_DECLINE = 0;
 }

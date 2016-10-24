@@ -69,4 +69,9 @@ public class DateUtils {
         Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
         return calendar.getTimeInMillis() < currentCalendar.getTimeInMillis();
     }
+
+    public static boolean isToday(Calendar calendar) {
+        Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
+        return currentCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH);
+    }
 }

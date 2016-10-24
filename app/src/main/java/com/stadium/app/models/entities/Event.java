@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Event implements Serializable {
+    public static final String DATE_FORMAT = "MM/dd/yyyy hh:mm:ss a";
 
     @SerializedName("Date")
     @Expose
@@ -14,6 +15,9 @@ public class Event implements Serializable {
     @SerializedName("Message")
     @Expose
     private String message;
+    @SerializedName("eventType")
+    @Expose
+    private int eventType;
     @SerializedName("imageLink")
     @Expose
     private String imageLink;
@@ -35,6 +39,8 @@ public class Event implements Serializable {
     @SerializedName("titleType")
     @Expose
     private int titleType;
+
+    private int confirmStatus; // confirmPresent status - used in the UI only
 
     /**
      * @return The date
@@ -62,6 +68,20 @@ public class Event implements Serializable {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    /**
+     * @return The event type
+     */
+    public int getEventType() {
+        return eventType;
+    }
+
+    /**
+     * @param eventType The event type
+     */
+    public void setEventType(int eventType) {
+        this.eventType = eventType;
     }
 
     /**
@@ -162,4 +182,11 @@ public class Event implements Serializable {
         this.titleType = titleType;
     }
 
+    public void setConfirmStatus(int confirmStatus) {
+        this.confirmStatus = confirmStatus;
+    }
+
+    public int getConfirmStatus() {
+        return confirmStatus;
+    }
 }

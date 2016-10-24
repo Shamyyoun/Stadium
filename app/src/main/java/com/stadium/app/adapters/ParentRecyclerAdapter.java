@@ -1,11 +1,16 @@
 package com.stadium.app.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import com.stadium.app.R;
+import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +22,9 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
     protected List<Item> data;
     protected int layoutId;
     protected OnItemClickListener itemClickListener;
+    protected ProgressDialog progressDialog;
+    // used to hold connection handlers that should be cancelled when destroyed
+    private final List<ConnectionHandler> connectionHandlers = new ArrayList();
 
     public ParentRecyclerAdapter(Context context, List<Item> data, int layoutId) {
         this.context = context;
@@ -45,5 +53,29 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
 
     protected String getString(int resId) {
         return context.getString(resId);
+    }
+
+    public void showProgressDialog() {
+        progressDialog = DialogUtils.showProgressDialog(context, R.string.please_wait_dotted);
+    }
+
+    public void hideProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    public void cancelWhenDestroyed(ConnectionHandler connectionHandler) {
+        connectionHandlers.add(connectionHandler);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        // cancel requests if found
+        for (ConnectionHandler connectionHandler : connectionHandlers) {
+            connectionHandler.cancel(true);
+        }
+
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 }

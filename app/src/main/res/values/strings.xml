@@ -149,6 +149,13 @@
     <string name="choose_favorite_stadium">يجب اختيار ملعب مفضل</string>
     <string name="image_updated_successfully">تم تغيير الصورة بنجاح</string>
     <string name="failed_updating_image">فشل تغيير الصورة</string>
+    <string name="accepted_successfully">تم الموافقة بنجاح</string>
+    <string name="error_accepting">حدث خطأ اثناء الموافقة</string>
+    <string name="declined_successfully">تم الرفض بنجاح</string>
+    <string name="error_declining">حدث خطأ اثناء الرفض</string>
+    <string name="confirm_this_reservation_q">تأكيد هذا الحجز؟</string>
+    <string name="decline_this_reservation_q">رفض هذا الحجز؟</string>
+    <string name="declined">تم الاعتذار</string>
 
 
     <!-- Arrays -->
