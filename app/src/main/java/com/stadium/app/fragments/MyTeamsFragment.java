@@ -43,7 +43,7 @@ public class MyTeamsFragment extends ParentFragment {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(activity, 3);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new TeamsAdapter(activity, data, R.layout.item_team);
+        adapter = new TeamsAdapter(activity, data, R.layout.item_team, 0);
         recyclerView.setAdapter(adapter);
 
         // add the item click listener

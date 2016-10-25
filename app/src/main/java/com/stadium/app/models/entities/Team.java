@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.responses.ServerResponse;
 
-public class Team extends ServerResponse implements Checkable{
+public class Team extends ServerResponse implements Checkable {
 
     @SerializedName("Id")
     @Expose
@@ -19,7 +19,7 @@ public class Team extends ServerResponse implements Checkable{
     private int absentRes;
     @SerializedName("asstent")
     @Expose
-    private Object asstent;
+    private User asstent;
     @SerializedName("blockTimes")
     @Expose
     private int blockTimes;
@@ -100,14 +100,14 @@ public class Team extends ServerResponse implements Checkable{
     /**
      * @return The asstent
      */
-    public Object getAsstent() {
+    public User getAsstent() {
         return asstent;
     }
 
     /**
      * @param asstent The asstent
      */
-    public void setAsstent(Object asstent) {
+    public void setAsstent(User asstent) {
         this.asstent = asstent;
     }
 

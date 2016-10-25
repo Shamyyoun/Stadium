@@ -17,4 +17,20 @@ public class TeamController {
 
         return -1;
     }
+
+    public static boolean isCaptain(Team team, int playerId) {
+        if (team.getCaptain() != null && team.getCaptain().getId() == playerId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isAssistant(Team team, int playerId) {
+        if (team.getCaptain() != null && team.getAsstent().getId() == playerId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

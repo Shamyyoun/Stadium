@@ -147,7 +147,7 @@ public class PlayerInfoActivity extends ParentActivity {
 
     private void updateTeamsUI() {
         // set the adapter
-        teamsAdapter = new TeamsAdapter(this, teams, R.layout.item_team);
+        teamsAdapter = new TeamsAdapter(this, teams, R.layout.item_team, id);
         recyclerView.setAdapter(teamsAdapter);
         showTeamsMain();
 
