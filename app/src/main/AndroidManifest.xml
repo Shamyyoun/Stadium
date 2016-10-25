@@ -69,7 +69,7 @@
             android:label="@string/team_info" />
 
         <activity
-            android:name=".activities.StadiumOrderActivity"
+            android:name=".activities.StadiumInfoActivity"
             android:label="@string/stadium_order" />
 
         <activity

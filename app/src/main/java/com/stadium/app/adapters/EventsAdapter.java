@@ -2,6 +2,7 @@ package com.stadium.app.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,15 @@ import com.google.gson.Gson;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.PlayerInfoActivity;
+import com.stadium.app.activities.StadiumInfoActivity;
+import com.stadium.app.activities.TeamInfoActivity;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.UserController;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.EventProfileType;
 import com.stadium.app.models.enums.EventType;
 import com.stadium.app.models.responses.ServerResponse;
 import com.stadium.app.utils.DateUtils;
@@ -64,7 +69,7 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
         holder.tvMessage.setText(item.getMessage());
 
         // set suitable date
-        Calendar calendar = DateUtils.convertToCalendar(item.getDate(), Event.DATE_FORMAT);
+        final Calendar calendar = DateUtils.convertToCalendar(item.getDate(), Event.DATE_FORMAT);
         String formattedDate;
         if (DateUtils.isToday(calendar)) {
             formattedDate = prettyTime.format(calendar);
@@ -94,19 +99,54 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
             holder.layoutBottomWrapper.setVisibility(View.GONE);
         }
 
+        // create the global click listener
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.iv_image:
+                        openInfoActivity(item.getPicType(), item.getPicId());
+                        break;
+
+                    case R.id.layout_content:
+                        openInfoActivity(item.getTitleType(), item.getTitleId());
+                        break;
+
+                    case R.id.btn_confirm:
+                        showConfirmDialog(position, true);
+                        break;
+
+                    case R.id.btn_decline:
+                        showConfirmDialog(position, false);
+                        break;
+                }
+            }
+        };
+
         // add listeners
-        holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showConfirmDialog(position, true);
-            }
-        });
-        holder.btnDecline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showConfirmDialog(position, false);
-            }
-        });
+        holder.ivImage.setOnClickListener(clickListener);
+        holder.layoutContent.setOnClickListener(clickListener);
+        holder.btnConfirm.setOnClickListener(clickListener);
+        holder.btnDecline.setOnClickListener(clickListener);
+    }
+
+    private void openInfoActivity(int type, int id) {
+        Intent intent = new Intent();
+        intent.putExtra(Const.KEY_ID, id);
+
+        // check type to open suitable activity
+        if (type == EventProfileType.PLAYER.getValue()) {
+            intent.setClass(context, PlayerInfoActivity.class);
+        } else if (type == EventProfileType.TEAM.getValue()) {
+            intent.setClass(context, TeamInfoActivity.class);
+        } else if (type == EventProfileType.STADIUM.getValue()) {
+            intent.setClass(context, StadiumInfoActivity.class);
+        }
+
+        // open the activity if possible
+        if (intent.getClass() != null) {
+            context.startActivity(intent);
+        }
     }
 
     private void showConfirmDialog(final int position, final boolean confirm) {
@@ -191,6 +231,7 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+        private View layoutContent;
         private TextView tvDate;
         private ImageView ivImage;
         private TextView tvTitle;
@@ -204,6 +245,7 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
         public ViewHolder(final View itemView) {
             super(itemView);
 
+            layoutContent = findViewById(R.id.layout_content);
             tvDate = (TextView) findViewById(R.id.tv_date);
             ivImage = (ImageView) findViewById(R.id.iv_image);
             tvTitle = (TextView) findViewById(R.id.tv_title);

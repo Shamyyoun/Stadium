@@ -10,8 +10,10 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical"
             android:paddingBottom="3dp"
             android:paddingLeft="10dp"
@@ -85,6 +87,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/default_image"
                     app:riv_oval="true" />
             </LinearLayout>

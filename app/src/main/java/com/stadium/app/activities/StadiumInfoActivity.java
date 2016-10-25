@@ -27,7 +27,7 @@ import java.util.List;
 /*
  * Created by karam on 7/31/16.
  */
-public class StadiumOrderActivity extends ParentActivity {
+public class StadiumInfoActivity extends ParentActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -49,7 +49,7 @@ public class StadiumOrderActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_stadium);
+        setContentView(R.layout.activity_stadium_info);
         setTitle("");
         setToolbarIcon(R.drawable.search_icon);
 

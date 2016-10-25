@@ -45,4 +45,7 @@ public class Const {
     // Event confirm status:-----------------
     public static final int EVENT_STATUS_CONFIRM = 1;
     public static final int EVENT_STATUS_DECLINE = 0;
+
+    // Keys:----------------------------------
+    public static final String KEY_ID = "id";
 }
