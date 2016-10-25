@@ -19,7 +19,7 @@ import com.stadium.app.activities.StadiumInfoActivity;
 import com.stadium.app.activities.TeamInfoActivity;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.models.enums.EventProfileType;
@@ -40,12 +40,12 @@ import java.util.Locale;
  */
 public class EventsAdapter extends ParentRecyclerAdapter<Event> {
     private PrettyTime prettyTime;
-    private UserController userController;
+    private ActiveUserController userController;
 
     public EventsAdapter(Context context, List<Event> data, int layoutId) {
         super(context, data, layoutId);
         prettyTime = new PrettyTime(new Locale("ar"));
-        userController = new UserController(context);
+        userController = new ActiveUserController(context);
     }
 
     @Override

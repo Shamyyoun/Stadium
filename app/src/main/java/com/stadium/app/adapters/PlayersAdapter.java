@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.stadium.app.R;
-import com.stadium.app.dialogs.TeamsDialog;
+import com.stadium.app.dialogs.ChooseTeamDialog;
 import com.stadium.app.models.entities.Player;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<Player> {
             @Override
             public void onClick(View v) {
                 // show teams dialog
-                TeamsDialog dialog = new TeamsDialog(context);
+                ChooseTeamDialog dialog = new ChooseTeamDialog(context);
                 dialog.show();
             }
         });

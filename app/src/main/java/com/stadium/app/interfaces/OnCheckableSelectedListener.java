@@ -5,6 +5,6 @@ import com.stadium.app.models.Checkable;
 /**
  * Created by Shamyyoun on 5/7/16.
  */
-public interface OnItemSelectedListener {
-    public void onItemSelected(Checkable item);
+public interface OnCheckableSelectedListener {
+    public void onCheckableSelected(Checkable item);
 }

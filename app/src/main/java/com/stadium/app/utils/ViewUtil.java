@@ -63,6 +63,7 @@ public class ViewUtil {
 
     /**
      * method, used to fade in view with passed duration
+     *
      * @param view
      * @param duration
      */
@@ -101,5 +102,18 @@ public class ViewUtil {
         animation.setDuration(duration);
         animation.setFillAfter(true);
         view.startAnimation(animation);
+    }
+
+    /**
+     * method, used to show first view and hide other views
+     *
+     * @param viewToShow
+     * @param viewsToHide
+     */
+    public static void showOneView(View viewToShow, View... viewsToHide) {
+        viewToShow.setVisibility(View.VISIBLE);
+        for (View view : viewsToHide) {
+            view.setVisibility(View.GONE);
+        }
     }
 }

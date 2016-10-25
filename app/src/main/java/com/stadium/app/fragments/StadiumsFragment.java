@@ -12,7 +12,7 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
 import com.stadium.app.adapters.StadiumsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.dialogs.OrderStadiumsDialog;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.SerializableListWrapper;
@@ -125,7 +125,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
         showProgress();
 
         // get current user
-        UserController userController = new UserController(activity);
+        ActiveUserController userController = new ActiveUserController(activity);
         User user = userController.getUser();
 
         // send request

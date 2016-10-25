@@ -22,7 +22,7 @@ import com.stadium.app.activities.ProfileImageActivity;
 import com.stadium.app.activities.UpdateProfileActivity;
 import com.stadium.app.adapters.EventsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Event;
@@ -38,7 +38,7 @@ import java.util.List;
  * Created by Shamyyoun on 7/2/16.
  */
 public class HomeFragment extends ProgressFragment implements OnItemClickListener {
-    private UserController userController;
+    private ActiveUserController userController;
     private View layoutImage;
     private ImageView ivImage;
     private TextView tvRating;
@@ -59,7 +59,7 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
         super.onCreateView(inflater, container, savedInstanceState);
 
         // create the user controller
-        userController = new UserController(activity);
+        userController = new ActiveUserController(activity);
 
         // init views
         layoutImage = findViewById(R.id.layout_image);
@@ -121,7 +121,7 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
     private void updateUserUI() {
         User user = userController.getUser();
         tvName.setText(userController.getNamePosition());
-        tvRating.setText("" + user.getRate());
+        tvRating.setText(Utils.formatDouble(user.getRate()));
 
         // load the profile image
         if (!Utils.isNullOrEmpty(user.getImageLink())) {

@@ -13,7 +13,7 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.dialogs.ForgetPasswordDialog;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
@@ -108,7 +108,7 @@ public class LoginActivity extends ParentActivity {
         User user = (User) response;
         if (statusCode == Const.SER_CODE_200) {
             // save it
-            UserController userController = new UserController(this);
+            ActiveUserController userController = new ActiveUserController(this);
             userController.setUser(user);
             userController.save();
 

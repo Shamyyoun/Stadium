@@ -12,8 +12,8 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.StadiumController;
-import com.stadium.app.controllers.UserController;
-import com.stadium.app.interfaces.OnItemSelectedListener;
+import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.User;
@@ -33,12 +33,12 @@ public class ChooseStadiumDialog extends ProgressDialog {
     private Button btnSubmit;
     private RadioButtonsAdapter adapter;
     private List<Stadium> data;
-    private OnItemSelectedListener itemSelectedListener;
+    private OnCheckableSelectedListener itemSelectedListener;
     private int selectedItemId;
 
     public ChooseStadiumDialog(final Context context) {
         super(context);
-        setTitle(R.string.favorite_stadium);
+        setTitle(R.string.the_stadiums);
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -112,7 +112,7 @@ public class ChooseStadiumDialog extends ProgressDialog {
 
     private void onSubmit() {
         if (adapter != null && data != null && itemSelectedListener != null) {
-            itemSelectedListener.onItemSelected(data.get(adapter.getSelectedItemPosition()));
+            itemSelectedListener.onCheckableSelected(data.get(adapter.getSelectedItemPosition()));
         }
 
         dismiss();
@@ -128,7 +128,7 @@ public class ChooseStadiumDialog extends ProgressDialog {
         showProgress();
 
         // get current user
-        UserController userController = new UserController(context);
+        ActiveUserController userController = new ActiveUserController(context);
         User user = userController.getUser();
 
         // send request
@@ -183,7 +183,7 @@ public class ChooseStadiumDialog extends ProgressDialog {
         super.showEmpty(msgResId);
     }
 
-    public void setOnItemSelectedListener(OnItemSelectedListener itemSelectedListener) {
+    public void setOnItemSelectedListener(OnCheckableSelectedListener itemSelectedListener) {
         this.itemSelectedListener = itemSelectedListener;
     }
 

@@ -54,6 +54,20 @@ public class AppUtils {
     }
 
     /**
+     * method, used to concatenate all parts and form a valid url
+     *
+     * @param pathParts
+     * @return
+     */
+    public static String getCaptainApiUrl(String... pathParts) {
+        String fullUrl = Const.END_POINT + "/" + Const.ROUTE_CAPTAIN;
+        for (String pathPart : pathParts) {
+            fullUrl += "/" + pathPart;
+        }
+        return fullUrl;
+    }
+
+    /**
      * method, used to get response errors array as one string or the default string
      *
      * @param context

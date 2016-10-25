@@ -416,16 +416,17 @@ public class Utils {
     }
 
     /**
-     * method, used to format a double number as string without x.0
+     * method, used to format a double number as string with maximum 1 number after the point
      *
      * @param number
      * @return the formatted double as string
      */
     public static String formatDouble(double number) {
-        if (number == (long) number)
+        if (number == (long) number) {
             return String.format("%d", (long) number);
-        else
-            return String.format("%s", number);
+        } else {
+            return String.format("%.1f", number).toString();
+        }
     }
 
     /**
@@ -725,5 +726,9 @@ public class Utils {
         SpannableString spannable = new SpannableString(text);
         spannable.setSpan(new UnderlineSpan(), 0, text.length(), 0);
         textView.setText(spannable);
+    }
+
+    public static String formatDoubleWith(double number) {
+        return String.format("Value of a: %.2f", number).toString();
     }
 }

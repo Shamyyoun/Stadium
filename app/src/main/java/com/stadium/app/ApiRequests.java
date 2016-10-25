@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
+import com.stadium.app.models.bodies.AddMemberToTeamBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
+import com.stadium.app.models.bodies.RatePlayerBody;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.Image;
@@ -171,7 +173,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<String> uploadImage(Context context, ConnectionListener<String> listener,
-                                                     int userId, String userToken, String encodedImage) {
+                                                        int userId, String userToken, String encodedImage) {
         // create the request body
         User body = new User();
         body.setId(userId);
@@ -190,7 +192,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<String> confirmPresent(Context context, ConnectionListener<String> listener,
-                                                        int userId, String userToken, int resId, int type) {
+                                                           int userId, String userToken, int resId, int type) {
         // create the request body
         ConfirmPresentBody body = new ConfirmPresentBody();
         User player = new User();
@@ -205,6 +207,89 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_CONFIRM_PRESENT), String.class, listener, body, Const.API_CONFIRM_PRESENT);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<User> getPlayerInfo(Context context, ConnectionListener<User> listener, int id) {
+        // prepare url
+        String url = AppUtils.getUserApiUrl(Const.API_GET_PLAYER_INFO) + "/" + id;
+
+        // create & execute the request
+        ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
+                url, User.class, listener, Const.API_GET_PLAYER_INFO);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<ServerResponse> ratePlayer(Context context, ConnectionListener<ServerResponse> listener,
+                                                               int userId, String userToken,
+                                                               int playerRatedId, double rate) {
+        // create the request body
+        RatePlayerBody body = new RatePlayerBody();
+        body.setRate(rate);
+        User playerRated = new User();
+        playerRated.setId(playerRatedId);
+        body.setPlayerRated(playerRated);
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+
+        // create & execute the request
+        ConnectionHandler<ServerResponse> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_RATE_PLAYER), ServerResponse.class, listener, body, Const.API_RATE_PLAYER);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Team[]> listOfMyTeams(Context context, ConnectionListener<Team[]> listener,
+                                                          String userToken, int playerId) {
+        // create the request body
+        User body = new User();
+        body.setId(playerId);
+        body.setToken(userToken);
+
+        // create & execute the request
+        ConnectionHandler<Team[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_LIST_OF_MY_TEAMS), Team[].class, listener, body, Const.API_LIST_OF_MY_TEAMS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Team[]> captainTeams(Context context, ConnectionListener<Team[]> listener,
+                                                         int userId, String userToken) {
+        // create the request body
+        User body = new User();
+        body.setId(userId);
+        body.setToken(userToken);
+
+        // create & execute the request
+        ConnectionHandler<Team[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CAPTAIN_TEAMS), Team[].class, listener, body, Const.API_CAPTAIN_TEAMS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> addMemberToTeam(Context context, ConnectionListener<String> listener,
+                                                               int userId, String userToken,
+                                                               int teamId, int playerId) {
+        // create the request body
+        AddMemberToTeamBody body = new AddMemberToTeamBody();
+        User player = new User();
+        player.setId(playerId);
+        body.setPlayer(player);
+        Team team = new Team();
+        team.setId(teamId);
+        User captain = new User();
+        captain.setId(userId);
+        captain.setToken(userToken);
+        team.setCaptain(captain);
+        body.setTeam(team);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_ADD_MEMBER_TO_TEAM), String.class, listener, body, Const.API_ADD_MEMBER_TO_TEAM);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

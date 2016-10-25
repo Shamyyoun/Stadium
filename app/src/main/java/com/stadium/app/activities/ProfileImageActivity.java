@@ -14,7 +14,7 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.entities.Image;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.BitmapUtils;
@@ -27,7 +27,7 @@ import java.io.File;
  * Created by Shamyyoun on 10/22/16.
  */
 public class ProfileImageActivity extends PicPickerActivity {
-    private UserController userController;
+    private ActiveUserController userController;
     private ImageView ivImage;
     private ImageButton ibEdit;
     private View layoutButtons;
@@ -44,7 +44,7 @@ public class ProfileImageActivity extends PicPickerActivity {
         setContentView(R.layout.activity_profile_image);
 
         // create the user controller
-        userController = new UserController(this);
+        userController = new ActiveUserController(this);
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);

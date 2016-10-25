@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.stadium.app.R;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 
 public class SplashActivity extends ParentActivity {
     private static final int SPLASH_DURATION = 0 * 1000; // TODO set splash to 2 seconds
@@ -18,7 +18,7 @@ public class SplashActivity extends ParentActivity {
         setContentView(R.layout.activity_splash);
 
         // check saved user
-        UserController userController = new UserController(this);
+        ActiveUserController userController = new ActiveUserController(this);
         if (userController.hasLoggedInUser()) {
             // goto main activity
             Intent intent = new Intent(this, MainActivity.class);

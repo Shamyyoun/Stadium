@@ -13,7 +13,7 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.CityController;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.Utils;
@@ -26,7 +26,7 @@ import java.util.List;
  * Created by karam on 6/29/16.
  */
 public class UpdateProfileActivity extends ParentActivity {
-    private UserController userController;
+    private ActiveUserController userController;
     private ImageView ivImage;
     private EditText etName;
     private EditText etAge;
@@ -45,7 +45,7 @@ public class UpdateProfileActivity extends ParentActivity {
         setContentView(R.layout.activity_update_profile);
 
         // create the user controller
-        userController = new UserController(this);
+        userController = new ActiveUserController(this);
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
@@ -195,7 +195,7 @@ public class UpdateProfileActivity extends ParentActivity {
                 User user = (User) response;
                 if (statusCode == Const.SER_CODE_200) {
                     // save the new user obj
-                    UserController userController = new UserController(this);
+                    ActiveUserController userController = new ActiveUserController(this);
                     userController.setUser(user);
                     userController.save();
 

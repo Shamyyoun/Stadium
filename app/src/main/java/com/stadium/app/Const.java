@@ -12,6 +12,7 @@ public class Const {
 
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";
+    public static final String ROUTE_CAPTAIN = "Captain";
     public static final String API_LOGIN = "LOGIN";
     public static final String API_CHECK_EMAIL = "CheckEmail";
     public static final String API_FORGET_PASSWORD = "forgetPassword";
@@ -23,6 +24,11 @@ public class Const {
     public static final String API_CREATE_TEAM = "CreateTeam";
     public static final String API_UPLOAD_IMAGE = "UploadImage";
     public static final String API_CONFIRM_PRESENT = "confirmPresent";
+    public static final String API_GET_PLAYER_INFO = "getPlayerInfo";
+    public static final String API_RATE_PLAYER = "ratePlayer";
+    public static final String API_LIST_OF_MY_TEAMS = "ListOfMyTeams";
+    public static final String API_CAPTAIN_TEAMS = "captainTeams";
+    public static final String API_ADD_MEMBER_TO_TEAM = "AddMemeberToTeam";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

@@ -16,7 +16,7 @@ import com.stadium.app.activities.LoginActivity;
 import com.stadium.app.activities.MainActivity;
 import com.stadium.app.adapters.MenuItemsAdapter;
 import com.stadium.app.controllers.MenuItemController;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.entities.MenuItem;
 import com.stadium.app.utils.DialogUtils;
@@ -84,7 +84,7 @@ public class SideMenuFragment extends ParentFragment implements OnItemClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // remove current user
-                UserController userController = new UserController(activity);
+                ActiveUserController userController = new ActiveUserController(activity);
                 userController.logout();
 
                 // goto login activity

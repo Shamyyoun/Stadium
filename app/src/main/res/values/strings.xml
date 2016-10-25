@@ -156,6 +156,19 @@
     <string name="confirm_this_reservation_q">تأكيد هذا الحجز؟</string>
     <string name="decline_this_reservation_q">رفض هذا الحجز؟</string>
     <string name="declined">تم الاعتذار</string>
+    <string name="failed_loading_info">فشل تحميل البيانات</string>
+    <string name="please_refresh">برجاء التحديث</string>
+    <string name="rated_successfully">تم التقييم بنجاح</string>
+    <string name="failed_rating">فشل التقييم</string>
+    <string name="the_stadiums">الملاعب</string>
+    <string name="teams">الأفرقة</string>
+    <string name="no_teams_found">لا يوجد أفرقة</string>
+    <string name="failed_loading_teams">فشل تحميل الأفرقة</string>
+    <string name="added_successfully">تمت الاضافة بنجاح</string>
+    <string name="failed_adding_player">فشل اضافة اللاعب</string>
+    <string name="failed_loading_player_teams">فشل تحميل أفرقة اللاعب</string>
+    <string name="no_teams_for_this_player">لا يوجد أفرقة لهذا اللاعب</string>
+    <string name="rate_this_player_with_x_starts_q">تقييم هذا اللاعب بـ %s نجوم؟</string>
 
 
     <!-- Arrays -->

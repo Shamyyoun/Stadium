@@ -19,7 +19,7 @@ public class User extends ServerResponse implements Cloneable {
     private String position;
     @SerializedName("Rate")
     @Expose
-    private int rate;
+    private double rate;
     @SerializedName("age")
     @Expose
     private int age;
@@ -102,14 +102,14 @@ public class User extends ServerResponse implements Cloneable {
     /**
      * @return The rate
      */
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
 
     /**
      * @param rate The Rate
      */
-    public void setRate(int rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 

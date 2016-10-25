@@ -14,9 +14,9 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.UserController;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.dialogs.ChooseStadiumDialog;
-import com.stadium.app.interfaces.OnItemSelectedListener;
+import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.Team;
@@ -155,9 +155,9 @@ public class CreateTeamActivity extends PicPickerActivity {
     private void chooseStadium() {
         if (stadiumsDialog == null) {
             stadiumsDialog = new ChooseStadiumDialog(this);
-            stadiumsDialog.setOnItemSelectedListener(new OnItemSelectedListener() {
+            stadiumsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
-                public void onItemSelected(Checkable item) {
+                public void onCheckableSelected(Checkable item) {
                     favoriteStadium = (Stadium) item;
                     String favStadiumStr = getString(R.string.favorite_stadium)
                             + ": " + favoriteStadium.getName();
@@ -208,7 +208,7 @@ public class CreateTeamActivity extends PicPickerActivity {
         int favStadiumId = favoriteStadium != null ? favoriteStadium.getId() : 0;
 
         // get the user
-        UserController userController = new UserController(this);
+        ActiveUserController userController = new ActiveUserController(this);
         User user = userController.getUser();
 
         // send request

@@ -46,7 +46,7 @@ public class Team extends ServerResponse implements Checkable{
     private int preferStadiumId;
     @SerializedName("rate")
     @Expose
-    private int rate;
+    private double rate;
     @SerializedName("rateCounter")
     @Expose
     private int rateCounter;
@@ -226,14 +226,14 @@ public class Team extends ServerResponse implements Checkable{
     /**
      * @return The rate
      */
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
 
     /**
      * @param rate The rate
      */
-    public void setRate(int rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
