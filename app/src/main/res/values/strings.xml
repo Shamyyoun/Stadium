@@ -155,7 +155,7 @@
     <string name="error_declining">حدث خطأ اثناء الرفض</string>
     <string name="confirm_this_reservation_q">تأكيد هذا الحجز؟</string>
     <string name="decline_this_reservation_q">رفض هذا الحجز؟</string>
-    <string name="declined">تم الاعتذار</string>
+    <string name="decline">إعتذار</string>
     <string name="failed_loading_info">فشل تحميل البيانات</string>
     <string name="please_refresh">برجاء التحديث</string>
     <string name="rated_successfully">تم التقييم بنجاح</string>
@@ -169,8 +169,13 @@
     <string name="failed_loading_player_teams">فشل تحميل أفرقة اللاعب</string>
     <string name="no_teams_for_this_player">لا يوجد أفرقة لهذا اللاعب</string>
     <string name="rate_this_player_with_x_starts_q">تقييم هذا اللاعب بـ %s نجوم؟</string>
+    <string name="edit_team_info">تعديل بيانات الفريق</string>
 
 
     <!-- Arrays -->
+    <string-array name="team_info_tabs">
+        <item>الحجوزات</item>
+        <item>اللاعبين</item>
+    </string-array>
 
 </resources>

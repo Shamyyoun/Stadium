@@ -162,7 +162,7 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_edit_profile) {
+        if (item.getItemId() == R.id.action_edit) {
             // open update profile activity
             Intent intent = new Intent(activity, UpdateProfileActivity.class);
             startActivityForResult(intent, Const.REQ_UPDATE_PROFILE);

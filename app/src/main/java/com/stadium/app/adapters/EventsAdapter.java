@@ -84,17 +84,22 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
         // check event type to set the bottom values
         if (item.getEventType() == EventType.STADIUM_RESERVED.getValue()) {
             holder.layoutBottomWrapper.setVisibility(View.VISIBLE);
-            holder.layoutButtons.setVisibility(View.VISIBLE);
-            holder.tvConfirmStatus.setVisibility(View.GONE);
-        } else if (item.getEventType() == EventType.RESERVATION_RESPONDED.getValue()) {
-            holder.layoutBottomWrapper.setVisibility(View.VISIBLE);
             holder.layoutButtons.setVisibility(View.GONE);
             holder.tvConfirmStatus.setVisibility(View.VISIBLE);
 
-            // set status
-            String confirmStatusStr = getString(item.getConfirmStatus() == Const.EVENT_STATUS_CONFIRM ?
-                    R.string.confirmed : R.string.declined);
-            holder.tvConfirmStatus.setText(confirmStatusStr);
+            // check the confirm status id
+            if (item.getConfirmStatusId() == Const.EVENT_STATUS_CONFIRM) {
+                String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
+                        item.getConfirmStatus() : getString(R.string.confirmed);
+                holder.tvConfirmStatus.setText(confirmStatus);
+            } else if (item.getConfirmStatusId() == Const.EVENT_STATUS_DECLINE) {
+                String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
+                        item.getConfirmStatus() : getString(R.string.decline);
+                holder.tvConfirmStatus.setText(confirmStatus);
+            } else {
+                holder.layoutButtons.setVisibility(View.VISIBLE);
+                holder.tvConfirmStatus.setVisibility(View.GONE);
+            }
         } else {
             holder.layoutBottomWrapper.setVisibility(View.GONE);
         }
@@ -194,8 +199,8 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
                     Utils.showShortToast(context, msg);
 
                     // update this item
-                    event.setEventType(EventType.RESERVATION_RESPONDED.getValue());
-                    event.setConfirmStatus(confirm ? Const.EVENT_STATUS_CONFIRM : Const.EVENT_STATUS_DECLINE);
+                    event.setConfirmStatusId(confirm ? Const.EVENT_STATUS_CONFIRM : Const.EVENT_STATUS_DECLINE);
+                    event.setConfirmStatus(getString(confirm ? R.string.confirmed : R.string.decline));
                     notifyItemChanged(position);
                 } else {
                     // parse the response

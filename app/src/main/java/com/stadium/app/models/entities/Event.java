@@ -39,8 +39,12 @@ public class Event implements Serializable {
     @SerializedName("titleType")
     @Expose
     private int titleType;
-
-    private int confirmStatus; // confirmPresent status - used in the UI only
+    @SerializedName("confirmStatusId")
+    @Expose
+    private int confirmStatusId;
+    @SerializedName("confirmStatus")
+    @Expose
+    private String confirmStatus;
 
     /**
      * @return The date
@@ -182,11 +186,31 @@ public class Event implements Serializable {
         this.titleType = titleType;
     }
 
-    public void setConfirmStatus(int confirmStatus) {
-        this.confirmStatus = confirmStatus;
+    /**
+     * @return The confirmStatusId
+     */
+    public int getConfirmStatusId() {
+        return confirmStatusId;
     }
 
-    public int getConfirmStatus() {
+    /**
+     * @param confirmStatusId The confirmStatusId
+     */
+    public void setConfirmStatusId(int confirmStatusId) {
+        this.confirmStatusId = confirmStatusId;
+    }
+
+    /**
+     * @return The confirmStatus
+     */
+    public String getConfirmStatus() {
         return confirmStatus;
+    }
+
+    /**
+     * @param confirmStatus The confirmStatus
+     */
+    public void setConfirmStatus(String confirmStatus) {
+        this.confirmStatus = confirmStatus;
     }
 }
