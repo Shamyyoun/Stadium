@@ -22,6 +22,7 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.EventConfirmStatusType;
 import com.stadium.app.models.enums.EventProfileType;
 import com.stadium.app.models.enums.EventType;
 import com.stadium.app.models.responses.ServerResponse;
@@ -88,11 +89,13 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
             holder.tvConfirmStatus.setVisibility(View.VISIBLE);
 
             // check the confirm status id
-            if (item.getConfirmStatusId() == Const.EVENT_STATUS_CONFIRM) {
+            if (item.getConfirmStatusId() == EventConfirmStatusType.NO_ACTION.getValue()) {
+                holder.tvConfirmStatus.setText(R.string.you_are_out_by_the_captain);
+            } else if (item.getConfirmStatusId() == EventConfirmStatusType.CONFIRM.getValue()) {
                 String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
                         item.getConfirmStatus() : getString(R.string.confirmed);
                 holder.tvConfirmStatus.setText(confirmStatus);
-            } else if (item.getConfirmStatusId() == Const.EVENT_STATUS_DECLINE) {
+            } else if (item.getConfirmStatusId() == EventConfirmStatusType.DECLINE.getValue()) {
                 String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
                         item.getConfirmStatus() : getString(R.string.decline);
                 holder.tvConfirmStatus.setText(confirmStatus);
@@ -178,7 +181,8 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
 
         // prepare request params
         User user = userController.getUser();
-        final int confirmType = confirm ? Const.EVENT_STATUS_CONFIRM : Const.EVENT_STATUS_DECLINE;
+        final int confirmType = confirm ? EventConfirmStatusType.CONFIRM.getValue()
+                : EventConfirmStatusType.DECLINE.getValue();
 
         // create the connection listener
         ConnectionListener<String> listener = new ConnectionListener<String>() {
@@ -199,7 +203,8 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
                     Utils.showShortToast(context, msg);
 
                     // update this item
-                    event.setConfirmStatusId(confirm ? Const.EVENT_STATUS_CONFIRM : Const.EVENT_STATUS_DECLINE);
+                    event.setConfirmStatusId(confirm ? EventConfirmStatusType.CONFIRM.getValue()
+                            : EventConfirmStatusType.DECLINE.getValue());
                     event.setConfirmStatus(getString(confirm ? R.string.confirmed : R.string.decline));
                     notifyItemChanged(position);
                 } else {

@@ -29,6 +29,7 @@ public class Const {
     public static final String API_LIST_OF_MY_TEAMS = "ListOfMyTeams";
     public static final String API_CAPTAIN_TEAMS = "captainTeams";
     public static final String API_ADD_MEMBER_TO_TEAM = "AddMemeberToTeam";
+    public static final String API_GET_TEAM_INFO = "getTeamInfo";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -47,10 +48,6 @@ public class Const {
     // Activity requests:-------------------
     public static final int REQ_UPDATE_PROFILE = 1;
     public static final int REQ_UPDATE_PROFILE_IMAGE = 2;
-
-    // Event confirm status:-----------------
-    public static final int EVENT_STATUS_CONFIRM = 1;
-    public static final int EVENT_STATUS_DECLINE = 0;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

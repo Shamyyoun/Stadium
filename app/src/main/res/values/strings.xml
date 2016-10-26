@@ -170,6 +170,8 @@
     <string name="no_teams_for_this_player">لا يوجد أفرقة لهذا اللاعب</string>
     <string name="rate_this_player_with_x_starts_q">تقييم هذا اللاعب بـ %s نجوم؟</string>
     <string name="edit_team_info">تعديل بيانات الفريق</string>
+    <string name="dot_x_player">. %d لاعب</string>
+    <string name="you_are_out_by_the_captain">تم استبعادك عن طريق الكابتن</string>
 
 
     <!-- Arrays -->
