@@ -51,6 +51,7 @@ public class Const {
     // Activity requests:-------------------
     public static final int REQ_UPDATE_PROFILE = 1;
     public static final int REQ_UPDATE_PROFILE_IMAGE = 2;
+    public static final int REQ_CREATE_TEAM = 3;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

@@ -224,6 +224,7 @@ public class CreateTeamActivity extends PicPickerActivity {
         Team team = (Team) response;
         if (statusCode == Const.SER_CODE_200) {
             Utils.showShortToast(this, R.string.team_created_successfully);
+            setResult(RESULT_OK);
             finish();
         } else {
             Utils.showLongToast(this, AppUtils.getResponseError(this, team));

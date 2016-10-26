@@ -31,6 +31,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
     private TextView tvOrderBy;
     private RecyclerView recyclerView;
     private List<Stadium> data;
+    private StadiumsAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
     }
 
     private void updateUI() {
-        StadiumsAdapter adapter = new StadiumsAdapter(activity, data, R.layout.item_stadium);
+        adapter = new StadiumsAdapter(activity, data, R.layout.item_stadium);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         showMain();

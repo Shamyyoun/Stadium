@@ -46,7 +46,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         holder.tvTitle.setText(item.getName());
         Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivLogo);
 
-        // set the role if possible
+        // set the role
         PlayerRole role = teamController.getPlayerRole(item, playerId);
         if (role != null) {
             holder.tvRole.setText(role.getChar());
@@ -58,9 +58,9 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
-        ImageView ivLogo;
-        TextView tvRole;
-        TextView tvTitle;
+        private ImageView ivLogo;
+        private TextView tvRole;
+        private TextView tvTitle;
 
         public ViewHolder(final View itemView) {
             super(itemView);
