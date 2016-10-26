@@ -44,6 +44,9 @@ public class Team extends ServerResponse implements Checkable {
     @SerializedName("preferStadiumId")
     @Expose
     private int preferStadiumId;
+    @SerializedName("preferStadiumName")
+    @Expose
+    private String preferStadiumName;
     @SerializedName("rate")
     @Expose
     private double rate;
@@ -214,6 +217,20 @@ public class Team extends ServerResponse implements Checkable {
      */
     public int getPreferStadiumId() {
         return preferStadiumId;
+    }
+
+    /**
+     * @param preferStadiumName The preferStadiumName
+     */
+    public void setPreferStadiumName(String preferStadiumName) {
+        this.preferStadiumName = preferStadiumName;
+    }
+
+    /**
+     * @return The preferStadiumName
+     */
+    public String getPreferStadiumName() {
+        return preferStadiumName;
     }
 
     /**

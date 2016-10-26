@@ -30,6 +30,7 @@ public class Const {
     public static final String API_CAPTAIN_TEAMS = "captainTeams";
     public static final String API_ADD_MEMBER_TO_TEAM = "AddMemeberToTeam";
     public static final String API_GET_TEAM_INFO = "getTeamInfo";
+    public static final String API_TEAM_PLAYERS = "teamPlayers";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

@@ -293,4 +293,28 @@ public class ApiRequests {
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<Team> getTeamInfo(Context context, ConnectionListener<Team> listener, int id) {
+        // prepare url
+        String url = AppUtils.getUserApiUrl(Const.API_GET_TEAM_INFO) + "/" + id;
+
+        // create & execute the request
+        ConnectionHandler<Team> connectionHandler = new ConnectionHandler(context,
+                url, Team.class, listener, Const.API_GET_TEAM_INFO);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<User[]> teamPlayers(Context context, ConnectionListener<User[]> listener,
+                                                        int teamId) {
+        // create the request body
+        Team body = new Team();
+        body.setId(teamId);
+
+        // create & execute the request
+        ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_TEAM_PLAYERS), User[].class, listener, body, Const.API_TEAM_PLAYERS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
 }

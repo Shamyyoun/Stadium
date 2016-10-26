@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.stadium.app.R;
 import com.stadium.app.adapters.TeamPlayersAdapter;
-import com.stadium.app.models.entities.TeamPlayers;
+import com.stadium.app.models.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,9 @@ import java.util.List;
  * Created by karam on 7/26/16.
  */
 public class TeamPlayersFragment  extends ParentFragment {
-
     private RecyclerView recyclerView;
     private TeamPlayersAdapter adapter;
-    private List<TeamPlayers> data;
+    private List<User> data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,17 +38,17 @@ public class TeamPlayersFragment  extends ParentFragment {
         // customize the recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        data = getDummyData();
-        adapter = new TeamPlayersAdapter(activity, data, R.layout.item_team_players);
-        recyclerView.setAdapter(adapter);
+//        data = getDummyData();
+//        adapter = new TeamPlayersAdapter(activity, data, R.layout.item_team_players);
+//        recyclerView.setAdapter(adapter);
 
         return rootView;
     }
 
-    private List<TeamPlayers> getDummyData() {
-        List<TeamPlayers> data = new ArrayList<>();
+    private List<User> getDummyData() {
+        List<User> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            TeamPlayers item = new TeamPlayers();
+            User item = new User();
             data.add(item);
         }
 

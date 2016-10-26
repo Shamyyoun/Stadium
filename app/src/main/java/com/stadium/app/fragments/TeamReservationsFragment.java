@@ -26,7 +26,6 @@ public class TeamReservationsFragment extends ParentFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -39,9 +38,9 @@ public class TeamReservationsFragment extends ParentFragment {
         // customize the recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        data = getDummyData();
-        adapter = new TeamReservationsAdapter(activity, data, R.layout.item_team_reservations);
-        recyclerView.setAdapter(adapter);
+//        data = getDummyData();
+//        adapter = new TeamReservationsAdapter(activity, data, R.layout.item_team_reservations);
+//        recyclerView.setAdapter(adapter);
 
         return rootView;
     }

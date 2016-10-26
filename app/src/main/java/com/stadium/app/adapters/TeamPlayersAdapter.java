@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.app.R;
-import com.stadium.app.models.entities.TeamPlayers;
+import com.stadium.app.models.entities.User;
 
 import java.util.List;
 
 /**
  * Created by karam on 7/26/16.
  */
-public class TeamPlayersAdapter extends ParentRecyclerAdapter<TeamPlayers> {
+public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
 
-    public TeamPlayersAdapter(Context context, List<TeamPlayers> data, int layoutId) {
+    public TeamPlayersAdapter(Context context, List<User> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -32,7 +32,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<TeamPlayers> {
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         // set data
-        final TeamPlayers item = data.get(position);
+        final User item = data.get(position);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {

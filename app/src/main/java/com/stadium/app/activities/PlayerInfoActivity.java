@@ -40,6 +40,7 @@ import java.util.List;
 public class PlayerInfoActivity extends ParentActivity {
     private int id;
     private ActiveUserController userController;
+
     private ImageView ivImage;
     private TextView tvRating;
     private TextView tvName;
@@ -62,10 +63,8 @@ public class PlayerInfoActivity extends ParentActivity {
         setContentView(R.layout.activity_player_info);
         enableBackButton();
 
-        // get the id
+        // create main objects
         id = getIntent().getIntExtra(Const.KEY_ID, 0);
-
-        // create the user controller
         userController = new ActiveUserController(this);
 
         // init views
