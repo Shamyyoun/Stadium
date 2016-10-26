@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.stadium.app.R;
 import com.stadium.app.controllers.TeamController;
+import com.stadium.app.models.entities.PlayerRole;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.utils.Utils;
 
@@ -45,30 +46,27 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         holder.tvTitle.setText(item.getName());
         Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivLogo);
 
-        // check to set the class
-        if (teamController.isCaptain(item, playerId)) {
-            holder.tvClass.setText("C");
-            holder.tvClass.setBackgroundResource(R.drawable.orange_circle);
-            holder.tvClass.setVisibility(View.VISIBLE);
-        } else if (teamController.isAssistant(item, playerId)) {
-            holder.tvClass.setText("A");
-            holder.tvClass.setBackgroundResource(R.drawable.green_circle);
-            holder.tvClass.setVisibility(View.VISIBLE);
+        // set the role if possible
+        PlayerRole role = teamController.getPlayerRole(item, playerId);
+        if (role != null) {
+            holder.tvRole.setText(role.getChar());
+            holder.tvRole.setBackgroundResource(role.getBackgroundResId());
+            holder.tvRole.setVisibility(View.VISIBLE);
         } else {
-            holder.tvClass.setVisibility(View.GONE);
+            holder.tvRole.setVisibility(View.GONE);
         }
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
         ImageView ivLogo;
-        TextView tvClass;
+        TextView tvRole;
         TextView tvTitle;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
             ivLogo = (ImageView) findViewById(R.id.iv_logo);
-            tvClass = (TextView) findViewById(R.id.tv_class);
+            tvRole = (TextView) findViewById(R.id.tv_role);
             tvTitle = (TextView) findViewById(R.id.tv_title);
         }
     }

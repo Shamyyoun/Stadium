@@ -5,7 +5,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.stadium.app.models.responses.ServerResponse;
 
-public class User extends ServerResponse implements Cloneable {
+import java.io.Serializable;
+
+public class User extends ServerResponse implements Cloneable, Serializable {
     public static final int TYPE_PLAYER = 1;
 
     @SerializedName("AdminStadium")

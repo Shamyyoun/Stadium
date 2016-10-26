@@ -102,8 +102,6 @@
     <string name="add_player_to">اضافة اللاعب الى</string>
     <string name="favorite_stadium">الملعب المفضل</string>
     <string name="team_info">بيانات الفريق</string>
-    <string name="make_assistant">تعيين مساعد كابتن</string>
-    <string name="delete_from_team">حذف من الفريق</string>
     <string name="stadium_order">طلب حجز</string>
     <string name="choose_team">اختار الفريق</string>
     <string name="exit">خروج</string>
@@ -172,6 +170,22 @@
     <string name="edit_team_info">تعديل بيانات الفريق</string>
     <string name="dot_x_player">. %d لاعب</string>
     <string name="you_are_out_by_the_captain">تم استبعادك عن طريق الكابتن</string>
+    <string name="no_players_for_this_team">لا يوجد لاعبين في هذا الفريق</string>
+    <string name="failed_loading_team_players">فشل تحميل لاعبي الفريق</string>
+    <string name="make_captain">تعيين كابتن</string>
+    <string name="delete_captain">الغاء تعيين كابتن</string>
+    <string name="make_assistant">تعيين مساعد كابتن</string>
+    <string name="delete_assistant">الغاء تعيين مساعد كابتن</string>
+    <string name="delete_from_team">حذف من الفريق</string>
+    <string name="remove_from_team_q">حذف من الفريق؟</string>
+    <string name="removed_successfully">تم الحذف بنجاح</string>
+    <string name="failed_removing_player">فشل حذف اللاعب</string>
+    <string name="make_assistant_q">تعيين مساعد كابتن؟</string>
+    <string name="made_successfully">تم التعيين بنجاح</string>
+    <string name="failed_making_player">فشل تعيين اللاعب</string>
+    <string name="delete_assistant_q">الغاء تعيين مساعد كابتن؟</string>
+    <string name="deleting_successfully">تم الغاء التعيين بنجاح</string>
+    <string name="failed_deleting">فشل الغاء التعيين</string>
 
 
     <!-- Arrays -->

@@ -31,6 +31,8 @@ public class Const {
     public static final String API_ADD_MEMBER_TO_TEAM = "AddMemeberToTeam";
     public static final String API_GET_TEAM_INFO = "getTeamInfo";
     public static final String API_TEAM_PLAYERS = "teamPlayers";
+    public static final String API_DELETE_MEMBER_FROM_TEAM = "DeleteMemberFromTeam";
+    public static final String API_CHOOSE_ASSISTANT = "ChooseAssistant";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -52,4 +54,5 @@ public class Const {
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";
+    public static final String KEY_TEAM = "team";
 }

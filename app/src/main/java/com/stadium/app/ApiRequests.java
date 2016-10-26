@@ -6,6 +6,7 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
+import com.stadium.app.models.bodies.TeamPlayerActionBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.bodies.RatePlayerBody;
 import com.stadium.app.models.entities.City;
@@ -272,8 +273,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<String> addMemberToTeam(Context context, ConnectionListener<String> listener,
-                                                               int userId, String userToken,
-                                                               int teamId, int playerId) {
+                                                            int userId, String userToken,
+                                                            int teamId, int playerId) {
         // create the request body
         AddMemberToTeamBody body = new AddMemberToTeamBody();
         User player = new User();
@@ -314,6 +315,54 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_TEAM_PLAYERS), User[].class, listener, body, Const.API_TEAM_PLAYERS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> deleteMemberFromTeam(Context context, ConnectionListener<String> listener,
+                                                                 int userId, String userToken,
+                                                                 int teamId, int playerId) {
+        // create the request body
+        TeamPlayerActionBody body = new TeamPlayerActionBody();
+        body.setPlayerId(playerId);
+        TeamPlayerActionBody.Captain captain = new TeamPlayerActionBody.Captain();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        captain.setUserinfo(userInfo);
+        Team team = new Team();
+        team.setId(teamId);
+        captain.setHisTeam(team);
+        body.setCaptain(captain);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_DELETE_MEMBER_FROM_TEAM), String.class, listener, body, Const.API_DELETE_MEMBER_FROM_TEAM);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> chooseAssistant(Context context, ConnectionListener<String> listener,
+                                                                 int userId, String userToken,
+                                                                 int teamId, int playerId) {
+        // create the request body
+        TeamPlayerActionBody body = new TeamPlayerActionBody();
+        TeamPlayerActionBody.Captain captain = new TeamPlayerActionBody.Captain();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        captain.setUserinfo(userInfo);
+        Team team = new Team();
+        team.setId(teamId);
+        captain.setHisTeam(team);
+        body.setCaptain(captain);
+        User user = new User();
+        user.setId(playerId);
+        body.setUser(user);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_CHOOSE_ASSISTANT), String.class, listener, body, Const.API_CHOOSE_ASSISTANT);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

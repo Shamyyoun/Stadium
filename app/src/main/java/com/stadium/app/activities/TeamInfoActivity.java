@@ -74,11 +74,8 @@ public class TeamInfoActivity extends ParentActivity {
         tabTitles = getResources().getStringArray(R.array.team_info_tabs);
         tabLayout.setDistributeEvenly(true);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setViewPager(viewPager);
 
-        // select last tab by default as the most right one
-        viewPager.setCurrentItem(tabTitles.length - 1);
+        updatePagerUI();
 
         // add listeners
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +86,14 @@ public class TeamInfoActivity extends ParentActivity {
         });
 
         loadTeamInfo();
+    }
+
+    private void updatePagerUI() {
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setViewPager(viewPager);
+
+        // select last tab by default as the most right one
+        viewPager.setCurrentItem(tabTitles.length - 1);
     }
 
     private void updateTeamUI() {
@@ -135,6 +140,10 @@ public class TeamInfoActivity extends ParentActivity {
             if (statusCode == Const.SER_CODE_200 && team != null) {
                 this.team = team;
                 updateTeamUI();
+
+                // load data in fragments
+                updatePagerUI();
+                playersFragment.loadData();
             } else {
                 String errorMsg = AppUtils.getResponseError(this, team);
                 if (errorMsg == null) {
@@ -173,6 +182,8 @@ public class TeamInfoActivity extends ParentActivity {
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = null;
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Const.KEY_TEAM, team);
 
             switch (position) {
                 case 0:
@@ -192,6 +203,7 @@ public class TeamInfoActivity extends ParentActivity {
                     break;
             }
 
+            fragment.setArguments(bundle);
             return fragment;
         }
 

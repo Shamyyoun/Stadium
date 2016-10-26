@@ -10,8 +10,10 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical"
             android:paddingBottom="3dp"
             android:paddingLeft="10dp"
@@ -21,18 +23,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_name"
                         style="@style/SingleEllipsizedText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -40,6 +43,7 @@
                         android:textSize="@dimen/medium_text" />
 
                     <TextView
+                        android:id="@+id/tv_address"
                         style="@style/SingleEllipsizedText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -62,14 +66,15 @@
                         android:gravity="center_horizontal">
 
                         <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/iv_image"
                             style="@style/CroppedImageView"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="@dimen/team_player_image_size"
+                            android:layout_height="@dimen/team_player_image_size"
                             android:src="@drawable/default_image"
                             app:riv_oval="true" />
 
                         <TextView
-                            android:id="@+id/tv_class"
+                            android:id="@+id/tv_role"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_gravity="right"
@@ -82,6 +87,7 @@
                     </FrameLayout>
 
                     <RatingBar
+                        android:id="@+id/rb_rating"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,8 +99,10 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <View
@@ -109,22 +117,25 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/btn_remove"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/cancel_icon"
+                        android:drawableLeft="@drawable/red_delete_icon"
                         android:paddingLeft="8dp"
                         android:text="@string/delete_from_team"
                         android:textColor="@color/red" />
 
                     <View
+                        android:id="@+id/view_buttons_divider"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:background="@color/light_gray" />
 
                     <Button
+                        android:id="@+id/btn_role"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -133,7 +144,6 @@
                         android:paddingLeft="4dp"
                         android:text="@string/make_assistant"
                         android:textColor="@color/green" />
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

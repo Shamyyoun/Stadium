@@ -6,7 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.responses.ServerResponse;
 
-public class Team extends ServerResponse implements Checkable {
+import java.io.Serializable;
+
+public class Team extends ServerResponse implements Checkable, Serializable {
 
     @SerializedName("Id")
     @Expose

@@ -1,4 +1,3 @@
-
 package com.stadium.app.models.entities;
 
 import com.google.gson.annotations.Expose;

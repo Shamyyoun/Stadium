@@ -1,5 +1,7 @@
 package com.stadium.app.controllers;
 
+import com.stadium.app.R;
+import com.stadium.app.models.entities.PlayerRole;
 import com.stadium.app.models.entities.Team;
 
 import java.util.List;
@@ -31,6 +33,17 @@ public class TeamController {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public PlayerRole getPlayerRole(Team team, int playerId) {
+        // check to set the role
+        if (isCaptain(team, playerId)) {
+            return new PlayerRole("C", R.drawable.orange_circle);
+        } else if (isAssistant(team, playerId)) {
+            return new PlayerRole("A", R.drawable.green_circle);
+        } else {
+            return null;
         }
     }
 }

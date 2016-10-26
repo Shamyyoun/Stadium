@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
@@ -25,7 +24,7 @@ import com.stadium.app.models.entities.User;
 import com.stadium.app.models.enums.EventConfirmStatusType;
 import com.stadium.app.models.enums.EventProfileType;
 import com.stadium.app.models.enums.EventType;
-import com.stadium.app.models.responses.ServerResponse;
+import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
@@ -208,22 +207,9 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
                     event.setConfirmStatus(getString(confirm ? R.string.confirmed : R.string.decline));
                     notifyItemChanged(position);
                 } else {
-                    // parse the response
-                    ServerResponse serverResponse = null;
-                    try {
-                        serverResponse = new Gson().fromJson(response, ServerResponse.class);
-                    } catch (Exception e) {
-                    }
-
-                    String msg;
-                    if (serverResponse != null && !Utils.isNullOrEmpty(serverResponse.getErrorMessage())) {
-                        msg = serverResponse.getErrorMessage();
-                    } else {
-                        msg = getString(confirm ? R.string.error_accepting : R.string.error_declining);
-                    }
-
-                    // show msg
-                    Utils.showShortToast(context, msg);
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseError(context, response, confirm ? R.string.error_accepting : R.string.error_declining);
+                    Utils.showShortToast(context, errorMsg);
                 }
             }
 

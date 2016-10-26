@@ -2,6 +2,7 @@ package com.stadium.app.utils;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.dialogs.MessageDialog;
@@ -85,6 +86,32 @@ public class AppUtils {
             error = context.getString(R.string.error_doing_operation);
         }
         return error;
+    }
+
+    /**
+     * method, used to get the error msg from the server response if possible of the def msg
+     *
+     * @param context
+     * @param response
+     * @param defMsgId
+     * @return
+     */
+    public static String getResponseError(Context context, String response, int defMsgId) {
+        // parse the response
+        ServerResponse serverResponse = null;
+        try {
+            serverResponse = new Gson().fromJson(response, ServerResponse.class);
+        } catch (Exception e) {
+        }
+
+        String msg;
+        if (serverResponse != null && !Utils.isNullOrEmpty(serverResponse.getErrorMessage())) {
+            msg = serverResponse.getErrorMessage();
+        } else {
+            msg = context.getString(defMsgId);
+        }
+
+        return msg;
     }
 
     //    /**

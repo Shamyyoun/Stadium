@@ -79,7 +79,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tv_class"
+                    android:id="@+id/tv_role"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignRight="@+id/linear_image"
