@@ -184,7 +184,7 @@
     <string name="made_successfully">تم التعيين بنجاح</string>
     <string name="failed_making_player">فشل تعيين اللاعب</string>
     <string name="delete_assistant_q">الغاء تعيين مساعد كابتن؟</string>
-    <string name="deleting_successfully">تم الغاء التعيين بنجاح</string>
+    <string name="deleted_successfully">تم الغاء التعيين بنجاح</string>
     <string name="failed_deleting">فشل الغاء التعيين</string>
     <string name="no_reservations_for_this_team">لا يوجد حجوزات لهذا الفريق</string>
     <string name="failed_loading_team_reservations">فشل تحميل حجوزات الفريق</string>

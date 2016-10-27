@@ -29,7 +29,7 @@ public class TeamController {
     }
 
     public boolean isAssistant(Team team, int playerId) {
-        if (team.getCaptain() != null && team.getAsstent().getId() == playerId) {
+        if (team.getAsstent() != null && team.getAsstent().getId() == playerId) {
             return true;
         } else {
             return false;

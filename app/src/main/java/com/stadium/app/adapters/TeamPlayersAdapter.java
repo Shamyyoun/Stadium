@@ -150,7 +150,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         if (teamController.isCaptain(team, player.getId())) {
 
         } else if (teamController.isAssistant(team, player.getId())) {
-
+            showMakeAssistantDialog(position, false);
         } else {
             showMakeAssistantDialog(position, true);
         }
@@ -166,7 +166,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         }, null);
     }
 
-    private void makeAssistant(final int position, boolean makeAssistant) {
+    private void makeAssistant(final int position, final boolean makeAssistant) {
         // get the player
         final User player = data.get(position);
 
@@ -186,14 +186,19 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
 
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
-                    team.setAsstent(player);
+                    // update the assistant
+                    if (makeAssistant) {
+                        team.setAsstent(player);
+                    } else {
+                        team.setAsstent(null);
+                    }
                     notifyDataSetChanged();
 
                     // show msg
-                    Utils.showShortToast(context, R.string.made_successfully);
+                    Utils.showShortToast(context, makeAssistant ? R.string.made_successfully : R.string.deleted_successfully);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_making_player);
+                    String errorMsg = AppUtils.getResponseError(context, response, makeAssistant ? R.string.failed_making_player : R.string.failed_deleting);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
@@ -201,14 +206,17 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
             @Override
             public void onFail(Exception ex, int statusCode, String tag) {
                 hideProgressDialog();
-                Utils.showShortToast(context, R.string.failed_making_player);
+                Utils.showShortToast(context, makeAssistant ? R.string.failed_making_player : R.string.failed_deleting);
             }
         };
 
-        // send request
+        // prepare params
         User user = activeUserController.getUser();
+        int playerId = makeAssistant ? player.getId() : 0;
+
+        // send request
         ConnectionHandler connectionHandler = ApiRequests.chooseAssistant(context, connectionListener, user.getId(),
-                user.getToken(), team.getId(), player.getId());
+                user.getToken(), team.getId(), playerId);
         cancelWhenDestroyed(connectionHandler);
     }
 
