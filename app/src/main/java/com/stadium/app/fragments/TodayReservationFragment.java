@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.app.R;
-import com.stadium.app.adapters.TeamReservationsAdapter;
 import com.stadium.app.adapters.TodayReservationAdapter;
-import com.stadium.app.models.entities.TeamReservations;
 import com.stadium.app.models.entities.TodayReservation;
 
 import java.util.ArrayList;

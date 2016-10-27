@@ -144,6 +144,7 @@ public class TeamInfoActivity extends ParentActivity {
                 // load data in fragments
                 updatePagerUI();
                 playersFragment.loadData();
+                reservationsFragment.loadData();
             } else {
                 String errorMsg = AppUtils.getResponseError(this, team);
                 if (errorMsg == null) {

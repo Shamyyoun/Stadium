@@ -6,12 +6,14 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
+import com.stadium.app.models.bodies.ReservationsOfTeamBody;
 import com.stadium.app.models.bodies.TeamPlayerActionBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.bodies.RatePlayerBody;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.Image;
+import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
@@ -343,8 +345,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<String> chooseAssistant(Context context, ConnectionListener<String> listener,
-                                                                 int userId, String userToken,
-                                                                 int teamId, int playerId) {
+                                                            int userId, String userToken,
+                                                            int teamId, int playerId) {
         // create the request body
         TeamPlayerActionBody body = new TeamPlayerActionBody();
         TeamPlayerActionBody.Captain captain = new TeamPlayerActionBody.Captain();
@@ -363,6 +365,25 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getCaptainApiUrl(Const.API_CHOOSE_ASSISTANT), String.class, listener, body, Const.API_CHOOSE_ASSISTANT);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation[]> reservationsOfTeam(Context context, ConnectionListener<Reservation[]> listener,
+                                                                      int userId, String userToken, int teamId) {
+        // create the request body
+        ReservationsOfTeamBody body = new ReservationsOfTeamBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+        Team team = new Team();
+        team.setId(teamId);
+        body.setTeam(team);
+
+        // create & execute the request
+        ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_RESERVATIONS_OF_TEAM), Reservation[].class, listener, body, Const.API_RESERVATIONS_OF_TEAM);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

@@ -48,9 +48,11 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/arrow_left" />
+                            android:src="@drawable/arrow_left"
+                            android:visibility="gone" />
 
                         <TextView
+                            android:id="@+id/tv_stadium_name"
                             style="@style/SingleEllipsizedText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tv_stadium_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -76,9 +79,11 @@
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/stadium_icon"
                         android:text="ملعب السلام - ملعب 25"
-                        android:textSize="@dimen/small_text" />
+                        android:textSize="@dimen/small_text"
+                        android:visibility="gone" />
 
                     <TextView
+                        android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -94,6 +99,7 @@
                     android:layout_marginLeft="10dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/iv_image"
                         style="@style/CroppedImageView"
                         android:layout_width="65dp"
                         android:layout_height="65dp"
@@ -110,7 +116,8 @@
                         android:text="C"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/medium_text"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -118,7 +125,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <View
                     android:layout_width="match_parent"

@@ -42,9 +42,6 @@ public class TeamPlayersFragment extends ParentFragment {
 
         // get team
         team = (Team) getArguments().getSerializable(Const.KEY_TEAM);
-        if (team == null) {
-            logE("Team Null 2222");
-        }
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
