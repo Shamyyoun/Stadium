@@ -170,7 +170,7 @@
     <string name="edit_team_info">تعديل بيانات الفريق</string>
     <string name="dot_x_player">. %d لاعب</string>
     <string name="you_are_out_by_the_captain">تم استبعادك عن طريق الكابتن</string>
-    <string name="no_players_for_this_team">لا يوجد لاعبين في هذا الفريق</string>
+    <string name="no_players_in_this_team">لا يوجد لاعبين في هذا الفريق</string>
     <string name="failed_loading_team_players">فشل تحميل لاعبي الفريق</string>
     <string name="make_captain">تعيين كابتن</string>
     <string name="delete_captain">الغاء تعيين كابتن</string>
@@ -179,7 +179,7 @@
     <string name="delete_from_team">حذف من الفريق</string>
     <string name="remove_from_team_q">حذف من الفريق؟</string>
     <string name="removed_successfully">تم الحذف بنجاح</string>
-    <string name="failed_removing_player">فشل حذف اللاعب</string>
+    <string name="failed_removing">فشل الحذف</string>
     <string name="make_assistant_q">تعيين مساعد كابتن؟</string>
     <string name="made_successfully">تم التعيين بنجاح</string>
     <string name="failed_making_player">فشل تعيين اللاعب</string>
@@ -189,6 +189,16 @@
     <string name="no_reservations_for_this_team">لا يوجد حجوزات لهذا الفريق</string>
     <string name="failed_loading_team_reservations">فشل تحميل حجوزات الفريق</string>
     <string name="appointment_c">الموعد:</string>
+    <string name="delete_yourself_as_captain_q">الغاء تعيينك كـ كابتن؟</string>
+    <string name="the_players">اللاعبين</string>
+    <string name="you_must_choose_new_captain_before_continue">يجب اختيار كابتن جديد قبل المتابعة</string>
+    <string name="choose_x_as_new_captain_and_continue_q">اختيار %s كابتن جديد للفريق والمتابعة؟</string>
+    <string name="captain_changed_successfully">تم تغيير الكابتن بنجاح</string>
+    <string name="failed_changing_captain">فشل تغيير الكابتن</string>
+    <string name="leave_team_q">مغادرة الفريق؟</string>
+    <string name="leaved_team_successfully">تم مغادرة الفريق بنجاح</string>
+    <string name="failed_leaving_team">فشل مغادرة الفريق</string>
+    <string name="no_players_in_this_team_except_you">لا يوجد لاعبين في هذا الفريق غيرك</string>
 
 
     <!-- Arrays -->

@@ -14,6 +14,7 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.adapters.TeamPlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.interfaces.OnItemRemovedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
@@ -27,7 +28,7 @@ import java.util.List;
 /**
  * Created by karam on 7/26/16.
  */
-public class TeamPlayersFragment extends ParentFragment {
+public class TeamPlayersFragment extends ParentFragment implements OnItemRemovedListener {
     private Team team;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
@@ -72,8 +73,16 @@ public class TeamPlayersFragment extends ParentFragment {
     private void updateUI() {
         // set the adapter
         adapter = new TeamPlayersAdapter(activity, data, R.layout.item_team_player, team);
+        adapter.setOnItemRemovedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onItemRemoved(int position) {
+        if (data.size() == 0) {
+            showEmpty();
+        }
     }
 
     public void loadData() {

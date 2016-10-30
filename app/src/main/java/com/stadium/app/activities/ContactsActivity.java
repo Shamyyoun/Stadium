@@ -32,7 +32,7 @@ public class ContactsActivity extends ParentActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         data = getDummyData();
-        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
+//        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
         recyclerView.setAdapter(adapter);
     }
 

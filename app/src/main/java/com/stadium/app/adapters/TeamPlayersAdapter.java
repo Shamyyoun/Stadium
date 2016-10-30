@@ -20,6 +20,8 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.TeamController;
 import com.stadium.app.controllers.UserController;
+import com.stadium.app.dialogs.ChoosePlayerDialog;
+import com.stadium.app.interfaces.OnUserSelectedListener;
 import com.stadium.app.models.entities.PlayerRole;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
@@ -27,6 +29,7 @@ import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,12 +61,12 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         final ViewHolder holder = (ViewHolder) viewHolder;
 
         // get item and create the controller
-        final User item = data.get(position);
-        UserController userController = new UserController(item);
+        final User player = data.get(position);
+        UserController userController = new UserController(player);
 
         // set basic data
         holder.tvName.setText(userController.getNamePosition());
-        holder.rbRating.setRating((float) item.getRate());
+        holder.rbRating.setRating((float) player.getRate());
 
         // set address
         if (userController.getCityName() != null) {
@@ -74,7 +77,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         }
 
         // set player the role
-        PlayerRole role = teamController.getPlayerRole(team, item.getId());
+        PlayerRole role = teamController.getPlayerRole(team, player.getId());
         if (role != null) {
             holder.tvRole.setText(role.getChar());
             holder.tvRole.setBackgroundResource(role.getBackgroundResId());
@@ -84,24 +87,35 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         }
 
         // load image
-        Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivImage);
+        Utils.loadImage(context, player.getImageLink(), R.drawable.default_image, holder.ivImage);
 
         // show / hide the action buttons according to active user role
         User activeUser = activeUserController.getUser();
         if (teamController.isAssistant(team, activeUser.getId())) {
-            holder.btnRole.setVisibility(View.GONE);
-            holder.viewButtonsDivider.setVisibility(View.GONE);
+            // the active user is the assistant of this team
+            // check the current team player role in the team
+            if (teamController.isCaptain(team, player.getId())) {
+                // the assistant has no action for the captain, so
+                // hide the buttons layout
+                holder.layoutButtons.setVisibility(View.GONE);
+            } else {
+                // the assistant has the remove option for any other player
+                // hide the role button and keep the remove button
+                holder.btnRole.setVisibility(View.GONE);
+                holder.viewButtonsDivider.setVisibility(View.GONE);
+                holder.layoutButtons.setVisibility(View.VISIBLE);
+            }
         } else if (!teamController.isCaptain(team, activeUser.getId())) {
             holder.layoutButtons.setVisibility(View.GONE);
         }
 
         // customize the role button according to player role
-        if (teamController.isCaptain(team, item.getId())) {
+        if (teamController.isCaptain(team, player.getId())) {
             holder.btnRole.setText(R.string.delete_captain);
             holder.btnRole.setTextColor(context.getResources().getColor(R.color.red));
             holder.btnRole.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     R.drawable.red_delete_icon, 0, 0, 0);
-        } else if (teamController.isAssistant(team, item.getId())) {
+        } else if (teamController.isAssistant(team, player.getId())) {
             holder.btnRole.setText(R.string.delete_assistant);
             holder.btnRole.setTextColor(context.getResources().getColor(R.color.red));
             holder.btnRole.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -119,7 +133,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.layout_content:
-                        openPlayerInfoActivity(item.getId());
+                        openPlayerInfoActivity(player.getId());
                         break;
 
                     case R.id.btn_role:
@@ -127,7 +141,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
                         break;
 
                     case R.id.btn_remove:
-                        showRemoveDialog(position);
+                        onRemoveButton(position);
                         break;
                 }
             }
@@ -148,15 +162,114 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
     private void onRoleButton(int position) {
         User player = data.get(position);
         if (teamController.isCaptain(team, player.getId())) {
-
+            showChooseNewCaptainDialog(position, false);
         } else if (teamController.isAssistant(team, player.getId())) {
-            showMakeAssistantDialog(position, false);
+            showMakeAssistantConfirmDialog(position, false);
         } else {
-            showMakeAssistantDialog(position, true);
+            showMakeAssistantConfirmDialog(position, true);
         }
     }
 
-    private void showMakeAssistantDialog(final int position, final boolean makeAssistant) {
+    private void onRemoveButton(final int position) {
+        // check if removing himself
+        User player = data.get(position);
+        if (player.getId() == activeUserController.getUser().getId()) {
+            // check role
+            if (teamController.isCaptain(team, player.getId())) {
+                showChooseNewCaptainDialog(position, true);
+            } else {
+                // show the remove confirm dialog with the himself msg
+                showRemoveConfirmDialog(position, true, R.string.leave_team_q);
+            }
+        } else {
+            // show the remove confirm dialog with the generic msg
+            showRemoveConfirmDialog(position, false, R.string.remove_from_team_q);
+        }
+    }
+
+    private void showChooseNewCaptainDialog(final int position, final boolean removeOld) {
+        // prepare the players list
+        List<User> players = new ArrayList<>(data);
+        players.remove(position);
+
+        ChoosePlayerDialog dialog = new ChoosePlayerDialog(context, players);
+        dialog.setCustomEmptyMsg(getString(R.string.no_players_in_this_team_except_you));
+        dialog.setOnUserSelectedListener(new OnUserSelectedListener() {
+            @Override
+            public void onUserSelected(User user) {
+                showChangeCaptainConfirmDialog(position, user, removeOld);
+            }
+        });
+
+        dialog.show();
+        Utils.showShortToast(context, R.string.you_must_choose_new_captain_before_continue);
+    }
+
+    private void showChangeCaptainConfirmDialog(final int position, final User newCaptain, final boolean removeOld) {
+        String msg = context.getString(R.string.choose_x_as_new_captain_and_continue_q, newCaptain.getName());
+        DialogUtils.showConfirmDialog(context, msg, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeCaptain(position, newCaptain, removeOld);
+            }
+        }, null);
+    }
+
+    private void changeCaptain(final int position, final User newCaptain, final boolean removeOld) {
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener<String> connectionListener = new ConnectionListener<String>() {
+            @Override
+            public void onSuccess(String response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check status code
+                if (statusCode == Const.SER_CODE_200) {
+                    // check if the new captain is an assistant
+                    if (teamController.isAssistant(team, newCaptain.getId())) {
+                        // remove the team assistant
+                        team.setAsstent(null);
+                    }
+                    // set the new captain
+                    team.setCaptain(newCaptain);
+
+                    // update the ui and show msg
+                    notifyDataSetChanged();
+                    Utils.showShortToast(context, R.string.captain_changed_successfully);
+
+                    // check to remove the captain
+                    if (removeOld) {
+                        removeFromTeam(position, true);
+                    }
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_changing_captain);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, R.string.failed_changing_captain);
+            }
+        };
+
+        // send request
+        User user = activeUserController.getUser();
+        ConnectionHandler connectionHandler = ApiRequests.changeCaptain(context, connectionListener, user.getId(),
+                user.getToken(), team.getId(), newCaptain.getId());
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void showMakeAssistantConfirmDialog(final int position, final boolean makeAssistant) {
         int msgId = makeAssistant ? R.string.make_assistant_q : R.string.delete_assistant_q;
         DialogUtils.showConfirmDialog(context, msgId, new DialogInterface.OnClickListener() {
             @Override
@@ -220,16 +333,17 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         cancelWhenDestroyed(connectionHandler);
     }
 
-    private void showRemoveDialog(final int position) {
-        DialogUtils.showConfirmDialog(context, R.string.remove_from_team_q, new DialogInterface.OnClickListener() {
+    private void showRemoveConfirmDialog(final int position, final boolean isCaptain, int msgId) {
+        // create and show confirm dialog
+        DialogUtils.showConfirmDialog(context, msgId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                removeFromTeam(position);
+                removeFromTeam(position, isCaptain);
             }
         }, null);
     }
 
-    private void removeFromTeam(final int position) {
+    private void removeFromTeam(final int position, final boolean isCaptain) {
         // get the player
         final User player = data.get(position);
 
@@ -249,15 +363,13 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
 
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
-                    // remove this player
-                    data.remove(player);
-                    notifyItemRemoved(position);
+                    removeItem(position);
 
                     // show msg
-                    Utils.showShortToast(context, R.string.removed_successfully);
+                    Utils.showShortToast(context, isCaptain ? R.string.leaved_team_successfully : R.string.removed_successfully);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_removing_player);
+                    String errorMsg = AppUtils.getResponseError(context, response, isCaptain ? R.string.failed_leaving_team : R.string.failed_removing);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
@@ -265,15 +377,35 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
             @Override
             public void onFail(Exception ex, int statusCode, String tag) {
                 hideProgressDialog();
-                Utils.showShortToast(context, R.string.failed_removing_player);
+                Utils.showShortToast(context, isCaptain ? R.string.failed_leaving_team : R.string.failed_removing);
             }
         };
 
-        // send request
+        // get the active user
         User user = activeUserController.getUser();
-        ConnectionHandler connectionHandler = ApiRequests.deleteMemberFromTeam(context, connectionListener, user.getId(),
-                user.getToken(), team.getId(), player.getId());
+
+        // check to send suitable request
+        ConnectionHandler connectionHandler;
+        if (isCaptain) {
+            connectionHandler = ApiRequests.leaveTeam(context, connectionListener, user.getId(),
+                    user.getToken(), team.getId());
+        } else {
+            connectionHandler = ApiRequests.deleteMemberFromTeam(context, connectionListener, user.getId(),
+                    user.getToken(), team.getId(), player.getId());
+        }
+
+        // cancel the request when destroyed
         cancelWhenDestroyed(connectionHandler);
+    }
+
+    @Override
+    public void removeItem(int position) {
+        data.remove(position);
+        notifyDataSetChanged();
+
+        if (itemRemovedListener != null) {
+            itemRemovedListener.onItemRemoved(position);
+        }
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {

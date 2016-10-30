@@ -34,6 +34,8 @@ public class Const {
     public static final String API_DELETE_MEMBER_FROM_TEAM = "DeleteMemberFromTeam";
     public static final String API_CHOOSE_ASSISTANT = "ChooseAssistant";
     public static final String API_RESERVATIONS_OF_TEAM = "ReservationsOfTeam";
+    public static final String API_CHANGE_CAPTAIN = "ChangeCaptain";
+    public static final String API_LEAVE_TEAM = "leaveTeam";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

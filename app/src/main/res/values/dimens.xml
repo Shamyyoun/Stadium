@@ -26,5 +26,7 @@
     <dimen name="small_text_spacing">4dp</dimen>
     <dimen name="medium_progress_bar_size">35dp</dimen>
     <dimen name="team_player_image_size">55dp</dimen>
+    <dimen name="small_player_image_size">50dp</dimen>
+    <dimen name="alert_dialog_text_spacing">2dp</dimen>
 
 </resources>

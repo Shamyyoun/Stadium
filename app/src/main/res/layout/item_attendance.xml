@@ -50,8 +50,8 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             style="@style/CroppedImageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/small_player_image_size"
+            android:layout_height="@dimen/small_player_image_size"
             android:src="@drawable/default_image"
             app:riv_border_color="@color/light_gray"
             app:riv_border_width="0.5dp"

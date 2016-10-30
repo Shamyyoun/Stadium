@@ -12,10 +12,8 @@ import android.widget.TextView;
 
 import com.stadium.app.R;
 import com.stadium.app.activities.ContactsActivity;
-import com.stadium.app.activities.PlayerInfoActivity;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.dialogs.OrderPlayersDialog;
-import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.entities.Player;
 
 import java.util.ArrayList;
@@ -50,18 +48,18 @@ public class PlayersFragment extends ParentFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         data = getDummyData();
-        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
-        recyclerView.setAdapter(adapter);
-
-        // add listeners
-        tvOrderBy.setOnClickListener(this);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                // open player info activity
-                startActivity(new Intent(activity, PlayerInfoActivity.class));
-            }
-        });
+//        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
+//        recyclerView.setAdapter(adapter);
+//
+//        // add listeners
+//        tvOrderBy.setOnClickListener(this);
+//        adapter.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                // open player info activity
+//                startActivity(new Intent(activity, PlayerInfoActivity.class));
+//            }
+//        });
 
         return rootView;
     }

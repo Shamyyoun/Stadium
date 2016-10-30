@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 import com.stadium.app.R;
@@ -57,7 +58,7 @@ public class DialogUtils {
         // create and show the dialog
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
-        setMessageTypeface(dialog);
+        customizeDialogMsgTextView(dialog);
 
         return dialog;
     }
@@ -109,7 +110,7 @@ public class DialogUtils {
         // create and show the dialog
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
-        setMessageTypeface(dialog);
+        customizeDialogMsgTextView(dialog);
 
         return dialog;
     }
@@ -162,19 +163,23 @@ public class DialogUtils {
         dialog.setCanceledOnTouchOutside(cancelable);
         dialog.setCancelable(cancelable);
         dialog.show();
-        setMessageTypeface(dialog);
+        customizeDialogMsgTextView(dialog);
         return dialog;
     }
 
     /**
-     * method, used to customize the message typeface of a dialog
+     * method, used to customize the message textview of a dialog
      *
      * @param dialog
      */
-    private static void setMessageTypeface(Dialog dialog) {
+    private static void customizeDialogMsgTextView(Dialog dialog) {
         try {
+            Context context = dialog.getContext();
             TextView textView = (TextView) dialog.findViewById(android.R.id.message);
-            textView.setTypeface(Typeface.createFromAsset(dialog.getContext().getAssets(), "app_font.ttf"));
+            textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "app_font.ttf"));
+            textView.setLineSpacing(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    context.getResources().getDimension(R.dimen.alert_dialog_text_spacing),
+                    context.getResources().getDisplayMetrics()), 1.0f);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -182,6 +187,7 @@ public class DialogUtils {
 
     /**
      * method, used to show list dialog with items array res id
+     *
      * @param context
      * @param itemsResId
      * @param itemClickListener
@@ -193,6 +199,7 @@ public class DialogUtils {
 
     /**
      * method, used to show list dialog with items array res id and with passed title
+     *
      * @param context
      * @param title
      * @param itemsResId
@@ -206,6 +213,7 @@ public class DialogUtils {
 
     /**
      * method, used to show list dialog with string items array
+     *
      * @param context
      * @param items
      * @param itemClickListener
@@ -214,8 +222,10 @@ public class DialogUtils {
     public static AlertDialog showListDialog(Context context, String[] items, DialogInterface.OnClickListener itemClickListener) {
         return showListDialog(context, null, items, itemClickListener);
     }
+
     /**
      * method, used to show list dialog with string items array and with passed title
+     *
      * @param context
      * @param title
      * @param items

@@ -4,20 +4,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.stadium.app.R;
-import com.stadium.app.dialogs.ChooseTeamDialog;
-import com.stadium.app.models.entities.Player;
+import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.Utils;
 
 import java.util.List;
 
 /**
  * Created by karam on 7/17/16.
  */
-public class PlayersAdapter extends ParentRecyclerAdapter<Player> {
+public class PlayersAdapter extends ParentRecyclerAdapter<User> {
 
-    public PlayersAdapter(Context context, List<Player> data, int layoutId) {
+    public PlayersAdapter(Context context, List<User> data, int layoutId) {
         super(context, data, layoutId);
     }
 
@@ -35,28 +36,20 @@ public class PlayersAdapter extends ParentRecyclerAdapter<Player> {
         final ViewHolder holder = (ViewHolder) viewHolder;
 
         // set data
-        final Player item = data.get(position);
-        holder.ibAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // show teams dialog
-                ChooseTeamDialog dialog = new ChooseTeamDialog(context);
-                dialog.show();
-            }
-        });
+        final User item = data.get(position);
+        holder.tvName.setText(item.getName());
+        Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivImage);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
-        private View layoutContent;
-        private ImageButton ibAdd;
+        private ImageView ivImage;
+        private TextView tvName;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            layoutContent = findViewById(R.id.layout_content);
-            ibAdd = (ImageButton) findViewById(R.id.ib_add);
-
-            setClickableRootView(layoutContent);
+            ivImage = (ImageView) findViewById(R.id.iv_image);
+            tvName = (TextView) findViewById(R.id.tv_name);
         }
     }
 }

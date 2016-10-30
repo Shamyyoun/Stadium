@@ -18,7 +18,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="15dp"
         android:gravity="center"
-        android:text="@string/no_players_for_this_team"
+        android:text="@string/no_players_in_this_team"
         android:textSize="@dimen/medium_text"
         android:visibility="gone" />
 

@@ -6,6 +6,7 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
+import com.stadium.app.models.bodies.LeaveTeamBody;
 import com.stadium.app.models.bodies.ReservationsOfTeamBody;
 import com.stadium.app.models.bodies.TeamPlayerActionBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
@@ -384,6 +385,50 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_RESERVATIONS_OF_TEAM), Reservation[].class, listener, body, Const.API_RESERVATIONS_OF_TEAM);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> changeCaptain(Context context, ConnectionListener<String> listener,
+                                                          int userId, String userToken,
+                                                          int teamId, int playerId) {
+        // create the request body
+        TeamPlayerActionBody body = new TeamPlayerActionBody();
+        TeamPlayerActionBody.Captain captain = new TeamPlayerActionBody.Captain();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        captain.setUserinfo(userInfo);
+        Team team = new Team();
+        team.setId(teamId);
+        captain.setHisTeam(team);
+        body.setCaptain(captain);
+        User user = new User();
+        user.setId(playerId);
+        body.setUser(user);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_CHANGE_CAPTAIN), String.class, listener, body, Const.API_CHANGE_CAPTAIN);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> leaveTeam(Context context, ConnectionListener<String> listener,
+                                                          int userId, String userToken, int teamId) {
+        // create the request body
+        LeaveTeamBody body = new LeaveTeamBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        body.setUserinfo(userInfo);
+        Team team = new Team();
+        team.setId(teamId);
+        body.setHisTeam(team);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_LEAVE_TEAM), String.class, listener, body, Const.API_LEAVE_TEAM);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

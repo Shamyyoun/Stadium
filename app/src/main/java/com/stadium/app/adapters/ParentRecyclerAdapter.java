@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.interfaces.OnItemRemovedListener;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
@@ -22,6 +23,7 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
     protected List<Item> data;
     protected int layoutId;
     protected OnItemClickListener itemClickListener;
+    protected OnItemRemovedListener itemRemovedListener;
     protected ProgressDialog progressDialog;
     // used to hold connection handlers that should be cancelled when destroyed
     private final List<ConnectionHandler> connectionHandlers = new ArrayList();
@@ -45,6 +47,10 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
+    }
+
+    public void setOnItemRemovedListener(OnItemRemovedListener itemRemovedListener) {
+        this.itemRemovedListener = itemRemovedListener;
     }
 
     protected void logE(String msg) {
@@ -77,5 +83,14 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
         }
 
         super.onDetachedFromRecyclerView(recyclerView);
+    }
+
+    public void removeItem(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
+
+        if (itemRemovedListener != null) {
+            itemRemovedListener.onItemRemoved(position);
+        }
     }
 }
