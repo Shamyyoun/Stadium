@@ -31,17 +31,21 @@ import java.util.List;
  * Created by karam on 7/17/16.
  */
 public class PlayersAdapter extends ParentRecyclerAdapter<User> {
+    public static final int TYPE_SIMPLE = 1;
+    public static final int TYPE_SHOW_ADDRESS = 2;
+    public static final int TYPE_SHOW_PHONE_NUMBER = 3;
+
+    private int viewType;
     private ActiveUserController activeUserController;
     private UserController userController;
-    private boolean isSimpleView;
     private ChooseTeamDialog teamsDialog;
 
-    public PlayersAdapter(Context context, List<User> data, int layoutId) {
+    public PlayersAdapter(Context context, List<User> data, int layoutId, int viewType) {
         super(context, data, layoutId);
+        this.viewType = viewType;
 
-        // obtain main objects
+        // create user controller
         activeUserController = new ActiveUserController(context);
-        isSimpleView = (layoutId == R.layout.item_player_simple);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
         Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivImage);
 
         // check if simple view
-        if (isSimpleView) {
+        if (viewType == TYPE_SIMPLE) {
             // set simple name
             holder.tvName.setText(item.getName());
         } else {
@@ -71,13 +75,24 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
             holder.tvName.setText(userController.getNamePosition());
             holder.rbRating.setRating((float) item.getRate());
 
-            // set address
-            String address = userController.getCityName();
-            if (address != null) {
-                holder.tvAddress.setText(address);
-                holder.tvAddress.setVisibility(View.VISIBLE);
+            // customize the secondary text view
+            holder.tvSecondary.setVisibility(View.VISIBLE);
+            if (viewType == TYPE_SHOW_PHONE_NUMBER) {
+                // set the phone number in secondary text view
+                String phoneNumber = userController.getPhoneNumber();
+                if (!Utils.isNullOrEmpty(phoneNumber)) {
+                    holder.tvSecondary.setText(phoneNumber);
+                } else {
+                    holder.tvSecondary.setVisibility(View.GONE);
+                }
             } else {
-                holder.tvAddress.setVisibility(View.GONE);
+                // set the address in secondary text view
+                String address = userController.getCityName();
+                if (address != null) {
+                    holder.tvSecondary.setText(address);
+                } else {
+                    holder.tvSecondary.setVisibility(View.GONE);
+                }
             }
 
             // create global click listener
@@ -168,7 +183,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
         private View layoutContent;
         private ImageView ivImage;
         private TextView tvName;
-        private TextView tvAddress;
+        private TextView tvSecondary;
         private RatingBar rbRating;
         private ImageButton ibAdd;
 
@@ -178,9 +193,14 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
             layoutContent = findViewById(R.id.layout_content);
             ivImage = (ImageView) findViewById(R.id.iv_image);
             tvName = (TextView) findViewById(R.id.tv_name);
-            tvAddress = (TextView) findViewById(R.id.tv_address);
+            tvSecondary = (TextView) findViewById(R.id.tv_secondary);
             rbRating = (RatingBar) findViewById(R.id.rb_rating);
             ibAdd = (ImageButton) findViewById(R.id.ib_add);
+
+            // check the view type to customize the secondary tv icon
+            if (viewType == TYPE_SHOW_PHONE_NUMBER) {
+                tvSecondary.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.gray_phone_icon, 0);
+            }
         }
     }
 }

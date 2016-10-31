@@ -42,6 +42,7 @@ public class Const {
     public static final String API_PLAYER_CONFIRMED_LIST = "playerConfirmedList";
     public static final String API_MY_TEAMS_RESERVATIONS = "myTeamsReservations";
     public static final String API_ALL_PLAYERS = "allPlayers";
+    public static final String API_CHECK_LIST_OF_CONTACT = "checkListOfContact";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -65,4 +66,7 @@ public class Const {
     // Keys:----------------------------------
     public static final String KEY_ID = "id";
     public static final String KEY_TEAM = "team";
+
+    // Permission request:---------------------
+    public static final int PERM_REQ_CONTACTS = 1;
 }

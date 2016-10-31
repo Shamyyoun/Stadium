@@ -55,7 +55,7 @@ public class ChoosePlayerDialog extends ParentDialog implements OnItemClickListe
             recyclerView.setVisibility(View.GONE);
         } else {
             // create and set the players adapter
-            adapter = new PlayersAdapter(context, players, R.layout.item_player_simple);
+            adapter = new PlayersAdapter(context, players, R.layout.item_player_simple, PlayersAdapter.TYPE_SIMPLE);
             recyclerView.setAdapter(adapter);
             adapter.setOnItemClickListener(this);
         }

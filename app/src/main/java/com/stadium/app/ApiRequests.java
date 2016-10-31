@@ -100,7 +100,7 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_CREATE_USER), User.class, listener, body, Const.API_CREATE_USER);
-        connectionHandler.setTimeout(60 * 1000);
+        connectionHandler.setTimeout(4 * 60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -147,7 +147,7 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_EDIT_PROFILE), User.class, listener, body, Const.API_EDIT_PROFILE);
-        connectionHandler.setTimeout(30 * 1000);
+        connectionHandler.setTimeout(4 * 60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -175,7 +175,7 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<Team> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_CREATE_TEAM), Team.class, listener, body, Const.API_CREATE_TEAM);
-        connectionHandler.setTimeout(60 * 1000);
+        connectionHandler.setTimeout(4 * 60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -194,7 +194,7 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_UPLOAD_IMAGE), String.class, listener, body, Const.API_UPLOAD_IMAGE);
-        connectionHandler.setTimeout(60 * 1000);
+        connectionHandler.setTimeout(4 * 60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -516,6 +516,17 @@ public class ApiRequests {
         ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS), User[].class, listener, Const.API_ALL_PLAYERS);
         connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<User[]> checkListOfContact(Context context, ConnectionListener<User[]> listener,
+                                                               String[] phoneNumbers) {
+        // create & execute the request
+        ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHECK_LIST_OF_CONTACT), User[].class, listener,
+                phoneNumbers, Const.API_CHECK_LIST_OF_CONTACT);
+        connectionHandler.setTimeout(3 * 60 * 1000);
+        connectionHandler.executeRawJson();
         return connectionHandler;
     }
 }

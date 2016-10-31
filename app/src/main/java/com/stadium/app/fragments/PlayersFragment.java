@@ -1,15 +1,18 @@
 package com.stadium.app.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
+import com.stadium.app.activities.ContactsActivity;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.models.SerializableListWrapper;
@@ -99,7 +102,7 @@ public class PlayersFragment extends ProgressFragment {
     }
 
     private void updateUI() {
-        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
+        adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_ADDRESS);
         recyclerView.setAdapter(adapter);
         showMain();
     }
@@ -146,5 +149,21 @@ public class PlayersFragment extends ProgressFragment {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_contacts:
+                openContactsActivity();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openContactsActivity() {
+        Intent intent = new Intent(activity, ContactsActivity.class);
+        startActivity(intent);
     }
 }

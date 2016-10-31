@@ -213,6 +213,8 @@
     <string name="failed_loading_reservations">فشل تحميل الحجوزات</string>
     <string name="no_players_found">لا يوجد لاعبين</string>
     <string name="failed_loading_players">فشل تحميل اللاعبين</string>
+    <string name="permission_declined">تم رفض التصريح</string>
+    <string name="contacts_perm_decline_msg">يجب أن توافق على استخدام جهات الاتصال للمتابعة</string>
 
 
     <!-- Arrays -->

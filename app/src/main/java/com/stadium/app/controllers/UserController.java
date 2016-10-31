@@ -37,4 +37,12 @@ public class UserController {
             return user.getCity().getName().trim();
         }
     }
+
+    public String getPhoneNumber() {
+        if (user.getPhone() == null) {
+            return null;
+        } else {
+            return user.getPhone().trim();
+        }
+    }
 }
