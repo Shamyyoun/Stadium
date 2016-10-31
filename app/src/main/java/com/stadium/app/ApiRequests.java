@@ -200,7 +200,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler confirmPresent(Context context, ConnectionListener listener,
-                                                           int userId, String userToken, int resId, int type) {
+                                                   int userId, String userToken, int resId, int type) {
         // create the request body
         ConfirmPresentBody body = new ConfirmPresentBody();
         User player = new User();
@@ -489,6 +489,21 @@ public class ApiRequests {
         ConnectionHandler<Attendant[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_PLAYER_CONFIRMED_LIST), Attendant[].class,
                 listener, body, Const.API_PLAYER_CONFIRMED_LIST);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation[]> myTeamsReservations(Context context, ConnectionListener<Reservation[]> listener,
+                                                                       int userId, String userToken) {
+        // create the request body
+        User body = new User();
+        body.setId(userId);
+        body.setToken(userToken);
+
+        // create & execute the request
+        ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_MY_TEAMS_RESERVATIONS), Reservation[].class,
+                listener, body, Const.API_MY_TEAMS_RESERVATIONS);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

@@ -77,11 +77,23 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             stadiumImage = stadium.getImageLink();
         }
 
-        // set the stadium name
-        if (!Utils.isNullOrEmpty(stadiumName)) {
-            holder.tvStadiumName.setText(stadiumName);
+        // prepare the name
+        String name;
+        if (isTeamReservations) {
+            if (Utils.isNullOrEmpty(stadiumName)) {
+                name = null;
+            } else {
+                name = stadiumName;
+            }
         } else {
-            holder.tvStadiumName.setText("-----------");
+            name = reservationController.getTeamStadiumName(item);
+        }
+
+        // set the name
+        if (!Utils.isNullOrEmpty(name)) {
+            holder.tvName.setText(name);
+        } else {
+            holder.tvName.setText("-----------");
         }
 
         // set the stadium address
@@ -220,7 +232,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         private View layoutContent;
         private ImageView ivArrow;
         private ImageView ivImage;
-        private TextView tvStadiumName;
+        private TextView tvName;
         private TextView tvStadiumAddress;
         private TextView tvFieldNo;
         private TextView tvDateTime;
@@ -233,7 +245,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             layoutContent = findViewById(R.id.layout_content);
             ivArrow = (ImageView) findViewById(R.id.iv_arrow);
             ivImage = (ImageView) findViewById(R.id.iv_image);
-            tvStadiumName = (TextView) findViewById(R.id.tv_stadium_name);
+            tvName = (TextView) findViewById(R.id.tv_name);
             tvStadiumAddress = (TextView) findViewById(R.id.tv_stadium_address);
             tvFieldNo = (TextView) findViewById(R.id.tv_field_no);
             tvDateTime = (TextView) findViewById(R.id.tv_date_time);

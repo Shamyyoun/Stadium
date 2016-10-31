@@ -209,6 +209,8 @@
     <string name="failed_confirming">فشل التأكيد</string>
     <string name="cancel_your_attendance_q">الغاء حضورك؟</string>
     <string name="cancelled">تم الالغاء</string>
+    <string name="no_reservations_found">لا يوجد حجوزات</string>
+    <string name="failed_loading_reservations">فشل تحميل الحجوزات</string>
 
 
     <!-- Arrays -->

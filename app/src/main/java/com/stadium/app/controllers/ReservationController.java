@@ -1,6 +1,8 @@
 package com.stadium.app.controllers;
 
 import com.stadium.app.models.entities.Reservation;
+import com.stadium.app.models.entities.Stadium;
+import com.stadium.app.models.entities.Team;
 import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.Utils;
 
@@ -30,5 +32,29 @@ public class ReservationController {
         } else {
             return null;
         }
+    }
+
+    public String getTeamStadiumName(Reservation reservation) {
+        Team team = reservation.getReservationTeam();
+        Stadium stadium = reservation.getReservationStadium();
+
+        String name = "";
+        if (team != null) {
+            name = team.getName();
+        }
+
+        if (stadium != null) {
+            if (Utils.isNullOrEmpty(name)) {
+                name = stadium.getName();
+            } else {
+                name += " . " + stadium.getName();
+            }
+        }
+
+        if (Utils.isNullOrEmpty(name)) {
+            name = null;
+        }
+
+        return name;
     }
 }
