@@ -3,6 +3,7 @@ package com.stadium.app.controllers;
 import com.stadium.app.R;
 import com.stadium.app.models.entities.PlayerRole;
 import com.stadium.app.models.entities.Team;
+import com.stadium.app.models.entities.User;
 
 import java.util.List;
 
@@ -45,5 +46,15 @@ public class TeamController {
         } else {
             return null;
         }
+    }
+
+    public boolean isTeamPlayer(List<User> teamPlayers, int playerId) {
+        for (User player : teamPlayers) {
+            if (playerId == player.getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

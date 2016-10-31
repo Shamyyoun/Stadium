@@ -2,6 +2,7 @@ package com.stadium.app.controllers;
 
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.utils.DateUtils;
+import com.stadium.app.utils.Utils;
 
 /**
  * Created by Shamyyoun on 10/27/16.
@@ -21,5 +22,13 @@ public class ReservationController {
         dateTime += " - " + startTime;
 
         return dateTime;
+    }
+
+    public String getFieldNumber(Reservation reservation) {
+        if (reservation.getField() != null && !Utils.isNullOrEmpty(reservation.getField().getFieldNumber())) {
+            return reservation.getField().getFieldNumber();
+        } else {
+            return null;
+        }
     }
 }

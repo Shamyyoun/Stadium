@@ -73,7 +73,8 @@ public class TeamReservationsFragment extends ParentFragment {
 
     private void updateUI() {
         // set the adapter
-        adapter = new ReservationsAdapter(activity, data, R.layout.item_team_reservation);
+        adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
+        adapter.setIsTeamReservations(true);
         recyclerView.setAdapter(adapter);
         showMain();
     }

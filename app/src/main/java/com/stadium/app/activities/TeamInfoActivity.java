@@ -14,7 +14,6 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.fragments.TeamPlayersFragment;
 import com.stadium.app.fragments.TeamReservationsFragment;
 import com.stadium.app.models.entities.Team;
@@ -27,7 +26,6 @@ import com.stadium.app.views.SlidingTabLayout;
  */
 public class TeamInfoActivity extends ParentActivity {
     private int id;
-    private ActiveUserController userController;
 
     private ImageView ivImage;
     private TextView tvName;
@@ -57,7 +55,6 @@ public class TeamInfoActivity extends ParentActivity {
 
         // create main objects
         id = getIntent().getIntExtra(Const.KEY_ID, 0);
-        userController = new ActiveUserController(this);
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);

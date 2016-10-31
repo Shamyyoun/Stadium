@@ -134,7 +134,7 @@
     <string name="no_stadiums_found">لا يوجد ملاعب </string>
     <string name="failed_loading_stadiums">فشل تحميل الملاعب</string>
     <string name="has_d_stadiums">يحتوي على %1$d ملعب</string>
-    <string name="address_c">:العنوان:</string>
+    <string name="address_c">العنوان:</string>
     <string name="no_events_yet">لا يوجد احداث حتى الآن</string>
     <string name="failed_loading_events">فشل تحميل الاحداث</string>
     <string name="position">المركز</string>
@@ -199,6 +199,10 @@
     <string name="leaved_team_successfully">تم مغادرة الفريق بنجاح</string>
     <string name="failed_leaving_team">فشل مغادرة الفريق</string>
     <string name="no_players_in_this_team_except_you">لا يوجد لاعبين في هذا الفريق غيرك</string>
+    <string name="stadium_name_c">اسم الملعب:</string>
+    <string name="cancel_reservation_q">الغاء الحجز؟</string>
+    <string name="cancelled_successfully">تم الالغاء بنجاح</string>
+    <string name="failed_cancelling">فشل الالغاء</string>
 
 
     <!-- Arrays -->

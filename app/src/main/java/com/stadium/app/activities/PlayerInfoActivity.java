@@ -202,9 +202,9 @@ public class PlayerInfoActivity extends ParentActivity {
         showProgressDialog();
 
         // send request
-        User user = userController.getUser();
-        ConnectionHandler connectionHandler = ApiRequests.ratePlayer(this, this, user.getId(),
-                user.getToken(), this.user.getId(), rate);
+        User activeUser = userController.getUser();
+        ConnectionHandler connectionHandler = ApiRequests.ratePlayer(this, this, activeUser.getId(),
+                activeUser.getToken(), activeUser.getName(), user.getId(), rate);
         cancelWhenDestroyed(connectionHandler);
     }
 

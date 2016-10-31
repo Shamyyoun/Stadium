@@ -388,10 +388,10 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         ConnectionHandler connectionHandler;
         if (isCaptain) {
             connectionHandler = ApiRequests.leaveTeam(context, connectionListener, user.getId(),
-                    user.getToken(), team.getId());
+                    user.getToken(), user.getName(), team.getId(), team.getName());
         } else {
             connectionHandler = ApiRequests.deleteMemberFromTeam(context, connectionListener, user.getId(),
-                    user.getToken(), team.getId(), player.getId());
+                    user.getToken(), team.getId(), team.getName(), player.getId(), player.getName());
         }
 
         // cancel the request when destroyed

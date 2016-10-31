@@ -5,8 +5,10 @@ import android.content.Context;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
+import com.stadium.app.models.bodies.CaptainBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
 import com.stadium.app.models.bodies.LeaveTeamBody;
+import com.stadium.app.models.bodies.ReservationActionBody;
 import com.stadium.app.models.bodies.ReservationsOfTeamBody;
 import com.stadium.app.models.bodies.TeamPlayerActionBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
@@ -227,7 +229,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<ServerResponse> ratePlayer(Context context, ConnectionListener<ServerResponse> listener,
-                                                               int userId, String userToken,
+                                                               int userId, String userToken, String userName,
                                                                int playerRatedId, double rate) {
         // create the request body
         RatePlayerBody body = new RatePlayerBody();
@@ -238,6 +240,7 @@ public class ApiRequests {
         User user = new User();
         user.setId(userId);
         user.setToken(userToken);
+        user.setName(userName);
         body.setUser(user);
 
         // create & execute the request
@@ -324,19 +327,24 @@ public class ApiRequests {
 
     public static ConnectionHandler<String> deleteMemberFromTeam(Context context, ConnectionListener<String> listener,
                                                                  int userId, String userToken,
-                                                                 int teamId, int playerId) {
+                                                                 int teamId, String teamName,
+                                                                 int playerId, String playerName) {
         // create the request body
         TeamPlayerActionBody body = new TeamPlayerActionBody();
-        body.setPlayerId(playerId);
-        TeamPlayerActionBody.Captain captain = new TeamPlayerActionBody.Captain();
+        CaptainBody captain = new CaptainBody();
         User userInfo = new User();
         userInfo.setId(userId);
         userInfo.setToken(userToken);
         captain.setUserinfo(userInfo);
         Team team = new Team();
         team.setId(teamId);
+        team.setName(teamName);
         captain.setHisTeam(team);
         body.setCaptain(captain);
+        User player = new User();
+        player.setId(playerId);
+        player.setName(playerName);
+        body.setPlayer(player);
 
         // create & execute the request
         ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
@@ -350,7 +358,7 @@ public class ApiRequests {
                                                             int teamId, int playerId) {
         // create the request body
         TeamPlayerActionBody body = new TeamPlayerActionBody();
-        TeamPlayerActionBody.Captain captain = new TeamPlayerActionBody.Captain();
+        CaptainBody captain = new CaptainBody();
         User userInfo = new User();
         userInfo.setId(userId);
         userInfo.setToken(userToken);
@@ -394,7 +402,7 @@ public class ApiRequests {
                                                           int teamId, int playerId) {
         // create the request body
         TeamPlayerActionBody body = new TeamPlayerActionBody();
-        TeamPlayerActionBody.Captain captain = new TeamPlayerActionBody.Captain();
+        CaptainBody captain = new CaptainBody();
         User userInfo = new User();
         userInfo.setId(userId);
         userInfo.setToken(userToken);
@@ -415,20 +423,49 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<String> leaveTeam(Context context, ConnectionListener<String> listener,
-                                                          int userId, String userToken, int teamId) {
+                                                      int userId, String userToken, String userName,
+                                                      int teamId, String teamName) {
         // create the request body
         LeaveTeamBody body = new LeaveTeamBody();
         User userInfo = new User();
         userInfo.setId(userId);
         userInfo.setToken(userToken);
+        userInfo.setName(userName);
         body.setUserinfo(userInfo);
         Team team = new Team();
         team.setId(teamId);
+        team.setName(teamName);
         body.setHisTeam(team);
 
         // create & execute the request
         ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_LEAVE_TEAM), String.class, listener, body, Const.API_LEAVE_TEAM);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> deleteReservation(Context context, ConnectionListener<String> listener,
+                                                              int userId, String userToken,
+                                                              int teamId, String teamName, int reservationId) {
+        // create the request body
+        ReservationActionBody body = new ReservationActionBody();
+        CaptainBody captain = new CaptainBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        captain.setUserinfo(userInfo);
+        Team team = new Team();
+        team.setId(teamId);
+        team.setName(teamName);
+        captain.setHisTeam(team);
+        body.setCaptain(captain);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_DELETE_RESERVATION), String.class, listener, body, Const.API_DELETE_RESERVATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

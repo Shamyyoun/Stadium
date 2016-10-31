@@ -1,17 +1,29 @@
 package com.stadium.app.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.stadium.app.ApiRequests;
+import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.connection.ConnectionListener;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.ReservationController;
 import com.stadium.app.controllers.StadiumController;
+import com.stadium.app.controllers.TeamController;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
+import com.stadium.app.models.entities.Team;
+import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.AppUtils;
+import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
 import java.util.List;
@@ -22,6 +34,10 @@ import java.util.List;
 public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
     private StadiumController stadiumController;
     private ReservationController reservationController;
+    private TeamController teamController;
+    private ActiveUserController userController;
+    private boolean isTeamReservations;
+    private List<User> teamPlayers;
 
     public ReservationsAdapter(Context context, List<Reservation> data, int layoutId) {
         super(context, data, layoutId);
@@ -29,6 +45,8 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         // create controllers
         stadiumController = new StadiumController();
         reservationController = new ReservationController();
+        teamController = new TeamController();
+        userController = new ActiveUserController(context);
     }
 
     @Override
@@ -47,67 +65,199 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         // get item
         final Reservation item = data.get(position);
 
-        // check stadium
+        // prepare the stadium values
+        String stadiumName = null;
+        String stadiumAddress = null;
+        String stadiumImage = null;
         final Stadium stadium = item.getReservationStadium();
         if (stadium != null) {
-            // set stadium name
-            if (!Utils.isNullOrEmpty(stadium.getName())) {
-                holder.tvStadiumName.setText(stadium.getName());
-            } else {
-                holder.tvStadiumName.setText("-----------");
-            }
-
-            // set stadium address
-            String address = stadiumController.getAddress(stadium);
-            if (address != null) {
-                holder.tvStadiumAddress.setText(getString(R.string.address_c) + " " + address);
-                holder.tvStadiumAddress.setVisibility(View.VISIBLE);
-            } else {
-                holder.tvStadiumAddress.setVisibility(View.GONE);
-            }
-
-            // load image
-            Utils.loadImage(context, stadium.getImageLink(), R.drawable.default_image, holder.ivImage);
-        } else {
-            // hide stadium views
-            holder.tvStadiumName.setVisibility(View.GONE);
-            holder.tvStadiumAddress.setVisibility(View.GONE);
-
-            // load def image
-            holder.ivImage.setImageResource(R.drawable.default_image);
+            stadiumName = stadium.getName();
+            stadiumAddress = stadiumController.getAddress(stadium);
+            stadiumImage = stadium.getImageLink();
         }
+
+        // set the stadium name
+        if (!Utils.isNullOrEmpty(stadiumName)) {
+            holder.tvStadiumName.setText(stadiumName);
+        } else {
+            holder.tvStadiumName.setText("-----------");
+        }
+
+        // set the stadium address
+        if (!Utils.isNullOrEmpty(stadiumAddress)) {
+            holder.tvStadiumAddress.setText(getString(R.string.address_c) + " " + stadiumAddress);
+            holder.tvStadiumAddress.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvStadiumAddress.setVisibility(View.GONE);
+        }
+
+        // load the suitable image
+        String image = null;
+        if (isTeamReservations) {
+            image = stadiumImage;
+        } else {
+            if (item.getReservationTeam() != null) {
+                image = item.getReservationTeam().getImageLink();
+            }
+        }
+        Utils.loadImage(context, image, R.drawable.default_image, holder.ivImage);
+
+        // set the field number
+        String fieldNo = reservationController.getFieldNumber(item);
+        if (fieldNo != null) {
+            fieldNo = getString(R.string.stadium_name_c) + " " + fieldNo;
+        } else {
+            fieldNo = getString(R.string.stadium_name_c) + " ----";
+        }
+        holder.tvFieldNo.setText(fieldNo);
 
         // set the date
         String dateTime = getString(R.string.appointment_c) + " " + reservationController.getDateTime(item);
         holder.tvDateTime.setText(dateTime);
 
-        // check to add address click listener
+        // check to show / hide the cancel button
+        Team team = item.getReservationTeam();
+        User user = userController.getUser();
+        if (team == null || teamController.getPlayerRole(team, user.getId()) == null) {
+            holder.layoutButtons.setVisibility(View.GONE);
+        }
+
+        // check the stadium address to enable the address text view or not
         if (stadium != null && stadiumController.hasLocation(stadium)) {
             holder.tvStadiumAddress.setClickable(true);
-            holder.tvStadiumAddress.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.openMapIntent(context, stadium.getName(), stadium.getLatitude(), stadium.getLongitude());
-                }
-            });
         } else {
             holder.tvStadiumAddress.setClickable(false);
         }
+
+        // check if these are team reservations
+        if (isTeamReservations && teamPlayers != null) {
+            // check if the user is a player in this team
+            if (!teamController.isTeamPlayer(teamPlayers, user.getId())) {
+                // he is not a player, so make the content layout not clickable
+                holder.ivArrow.setVisibility(View.GONE);
+                holder.layoutContent.setClickable(false);
+            } else {
+                // he is a player in this team, so he can click on the content layout
+                // it is clickable by default
+            }
+        }
+
+        // create the global click listener
+        final View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.tv_address:
+                        openMapIntent(position);
+                        break;
+
+                    case R.id.btn_cancel:
+                        showCancelConfirmDialog(position);
+                        break;
+
+                    case R.id.layout_content:
+                        // TODO
+                        break;
+                }
+            }
+        };
+
+        // add listeners
+        holder.tvStadiumAddress.setOnClickListener(clickListener);
+        holder.btnCancel.setOnClickListener(clickListener);
+    }
+
+    private void openMapIntent(int position) {
+        Stadium stadium = data.get(position).getReservationStadium();
+        Utils.openMapIntent(context, stadium.getName(), stadium.getLatitude(), stadium.getLongitude());
+    }
+
+    private void showCancelConfirmDialog(final int position) {
+        DialogUtils.showConfirmDialog(context, R.string.cancel_reservation_q, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cancel(position);
+            }
+        }, null);
+    }
+
+    private void cancel(final int position) {
+        // get the reservation
+        final Reservation reservation = data.get(position);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener<String> connectionListener = new ConnectionListener<String>() {
+            @Override
+            public void onSuccess(String response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check status code
+                if (statusCode == Const.SER_CODE_200) {
+                    removeItem(position);
+
+                    // show msg
+                    Utils.showShortToast(context, R.string.cancelled_successfully);
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_cancelling);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, R.string.failed_cancelling);
+            }
+        };
+
+        // send request
+        User user = userController.getUser();
+        Team team = reservation.getReservationTeam();
+        ConnectionHandler connectionHandler = ApiRequests.deleteReservation(context, connectionListener,
+                user.getId(), user.getToken(), team.getId(), team.getName(), reservation.getId());
+        cancelWhenDestroyed(connectionHandler);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+        private View layoutContent;
+        private ImageView ivArrow;
         private ImageView ivImage;
         private TextView tvStadiumName;
         private TextView tvStadiumAddress;
+        private TextView tvFieldNo;
         private TextView tvDateTime;
+        private View layoutButtons;
+        private Button btnCancel;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
+            layoutContent = findViewById(R.id.layout_content);
+            ivArrow = (ImageView) findViewById(R.id.iv_arrow);
             ivImage = (ImageView) findViewById(R.id.iv_image);
             tvStadiumName = (TextView) findViewById(R.id.tv_stadium_name);
             tvStadiumAddress = (TextView) findViewById(R.id.tv_stadium_address);
+            tvFieldNo = (TextView) findViewById(R.id.tv_field_no);
             tvDateTime = (TextView) findViewById(R.id.tv_date_time);
+            layoutButtons = findViewById(R.id.layout_buttons);
+            btnCancel = (Button) findViewById(R.id.btn_cancel);
         }
+    }
+
+    public void setIsTeamReservations(boolean isTeamReservations) {
+        this.isTeamReservations = isTeamReservations;
+    }
+
+    public void setTeamPlayers(List<User> teamPlayers) {
+        this.teamPlayers = teamPlayers;
     }
 }

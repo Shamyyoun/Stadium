@@ -13,6 +13,7 @@ public class Const {
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";
     public static final String ROUTE_CAPTAIN = "Captain";
+    public static final String ROUTE_ADMIN = "Admin";
     public static final String API_LOGIN = "LOGIN";
     public static final String API_CHECK_EMAIL = "CheckEmail";
     public static final String API_FORGET_PASSWORD = "forgetPassword";
@@ -36,6 +37,8 @@ public class Const {
     public static final String API_RESERVATIONS_OF_TEAM = "ReservationsOfTeam";
     public static final String API_CHANGE_CAPTAIN = "ChangeCaptain";
     public static final String API_LEAVE_TEAM = "leaveTeam";
+    public static final String API_CANCEL_RESERVATION = "deleteReservation";
+    public static final String API_DELETE_RESERVATION = "DeleteReservation";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

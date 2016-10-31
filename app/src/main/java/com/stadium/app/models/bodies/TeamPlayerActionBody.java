@@ -2,47 +2,32 @@ package com.stadium.app.models.bodies;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
 
 public class TeamPlayerActionBody {
 
     @SerializedName("captain")
     @Expose
-    private Captain captain;
-    @SerializedName("playerId")
-    @Expose
-    private int playerId;
+    private CaptainBody captain;
     @SerializedName("user")
     @Expose
     private User user;
+    @SerializedName("player")
+    @Expose
+    private User player;
 
     /**
      * @return The captain
      */
-    public Captain getCaptain() {
+    public CaptainBody getCaptain() {
         return captain;
     }
 
     /**
      * @param captain The captain
      */
-    public void setCaptain(Captain captain) {
+    public void setCaptain(CaptainBody captain) {
         this.captain = captain;
-    }
-
-    /**
-     * @return The playerId
-     */
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    /**
-     * @param playerId The playerId
-     */
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
     }
 
     /**
@@ -59,43 +44,17 @@ public class TeamPlayerActionBody {
         this.user = user;
     }
 
-    // -------------------- Captain Class --------------------
-    public static class Captain {
+    /**
+     * @return The player
+     */
+    public User getPlayer() {
+        return player;
+    }
 
-        @SerializedName("userinfo")
-        @Expose
-        private User userinfo;
-        @SerializedName("HisTeam")
-        @Expose
-        private Team hisTeam;
-
-        /**
-         * @return The userinfo
-         */
-        public User getUserinfo() {
-            return userinfo;
-        }
-
-        /**
-         * @param userinfo The userinfo
-         */
-        public void setUserinfo(User userinfo) {
-            this.userinfo = userinfo;
-        }
-
-        /**
-         * @return The hisTeam
-         */
-        public Team getHisTeam() {
-            return hisTeam;
-        }
-
-        /**
-         * @param hisTeam The HisTeam
-         */
-        public void setHisTeam(Team hisTeam) {
-            this.hisTeam = hisTeam;
-        }
-
+    /**
+     * @param player The player
+     */
+    public void setPlayer(User player) {
+        this.player = player;
     }
 }

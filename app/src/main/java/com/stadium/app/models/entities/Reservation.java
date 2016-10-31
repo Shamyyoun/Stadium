@@ -44,7 +44,7 @@ public class Reservation implements Serializable {
     private Object playerId;
     @SerializedName("reservationFiled")
     @Expose
-    private ReservationField reservationField;
+    private Field field;
     @SerializedName("reservationStadium")
     @Expose
     private Stadium reservationStadium;
@@ -213,17 +213,17 @@ public class Reservation implements Serializable {
     }
 
     /**
-     * @return The reservationField
+     * @return The field
      */
-    public ReservationField getReservationField() {
-        return reservationField;
+    public Field getField() {
+        return field;
     }
 
     /**
-     * @param reservationField The reservationField
+     * @param field The field
      */
-    public void setReservationField(ReservationField reservationField) {
-        this.reservationField = reservationField;
+    public void setField(Field field) {
+        this.field = field;
     }
 
     /**
