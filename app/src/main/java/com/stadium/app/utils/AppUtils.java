@@ -110,22 +110,39 @@ public class AppUtils {
      * @param defMsgId
      * @return
      */
-    public static String getResponseError(Context context, String response, int defMsgId) {
-        // parse the response
+    public static String getResponseMsg(Context context, Object response, int defMsgId) {
+        // try to parse the response
         ServerResponse serverResponse = null;
         try {
-            serverResponse = new Gson().fromJson(response, ServerResponse.class);
+            serverResponse = new Gson().fromJson((String) response, ServerResponse.class);
         } catch (Exception e) {
         }
 
-        String msg;
+        // check the msg
+        String msg = null;
         if (serverResponse != null && !Utils.isNullOrEmpty(serverResponse.getErrorMessage())) {
             msg = serverResponse.getErrorMessage();
-        } else {
-            msg = context.getString(defMsgId);
         }
 
-        return msg;
+        // again, check the msg
+        if (Utils.isNullOrEmpty(msg)) {
+            // try to convert the objct to string
+            msg = null;
+            try {
+                msg = (String) response;
+                if (Utils.isNullOrEmpty(msg)) {
+                    msg = null;
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        // again :D, check the msg
+        if (Utils.isNullOrEmpty(msg)) {
+            return context.getString(defMsgId);
+        } else {
+            return msg;
+        }
     }
 
     //    /**

@@ -7,12 +7,14 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
 import com.stadium.app.models.bodies.CaptainBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
+import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.bodies.LeaveTeamBody;
+import com.stadium.app.models.bodies.PlayerConfirmListBody;
+import com.stadium.app.models.bodies.RatePlayerBody;
 import com.stadium.app.models.bodies.ReservationActionBody;
 import com.stadium.app.models.bodies.ReservationsOfTeamBody;
 import com.stadium.app.models.bodies.TeamPlayerActionBody;
-import com.stadium.app.models.bodies.ForgetPasswordBody;
-import com.stadium.app.models.bodies.RatePlayerBody;
+import com.stadium.app.models.entities.Attendant;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.Image;
@@ -197,7 +199,7 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> confirmPresent(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler confirmPresent(Context context, ConnectionListener listener,
                                                            int userId, String userToken, int resId, int type) {
         // create the request body
         ConfirmPresentBody body = new ConfirmPresentBody();
@@ -211,8 +213,8 @@ public class ApiRequests {
         body.setType(type);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_CONFIRM_PRESENT), String.class, listener, body, Const.API_CONFIRM_PRESENT);
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CONFIRM_PRESENT), null, listener, body, Const.API_CONFIRM_PRESENT);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -466,6 +468,27 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getCaptainApiUrl(Const.API_DELETE_RESERVATION), String.class, listener, body, Const.API_DELETE_RESERVATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Attendant[]> playerConfirmList(Context context,
+                                                                   ConnectionListener<Attendant[]> listener,
+                                                                   int userId, String userToken, int reservationId) {
+        // create the request body
+        PlayerConfirmListBody body = new PlayerConfirmListBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler<Attendant[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_PLAYER_CONFIRMED_LIST), Attendant[].class,
+                listener, body, Const.API_PLAYER_CONFIRMED_LIST);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

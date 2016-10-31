@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.stadium.app.R;
 import com.stadium.app.adapters.ReservationsAdapter;
-import com.stadium.app.dialogs.AttendanceDialog;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.entities.Reservation;
 
@@ -49,9 +48,9 @@ public class ReservationsFragment extends ParentFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                // show attendance dialog
-                AttendanceDialog dialog = new AttendanceDialog(activity);
-                dialog.show();
+//                // show attendance dialog
+//                AttendanceDialog dialog = new AttendanceDialog(activity, );
+//                dialog.show();
             }
         });
 

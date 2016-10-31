@@ -21,9 +21,9 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.User;
-import com.stadium.app.models.enums.EventConfirmStatusType;
 import com.stadium.app.models.enums.EventProfileType;
 import com.stadium.app.models.enums.EventType;
+import com.stadium.app.models.enums.ReservationConfirmType;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.DialogUtils;
@@ -88,13 +88,13 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
             holder.tvConfirmStatus.setVisibility(View.VISIBLE);
 
             // check the confirm status id
-            if (item.getConfirmStatusId() == EventConfirmStatusType.NO_ACTION.getValue()) {
+            if (item.getConfirmStatusId() == ReservationConfirmType.NO_ACTION.getValue()) {
                 holder.tvConfirmStatus.setText(R.string.you_are_out_by_the_captain);
-            } else if (item.getConfirmStatusId() == EventConfirmStatusType.CONFIRM.getValue()) {
+            } else if (item.getConfirmStatusId() == ReservationConfirmType.CONFIRM.getValue()) {
                 String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
                         item.getConfirmStatus() : getString(R.string.confirmed);
                 holder.tvConfirmStatus.setText(confirmStatus);
-            } else if (item.getConfirmStatusId() == EventConfirmStatusType.DECLINE.getValue()) {
+            } else if (item.getConfirmStatusId() == ReservationConfirmType.DECLINE.getValue()) {
                 String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
                         item.getConfirmStatus() : getString(R.string.decline);
                 holder.tvConfirmStatus.setText(confirmStatus);
@@ -180,35 +180,28 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
 
         // prepare request params
         User user = userController.getUser();
-        final int confirmType = confirm ? EventConfirmStatusType.CONFIRM.getValue()
-                : EventConfirmStatusType.DECLINE.getValue();
+        final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
+                : ReservationConfirmType.DECLINE.getValue();
 
         // create the connection listener
-        ConnectionListener<String> listener = new ConnectionListener<String>() {
+        ConnectionListener listener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check the status code
                 if (statusCode == Const.SER_CODE_200) {
-                    String msg;
-                    if (!Utils.isNullOrEmpty(response)) {
-                        msg = response;
-                    } else {
-                        msg = getString(confirm ? R.string.accepted_successfully : R.string.declined_successfully);
-                    }
-
-                    // show msg
-                    Utils.showShortToast(context, msg);
+                    // show success msg
+                    Utils.showShortToast(context, confirm ? R.string.confirmed : R.string.decline);
 
                     // update this item
-                    event.setConfirmStatusId(confirm ? EventConfirmStatusType.CONFIRM.getValue()
-                            : EventConfirmStatusType.DECLINE.getValue());
+                    event.setConfirmStatusId(confirm ? ReservationConfirmType.CONFIRM.getValue()
+                            : ReservationConfirmType.DECLINE.getValue());
                     event.setConfirmStatus(getString(confirm ? R.string.confirmed : R.string.decline));
                     notifyItemChanged(position);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, confirm ? R.string.error_accepting : R.string.error_declining);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, confirm ? R.string.error_accepting : R.string.error_declining);
                     Utils.showShortToast(context, errorMsg);
                 }
             }

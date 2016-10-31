@@ -18,6 +18,7 @@ import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.ReservationController;
 import com.stadium.app.controllers.StadiumController;
 import com.stadium.app.controllers.TeamController;
+import com.stadium.app.dialogs.AttendanceDialog;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.Team;
@@ -122,23 +123,14 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             holder.layoutButtons.setVisibility(View.GONE);
         }
 
-        // check the stadium address to enable the address text view or not
-        if (stadium != null && stadiumController.hasLocation(stadium)) {
-            holder.tvStadiumAddress.setClickable(true);
-        } else {
-            holder.tvStadiumAddress.setClickable(false);
-        }
-
         // check if these are team reservations
         if (isTeamReservations && teamPlayers != null) {
-            // check if the user is a player in this team
+            // check if the user is a not player in this team
+            // to make the content layout not clickable otherwise it is clickable by default
             if (!teamController.isTeamPlayer(teamPlayers, user.getId())) {
                 // he is not a player, so make the content layout not clickable
                 holder.ivArrow.setVisibility(View.GONE);
                 holder.layoutContent.setClickable(false);
-            } else {
-                // he is a player in this team, so he can click on the content layout
-                // it is clickable by default
             }
         }
 
@@ -147,29 +139,26 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.tv_address:
-                        openMapIntent(position);
+                    case R.id.layout_content:
+                        openAttendanceDialog(position);
                         break;
 
                     case R.id.btn_cancel:
                         showCancelConfirmDialog(position);
-                        break;
-
-                    case R.id.layout_content:
-                        // TODO
                         break;
                 }
             }
         };
 
         // add listeners
-        holder.tvStadiumAddress.setOnClickListener(clickListener);
+        holder.layoutContent.setOnClickListener(clickListener);
         holder.btnCancel.setOnClickListener(clickListener);
     }
 
-    private void openMapIntent(int position) {
-        Stadium stadium = data.get(position).getReservationStadium();
-        Utils.openMapIntent(context, stadium.getName(), stadium.getLatitude(), stadium.getLongitude());
+    private void openAttendanceDialog(int position) {
+        Reservation reservation = data.get(position);
+        AttendanceDialog dialog = new AttendanceDialog(context, reservation.getId());
+        dialog.show();
     }
 
     private void showCancelConfirmDialog(final int position) {
@@ -207,7 +196,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                     Utils.showShortToast(context, R.string.cancelled_successfully);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_cancelling);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_cancelling);
                     Utils.showShortToast(context, errorMsg);
                 }
             }

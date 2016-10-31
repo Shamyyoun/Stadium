@@ -39,6 +39,7 @@ public class Const {
     public static final String API_LEAVE_TEAM = "leaveTeam";
     public static final String API_CANCEL_RESERVATION = "deleteReservation";
     public static final String API_DELETE_RESERVATION = "DeleteReservation";
+    public static final String API_PLAYER_CONFIRMED_LIST = "playerConfirmedList";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

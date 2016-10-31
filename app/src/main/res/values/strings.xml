@@ -203,6 +203,12 @@
     <string name="cancel_reservation_q">الغاء الحجز؟</string>
     <string name="cancelled_successfully">تم الالغاء بنجاح</string>
     <string name="failed_cancelling">فشل الالغاء</string>
+    <string name="failed_loading_attendance">فشل تحميل الحضور</string>
+    <string name="no_attendance_found">لا يوجد حضور</string>
+    <string name="confirm_your_attendance_q">تأكيد حضورك؟</string>
+    <string name="failed_confirming">فشل التأكيد</string>
+    <string name="cancel_your_attendance_q">الغاء حضورك؟</string>
+    <string name="cancelled">تم الالغاء</string>
 
 
     <!-- Arrays -->

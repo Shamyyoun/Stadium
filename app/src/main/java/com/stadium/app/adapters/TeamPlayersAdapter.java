@@ -250,7 +250,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
                     }
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_changing_captain);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_changing_captain);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
@@ -311,7 +311,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
                     Utils.showShortToast(context, makeAssistant ? R.string.made_successfully : R.string.deleted_successfully);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, makeAssistant ? R.string.failed_making_player : R.string.failed_deleting);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, makeAssistant ? R.string.failed_making_player : R.string.failed_deleting);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
@@ -369,7 +369,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
                     Utils.showShortToast(context, isCaptain ? R.string.leaved_team_successfully : R.string.removed_successfully);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, isCaptain ? R.string.failed_leaving_team : R.string.failed_removing);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, isCaptain ? R.string.failed_leaving_team : R.string.failed_removing);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
