@@ -282,14 +282,17 @@ public class ApiRequests {
 
     public static ConnectionHandler<String> addMemberToTeam(Context context, ConnectionListener<String> listener,
                                                             int userId, String userToken,
-                                                            int teamId, int playerId) {
+                                                            int teamId, String teamName,
+                                                            int playerId, String playerName) {
         // create the request body
         AddMemberToTeamBody body = new AddMemberToTeamBody();
         User player = new User();
         player.setId(playerId);
+        player.setName(playerName);
         body.setPlayer(player);
         Team team = new Team();
         team.setId(teamId);
+        team.setName(teamName);
         User captain = new User();
         captain.setId(userId);
         captain.setToken(userToken);

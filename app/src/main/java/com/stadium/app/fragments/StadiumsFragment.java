@@ -65,7 +65,11 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
 
         // check data
         if (data != null) {
-            updateUI();
+            if (!data.isEmpty()) {
+                updateUI();
+            } else {
+                showEmpty(R.string.no_stadiums_found);
+            }
         } else {
             loadData();
         }

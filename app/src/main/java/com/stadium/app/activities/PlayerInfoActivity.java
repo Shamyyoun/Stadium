@@ -52,7 +52,7 @@ public class PlayerInfoActivity extends ParentActivity {
     private TextView tvTeamsEmpty;
     private TextView tvTeamsError;
 
-    private User user;
+    private User player;
     private List<Team> teams;
     private TeamsAdapter teamsAdapter;
     private ChooseTeamDialog teamsDialog;
@@ -63,7 +63,7 @@ public class PlayerInfoActivity extends ParentActivity {
         setContentView(R.layout.activity_player_info);
         enableBackButton();
 
-        // create main objects
+        // obtain main objects
         id = getIntent().getIntExtra(Const.KEY_ID, 0);
         userController = new ActiveUserController(this);
 
@@ -129,9 +129,9 @@ public class PlayerInfoActivity extends ParentActivity {
 
     private void updateUserUI() {
         // set basic info
-        UserController userController = new UserController(user);
+        UserController userController = new UserController(player);
         tvName.setText(userController.getNamePosition());
-        tvRating.setText(Utils.formatDouble(user.getRate()));
+        tvRating.setText(Utils.formatDouble(player.getRate()));
 
         // set city
         if (!Utils.isNullOrEmpty(userController.getCityName())) {
@@ -141,7 +141,7 @@ public class PlayerInfoActivity extends ParentActivity {
         }
 
         // load the profile image
-        Utils.loadImage(activity, user.getImageLink(), R.drawable.default_image, ivImage);
+        Utils.loadImage(activity, player.getImageLink(), R.drawable.default_image, ivImage);
     }
 
     private void updateTeamsUI() {
@@ -167,6 +167,7 @@ public class PlayerInfoActivity extends ParentActivity {
         // check internet connection
         if (!Utils.hasConnection(this)) {
             Utils.showShortToast(this, R.string.no_internet_connection);
+            disableControls();
             return;
         }
 
@@ -204,7 +205,7 @@ public class PlayerInfoActivity extends ParentActivity {
         // send request
         User activeUser = userController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.ratePlayer(this, this, activeUser.getId(),
-                activeUser.getToken(), activeUser.getName(), user.getId(), rate);
+                activeUser.getToken(), activeUser.getName(), player.getId(), rate);
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -220,7 +221,7 @@ public class PlayerInfoActivity extends ParentActivity {
         // send request
         User user = userController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.addMemberToTeam(this, this, user.getId(),
-                user.getToken(), team.getId(), id);
+                user.getToken(), team.getId(), team.getName(), id, player.getName());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -234,7 +235,7 @@ public class PlayerInfoActivity extends ParentActivity {
 
             // check result
             if (statusCode == Const.SER_CODE_200 && user != null) {
-                this.user = user;
+                player = user;
                 updateUserUI();
 
                 loadUserTeams();

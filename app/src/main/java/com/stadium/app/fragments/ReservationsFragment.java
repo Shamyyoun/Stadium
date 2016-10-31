@@ -64,7 +64,11 @@ public class ReservationsFragment extends ProgressFragment {
 
         // check data
         if (data != null) {
-            updateUI();
+            if (!data.isEmpty()) {
+                updateUI();
+            } else {
+                showEmpty(R.string.no_reservations_found);
+            }
         } else {
             loadData();
         }

@@ -115,6 +115,7 @@ public class TeamInfoActivity extends ParentActivity {
         // check internet connection
         if (!Utils.hasConnection(this)) {
             Utils.showShortToast(this, R.string.no_internet_connection);
+            disableControls();
             return;
         }
 
@@ -143,13 +144,14 @@ public class TeamInfoActivity extends ParentActivity {
                 playersFragment.loadData();
                 reservationsFragment.loadData();
             } else {
+                // get and show error msg
                 String errorMsg = AppUtils.getResponseError(this, team);
                 if (errorMsg == null) {
                     errorMsg = getString(R.string.failed_loading_info);
                 }
-
                 Utils.showShortToast(this, errorMsg);
 
+                // disable the controls
                 disableControls();
             }
         } else {

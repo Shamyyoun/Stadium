@@ -58,7 +58,11 @@ public class PlayersFragment extends ProgressFragment {
 
         // check data
         if (data != null) {
-            updateUI();
+            if (!data.isEmpty()) {
+                updateUI();
+            } else {
+                showEmpty(R.string.no_players_found);
+            }
         } else {
             loadData();
         }

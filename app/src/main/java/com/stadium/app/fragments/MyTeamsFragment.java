@@ -70,7 +70,11 @@ public class MyTeamsFragment extends ProgressFragment {
 
         // check data
         if (data != null) {
-            updateUI();
+            if (!data.isEmpty()) {
+                updateUI();
+            } else {
+                showEmpty(R.string.no_teams_found);
+            }
         } else {
             loadData();
         }

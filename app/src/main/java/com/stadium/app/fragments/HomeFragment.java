@@ -90,7 +90,11 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
 
         // check data
         if (data != null) {
-            updateEventsUI();
+            if (!data.isEmpty()) {
+                updateEventsUI();
+            } else {
+                showEmpty(R.string.no_events_yet);
+            }
         } else {
             loadData();
         }
