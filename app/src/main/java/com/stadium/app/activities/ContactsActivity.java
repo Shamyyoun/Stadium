@@ -1,14 +1,12 @@
 package com.stadium.app.activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.stadium.app.R;
 import com.stadium.app.adapters.PlayersAdapter;
-import com.stadium.app.models.entities.Player;
+import com.stadium.app.models.entities.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +15,7 @@ import java.util.List;
 public class ContactsActivity extends ParentActivity {
     private RecyclerView recyclerView;
     private PlayersAdapter adapter;
-    private List<Player> data;
+    private List<User> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,21 +26,11 @@ public class ContactsActivity extends ParentActivity {
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        // customize the recycler view
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        data = getDummyData();
-//        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
-        recyclerView.setAdapter(adapter);
-    }
-
-    private List<Player> getDummyData() {
-        List<Player> data = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            Player item = new Player();
-            data.add(item);
-        }
-
-        return data;
+//        // customize the recycler view
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+//        recyclerView.setLayoutManager(layoutManager);
+//        data = getDummyData();
+////        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
+//        recyclerView.setAdapter(adapter);
     }
 }

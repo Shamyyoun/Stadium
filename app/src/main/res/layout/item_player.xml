@@ -37,6 +37,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_name"
                     style="@style/SingleEllipsizedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
                     android:textSize="@dimen/medium_text" />
 
                 <TextView
+                    android:id="@+id/tv_address"
                     style="@style/SingleEllipsizedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
                 android:orientation="vertical">
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_image"
                     style="@style/CroppedImageView"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -68,6 +71,7 @@
                     app:riv_oval="true" />
 
                 <RatingBar
+                    android:id="@+id/rb_rating"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

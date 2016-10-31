@@ -507,4 +507,12 @@ public class ApiRequests {
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener) {
+        // create & execute the request
+        ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS), User[].class, listener, Const.API_ALL_PLAYERS);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
 }

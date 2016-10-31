@@ -1,33 +1,33 @@
 package com.stadium.app.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
-import com.stadium.app.activities.ContactsActivity;
 import com.stadium.app.adapters.PlayersAdapter;
-import com.stadium.app.dialogs.OrderPlayersDialog;
-import com.stadium.app.models.entities.Player;
+import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.models.SerializableListWrapper;
+import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class PlayersFragment extends ParentFragment {
-
+public class PlayersFragment extends ProgressFragment {
     private TextView tvOrderBy;
     private RecyclerView recyclerView;
+    private List<User> data;
     private PlayersAdapter adapter;
-    private List<Player> data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class PlayersFragment extends ParentFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_players, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
 
         // init views
         tvOrderBy = (TextView) findViewById(R.id.tv_order_by);
@@ -47,51 +47,100 @@ public class PlayersFragment extends ParentFragment {
         // customize the recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        data = getDummyData();
-//        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
-//        recyclerView.setAdapter(adapter);
-//
-//        // add listeners
-//        tvOrderBy.setOnClickListener(this);
-//        adapter.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                // open player info activity
-//                startActivity(new Intent(activity, PlayerInfoActivity.class));
-//            }
-//        });
+
+        // get data from saved bundle if exists
+        if (savedInstanceState != null) {
+            SerializableListWrapper<User> dataWrapper = (SerializableListWrapper<User>) savedInstanceState.getSerializable("dataWrapper");
+            if (dataWrapper != null) {
+                data = dataWrapper.getList();
+            }
+        }
+
+        // check data
+        if (data != null) {
+            updateUI();
+        } else {
+            loadData();
+        }
+
+        // add listeners
+        tvOrderBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+            }
+        });
 
         return rootView;
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.tv_order_by) {
-            // show order players dialog
-            OrderPlayersDialog dialog = new OrderPlayersDialog(activity);
-            dialog.show();
+    protected int getContentViewResId() {
+        return R.layout.fragment_players;
+    }
+
+    @Override
+    protected int getMainViewResId() {
+        return R.id.swipe_layout;
+    }
+
+    @Override
+    protected OnRefreshListener getOnRefreshListener() {
+        return new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        };
+    }
+
+    private void updateUI() {
+        adapter = new PlayersAdapter(activity, data, R.layout.item_player);
+        recyclerView.setAdapter(adapter);
+        showMain();
+    }
+
+    private void loadData() {
+        // check internet connection
+        if (!Utils.hasConnection(activity)) {
+            showError(R.string.no_internet_connection);
+            return;
+        }
+
+        showProgress();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.allPlayers(activity, this);
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void refresh() {
+        loadData();
+    }
+
+    @Override
+    public void onSuccess(Object response, int statusCode, String tag) {
+        // get data
+        User[] usersArr = (User[]) response;
+        data = new ArrayList<>(Arrays.asList(usersArr));
+
+        // check size
+        if (data.size() == 0) {
+            showEmpty(R.string.no_players_found);
         } else {
-            super.onClick(v);
+            updateUI();
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_contacts) {
-            // open contacts activity
-            startActivity(new Intent(activity, ContactsActivity.class));
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onFail(Exception ex, int statusCode, String tag) {
+        showError(R.string.failed_loading_players);
     }
 
-    private List<Player> getDummyData() {
-        List<Player> data = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            Player item = new Player();
-            data.add(item);
-        }
-
-        return data;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
+        outState.putSerializable("dataWrapper", dataWrapper);
+        super.onSaveInstanceState(outState);
     }
 }
