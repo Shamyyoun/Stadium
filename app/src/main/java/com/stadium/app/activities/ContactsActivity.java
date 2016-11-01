@@ -15,7 +15,7 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.fragments.ProgressFragment;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.User;
-import com.stadium.app.utils.ContactsUtil;
+import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.PermissionUtil;
 import com.stadium.app.utils.Utils;
 
@@ -120,7 +120,7 @@ public class ContactsActivity extends ProgressActivity {
             @Override
             protected Object doInBackground(Object[] params) {
                 // get contacts
-                String[] phoneNumbers = ContactsUtil.getContactsPhoneNumbers(activity);
+                String[] phoneNumbers = AppUtils.prepareContactsPhonesArr(activity);
 
                 // send request
                 ConnectionHandler connectionHandler = ApiRequests.checkListOfContact(activity, ContactsActivity.this, phoneNumbers);
