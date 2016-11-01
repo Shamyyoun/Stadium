@@ -18,6 +18,7 @@ import com.stadium.app.controllers.AttendanceController;
 import com.stadium.app.dialogs.ProgressDialog;
 import com.stadium.app.models.entities.Attendant;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.PresentConfirmType;
 import com.stadium.app.models.enums.ReservationConfirmType;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DialogUtils;
@@ -140,11 +141,6 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
 
         showProgress();
 
-        // prepare request params
-        User user = userController.getUser();
-        final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
-                : ReservationConfirmType.DECLINE.getValue();
-
         // create the connection listener
         ConnectionListener<String> listener = new ConnectionListener<String>() {
             @Override
@@ -174,6 +170,11 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
                 Utils.showShortToast(context, confirm ? R.string.failed_confirming : R.string.failed_cancelling);
             }
         };
+
+        // prepare request params
+        User user = userController.getUser();
+        final int confirmType = confirm ? PresentConfirmType.CONFIRM.getValue()
+                : PresentConfirmType.DECLINE.getValue();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmPresent(context, listener, user.getId(),

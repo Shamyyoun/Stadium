@@ -6,6 +6,7 @@ package com.stadium.app.models.bodies;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.User;
 
 public class ConfirmPresentBody {
@@ -14,7 +15,7 @@ public class ConfirmPresentBody {
     private User player;
     @SerializedName("res")
     @Expose
-    private Res res;
+    private Reservation res;
     @SerializedName("Type")
     @Expose
     private int type;
@@ -36,14 +37,14 @@ public class ConfirmPresentBody {
     /**
      * @return The res
      */
-    public Res getRes() {
+    public Reservation getRes() {
         return res;
     }
 
     /**
      * @param res The res
      */
-    public void setRes(Res res) {
+    public void setRes(Reservation res) {
         this.res = res;
     }
 
@@ -59,27 +60,5 @@ public class ConfirmPresentBody {
      */
     public void setType(int type) {
         this.type = type;
-    }
-
-    // -------------------- Res Class --------------------
-    public static class Res {
-
-        @SerializedName("Id")
-        @Expose
-        private int id;
-
-        /**
-         * @return The id
-         */
-        public int getId() {
-            return id;
-        }
-
-        /**
-         * @param id The Id
-         */
-        public void setId(int id) {
-            this.id = id;
-        }
     }
 }

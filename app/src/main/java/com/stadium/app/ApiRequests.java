@@ -207,7 +207,7 @@ public class ApiRequests {
         player.setId(userId);
         player.setToken(userToken);
         body.setPlayer(player);
-        ConfirmPresentBody.Res res = new ConfirmPresentBody.Res();
+        Reservation res = new Reservation();
         res.setId(resId);
         body.setRes(res);
         body.setType(type);

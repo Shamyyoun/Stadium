@@ -31,9 +31,8 @@ import java.util.List;
  * Created by karam on 7/17/16.
  */
 public class PlayersAdapter extends ParentRecyclerAdapter<User> {
-    public static final int TYPE_SIMPLE = 1;
-    public static final int TYPE_SHOW_ADDRESS = 2;
-    public static final int TYPE_SHOW_PHONE_NUMBER = 3;
+    public static final int TYPE_SHOW_ADDRESS = 1;
+    public static final int TYPE_SHOW_PHONE_NUMBER = 2;
 
     private int viewType;
     private ActiveUserController activeUserController;
@@ -65,56 +64,50 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
         final User item = data.get(position);
         Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivImage);
 
-        // check if simple view
-        if (viewType == TYPE_SIMPLE) {
-            // set simple name
-            holder.tvName.setText(item.getName());
-        } else {
-            // set basic data
-            userController = new UserController(item);
-            holder.tvName.setText(userController.getNamePosition());
-            holder.rbRating.setRating((float) item.getRate());
+        // set basic data
+        userController = new UserController(item);
+        holder.tvName.setText(userController.getNamePosition());
+        holder.rbRating.setRating((float) item.getRate());
 
-            // customize the secondary text view
-            holder.tvSecondary.setVisibility(View.VISIBLE);
-            if (viewType == TYPE_SHOW_PHONE_NUMBER) {
-                // set the phone number in secondary text view
-                String phoneNumber = userController.getPhoneNumber();
-                if (!Utils.isNullOrEmpty(phoneNumber)) {
-                    holder.tvSecondary.setText(phoneNumber);
-                } else {
-                    holder.tvSecondary.setVisibility(View.GONE);
-                }
+        // customize the secondary text view
+        holder.tvSecondary.setVisibility(View.VISIBLE);
+        if (viewType == TYPE_SHOW_PHONE_NUMBER) {
+            // set the phone number in secondary text view
+            String phoneNumber = userController.getPhoneNumber();
+            if (!Utils.isNullOrEmpty(phoneNumber)) {
+                holder.tvSecondary.setText(phoneNumber);
             } else {
-                // set the address in secondary text view
-                String address = userController.getCityName();
-                if (address != null) {
-                    holder.tvSecondary.setText(address);
-                } else {
-                    holder.tvSecondary.setVisibility(View.GONE);
+                holder.tvSecondary.setVisibility(View.GONE);
+            }
+        } else {
+            // set the address in secondary text view
+            String address = userController.getCityName();
+            if (address != null) {
+                holder.tvSecondary.setText(address);
+            } else {
+                holder.tvSecondary.setVisibility(View.GONE);
+            }
+        }
+
+        // create global click listener
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.layout_content:
+                        openPlayerInfo(position);
+                        break;
+
+                    case R.id.ib_add:
+                        chooseTeam(position);
+                        break;
                 }
             }
+        };
 
-            // create global click listener
-            View.OnClickListener clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (v.getId()) {
-                        case R.id.layout_content:
-                            openPlayerInfo(position);
-                            break;
-
-                        case R.id.ib_add:
-                            chooseTeam(position);
-                            break;
-                    }
-                }
-            };
-
-            // add listeners
-            holder.layoutContent.setOnClickListener(clickListener);
-            holder.ibAdd.setOnClickListener(clickListener);
-        }
+        // add listeners
+        holder.layoutContent.setOnClickListener(clickListener);
+        holder.ibAdd.setOnClickListener(clickListener);
     }
 
     private void openPlayerInfo(int position) {

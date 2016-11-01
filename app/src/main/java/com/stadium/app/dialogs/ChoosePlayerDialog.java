@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.stadium.app.R;
-import com.stadium.app.adapters.PlayersAdapter;
+import com.stadium.app.adapters.SimplePlayersAdapter;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.interfaces.OnUserSelectedListener;
 import com.stadium.app.models.entities.User;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ChoosePlayerDialog extends ParentDialog implements OnItemClickListener {
     private EmptyView emptyView;
     private RecyclerView recyclerView;
-    private PlayersAdapter adapter;
+    private SimplePlayersAdapter adapter;
     private List<User> players;
 
     private OnUserSelectedListener userSelectedListener;
@@ -55,7 +55,7 @@ public class ChoosePlayerDialog extends ParentDialog implements OnItemClickListe
             recyclerView.setVisibility(View.GONE);
         } else {
             // create and set the players adapter
-            adapter = new PlayersAdapter(context, players, R.layout.item_player_simple, PlayersAdapter.TYPE_SIMPLE);
+            adapter = new SimplePlayersAdapter(context, players, R.layout.item_player_simple);
             recyclerView.setAdapter(adapter);
             adapter.setOnItemClickListener(this);
         }

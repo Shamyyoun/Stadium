@@ -21,6 +21,7 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.PresentConfirmType;
 import com.stadium.app.models.enums.EventProfileType;
 import com.stadium.app.models.enums.EventType;
 import com.stadium.app.models.enums.ReservationConfirmType;
@@ -178,11 +179,6 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
 
         showProgressDialog();
 
-        // prepare request params
-        User user = userController.getUser();
-        final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
-                : ReservationConfirmType.DECLINE.getValue();
-
         // create the connection listener
         ConnectionListener listener = new ConnectionListener() {
             @Override
@@ -212,6 +208,11 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
                 Utils.showShortToast(context, confirm ? R.string.error_accepting : R.string.error_declining);
             }
         };
+
+        // prepare request params
+        User user = userController.getUser();
+        final int confirmType = confirm ? PresentConfirmType.CONFIRM.getValue()
+                : PresentConfirmType.DECLINE.getValue();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmPresent(context, listener, user.getId(),
