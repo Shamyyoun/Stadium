@@ -59,8 +59,12 @@ public class ParentActivity extends AppCompatActivity implements View.OnClickLis
 
             // check if enable back
             if (enableBack) {
-                // set the back icon
-                toolbar.setNavigationIcon(R.drawable.back_icon);
+                // set the suitable back icon
+                if (iconResId != 0) {
+                    toolbar.setNavigationIcon(iconResId);
+                } else {
+                    toolbar.setNavigationIcon(R.drawable.back_icon);
+                }
             } else if (iconResId != 0) {
                 // set this icon
                 toolbar.setNavigationIcon(iconResId);

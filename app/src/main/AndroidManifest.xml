@@ -33,7 +33,7 @@
         <activity
             android:name=".activities.SplashActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.FullTransparent">
+            android:theme="@style/AppTheme.FullTranslucent">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,5 +86,11 @@
         <activity
             android:name=".activities.ProfileImageActivity"
             android:theme="@style/AppTheme.BlackTheme" />
+
+        <activity
+            android:name=".activities.PlayersSearchActivity"
+            android:label="@string/players_search"
+            android:theme="@style/AppTheme.FloatingTransparent"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 </manifest>

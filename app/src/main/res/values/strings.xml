@@ -215,6 +215,8 @@
     <string name="failed_loading_players">فشل تحميل اللاعبين</string>
     <string name="permission_declined">تم رفض التصريح</string>
     <string name="contacts_perm_decline_msg">يجب أن توافق على استخدام جهات الاتصال للمتابعة</string>
+    <string name="players_search">بحث عن اللاعبين</string>
+    <string name="player_name">اسم اللاعب</string>
 
 
     <!-- Arrays -->

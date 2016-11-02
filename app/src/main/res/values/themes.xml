@@ -57,9 +57,15 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.Transparent" />
+    <style name="AppTheme.Translucent" />
 
-    <style name="AppTheme.FullTransparent" />
+    <style name="AppTheme.FullTranslucent" />
+
+    <style name="AppTheme.FloatingTransparent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 
     <style name="MyButton" parent="Widget.AppCompat.Button">
         <item name="android:minHeight">40dp</item>

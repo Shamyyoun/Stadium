@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.Transparent">
+    <style name="AppTheme.Translucent">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="AppTheme.FullTransparent">
+    <style name="AppTheme.FullTranslucent">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>

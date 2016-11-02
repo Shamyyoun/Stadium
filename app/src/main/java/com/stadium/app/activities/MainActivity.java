@@ -61,7 +61,7 @@ public class MainActivity extends ParentActivity {
         super.onPostCreate(savedInstanceState);
 
         // select home tab by default
-        selectTab(tvHome);
+        selectTab(tvPlayers); // TODO change
     }
 
     @Override

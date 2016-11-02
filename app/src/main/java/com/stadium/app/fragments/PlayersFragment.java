@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
 import com.stadium.app.activities.ContactsActivity;
+import com.stadium.app.activities.PlayersSearchActivity;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.models.SerializableListWrapper;
@@ -157,6 +158,10 @@ public class PlayersFragment extends ProgressFragment {
             case R.id.action_contacts:
                 openContactsActivity();
                 break;
+
+            case R.id.action_search:
+                openSearchActivity();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -165,5 +170,11 @@ public class PlayersFragment extends ProgressFragment {
     private void openContactsActivity() {
         Intent intent = new Intent(activity, ContactsActivity.class);
         startActivity(intent);
+    }
+
+    private void openSearchActivity() {
+        Intent intent = new Intent(activity, PlayersSearchActivity.class);
+        startActivity(intent);
+        activity.overridePendingTransition(R.anim.top_translate_enter, R.anim.no_anim);
     }
 }
