@@ -1,8 +1,10 @@
 package com.stadium.app.activities;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,12 +26,13 @@ import com.stadium.app.utils.Utils;
  */
 public class PlayersSearchActivity extends ParentActivity {
     private PlayersFilter filter;
+    private View layoutContent;
     private Button btnCity;
     private EditText etName;
     private Button btnPosition;
     private Button btnSearch;
-    private Button btnEmptySpace;
 
+    private Rect contentLayoutRect; // to handle the outside click
     private ChooseCityDialog citiesDialog;
     private ChoosePositionDialog positionsDialog;
 
@@ -47,17 +50,19 @@ public class PlayersSearchActivity extends ParentActivity {
         filter = (PlayersFilter) getIntent().getSerializableExtra(Const.KEY_FILTER);
 
         // init views
+        layoutContent = findViewById(R.id.layout_content);
         btnCity = (Button) findViewById(R.id.btn_city);
         etName = (EditText) findViewById(R.id.et_name);
         btnPosition = (Button) findViewById(R.id.btn_position);
         btnSearch = (Button) findViewById(R.id.btn_search);
-        btnEmptySpace = (Button) findViewById(R.id.btn_empty_space);
 
         // add listeners
         btnCity.setOnClickListener(this);
         btnPosition.setOnClickListener(this);
         btnSearch.setOnClickListener(this);
-        btnEmptySpace.setOnClickListener(this);
+
+        // create the content rect
+        contentLayoutRect = new Rect();
 
         // check filter to update the ui or just create a new one
         if (filter != null) {
@@ -73,7 +78,7 @@ public class PlayersSearchActivity extends ParentActivity {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = Gravity.TOP;
         getWindow().setAttributes(layoutParams);
     }
@@ -105,10 +110,6 @@ public class PlayersSearchActivity extends ParentActivity {
 
             case R.id.btn_search:
                 onSearch();
-                break;
-
-            case R.id.btn_empty_space:
-                onBackPressed();
                 break;
 
             default:
@@ -182,5 +183,21 @@ public class PlayersSearchActivity extends ParentActivity {
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.no_anim, R.anim.top_translate_exit);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        // get x, y
+        int x = (int) ev.getRawX();
+        int y = (int) ev.getRawY();
+
+        // check if this point is outside the content layout
+        layoutContent.getDrawingRect(contentLayoutRect);
+        if (ev.getAction() == MotionEvent.ACTION_UP
+                && !contentLayoutRect.contains(x, y)) {
+            onBackPressed();
+        }
+
+        return super.dispatchTouchEvent(ev);
     }
 }
