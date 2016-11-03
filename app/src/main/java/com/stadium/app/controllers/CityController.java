@@ -1,8 +1,5 @@
 package com.stadium.app.controllers;
 
-import android.content.Context;
-
-import com.stadium.app.R;
 import com.stadium.app.models.entities.City;
 
 import java.util.ArrayList;
@@ -12,28 +9,23 @@ import java.util.List;
  * Created by Shamyyoun on 9/3/16.
  */
 public class CityController {
-    private Context context;
 
-    public CityController(Context context) {
-        this.context = context;
-    }
-
-    public List<City> addDefaultItem(List<City> cities) {
+    public List<City> addDefaultItem(List<City> cities, String defaultItemName) {
         if (cities == null) {
             cities = new ArrayList<>();
         }
 
         // add the default item
         City city = new City();
-        city.setName(context.getString(R.string.select_city));
+        city.setName(defaultItemName);
         cities.add(0, city);
 
         return cities;
     }
 
-    public int getPosition(List<City> cities, City city) {
+    public int getItemPosition(List<City> cities, int cityId) {
         for (int i = 0; i < cities.size(); i++) {
-            if (city.getId() == cities.get(i).getId()) {
+            if (cityId == cities.get(i).getId()) {
                 return i;
             }
         }

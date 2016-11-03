@@ -217,6 +217,14 @@
     <string name="contacts_perm_decline_msg">يجب أن توافق على استخدام جهات الاتصال للمتابعة</string>
     <string name="players_search">بحث عن اللاعبين</string>
     <string name="player_name">اسم اللاعب</string>
+    <string name="cities">المدن</string>
+    <string name="no_cities_found">لا يوجد مدن</string>
+    <string name="positions">المراكز</string>
+    <string name="no_positions_found">لا يوجد مراكز</string>
+    <string name="failed_loading_positions">فشل تحميل المراكز</string>
+    <string name="no_search_results">لا يوجد نتائج بحث</string>
+    <string name="all_cities">كل المدن</string>
+    <string name="all_positions">كل المراكز</string>
 
 
     <!-- Arrays -->

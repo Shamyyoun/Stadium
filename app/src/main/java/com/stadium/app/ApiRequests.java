@@ -529,4 +529,12 @@ public class ApiRequests {
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<String[]> getPositions(Context context, ConnectionListener<String[]> listener) {
+        // create & execute the request
+        ConnectionHandler<String[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_GET_POSITIONS), String[].class, listener, Const.API_GET_POSITIONS);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
 }

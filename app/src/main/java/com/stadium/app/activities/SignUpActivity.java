@@ -290,8 +290,8 @@ public class SignUpActivity extends PicPickerActivity {
 
     private void updateCitiesUI() {
         // prepare cities
-        CityController cityController = new CityController(this);
-        cities = cityController.addDefaultItem(cities);
+        CityController cityController = new CityController();
+        cities = cityController.addDefaultItem(cities, getString(R.string.select_city));
 
         // set the adapter
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_dropdown_selected, cities);

@@ -85,16 +85,16 @@ public class UpdateProfileActivity extends ParentActivity {
         // set the city
         City city = user.getCity();
         if (city != null) {
-            CityController cityController = new CityController(this);
+            CityController cityController = new CityController();
             if (cities != null) {
-                int position = cityController.getPosition(cities, city);
+                int position = cityController.getItemPosition(cities, city.getId());
                 if (position != -1) {
                     spCity.setSelection(position);
                 }
             } else {
                 cities = new ArrayList<>();
                 cities.add(city);
-                cities = cityController.addDefaultItem(cities);
+                cities = cityController.addDefaultItem(cities, getString(R.string.select_city));
                 spCity.setSelection(1);
             }
         }
@@ -228,8 +228,8 @@ public class UpdateProfileActivity extends ParentActivity {
 
     private void updateCitiesUI() {
         // prepare cities
-        CityController cityController = new CityController(this);
-        cities = cityController.addDefaultItem(cities);
+        CityController cityController = new CityController();
+        cities = cityController.addDefaultItem(cities, getString(R.string.select_city));
 
         // set the adapter
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_dropdown_selected, cities);
@@ -239,7 +239,7 @@ public class UpdateProfileActivity extends ParentActivity {
         // select the current user city if possible
         City city = userController.getUser().getCity();
         if (city != null) {
-            int position = cityController.getPosition(cities, city);
+            int position = cityController.getItemPosition(cities, city.getId());
             if (position != -1) {
                 spCity.setSelection(position);
             } else {
