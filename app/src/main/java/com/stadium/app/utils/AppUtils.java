@@ -149,7 +149,8 @@ public class AppUtils {
 
     /**
      * method, used to get contacts phone numbers from user's contacts
-     * and prepare theme. Removes the dots, spaces and dashes and replaces the + with 00
+     * and prepare theme. Removes the dots, spaces, (, ) and dashes and replaces the + with 00
+     *
      * @param context
      * @return
      */
@@ -162,9 +163,12 @@ public class AppUtils {
         while (cursor.moveToNext()) {
             // get and prepare the phone number
             String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
             phoneNumber = phoneNumber.replaceAll("[\\s.]", "");
             phoneNumber = phoneNumber.replaceAll(" ", "");
             phoneNumber = phoneNumber.replaceAll("-", "");
+            phoneNumber = phoneNumber.replaceAll("\\(", "");
+            phoneNumber = phoneNumber.replaceAll("\\)", "");
             phoneNumber = phoneNumber.replaceAll("\\+", "00");
 
             // add it to the array
