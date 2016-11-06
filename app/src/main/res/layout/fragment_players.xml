@@ -20,7 +20,7 @@
             android:drawableRight="@drawable/filter_icon"
             android:gravity="center"
             android:padding="10dp"
-            android:text="الترتيب بواسطة تقييم اللاعب"
+            android:text="@string/order_by"
             android:textColor="@color/clickable_orange_text" />
     </LinearLayout>
 

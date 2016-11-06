@@ -225,6 +225,8 @@
     <string name="no_search_results">لا يوجد نتائج بحث</string>
     <string name="all_cities">كل المدن</string>
     <string name="all_positions">كل المراكز</string>
+    <string name="ordered">تم الترتيب</string>
+    <string name="the_order_by">الترتيب بواسطة</string>
 
 
     <!-- Arrays -->
