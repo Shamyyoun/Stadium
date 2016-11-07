@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_edit"
+        android:id="@+id/action_update"
         android:name="@string/edit_team_info"
         android:icon="@drawable/edit_icon"
         android:title="@string/edit_team_info"

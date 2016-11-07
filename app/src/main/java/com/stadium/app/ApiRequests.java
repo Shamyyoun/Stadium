@@ -7,6 +7,7 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
 import com.stadium.app.models.bodies.CaptainBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
+import com.stadium.app.models.bodies.EditTeamBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.bodies.LeaveTeamBody;
 import com.stadium.app.models.bodies.PlayerConfirmListBody;
@@ -535,6 +536,44 @@ public class ApiRequests {
         ConnectionHandler<String[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_GET_POSITIONS), String[].class, listener, Const.API_GET_POSITIONS);
         connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String> editTeam(Context context, ConnectionListener<String> listener,
+                                                     int userId, String userToken,
+                                                     int id, String name, String description,
+                                                     String encodedImage, String imageName,
+                                                     int captainId, int assistantId,
+                                                     int favoriteStadiumId) {
+        // create the request body
+        EditTeamBody body = new EditTeamBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        body.setUserinfo(userInfo);
+        Team hisTeam = new Team();
+        hisTeam.setId(id);
+        hisTeam.setName(name);
+        hisTeam.setDescription(description);
+        User captain = new User();
+        captain.setId(captainId);
+        hisTeam.setCaptain(captain);
+        User assistant = new User();
+        assistant.setId(assistantId);
+        hisTeam.setAsstent(assistant);
+        hisTeam.setPreferStadiumId(favoriteStadiumId);
+        if (encodedImage != null) {
+            Image image = new Image();
+            image.setContentBase64(encodedImage);
+            image.setName(imageName);
+            hisTeam.setTeamImage(image);
+        }
+
+        // create & execute the request
+        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_EDIT_TEAM), String.class, listener, body, Const.API_EDIT_TEAM);
+        connectionHandler.setTimeout(4 * 60 * 1000);
+        connectionHandler.executeRawJson();
         return connectionHandler;
     }
 }

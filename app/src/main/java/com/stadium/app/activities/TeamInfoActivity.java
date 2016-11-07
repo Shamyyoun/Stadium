@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class TeamInfoActivity extends ParentActivity {
     private TeamReservationsFragment reservationsFragment;
     private TeamPlayersFragment playersFragment;
 
+    private boolean enableControls = true;
     private Team team;
 
     @Override
@@ -174,6 +176,9 @@ public class TeamInfoActivity extends ParentActivity {
                 updatePagerUI();
                 playersFragment.loadData();
                 reservationsFragment.loadData();
+
+                // enable the controls
+                enableControls();
             } else {
                 // get and show error msg
                 String errorMsg = AppUtils.getResponseError(this, team);
@@ -202,6 +207,30 @@ public class TeamInfoActivity extends ParentActivity {
 
     private void disableControls() {
         fabAdd.setEnabled(false);
+        enableControls = false;
+    }
+
+    private void enableControls() {
+        fabAdd.setEnabled(true);
+        enableControls = true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_update) {
+            if (enableControls) {
+                openUpdateTeamActivity();
+            }
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openUpdateTeamActivity() {
+        Intent intent = new Intent(this, UpdateTeamActivity.class);
+        intent.putExtra(Const.KEY_TEAM, team);
+        startActivityForResult(intent, Const.REQ_UPDATE_TEAM);
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {

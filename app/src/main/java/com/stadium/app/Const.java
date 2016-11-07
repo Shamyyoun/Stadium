@@ -44,6 +44,7 @@ public class Const {
     public static final String API_ALL_PLAYERS = "allPlayers";
     public static final String API_CHECK_LIST_OF_CONTACT = "checkListOfContact";
     public static final String API_GET_POSITIONS= "getPositions";
+    public static final String API_EDIT_TEAM= "EditTeam";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -64,6 +65,7 @@ public class Const {
     public static final int REQ_UPDATE_PROFILE_IMAGE = 2;
     public static final int REQ_CREATE_TEAM = 3;
     public static final int REQ_SEARCH_PLAYERS = 4;
+    public static final int REQ_UPDATE_TEAM = 5;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

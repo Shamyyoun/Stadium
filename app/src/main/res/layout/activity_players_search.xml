@@ -21,7 +21,7 @@
 
         <Button
             android:id="@+id/btn_city"
-            style="@style/ETButton"
+            style="@style/WhiteETButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/city" />
@@ -38,7 +38,7 @@
 
         <Button
             android:id="@+id/btn_position"
-            style="@style/ETButton"
+            style="@style/WhiteETButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

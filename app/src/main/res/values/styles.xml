@@ -167,11 +167,20 @@
 
     <style name="ETButton" parent="MyButton">
         <item name="android:background">?attr/editTextBackground</item>
-        <item name="android:backgroundTint">@android:color/white</item>
-        <item name="android:drawableLeft">@drawable/et_button_left_arrow</item>
         <item name="android:gravity">right</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="WhiteETButton" parent="ETButton">
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="android:drawableLeft">@drawable/white_et_button_left_arrow</item>
+    </style>
+
+    <style name="GrayETButton" parent="ETButton">
+        <item name="backgroundTint">@color/gray_green_edittext_bg</item>
+        <item name="android:drawableLeft">@drawable/gray_et_button_left_arrow</item>
+        <item name="android:textColor">@color/dark_gray</item>
     </style>
 
 </resources>
