@@ -94,35 +94,35 @@ public class MainActivity extends ParentActivity {
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                 }
-                loadFragment(R.id.container_main, homeFragment);
+                loadFragment(R.id.container, homeFragment);
                 break;
 
             case R.id.tv_stadiums:
                 if (stadiumsFragment == null) {
                     stadiumsFragment = new StadiumsFragment();
                 }
-                loadFragment(R.id.container_main, stadiumsFragment);
+                loadFragment(R.id.container, stadiumsFragment);
                 break;
 
             case R.id.tv_reservations:
                 if (reservationsFragment == null) {
                     reservationsFragment = new ReservationsFragment();
                 }
-                loadFragment(R.id.container_main, reservationsFragment);
+                loadFragment(R.id.container, reservationsFragment);
                 break;
 
             case R.id.tv_players:
                 if (playersFragment == null) {
                     playersFragment = new PlayersFragment();
                 }
-                loadFragment(R.id.container_main, playersFragment);
+                loadFragment(R.id.container, playersFragment);
                 break;
 
             case R.id.tv_my_teams:
                 if (myTeamsFragment == null) {
                     myTeamsFragment = new MyTeamsFragment();
                 }
-                loadFragment(R.id.container_main, myTeamsFragment);
+                loadFragment(R.id.container, myTeamsFragment);
                 break;
         }
 

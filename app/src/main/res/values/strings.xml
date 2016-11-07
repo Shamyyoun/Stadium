@@ -227,6 +227,7 @@
     <string name="all_positions">كل المراكز</string>
     <string name="ordered">تم الترتيب</string>
     <string name="the_order_by">الترتيب بواسطة</string>
+    <string name="add_this_player_to_x_team_q">اضافة هذا اللاعب لفريق %s؟</string>
 
 
     <!-- Arrays -->

@@ -14,6 +14,7 @@ import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.fragments.ProgressFragment;
 import com.stadium.app.models.SerializableListWrapper;
+import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.PermissionUtil;
@@ -27,6 +28,7 @@ import java.util.List;
  * Created by karam on 7/17/16.
  */
 public class ContactsActivity extends ProgressActivity {
+    private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private RecyclerView recyclerView;
     private List<User> data;
     private PlayersAdapter adapter;
@@ -35,6 +37,9 @@ public class ContactsActivity extends ProgressActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableBackButton();
+
+        // get extras
+        selectedTeam = (Team) getIntent().getSerializableExtra(Const.KEY_TEAM);
 
         // customize the recycler view
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -102,6 +107,7 @@ public class ContactsActivity extends ProgressActivity {
 
     private void updateUI() {
         adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_PHONE_NUMBER);
+        adapter.setSelectedTeam(selectedTeam);
         recyclerView.setAdapter(adapter);
         showMain();
     }

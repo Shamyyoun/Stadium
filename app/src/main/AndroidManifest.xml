@@ -92,5 +92,7 @@
             android:label="@string/players_search"
             android:theme="@style/AppTheme.FloatingTransparent"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity android:name=".activities.PlayersActivity" />
     </application>
 </manifest>

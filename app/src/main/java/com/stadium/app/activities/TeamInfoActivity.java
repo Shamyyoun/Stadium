@@ -1,5 +1,6 @@
 package com.stadium.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -78,7 +79,7 @@ public class TeamInfoActivity extends ParentActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                onAdd();
             }
         });
 
@@ -109,6 +110,22 @@ public class TeamInfoActivity extends ParentActivity {
 
         // load the profile image
         Utils.loadImage(activity, team.getImageLink(), R.drawable.default_image, ivImage);
+    }
+
+    private void onAdd() {
+        // switch the current page
+        Intent intent = null;
+        switch (viewPager.getCurrentItem()) {
+            case 1:
+                intent = new Intent(this, PlayersActivity.class);
+                break;
+        }
+
+        // check the intent
+        if (intent != null) {
+            intent.putExtra(Const.KEY_TEAM, team);
+            startActivity(intent);
+        }
     }
 
     private void loadTeamInfo() {

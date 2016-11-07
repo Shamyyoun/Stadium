@@ -1,6 +1,7 @@
 package com.stadium.app.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
     public static final int TYPE_SHOW_PHONE_NUMBER = 2;
 
     private int viewType;
+    private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private ActiveUserController activeUserController;
     private UserController userController;
     private ChooseTeamDialog teamsDialog;
@@ -99,7 +102,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
                         break;
 
                     case R.id.ib_add:
-                        chooseTeam(position);
+                        onAdd(position);
                         break;
                 }
             }
@@ -115,6 +118,29 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
         Intent intent = new Intent(context, PlayerInfoActivity.class);
         intent.putExtra(Const.KEY_ID, user.getId());
         context.startActivity(intent);
+    }
+
+    private void onAdd(int position) {
+        // check selected team
+        if (selectedTeam != null) {
+            // selected team exists
+            // show confirmation dialog
+            showAddPlayerConfirmDialog(position, selectedTeam);
+        } else {
+            // no selected team
+            // first, choose the team from teams dialog
+            chooseTeam(position);
+        }
+    }
+
+    private void showAddPlayerConfirmDialog(final int position, final Team team) {
+        String msg = context.getString(R.string.add_this_player_to_x_team_q, team.getName());
+        DialogUtils.showConfirmDialog(context, msg, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addPlayerToTeam(position, team);
+            }
+        }, null);
     }
 
     private void chooseTeam(final int position) {
@@ -195,5 +221,9 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
                 tvSecondary.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.gray_phone_icon, 0);
             }
         }
+    }
+
+    public void setSelectedTeam(Team selectedTeam) {
+        this.selectedTeam = selectedTeam;
     }
 }

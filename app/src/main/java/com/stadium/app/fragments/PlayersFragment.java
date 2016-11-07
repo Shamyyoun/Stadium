@@ -27,6 +27,7 @@ import com.stadium.app.models.Checkable;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.OrderCriteria;
 import com.stadium.app.models.entities.PlayersFilter;
+import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.Utils;
 
@@ -38,6 +39,7 @@ import java.util.List;
  * Created by Shamyyoun on 7/2/16.
  */
 public class PlayersFragment extends ProgressFragment {
+    private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private SearchController searchController;
     private OrderController orderController;
     private TextView tvOrderBy;
@@ -61,6 +63,11 @@ public class PlayersFragment extends ProgressFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        // get extras
+        if (getArguments() != null) {
+            selectedTeam = (Team) getArguments().getSerializable(Const.KEY_TEAM);
+        }
 
         // create controllers
         searchController = new SearchController();
@@ -131,6 +138,7 @@ public class PlayersFragment extends ProgressFragment {
 
     private void updateUI(List<User> data) {
         adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_ADDRESS);
+        adapter.setSelectedTeam(selectedTeam);
         recyclerView.setAdapter(adapter);
         showMain();
     }
@@ -224,6 +232,7 @@ public class PlayersFragment extends ProgressFragment {
 
     private void openContactsActivity() {
         Intent intent = new Intent(activity, ContactsActivity.class);
+        intent.putExtra(Const.KEY_TEAM, selectedTeam);
         startActivity(intent);
     }
 
@@ -270,7 +279,7 @@ public class PlayersFragment extends ProgressFragment {
                     // an order exits, order data
                     order();
                 }
-             }
+            }
         }.execute();
     }
 
