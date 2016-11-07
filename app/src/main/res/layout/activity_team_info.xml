@@ -143,6 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|left"
             android:layout_margin="16dp"
-            android:src="@drawable/add_icon" />
+            android:src="@drawable/add_icon"
+            android:visibility="gone" />
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

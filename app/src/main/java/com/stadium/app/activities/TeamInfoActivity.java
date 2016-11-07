@@ -15,9 +15,12 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.controllers.TeamController;
 import com.stadium.app.fragments.TeamPlayersFragment;
 import com.stadium.app.fragments.TeamReservationsFragment;
 import com.stadium.app.models.entities.Team;
+import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.views.SlidingTabLayout;
@@ -27,6 +30,8 @@ import com.stadium.app.views.SlidingTabLayout;
  */
 public class TeamInfoActivity extends ParentActivity {
     private int id;
+    private ActiveUserController userController;
+    private TeamController teamController;
 
     private ImageView ivImage;
     private TextView tvName;
@@ -56,6 +61,8 @@ public class TeamInfoActivity extends ParentActivity {
 
         // create main objects
         id = getIntent().getIntExtra(Const.KEY_ID, 0);
+        userController = new ActiveUserController(this);
+        teamController = new TeamController();
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
@@ -110,6 +117,13 @@ public class TeamInfoActivity extends ParentActivity {
 
         // load the profile image
         Utils.loadImage(activity, team.getImageLink(), R.drawable.default_image, ivImage);
+
+        // check the active user role to show add fab if required
+        User user = userController.getUser();
+        if (teamController.isCaptain(team, user.getId())
+                || teamController.isAssistant(team, user.getId())) {
+            fabAdd.setVisibility(View.VISIBLE);
+        }
     }
 
     private void onAdd() {
