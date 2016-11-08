@@ -21,6 +21,8 @@ import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.TeamController;
 import com.stadium.app.controllers.UserController;
 import com.stadium.app.dialogs.ChoosePlayerDialog;
+import com.stadium.app.interfaces.OnAssistantChangedListener;
+import com.stadium.app.interfaces.OnCaptainChangedListener;
 import com.stadium.app.interfaces.OnUserSelectedListener;
 import com.stadium.app.models.entities.PlayerRole;
 import com.stadium.app.models.entities.Team;
@@ -39,6 +41,8 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
     private Team team;
     private ActiveUserController activeUserController;
     private TeamController teamController;
+    private OnCaptainChangedListener captainChangedListener;
+    private OnAssistantChangedListener assistantChangedListener;
 
     public TeamPlayersAdapter(Context context, List<User> data, int layoutId, Team team) {
         super(context, data, layoutId);
@@ -193,7 +197,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         players.remove(position);
 
         ChoosePlayerDialog dialog = new ChoosePlayerDialog(context, players);
-        dialog.setCustomEmptyMsg(getString(R.string.no_players_in_this_team_except_you));
+        dialog.setEmptyMsg(getString(R.string.no_players_in_this_team_except_you));
         dialog.setOnUserSelectedListener(new OnUserSelectedListener() {
             @Override
             public void onUserSelected(User user) {
@@ -243,6 +247,11 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
                     // update the ui and show msg
                     notifyDataSetChanged();
                     Utils.showShortToast(context, R.string.captain_changed_successfully);
+
+                    // fire the listener of available
+                    if (captainChangedListener != null) {
+                        captainChangedListener.onCaptainChanged(newCaptain);
+                    }
 
                     // check to remove the captain
                     if (removeOld) {
@@ -300,12 +309,20 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
                     // update the assistant
+                    User newAssistant;
                     if (makeAssistant) {
                         team.setAsstent(player);
+                        newAssistant = player;
                     } else {
                         team.setAsstent(null);
+                        newAssistant = null;
                     }
                     notifyDataSetChanged();
+
+                    // fire the listener of available
+                    if (assistantChangedListener != null) {
+                        assistantChangedListener.onAssistantChanged(newAssistant);
+                    }
 
                     // show msg
                     Utils.showShortToast(context, makeAssistant ? R.string.made_successfully : R.string.deleted_successfully);
@@ -333,17 +350,17 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         cancelWhenDestroyed(connectionHandler);
     }
 
-    private void showRemoveConfirmDialog(final int position, final boolean isCaptain, int msgId) {
+    private void showRemoveConfirmDialog(final int position, final boolean isCurrentUser, int msgId) {
         // create and show confirm dialog
         DialogUtils.showConfirmDialog(context, msgId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                removeFromTeam(position, isCaptain);
+                removeFromTeam(position, isCurrentUser);
             }
         }, null);
     }
 
-    private void removeFromTeam(final int position, final boolean isCaptain) {
+    private void removeFromTeam(final int position, final boolean isCurrentUser) {
         // get the player
         final User player = data.get(position);
 
@@ -363,13 +380,32 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
 
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
-                    removeItem(position);
+                    // check if current user
+                    if (isCurrentUser) {
+                        // check his role to update this role
+                        if (teamController.isCaptain(team, player.getId())) {
+                            team.setCaptain(null);
 
-                    // show msg
-                    Utils.showShortToast(context, isCaptain ? R.string.leaved_team_successfully : R.string.removed_successfully);
+                            // fire the listener if available
+                            if (captainChangedListener != null) {
+                                captainChangedListener.onCaptainChanged(null);
+                            }
+                        } else if (teamController.isAssistant(team, player.getId())) {
+                            team.setAsstent(null);
+
+                            // fire the listener if available
+                            if (assistantChangedListener != null) {
+                                assistantChangedListener.onAssistantChanged(null);
+                            }
+                        }
+                    }
+
+                    // remove from adapter and show msg
+                    removeItem(position);
+                    Utils.showShortToast(context, isCurrentUser ? R.string.leaved_team_successfully : R.string.removed_successfully);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseMsg(context, response, isCaptain ? R.string.failed_leaving_team : R.string.failed_removing);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, isCurrentUser ? R.string.failed_leaving_team : R.string.failed_removing);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
@@ -377,7 +413,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
             @Override
             public void onFail(Exception ex, int statusCode, String tag) {
                 hideProgressDialog();
-                Utils.showShortToast(context, isCaptain ? R.string.failed_leaving_team : R.string.failed_removing);
+                Utils.showShortToast(context, isCurrentUser ? R.string.failed_leaving_team : R.string.failed_removing);
             }
         };
 
@@ -386,7 +422,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
 
         // check to send suitable request
         ConnectionHandler connectionHandler;
-        if (isCaptain) {
+        if (isCurrentUser) {
             connectionHandler = ApiRequests.leaveTeam(context, connectionListener, user.getId(),
                     user.getToken(), user.getName(), team.getId(), team.getName());
         } else {
@@ -434,5 +470,13 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
             btnRole = (Button) findViewById(R.id.btn_role);
             btnRemove = (Button) findViewById(R.id.btn_remove);
         }
+    }
+
+    public void setOnCaptainChangedListener(OnCaptainChangedListener captainChangedListener) {
+        this.captainChangedListener = captainChangedListener;
+    }
+
+    public void setOnAssistantChangedListener(OnAssistantChangedListener assistantChangedListener) {
+        this.assistantChangedListener = assistantChangedListener;
     }
 }

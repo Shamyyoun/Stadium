@@ -3,6 +3,8 @@ package com.stadium.app.controllers;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.Utils;
 
+import java.util.List;
+
 /**
  * Created by Shamyyoun on 8/27/16.
  */
@@ -44,5 +46,17 @@ public class UserController {
         } else {
             return user.getPhone().trim();
         }
+    }
+
+    public List<User> removeFromList(List<User> users) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            if (user.getId() == this.user.getId()) {
+                users.remove(i);
+                return users;
+            }
+        }
+
+        return users;
     }
 }

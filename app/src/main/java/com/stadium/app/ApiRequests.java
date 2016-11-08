@@ -539,7 +539,7 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> editTeam(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler<Team> editTeam(Context context, ConnectionListener<Team> listener,
                                                      int userId, String userToken,
                                                      int id, String name, String description,
                                                      String encodedImage, String imageName,
@@ -568,10 +568,11 @@ public class ApiRequests {
             image.setName(imageName);
             hisTeam.setTeamImage(image);
         }
+        body.setHisTeam(hisTeam);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getCaptainApiUrl(Const.API_EDIT_TEAM), String.class, listener, body, Const.API_EDIT_TEAM);
+        ConnectionHandler<Team> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_EDIT_TEAM), Team.class, listener, body, Const.API_EDIT_TEAM);
         connectionHandler.setTimeout(4 * 60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;

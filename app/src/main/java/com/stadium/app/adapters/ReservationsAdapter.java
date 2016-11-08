@@ -128,10 +128,11 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         String dateTime = getString(R.string.appointment_c) + " " + reservationController.getDateTime(item);
         holder.tvDateTime.setText(dateTime);
 
-        // check to show / hide the cancel button
+        // check his role in the team to show / hide the cancel button
         Team team = item.getReservationTeam();
         User user = userController.getUser();
-        if (team == null || teamController.getPlayerRole(team, user.getId()) == null) {
+        if (team == null || !(teamController.isCaptain(team, user.getId())
+                || teamController.isAssistant(team, user.getId()))) {
             holder.layoutButtons.setVisibility(View.GONE);
         }
 

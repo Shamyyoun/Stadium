@@ -16,6 +16,7 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.activities.ContactsActivity;
+import com.stadium.app.activities.PlayersActivity;
 import com.stadium.app.activities.PlayersSearchActivity;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
@@ -23,6 +24,7 @@ import com.stadium.app.controllers.OrderController;
 import com.stadium.app.controllers.SearchController;
 import com.stadium.app.dialogs.OrderPlayersDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.OrderCriteria;
@@ -38,7 +40,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class PlayersFragment extends ProgressFragment {
+public class PlayersFragment extends ProgressFragment implements OnPlayerAddedListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private SearchController searchController;
     private OrderController orderController;
@@ -139,8 +141,21 @@ public class PlayersFragment extends ProgressFragment {
     private void updateUI(List<User> data) {
         adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_ADDRESS);
         adapter.setSelectedTeam(selectedTeam);
+        adapter.setOnPlayerAddedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onPlayerAdded(User player) {
+        notifyPlayersActivity();
+    }
+
+    private void notifyPlayersActivity() {
+        if (getActivity() instanceof PlayersActivity) {
+            PlayersActivity activity = (PlayersActivity) getActivity();
+            activity.onPlayerAdded();
+        }
     }
 
     private void updateOrderByUI() {
@@ -233,7 +248,7 @@ public class PlayersFragment extends ProgressFragment {
     private void openContactsActivity() {
         Intent intent = new Intent(activity, ContactsActivity.class);
         intent.putExtra(Const.KEY_TEAM, selectedTeam);
-        startActivity(intent);
+        startActivityForResult(intent, Const.REQ_VIEW_CONTACTS);
     }
 
     private void openSearchActivity() {
@@ -248,6 +263,10 @@ public class PlayersFragment extends ProgressFragment {
         if (requestCode == Const.REQ_SEARCH_PLAYERS && resultCode == Activity.RESULT_OK) {
             filter = (PlayersFilter) data.getSerializableExtra(Const.KEY_FILTER);
             search();
+        } else if (requestCode == Const.REQ_VIEW_CONTACTS && resultCode == Activity.RESULT_OK) {
+            // some players have been added
+            // notify players activity
+            notifyPlayersActivity();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

@@ -230,6 +230,10 @@
     <string name="add_this_player_to_x_team_q">اضافة هذا اللاعب لفريق %s؟</string>
     <string name="captain">الكابتن</string>
     <string name="assistant">المساعد</string>
+    <string name="this_player_is_the_captain_choose_another">هذا اللاعب هوا الكابتن، برجاء اختيار لاعب آخر</string>
+    <string name="this_player_is_the_assistant_choose_another">هذا اللاعب هوا المساعد، برجاء اختيار لاعب آخر</string>
+    <string name="team_updated_successfully">تم تعديل الفريق بنجاح</string>
+    <string name="failed_updating_team">فشل تعديل الفريق</string>
 
 
     <!-- Arrays -->

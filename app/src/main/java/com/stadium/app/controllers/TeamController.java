@@ -57,4 +57,38 @@ public class TeamController {
 
         return false;
     }
+
+    public boolean isSameCaptain(Team team1, Team team2) {
+        boolean sameCaptain;
+        if (team1.getCaptain() == null && team2.getCaptain() == null) {
+            sameCaptain = true;
+        } else if (team1.getCaptain() != null && team2.getCaptain() != null) {
+            if (team1.getCaptain().getId() == team2.getCaptain().getId()) {
+                sameCaptain = true;
+            } else {
+                sameCaptain = false;
+            }
+        } else {
+            sameCaptain = false;
+        }
+
+        return sameCaptain;
+    }
+
+    public boolean isSameAssistant(Team team1, Team team2) {
+        boolean sameAssistant;
+        if (team1.getAsstent() == null && team2.getAsstent() == null) {
+            sameAssistant = true;
+        } else if (team1.getAsstent() != null && team2.getAsstent() != null) {
+            if (team1.getAsstent().getId() == team2.getAsstent().getId()) {
+                sameAssistant = true;
+            } else {
+                sameAssistant = false;
+            }
+        } else {
+            sameAssistant = false;
+        }
+
+        return sameAssistant;
+    }
 }

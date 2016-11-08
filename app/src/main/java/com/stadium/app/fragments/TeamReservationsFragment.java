@@ -98,6 +98,10 @@ public class TeamReservationsFragment extends ParentFragment {
         cancelWhenDestroyed(connectionHandler);
     }
 
+    public void refresh() {
+        loadData();
+    }
+
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
         // get data
@@ -138,5 +142,9 @@ public class TeamReservationsFragment extends ParentFragment {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         super.onSaveInstanceState(outState);
+    }
+
+    public void updateTeam(Team team) {
+        this.team = team;
     }
 }

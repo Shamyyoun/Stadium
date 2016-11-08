@@ -13,6 +13,7 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.fragments.ProgressFragment;
+import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
@@ -27,11 +28,12 @@ import java.util.List;
 /**
  * Created by karam on 7/17/16.
  */
-public class ContactsActivity extends ProgressActivity {
+public class ContactsActivity extends ProgressActivity implements OnPlayerAddedListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private RecyclerView recyclerView;
     private List<User> data;
     private PlayersAdapter adapter;
+    private boolean isPlayersAdded; // used to set the result when leaving the activity to notify parents if players added
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +110,14 @@ public class ContactsActivity extends ProgressActivity {
     private void updateUI() {
         adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_PHONE_NUMBER);
         adapter.setSelectedTeam(selectedTeam);
+        adapter.setOnPlayerAddedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onPlayerAdded(User player) {
+        isPlayersAdded = true;
     }
 
     private void loadData() {
@@ -164,5 +172,14 @@ public class ContactsActivity extends ProgressActivity {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isPlayersAdded) {
+            setResult(RESULT_OK);
+        }
+
+        finish();
     }
 }

@@ -1,5 +1,6 @@
 package com.stadium.app.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.TeamInfoActivity;
 import com.stadium.app.adapters.TeamPlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.interfaces.OnAssistantChangedListener;
+import com.stadium.app.interfaces.OnCaptainChangedListener;
 import com.stadium.app.interfaces.OnItemRemovedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Team;
@@ -28,14 +32,21 @@ import java.util.List;
 /**
  * Created by karam on 7/26/16.
  */
-public class TeamPlayersFragment extends ParentFragment implements OnItemRemovedListener {
+public class TeamPlayersFragment extends ParentFragment implements OnItemRemovedListener, OnCaptainChangedListener, OnAssistantChangedListener {
     private Team team;
+    private TeamInfoActivity activity;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
     private TextView tvEmpty;
     private TextView tvError;
     private TeamPlayersAdapter adapter;
     private List<User> data;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (TeamInfoActivity) activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +85,8 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
         // set the adapter
         adapter = new TeamPlayersAdapter(activity, data, R.layout.item_team_player, team);
         adapter.setOnItemRemovedListener(this);
+        adapter.setOnCaptainChangedListener(this);
+        adapter.setOnAssistantChangedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
     }
@@ -97,6 +110,10 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
         // send request
         ConnectionHandler connectionHandler = ApiRequests.teamPlayers(activity, this, team.getId());
         cancelWhenDestroyed(connectionHandler);
+    }
+
+    public void refresh() {
+        loadData();
     }
 
     @Override
@@ -139,5 +156,19 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         super.onSaveInstanceState(outState);
+    }
+
+    public void updateTeam(Team team) {
+        this.team = team;
+    }
+
+    @Override
+    public void onCaptainChanged(User newCaptain) {
+        activity.onCaptainChanged(newCaptain);
+    }
+
+    @Override
+    public void onAssistantChanged(User newAssistant) {
+        activity.onAssistantChanged(newAssistant);
     }
 }

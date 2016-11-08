@@ -10,11 +10,13 @@ import com.stadium.app.models.entities.Team;
 public class PlayersActivity extends ParentActivity {
     private Team team;
     private PlayersFragment fragment;
+    private boolean isPlayersAdded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players);
+        enableBackButton();
 
         // get the team
         team = (Team) getIntent().getSerializableExtra(Const.KEY_TEAM);
@@ -33,5 +35,18 @@ public class PlayersActivity extends ParentActivity {
             fragment.setArguments(bundle);
             loadFragment(R.id.container, fragment);
         }
+    }
+
+    public void onPlayerAdded() {
+        isPlayersAdded = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isPlayersAdded) {
+            setResult(RESULT_OK);
+        }
+
+        finish();
     }
 }

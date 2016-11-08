@@ -56,9 +56,6 @@ public class TeamInfoActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_info);
-
-        // customize toolbar
-        createOptionsMenu(R.menu.menu_team_info);
         enableBackButton();
 
         // create main objects
@@ -117,30 +114,40 @@ public class TeamInfoActivity extends ParentActivity {
             tvStadium.setVisibility(View.GONE);
         }
 
-        // load the profile image
-        Utils.loadImage(activity, team.getImageLink(), R.drawable.default_image, ivImage);
+        // load the image
+        Utils.loadImage(this, team.getImageLink(), R.drawable.default_image, ivImage);
 
-        // check the active user role to show add fab if required
+        // check the active user role to set his actions
         User user = userController.getUser();
         if (teamController.isCaptain(team, user.getId())
                 || teamController.isAssistant(team, user.getId())) {
+            // user is a captain or an assistant
+            // show add fab and the toolbar menu
             fabAdd.setVisibility(View.VISIBLE);
+            createOptionsMenu(R.menu.menu_team_info);
+        } else {
+            // not a captain or an assistant
+            // hide add fab and the toolbar menu
+            fabAdd.setVisibility(View.GONE);
+            removeOptionsMenu();
         }
     }
 
     private void onAdd() {
         // switch the current page
         Intent intent = null;
+        int requestCode = 0;
         switch (viewPager.getCurrentItem()) {
             case 1:
                 intent = new Intent(this, PlayersActivity.class);
+                requestCode = Const.REQ_ADD_PLAYERS;
                 break;
         }
 
         // check the intent
         if (intent != null) {
             intent.putExtra(Const.KEY_TEAM, team);
-            startActivity(intent);
+            startActivityForResult(intent, requestCode);
         }
     }
 
@@ -231,6 +238,65 @@ public class TeamInfoActivity extends ParentActivity {
         Intent intent = new Intent(this, UpdateTeamActivity.class);
         intent.putExtra(Const.KEY_TEAM, team);
         startActivityForResult(intent, Const.REQ_UPDATE_TEAM);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_UPDATE_TEAM && resultCode == RESULT_OK) {
+            // get the new team obj
+            Team newTeam = (Team) data.getSerializableExtra(Const.KEY_TEAM);
+
+            // check if user updated the captain or the assistant
+            boolean sameCaptainAndAssistant = false;
+            if (teamController.isSameCaptain(team, newTeam)
+                    && teamController.isSameAssistant(team, newTeam)) {
+                sameCaptainAndAssistant = true;
+            }
+
+            // update UIs
+            this.team = newTeam;
+            updateTeamUI();
+            if (!sameCaptainAndAssistant) {
+                // refresh fragments
+                refreshPlayersFragment();
+                refreshReservationsFragment();
+            }
+        } else if (requestCode == Const.REQ_ADD_PLAYERS && resultCode == RESULT_OK) {
+            // refresh players fragment
+            refreshPlayersFragment();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void refreshPlayersFragment() {
+        if (playersFragment != null) {
+            playersFragment.updateTeam(team);
+            playersFragment.refresh();
+        }
+    }
+
+    private void refreshReservationsFragment() {
+        if (reservationsFragment != null) {
+            reservationsFragment.updateTeam(team);
+            reservationsFragment.refresh();
+        }
+    }
+
+    /**
+     * used to do suitable logic when the captain changed from players fragment
+     */
+    public void onCaptainChanged(User newCaptain) {
+        team.setCaptain(newCaptain);
+        updateTeamUI();
+    }
+
+    /**
+     * used to do suitable logic when the captain changed from players fragment
+     */
+    public void onAssistantChanged(User newAssistant) {
+        team.setAsstent(newAssistant);
+        updateTeamUI();
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {

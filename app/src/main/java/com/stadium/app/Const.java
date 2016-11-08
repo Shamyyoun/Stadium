@@ -66,6 +66,8 @@ public class Const {
     public static final int REQ_CREATE_TEAM = 3;
     public static final int REQ_SEARCH_PLAYERS = 4;
     public static final int REQ_UPDATE_TEAM = 5;
+    public static final int REQ_ADD_PLAYERS = 6;
+    public static final int REQ_VIEW_CONTACTS = 7;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

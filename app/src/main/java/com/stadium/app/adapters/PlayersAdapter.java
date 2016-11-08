@@ -21,6 +21,7 @@ import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.UserController;
 import com.stadium.app.dialogs.ChooseTeamDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
@@ -38,6 +39,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
 
     private int viewType;
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
+    private OnPlayerAddedListener playerAddedListener;
     private ActiveUserController activeUserController;
     private UserController userController;
     private ChooseTeamDialog teamsDialog;
@@ -160,7 +162,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
 
     private void addPlayerToTeam(int position, Team team) {
         // get the player
-        User player = data.get(position);
+        final User player = data.get(position);
 
         // check internet connection
         if (!Utils.hasConnection(context)) {
@@ -179,6 +181,11 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
                 // check result
                 if (statusCode == Const.SER_CODE_200) {
                     Utils.showShortToast(context, R.string.added_successfully);
+
+                    // fire the listener if available
+                    if (playerAddedListener != null) {
+                        playerAddedListener.onPlayerAdded(player);
+                    }
                 } else {
                     Utils.showShortToast(context, R.string.failed_adding_player);
                 }
@@ -225,5 +232,9 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
 
     public void setSelectedTeam(Team selectedTeam) {
         this.selectedTeam = selectedTeam;
+    }
+
+    public void setOnPlayerAddedListener(OnPlayerAddedListener playerAddedListener) {
+        this.playerAddedListener = playerAddedListener;
     }
 }
