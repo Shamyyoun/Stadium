@@ -7,8 +7,10 @@ import com.stadium.app.models.Checkable;
  */
 
 public class OrderCriteria implements Checkable {
-    public static final int TYPE_RATE = 1;
-    public static final int TYPE_NAME = 2;
+    public static final int TYPE_DEFAULT = 1;
+    public static final int TYPE_RATE = 2;
+    public static final int TYPE_NAME = 3;
+    public static final int TYPE_LOCATION = 4;
 
     private int type;
     private String name;

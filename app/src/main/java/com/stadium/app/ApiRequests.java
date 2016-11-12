@@ -540,11 +540,11 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Team> editTeam(Context context, ConnectionListener<Team> listener,
-                                                     int userId, String userToken,
-                                                     int id, String name, String description,
-                                                     String encodedImage, String imageName,
-                                                     int captainId, int assistantId,
-                                                     int favoriteStadiumId) {
+                                                   int userId, String userToken,
+                                                   int id, String name, String description,
+                                                   String encodedImage, String imageName,
+                                                   int captainId, int assistantId,
+                                                   int favoriteStadiumId) {
         // create the request body
         EditTeamBody body = new EditTeamBody();
         User userInfo = new User();
@@ -575,6 +575,18 @@ public class ApiRequests {
                 AppUtils.getCaptainApiUrl(Const.API_EDIT_TEAM), Team.class, listener, body, Const.API_EDIT_TEAM);
         connectionHandler.setTimeout(4 * 60 * 1000);
         connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Stadium[]> listStadiumsAround(Context context, ConnectionListener<Stadium[]> listener,
+                                                                  double lat, double lng) {
+        // prepare url
+        String url = AppUtils.getUserApiUrl(Const.API_LIST_STADIUMS_AROUND) + "/" + lat + "/" + lng;
+
+        // create & execute the request
+        ConnectionHandler<Stadium[]> connectionHandler = new ConnectionHandler(context,
+                url, Stadium[].class, listener, Const.API_LIST_STADIUMS_AROUND);
+        connectionHandler.executeGet();
         return connectionHandler;
     }
 }

@@ -22,7 +22,7 @@ import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.OrderController;
 import com.stadium.app.controllers.SearchController;
-import com.stadium.app.dialogs.OrderPlayersDialog;
+import com.stadium.app.dialogs.OrderDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.models.Checkable;
@@ -52,7 +52,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     private List<User> searchResults;
     private boolean enableControls = true;
     private PlayersFilter filter;
-    private OrderPlayersDialog orderDialog;
+    private OrderDialog orderDialog;
     private OrderCriteria orderCriteria;
 
     @Override
@@ -84,7 +84,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         recyclerView.setLayoutManager(layoutManager);
 
         // set default order as the data is returned ordered from the server
-        orderDialog = new OrderPlayersDialog(activity);
+        orderDialog = new OrderDialog(activity, orderController.getPlayersCriterias(activity));
         orderCriteria = orderDialog.getDefaultCriteria();
         updateOrderByUI();
 

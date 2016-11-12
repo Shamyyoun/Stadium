@@ -43,8 +43,9 @@ public class Const {
     public static final String API_MY_TEAMS_RESERVATIONS = "myTeamsReservations";
     public static final String API_ALL_PLAYERS = "allPlayers";
     public static final String API_CHECK_LIST_OF_CONTACT = "checkListOfContact";
-    public static final String API_GET_POSITIONS= "getPositions";
-    public static final String API_EDIT_TEAM= "EditTeam";
+    public static final String API_GET_POSITIONS = "getPositions";
+    public static final String API_EDIT_TEAM = "EditTeam";
+    public static final String API_LIST_STADIUMS_AROUND = "ListstaduimsAround";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -76,4 +77,5 @@ public class Const {
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;
+    public static final int PERM_REQ_LOCATION = 2;
 }

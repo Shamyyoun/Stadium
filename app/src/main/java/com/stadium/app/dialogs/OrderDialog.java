@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 6/28/16.
  */
-public class OrderPlayersDialog extends ParentDialog {
+public class OrderDialog extends ParentDialog {
     private OrderController orderController;
     private RecyclerView recyclerView;
     private Button btnSubmit;
@@ -26,10 +26,11 @@ public class OrderPlayersDialog extends ParentDialog {
     private OnCheckableSelectedListener itemSelectedListener;
     private int selectedItemType;
 
-    public OrderPlayersDialog(final Context context) {
+    public OrderDialog(final Context context, List<OrderCriteria> orderCriterias) {
         super(context);
-        setContentView(R.layout.dialog_order_players);
+        setContentView(R.layout.dialog_order);
         setTitle(R.string.order_by);
+        data = orderCriterias;
 
         // create controllers
         orderController = new OrderController();
@@ -50,8 +51,7 @@ public class OrderPlayersDialog extends ParentDialog {
             }
         });
 
-        // get data and update the ui
-        data = orderController.getPlayersCriterias(context);
+        // update the ui
         updateUI();
     }
 

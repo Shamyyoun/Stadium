@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -401,21 +400,6 @@ public class Utils {
     }
 
     /**
-     * method, used to check if gps  is enabled on the device or not
-     *
-     * @param context
-     * @return boolean variable
-     */
-    public static boolean isGpsEnabled(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager == null) {
-            return false;
-        } else {
-            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        }
-    }
-
-    /**
      * method, used to format a double number as string with maximum 1 number after the point
      *
      * @param number
@@ -726,9 +710,5 @@ public class Utils {
         SpannableString spannable = new SpannableString(text);
         spannable.setSpan(new UnderlineSpan(), 0, text.length(), 0);
         textView.setText(spannable);
-    }
-
-    public static String formatDoubleWith(double number) {
-        return String.format("Value of a: %.2f", number).toString();
     }
 }

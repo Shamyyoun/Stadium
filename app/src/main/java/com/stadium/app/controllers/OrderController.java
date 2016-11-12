@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stadium.app.R;
 import com.stadium.app.models.entities.OrderCriteria;
+import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.User;
 
 import java.util.ArrayList;
@@ -63,5 +64,41 @@ public class OrderController {
         }
 
         return -1;
+    }
+
+    public List<OrderCriteria> getStadiumsCriterias(Context context) {
+        List<OrderCriteria> orderCriterias = new ArrayList<>();
+
+        OrderCriteria orderCriteria1 = new OrderCriteria();
+        orderCriteria1.setType(OrderCriteria.TYPE_DEFAULT);
+        orderCriteria1.setName(context.getString(R.string._default));
+        orderCriterias.add(orderCriteria1);
+
+        OrderCriteria orderCriteria2 = new OrderCriteria();
+        orderCriteria2.setType(OrderCriteria.TYPE_NAME);
+        orderCriteria2.setName(context.getString(R.string.stadium_name));
+        orderCriterias.add(orderCriteria2);
+
+        OrderCriteria orderCriteria3 = new OrderCriteria();
+        orderCriteria3.setType(OrderCriteria.TYPE_LOCATION);
+        orderCriteria3.setName(context.getString(R.string.location));
+        orderCriterias.add(orderCriteria3);
+
+        return orderCriterias;
+    }
+
+    public void orderStadiums(List<Stadium> stadiums, final int criteriaType) {
+        Comparator<Stadium> comparator = new Comparator<Stadium>() {
+            @Override
+            public int compare(Stadium lhs, Stadium rhs) {
+                if (criteriaType == OrderCriteria.TYPE_NAME) {
+                    return lhs.getName().compareToIgnoreCase(rhs.getName());
+                } else {
+                    return 0;
+                }
+            }
+        };
+
+        Collections.sort(stadiums, comparator);
     }
 }

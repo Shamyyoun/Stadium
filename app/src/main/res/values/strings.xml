@@ -111,7 +111,6 @@
     <string name="today_reservation">حجوزات اليوم</string>
     <string name="accepted_reservation">حجوزات مقبولة</string>
     <string name="new_reservation">حجوزات جديدة</string>
-    <string name="stadium_name">خروج</string>
     <string name="appointment">الموعد</string>
     <string name="player_info">بيانات اللاعب</string>
     <string name="not_attend">لم يحضر</string>
@@ -234,6 +233,11 @@
     <string name="this_player_is_the_assistant_choose_another">هذا اللاعب هوا المساعد، برجاء اختيار لاعب آخر</string>
     <string name="team_updated_successfully">تم تعديل الفريق بنجاح</string>
     <string name="failed_updating_team">فشل تعديل الفريق</string>
+    <string name="_default">افتراضي</string>
+    <string name="stadium_name">اسم الملعب</string>
+    <string name="please_enable_gps_first">برجاء تفعيل الـ GPS اولا</string>
+    <string name="failed_getting_your_location">فشل الحصول على موقعك الحالي</string>
+    <string name="data_not_loaded_yet">لم يتم تحميل البيانات بعد</string>
 
 
     <!-- Arrays -->
