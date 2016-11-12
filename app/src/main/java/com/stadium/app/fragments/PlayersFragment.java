@@ -125,7 +125,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
 
     @Override
     protected int getMainViewResId() {
-        return R.id.swipe_layout;
+        return R.id.recycler_view;
     }
 
     @Override

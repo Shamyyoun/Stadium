@@ -84,16 +84,34 @@ public class PlayersSearchActivity extends ParentActivity {
     }
 
     private void updateUI() {
-        if (filter.getCity() != null) {
-            btnCity.setText(filter.getCity().toString());
-        }
+        updateCityUI();
+        updateNameUI();
+        updatePositionUI();
+    }
 
+    private void updateCityUI() {
+        if (filter.getCity() != null) {
+            String str = getString(R.string.city) + ": " + filter.getCity().toString();
+            btnCity.setText(str);
+        } else {
+            btnCity.setText(R.string.city);
+        }
+    }
+
+    private void updateNameUI() {
         if (filter.getName() != null) {
             etName.setText(filter.getName());
+        } else {
+            etName.setText("");
         }
+    }
 
+    private void updatePositionUI() {
         if (filter.getPosition() != null) {
-            btnPosition.setText(filter.getPosition());
+            String str = getString(R.string.position) + ": " + filter.getPosition();
+            btnPosition.setText(str);
+        } else {
+            btnPosition.setText(R.string.position);
         }
     }
 
@@ -131,7 +149,7 @@ public class PlayersSearchActivity extends ParentActivity {
                     } else {
                         filter.setCity(city);
                     }
-                    btnCity.setText(city.toString());
+                    updateCityUI();
                 }
             });
         }
@@ -158,7 +176,7 @@ public class PlayersSearchActivity extends ParentActivity {
                     } else {
                         filter.setPosition(position.getName());
                     }
-                    btnPosition.setText(position.getName());
+                    updatePositionUI();
                 }
             });
         }
@@ -172,7 +190,14 @@ public class PlayersSearchActivity extends ParentActivity {
     }
 
     private void onSearch() {
-        filter.setName(Utils.getText(etName));
+        // get the name
+        String name = Utils.getText(etName);
+        if (!name.isEmpty()) {
+            filter.setName(name);
+        } else {
+            filter.setName(null);
+        }
+
         Intent intent = new Intent();
         intent.putExtra(Const.KEY_FILTER, filter);
         setResult(RESULT_OK, intent);
