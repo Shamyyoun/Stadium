@@ -75,7 +75,13 @@ public class ParentFragment extends Fragment implements View.OnClickListener, Co
     }
 
     public void showProgressDialog() {
-        progressDialog = DialogUtils.showProgressDialog(activity, R.string.please_wait_dotted);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.show();
+            }
+        } else {
+            progressDialog = DialogUtils.showProgressDialog(activity, R.string.please_wait_dotted);
+        }
     }
 
     public void hideProgressDialog() {

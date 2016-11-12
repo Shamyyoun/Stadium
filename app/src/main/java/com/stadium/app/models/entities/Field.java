@@ -18,7 +18,7 @@ public class Field implements Serializable {
     private String fieldNumber;
     @SerializedName("fieldSize")
     @Expose
-    private Object fieldSize;
+    private String fieldSize;
     @SerializedName("fieldSpace")
     @Expose
     private int fieldSpace;
@@ -77,14 +77,14 @@ public class Field implements Serializable {
     /**
      * @return The fieldSize
      */
-    public Object getFieldSize() {
+    public String getFieldSize() {
         return fieldSize;
     }
 
     /**
      * @param fieldSize The fieldSize
      */
-    public void setFieldSize(Object fieldSize) {
+    public void setFieldSize(String fieldSize) {
         this.fieldSize = fieldSize;
     }
 

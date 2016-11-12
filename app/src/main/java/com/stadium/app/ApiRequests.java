@@ -18,6 +18,7 @@ import com.stadium.app.models.bodies.TeamPlayerActionBody;
 import com.stadium.app.models.entities.Attendant;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.Event;
+import com.stadium.app.models.entities.Field;
 import com.stadium.app.models.entities.Image;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
@@ -587,6 +588,53 @@ public class ApiRequests {
         ConnectionHandler<Stadium[]> connectionHandler = new ConnectionHandler(context,
                 url, Stadium[].class, listener, Const.API_LIST_STADIUMS_AROUND);
         connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String[]> fieldSizes(Context context, ConnectionListener<String[]> listener) {
+        // create & execute the request
+        ConnectionHandler<String[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_FIELD_SIZE), String[].class, listener, Const.API_FIELD_SIZE);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String[]> allDurations(Context context, ConnectionListener<String[]> listener) {
+        // create & execute the request
+        ConnectionHandler<String[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ALL_DURATIONS), String[].class, listener, Const.API_ALL_DURATIONS);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Stadium[]> stadiumsFilters(Context context, ConnectionListener<Stadium[]> listener,
+                                                               int cityId, String name, String fieldSize,
+                                                               String date, String timeStart, String timeEnd) {
+        // create the request body
+        Reservation body = new Reservation();
+        if (cityId != 0 || name != null) {
+            Stadium stadium = new Stadium();
+            if (cityId != 0) {
+                City stadiumCity = new City();
+                stadiumCity.setId(cityId);
+                stadium.setStadiumCity(stadiumCity);
+            }
+            stadium.setName(name);
+            body.setReservationStadium(stadium);
+        }
+        if (fieldSize != null) {
+            Field field = new Field();
+            field.setFieldSize(fieldSize);
+            body.setField(field);
+        }
+        body.setDate(date);
+        body.setTimeStart(timeStart);
+        body.setTimeEnd(timeEnd);
+
+        // create & execute the request
+        ConnectionHandler<Stadium[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_STADIUMS_FILTERS), Stadium[].class, listener, body, Const.API_STADIUMS_FILTERS);
+        connectionHandler.executeRawJson();
         return connectionHandler;
     }
 }

@@ -238,6 +238,19 @@
     <string name="please_enable_gps_first">برجاء تفعيل الـ GPS اولا</string>
     <string name="failed_getting_your_location">فشل الحصول على موقعك الحالي</string>
     <string name="data_not_loaded_yet">لم يتم تحميل البيانات بعد</string>
+    <string name="field_capacity">سعة الملعب</string>
+    <string name="date">التاريخ</string>
+    <string name="time">التوقيت</string>
+    <string name="stadiums_search">بحث عن الملاعب</string>
+    <string name="from_x_to_x" formatted="false">من %s الى %s</string>
+    <string name="field_sizes">احجام الملعب</string>
+    <string name="all_sizes">كل الاحجام</string>
+    <string name="no_field_sizes_found">لا يوجد احجام للملعب</string>
+    <string name="failed_loading_field_sizes">فشل تحميل احجام الملعب</string>
+    <string name="times">التوقيتات</string>
+    <string name="all_times">كل التوقيتات</string>
+    <string name="no_times_found">لا يوجد توقيتات</string>
+    <string name="failed_loading_times">فشل تحميل التوقيتات</string>
 
 
     <!-- Arrays -->

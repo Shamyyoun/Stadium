@@ -1,11 +1,14 @@
 package com.stadium.app.fragments;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,10 +16,12 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.StadiumsSearchActivity;
 import com.stadium.app.adapters.StadiumsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.OrderController;
+import com.stadium.app.controllers.StadiumsFilterController;
 import com.stadium.app.dialogs.OrderDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnItemClickListener;
@@ -24,6 +29,7 @@ import com.stadium.app.models.Checkable;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.OrderCriteria;
 import com.stadium.app.models.entities.Stadium;
+import com.stadium.app.models.entities.StadiumsFilter;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.LocationUtils;
 import com.stadium.app.utils.PermissionUtil;
@@ -38,11 +44,13 @@ import java.util.List;
  */
 public class StadiumsFragment extends ProgressFragment implements OnItemClickListener {
     private OrderController orderController;
+    private StadiumsFilterController filterController;
     private TextView tvOrderBy;
     private RecyclerView recyclerView;
     private List<Stadium> data;
     private StadiumsAdapter adapter;
 
+    private StadiumsFilter filter;
     private OrderDialog orderDialog;
     private OrderCriteria orderCriteria;
     private boolean pendingOrder;
@@ -61,6 +69,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
 
         // create controllers
         orderController = new OrderController();
+        filterController = new StadiumsFilterController();
 
         // init views
         tvOrderBy = (TextView) findViewById(R.id.tv_order_by);
@@ -112,7 +121,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
 
     @Override
     protected int getMainViewResId() {
-        return R.id.swipe_layout;
+        return R.id.recycler_view;
     }
 
     @Override
@@ -146,6 +155,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
         orderCriteria = orderDialog.getDefaultCriteria();
         location = null;
         pendingOrder = false;
+        filter = null;
     }
 
     private void loadData(boolean resetFilters) {
@@ -165,7 +175,19 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
 
         // send suitable request
         ConnectionHandler connectionHandler;
-        if (pendingOrder && location != null) {
+        if (filter != null && filterController.hasFilters(filter)) {
+            // prepare city id
+            int cityId;
+            if (filter.getCity() != null) {
+                cityId = filter.getCity().getId();
+            } else {
+                cityId = 0;
+            }
+
+            // send the request
+            connectionHandler = ApiRequests.stadiumsFilters(activity, this, cityId, filter.getName(),
+                    filter.getFieldCapacity(), filter.getDate(), filter.getTimeStart(), filter.getTimeEnd());
+        } else if (pendingOrder && location != null) {
             connectionHandler = ApiRequests.listStadiumsAround(activity, this, location.getLatitude(),
                     location.getLongitude());
         } else {
@@ -215,6 +237,24 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                openSearchActivity();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openSearchActivity() {
+        Intent intent = new Intent(activity, StadiumsSearchActivity.class);
+        intent.putExtra(Const.KEY_FILTER, filter);
+        startActivityForResult(intent, Const.REQ_SEARCH_STADIUMS);
+        activity.overridePendingTransition(R.anim.top_translate_enter, R.anim.no_anim);
+    }
+
     private void showOrderDialog() {
         // set the order type
         orderDialog.setSelectedItemType(orderCriteria.getType());
@@ -258,6 +298,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
     }
 
     private void orderByDefault() {
+        resetFilters();
         location = null;
         pendingOrder = true;
         loadData(false);
@@ -285,6 +326,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
                     Utils.showShortToast(activity, R.string.failed_getting_your_location);
                 } else {
                     // load data ordered from server
+                    resetFilters();
                     this.location = location;
                     pendingOrder = true;
                     loadData(false);
@@ -304,6 +346,17 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_SEARCH_STADIUMS && resultCode == Activity.RESULT_OK) {
+            filter = (StadiumsFilter) data.getSerializableExtra(Const.KEY_FILTER);
+            // load data with this filter
+            loadData(false);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

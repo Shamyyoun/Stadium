@@ -62,7 +62,13 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
     }
 
     public void showProgressDialog() {
-        progressDialog = DialogUtils.showProgressDialog(context, R.string.please_wait_dotted);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.show();
+            }
+        } else {
+            progressDialog = DialogUtils.showProgressDialog(context, R.string.please_wait_dotted);
+        }
     }
 
     public void hideProgressDialog() {

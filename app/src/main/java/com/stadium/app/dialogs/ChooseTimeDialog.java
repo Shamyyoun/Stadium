@@ -11,10 +11,10 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
 import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.PositionController;
+import com.stadium.app.controllers.TimeController;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.models.SerializableListWrapper;
-import com.stadium.app.models.entities.Position;
+import com.stadium.app.models.entities.Time;
 import com.stadium.app.utils.Utils;
 
 import java.util.List;
@@ -24,21 +24,22 @@ import static com.stadium.app.R.string.select;
 /**
  * Created by Shamyyoun on 6/28/16.
  */
-public class ChoosePositionDialog extends ProgressDialog {
-    private PositionController positionController;
+public class ChooseTimeDialog extends ProgressDialog {
+    private TimeController timeController;
     private RecyclerView recyclerView;
     private Button btnSubmit;
     private RadioButtonsAdapter adapter;
-    private List<Position> data;
+    private List<Time> data;
     private OnCheckableSelectedListener itemSelectedListener;
-    private String selectedItem;
+    private String selectedTimeStart;
+    private String selectedTimeEnd;
 
-    public ChoosePositionDialog(final Context context) {
+    public ChooseTimeDialog(final Context context) {
         super(context);
-        setTitle(R.string.positions);
+        setTitle(R.string.times);
 
         // create the controller
-        positionController = new PositionController();
+        timeController = new TimeController();
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -58,7 +59,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
         // get data from saved bundle if exists
         if (savedInstanceState != null) {
-            SerializableListWrapper<Position> dataWrapper = (SerializableListWrapper<Position>) savedInstanceState.getSerializable("dataWrapper");
+            SerializableListWrapper<Time> dataWrapper = (SerializableListWrapper<Time>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
             }
@@ -74,7 +75,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.dialog_choose_position;
+        return R.layout.dialog_choose_time;
     }
 
     @Override
@@ -94,7 +95,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
     private void updateUI() {
         // add the default item
-        data = positionController.addDefaultItem(data, getString(R.string.all_positions));
+        data = timeController.addDefaultItem(data, getString(R.string.all_times));
 
         adapter = new RadioButtonsAdapter(context, data, R.layout.item_radio_button);
         recyclerView.setAdapter(adapter);
@@ -131,7 +132,7 @@ public class ChoosePositionDialog extends ProgressDialog {
         showProgress();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.getPositions(context, this);
+        ConnectionHandler connectionHandler = ApiRequests.allDurations(context, this);
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -139,11 +140,11 @@ public class ChoosePositionDialog extends ProgressDialog {
     public void onSuccess(Object response, int statusCode, String tag) {
         // get data
         String[] positionsArr = (String[]) response;
-        data = positionController.createList(positionsArr);
+        data = timeController.createList(positionsArr);
 
         // check size
         if (data.size() == 0) {
-            showEmpty(R.string.no_positions_found);
+            showEmpty(R.string.no_times_found);
         } else {
             updateUI();
         }
@@ -151,7 +152,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        showError(R.string.failed_loading_positions);
+        showError(R.string.failed_loading_times);
     }
 
 
@@ -186,12 +187,13 @@ public class ChoosePositionDialog extends ProgressDialog {
         this.itemSelectedListener = itemSelectedListener;
     }
 
-    public void setSelectedItem(String selectedItem) {
-        this.selectedItem = selectedItem;
+    public void setSelectedItem(String selectedTimeStart, String selectedTimeEnd) {
+        this.selectedTimeStart = selectedTimeStart;
+        this.selectedTimeEnd = selectedTimeEnd;
     }
 
     private void selectCheckedItem() {
-        int itemPosition = positionController.getItemPosition(data, selectedItem);
+        int itemPosition = timeController.getItemPosition(data, selectedTimeStart, selectedTimeEnd);
         if (itemPosition != -1) {
             adapter.setSelectedItem(itemPosition);
         }

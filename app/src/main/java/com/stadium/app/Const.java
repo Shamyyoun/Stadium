@@ -9,6 +9,7 @@ public class Const {
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
     public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
+    public static final int STADIUMS_SEARCH_MAX_DATE_DAYS_FROM_NOW = 14;
 
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";
@@ -46,12 +47,17 @@ public class Const {
     public static final String API_GET_POSITIONS = "getPositions";
     public static final String API_EDIT_TEAM = "EditTeam";
     public static final String API_LIST_STADIUMS_AROUND = "ListstaduimsAround";
+    public static final String API_FIELD_SIZE = "fieldSizes";
+    public static final String API_ALL_DURATIONS = "allDurations";
+    public static final String API_STADIUMS_FILTERS = "stadiumsFilters";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
 
-    // Response Codes:--------------------
+    // Server Constants:--------------------
     public static final int SER_CODE_200 = 200;
+    public static final String SER_DATE_FORMAT = "yyyy/MM/dd";
+    public static final String SER_TIME_FORMAT = "hh:mm:ss";
 
     // Images uploading:-------------------
     public static final int IMG_ASPECT_X_PROFILE = 1;
@@ -69,6 +75,7 @@ public class Const {
     public static final int REQ_UPDATE_TEAM = 5;
     public static final int REQ_ADD_PLAYERS = 6;
     public static final int REQ_VIEW_CONTACTS = 7;
+    public static final int REQ_SEARCH_STADIUMS = 8;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

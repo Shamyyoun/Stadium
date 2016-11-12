@@ -33,18 +33,35 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:backgroundTint="@android:color/white"
-            android:hint="@string/player_name"
+            android:hint="@string/stadium_name"
             android:scrollHorizontally="true"
             android:selectAllOnFocus="true"
             android:singleLine="true" />
 
         <Button
-            android:id="@+id/btn_position"
+            android:id="@+id/btn_field_capacity"
             style="@style/WhiteETButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/position" />
+            android:text="@string/field_capacity" />
+
+        <Button
+            android:id="@+id/btn_date"
+            style="@style/WhiteETButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/white_calendar_icon"
+            android:text="@string/date" />
+
+        <Button
+            android:id="@+id/btn_time"
+            style="@style/WhiteETButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/time" />
 
         <com.stadium.app.views.DarkenedButton
             android:id="@+id/btn_search"

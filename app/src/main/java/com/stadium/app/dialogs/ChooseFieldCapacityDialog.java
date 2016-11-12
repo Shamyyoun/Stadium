@@ -11,10 +11,10 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
 import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.PositionController;
+import com.stadium.app.controllers.FieldCapacityController;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.models.SerializableListWrapper;
-import com.stadium.app.models.entities.Position;
+import com.stadium.app.models.entities.FieldCapacity;
 import com.stadium.app.utils.Utils;
 
 import java.util.List;
@@ -24,21 +24,21 @@ import static com.stadium.app.R.string.select;
 /**
  * Created by Shamyyoun on 6/28/16.
  */
-public class ChoosePositionDialog extends ProgressDialog {
-    private PositionController positionController;
+public class ChooseFieldCapacityDialog extends ProgressDialog {
+    private FieldCapacityController fieldsController;
     private RecyclerView recyclerView;
     private Button btnSubmit;
     private RadioButtonsAdapter adapter;
-    private List<Position> data;
+    private List<FieldCapacity> data;
     private OnCheckableSelectedListener itemSelectedListener;
     private String selectedItem;
 
-    public ChoosePositionDialog(final Context context) {
+    public ChooseFieldCapacityDialog(final Context context) {
         super(context);
-        setTitle(R.string.positions);
+        setTitle(R.string.field_sizes);
 
         // create the controller
-        positionController = new PositionController();
+        fieldsController = new FieldCapacityController();
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -58,7 +58,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
         // get data from saved bundle if exists
         if (savedInstanceState != null) {
-            SerializableListWrapper<Position> dataWrapper = (SerializableListWrapper<Position>) savedInstanceState.getSerializable("dataWrapper");
+            SerializableListWrapper<FieldCapacity> dataWrapper = (SerializableListWrapper<FieldCapacity>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
             }
@@ -74,7 +74,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.dialog_choose_position;
+        return R.layout.dialog_choose_field_capacity;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
     private void updateUI() {
         // add the default item
-        data = positionController.addDefaultItem(data, getString(R.string.all_positions));
+        data = fieldsController.addDefaultItem(data, getString(R.string.all_sizes));
 
         adapter = new RadioButtonsAdapter(context, data, R.layout.item_radio_button);
         recyclerView.setAdapter(adapter);
@@ -131,7 +131,7 @@ public class ChoosePositionDialog extends ProgressDialog {
         showProgress();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.getPositions(context, this);
+        ConnectionHandler connectionHandler = ApiRequests.fieldSizes(context, this);
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -139,11 +139,11 @@ public class ChoosePositionDialog extends ProgressDialog {
     public void onSuccess(Object response, int statusCode, String tag) {
         // get data
         String[] positionsArr = (String[]) response;
-        data = positionController.createList(positionsArr);
+        data = fieldsController.createList(positionsArr);
 
         // check size
         if (data.size() == 0) {
-            showEmpty(R.string.no_positions_found);
+            showEmpty(R.string.no_field_sizes_found);
         } else {
             updateUI();
         }
@@ -151,7 +151,7 @@ public class ChoosePositionDialog extends ProgressDialog {
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        showError(R.string.failed_loading_positions);
+        showError(R.string.failed_loading_field_sizes);
     }
 
 
@@ -191,7 +191,7 @@ public class ChoosePositionDialog extends ProgressDialog {
     }
 
     private void selectCheckedItem() {
-        int itemPosition = positionController.getItemPosition(data, selectedItem);
+        int itemPosition = fieldsController.getItemPosition(data, selectedItem);
         if (itemPosition != -1) {
             adapter.setSelectedItem(itemPosition);
         }

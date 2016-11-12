@@ -15,22 +15,33 @@ import java.util.Locale;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private DatePickerDialog.OnDateSetListener datePickerListener;
-    private Calendar calendar;
+    private Calendar date;
+    private Calendar minDate;
+    private Calendar maxDate;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        if (calendar == null) {
+        if (date == null) {
             // Use the current date as the default date in the picker
-            calendar = Calendar.getInstance();
+            date = Calendar.getInstance();
         }
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new instance of DatePickerDialog and return it
+        // create DatePickerDialog instance
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), datePickerListener, year, month, day);
         datePickerDialog.getDatePicker().setSpinnersShown(true);
+
+        // set min & max if possible
+        if (minDate != null) {
+            datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
+        }
+        if (maxDate != null) {
+            datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
+        }
+
         return datePickerDialog;
     }
 
@@ -48,18 +59,26 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void setDate(Calendar calendar) {
-        this.calendar = calendar;
+        this.date = calendar;
     }
 
     public void setDate(String date, String dateFormat) {
         if (date != null) {
             try {
-                calendar = Calendar.getInstance();
+                this.date = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
-                calendar.setTime(sdf.parse(date));
+                this.date.setTime(sdf.parse(date));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setMinDate(Calendar minDate) {
+        this.minDate = minDate;
+    }
+
+    public void setMaxDate(Calendar maxDate) {
+        this.maxDate = maxDate;
     }
 }

@@ -107,7 +107,13 @@ public class ParentActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void showProgressDialog() {
-        progressDialog = DialogUtils.showProgressDialog(this, R.string.please_wait_dotted);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.show();
+            }
+        } else {
+            progressDialog = DialogUtils.showProgressDialog(this, R.string.please_wait_dotted);
+        }
     }
 
     public void hideProgressDialog() {
