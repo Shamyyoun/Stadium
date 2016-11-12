@@ -107,6 +107,12 @@ public class LoginActivity extends ParentActivity {
         hideProgressDialog();
         User user = (User) response;
         if (statusCode == Const.SER_CODE_200) {
+            // TODO remove when implement admin
+            if (user.getAdminStadium() != null) {
+                Utils.showLongToast(this, "Admin is not implemented yet.");
+                return;
+            }
+
             // save it
             ActiveUserController userController = new ActiveUserController(this);
             userController.setUser(user);
