@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by karam on 7/31/16.
  */
-public class SmallIntensityFragment extends ParentFragment {
+public class StadiumPeriodsFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
     private SmallIntensityAdapter adapter;
@@ -33,7 +33,7 @@ public class SmallIntensityFragment extends ParentFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_intensity, container, false);
+        rootView = inflater.inflate(R.layout.fragment_stadium_periods, container, false);
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);

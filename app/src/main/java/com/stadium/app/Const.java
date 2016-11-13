@@ -50,6 +50,7 @@ public class Const {
     public static final String API_FIELD_SIZE = "fieldSizes";
     public static final String API_ALL_DURATIONS = "allDurations";
     public static final String API_STADIUMS_FILTERS = "stadiumsFilters";
+    public static final String API_GET_STADIUM_INFO = "getStadiumInfo";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -81,6 +82,7 @@ public class Const {
     public static final String KEY_ID = "id";
     public static final String KEY_TEAM = "team";
     public static final String KEY_FILTER = "filter";
+    public static final String KEY_STADIUM = "stadium";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;

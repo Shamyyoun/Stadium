@@ -1,6 +1,7 @@
 package com.stadium.app.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.StadiumInfoActivity;
 import com.stadium.app.controllers.StadiumController;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.utils.Utils;
@@ -87,17 +90,12 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         }
 
         // add listeners
-        if (controller.hasLocation(item)) {
-            holder.tvAddress.setClickable(true);
-            holder.tvAddress.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.openMapIntent(context, item.getName(), item.getLatitude(), item.getLongitude());
-                }
-            });
-        } else {
-            holder.tvAddress.setClickable(false);
-        }
+        holder.layoutContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openStadiumInfoActivity(position);
+            }
+        });
         holder.btnPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,21 +110,30 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         });
     }
 
+    private void openStadiumInfoActivity(int position) {
+        Stadium stadium = data.get(position);
+        Intent intent = new Intent(context, StadiumInfoActivity.class);
+        intent.putExtra(Const.KEY_ID, stadium.getId());
+        context.startActivity(intent);
+    }
+
     class ViewHolder extends ParentRecyclerViewHolder {
-        ImageView ivPhoto;
-        TextView tvTitle;
-        TextView tvAddress;
-        TextView tvCapacity;
-        RatingBar rbRating;
-        View layoutContactInfo;
-        View viewContactInfoDivider;
-        Button btnPhone;
-        Button btnEmail;
+        private View layoutContent;
+        private ImageView ivPhoto;
+        private TextView tvTitle;
+        private TextView tvAddress;
+        private TextView tvCapacity;
+        private RatingBar rbRating;
+        private View layoutContactInfo;
+        private View viewContactInfoDivider;
+        private Button btnPhone;
+        private Button btnEmail;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
             // init views
+            layoutContent = findViewById(R.id.layout_content);
             ivPhoto = (ImageView) findViewById(R.id.iv_photo);
             tvTitle = (TextView) findViewById(R.id.tv_title);
             tvAddress = (TextView) findViewById(R.id.tv_address);

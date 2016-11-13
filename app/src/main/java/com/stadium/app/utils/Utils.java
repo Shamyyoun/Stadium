@@ -711,4 +711,18 @@ public class Utils {
         spannable.setSpan(new UnderlineSpan(), 0, text.length(), 0);
         textView.setText(spannable);
     }
+
+    /**
+     * method, used to trim string if not null or return null
+     *
+     * @param str
+     * @return
+     */
+    public static String trim(String str) {
+        if (str == null) {
+            return null;
+        } else {
+            return str.trim();
+        }
+    }
 }

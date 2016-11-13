@@ -24,7 +24,6 @@ import com.stadium.app.controllers.OrderController;
 import com.stadium.app.controllers.StadiumsFilterController;
 import com.stadium.app.dialogs.OrderDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
-import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.OrderCriteria;
@@ -42,7 +41,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class StadiumsFragment extends ProgressFragment implements OnItemClickListener {
+public class StadiumsFragment extends ProgressFragment {
     private OrderController orderController;
     private StadiumsFilterController filterController;
     private TextView tvOrderBy;
@@ -137,13 +136,7 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
     private void updateUI() {
         adapter = new StadiumsAdapter(activity, data, R.layout.item_stadium);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
         showMain();
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        logE("Item clicked: " + position);
     }
 
     private void updateOrderByUI() {

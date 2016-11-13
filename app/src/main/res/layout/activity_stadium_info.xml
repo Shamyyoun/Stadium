@@ -13,12 +13,14 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/green"
+                android:orientation="vertical"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <LinearLayout
@@ -28,123 +30,127 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/ib_contact"
-                        android:layout_width="0dp"
+                        android:id="@+id/ib_contacts"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/stadium_call_icon" />
+                        android:src="@drawable/rounded_contacts_icon" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="35dp"
+                        android:layout_marginRight="35dp"
+                        android:gravity="center">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/linear_image"
+                            android:layout_width="@dimen/entity_info_stroke_image_size"
+                            android:layout_height="@dimen/entity_info_stroke_image_size"
+                            android:background="@drawable/green_strokked_circle"
+                            android:gravity="center">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/iv_image"
+                                style="@style/CroppedImageView"
+                                android:layout_width="@dimen/entity_info_image_size"
+                                android:layout_height="@dimen/entity_info_image_size"
+                                android:src="@drawable/default_image"
+                                app:riv_oval="true" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignRight="@+id/linear_image"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/green_strokked_circle"
                             android:gravity="center"
-                            android:padding="5dp">
+                            android:orientation="vertical">
 
-                            <LinearLayout
-                                android:id="@+id/linear_image"
-                                android:layout_width="@dimen/stadium_info_stroke_size"
-                                android:layout_height="@dimen/stadium_info_stroke_size"
-                                android:background="@drawable/green_strokked_circle"
-                                android:gravity="center">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/small_orange_star" />
 
-                                <com.makeramen.roundedimageview.RoundedImageView
-                                    android:id="@+id/iv_photo"
-                                    style="@style/CroppedImageView"
-                                    android:layout_width="@dimen/stadium_info_image_size"
-                                    android:layout_height="@dimen/stadium_info_image_size"
-                                    android:src="@drawable/default_image"
-                                    app:riv_oval="true" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/tv_role"
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:layout_alignRight="@+id/linear_image"
-                                android:background="@drawable/green_strokked_circle"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/small_orange_star" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="5"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="@dimen/very_small_text" />
-                            </LinearLayout>
-                        </RelativeLayout>
-
-                        <TextView
-                            android:id="@+id/tv_stadium_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="6dp"
-                            android:drawableRight="@drawable/team_name_icon"
-                            android:text="ملاعب النخبة"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/below_medium_text"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/very_small_text" />
+                        </LinearLayout>
+                    </RelativeLayout>
 
                     <ImageButton
                         android:id="@+id/ib_location"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/big_location_icon" />
-
+                        android:src="@drawable/rounded_location_icon" />
                 </LinearLayout>
 
-            </android.support.v7.widget.Toolbar>
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="5dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawablePadding="6dp"
+                    android:drawableRight="@drawable/small_white_info_icon"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:paddingTop="4dp"
+                    android:text="----------"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dialog_toolbar_size"
-                android:background="@android:color/white"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="5dp">
 
                 <ImageButton
-                    android:id="@+id/iv_left_arrow"
+                    android:id="@+id/ib_previous_day"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="8dp"
                     android:src="@drawable/arrow_left" />
 
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:drawableLeft="@drawable/light_date_icon"
                     android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:text="2016/04/04" />
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="----/--/--"
+                    android:textColor="@color/clickable_gray_text" />
 
                 <ImageButton
-                    android:id="@+id/iv_right_arrow"
+                    android:id="@+id/ib_next_day"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="8dp"
                     android:src="@drawable/arrow_right" />
-
             </LinearLayout>
 
             <View
@@ -152,26 +158,22 @@
                 android:layout_height="1dp"
                 android:background="@color/light_gray" />
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                style="@style/TeamTab"
+            <com.stadium.app.views.SlidingTabLayout
+                android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabMode="fixed" />
+                android:background="@android:color/white" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/green" />
-
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

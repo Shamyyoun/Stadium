@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
+    android:gravity="center_horizontal"
     android:minHeight="@dimen/min_dialog_height"
     android:orientation="vertical">
 
@@ -11,30 +12,33 @@
         layout="@layout/view_dialog_toolbar" />
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/info_icon" />
 
-    <TextView
-        android:id="@+id/tv_info"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:lineSpacingExtra="10dp"
-        android:text="تم افتتاح الملعب في عام ٢٠١٠ وتم تجهيزه من النجيل الصناعي ذو جود عاليه يساعد علي اللعب بشكل افضل كالمحترفين"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/below_medium_text" />
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:overScrollMode="ifContentScrolls">
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
+            android:text="text text text text"
+            android:textColor="@color/gray" />
+    </ScrollView>
 
     <com.stadium.app.views.DarkenedButton
-        android:id="@+id/btn_exit"
+        android:id="@+id/btn_close"
         style="@style/DialogOrangeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="10dp"
-        android:text="@string/exit" />
+        android:text="@string/close" />
 </LinearLayout>

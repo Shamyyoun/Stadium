@@ -102,7 +102,6 @@
     <string name="add_player_to">اضافة اللاعب الى</string>
     <string name="favorite_stadium">الملعب المفضل</string>
     <string name="team_info">بيانات الفريق</string>
-    <string name="stadium_order">طلب حجز</string>
     <string name="choose_team">اختار الفريق</string>
     <string name="exit">خروج</string>
     <string name="stade">الاستاد</string>
@@ -251,6 +250,10 @@
     <string name="all_times">كل التوقيتات</string>
     <string name="no_times_found">لا يوجد توقيتات</string>
     <string name="failed_loading_times">فشل تحميل التوقيتات</string>
+    <string name="stadium_info">بيانات الملعب</string>
+    <string name="no_location_info_available">لا يوجد بيانات للموقع متوفرة</string>
+    <string name="no_contacts_info_available">لا يوجد بيانات اتصال متاحة</string>
+    <string name="no_bio_available">لا يوجد نبذة متاحة</string>
 
 
     <!-- Arrays -->

@@ -637,4 +637,15 @@ public class ApiRequests {
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<Stadium> getStadiumInfo(Context context, ConnectionListener<Stadium> listener, int id) {
+        // prepare url
+        String url = AppUtils.getUserApiUrl(Const.API_GET_STADIUM_INFO) + "/" + id;
+
+        // create & execute the request
+        ConnectionHandler<Stadium> connectionHandler = new ConnectionHandler(context,
+                url, Stadium.class, listener, Const.API_GET_STADIUM_INFO);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
 }
