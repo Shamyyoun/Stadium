@@ -1,5 +1,7 @@
 package com.stadium.app.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.stadium.app.ApiRequests;
+import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.StadiumsActivity;
 import com.stadium.app.adapters.ReservationsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
@@ -77,7 +81,7 @@ public class ReservationsFragment extends ProgressFragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                onAdd();
             }
         });
 
@@ -108,6 +112,12 @@ public class ReservationsFragment extends ProgressFragment {
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    private void onAdd() {
+        // open stadiums activity to add reservations
+        Intent intent = new Intent(activity, StadiumsActivity.class);
+        startActivityForResult(intent, Const.REQ_ADD_RESERVATIONS);
     }
 
     private void loadData() {
@@ -155,5 +165,14 @@ public class ReservationsFragment extends ProgressFragment {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_ADD_RESERVATIONS && resultCode == Activity.RESULT_OK) {
+            refresh();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

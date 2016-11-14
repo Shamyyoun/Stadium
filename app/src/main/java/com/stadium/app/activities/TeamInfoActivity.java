@@ -138,6 +138,11 @@ public class TeamInfoActivity extends ParentActivity {
         Intent intent = null;
         int requestCode = 0;
         switch (viewPager.getCurrentItem()) {
+            case 0:
+                intent = new Intent(this, StadiumsActivity.class);
+                requestCode = Const.REQ_ADD_RESERVATIONS;
+                break;
+
             case 1:
                 intent = new Intent(this, PlayersActivity.class);
                 requestCode = Const.REQ_ADD_PLAYERS;

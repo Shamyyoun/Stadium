@@ -58,8 +58,17 @@ public class StadiumsFragment extends ProgressFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.stadiums);
         createOptionsMenu(R.menu.menu_stadiums);
+
+        // set suitable title
+        String toolbarTitle = null;
+        if (getArguments() != null) {
+            toolbarTitle = getArguments().getString(Const.KEY_TOOLBAR_TITLE);
+        }
+        if (toolbarTitle == null) {
+            toolbarTitle = getString(R.string.stadiums);
+        }
+        setTitle(toolbarTitle);
     }
 
     @Override
@@ -318,10 +327,14 @@ public class StadiumsFragment extends ProgressFragment {
                 if (location == null) {
                     Utils.showShortToast(activity, R.string.failed_getting_your_location);
                 } else {
-                    // load data ordered from server
+                    // set filters
+                    OrderCriteria orderCriteria = this.orderCriteria;
                     resetFilters();
+                    this.orderCriteria = orderCriteria;
                     this.location = location;
                     pendingOrder = true;
+
+                    // load data ordered from server
                     loadData(false);
                 }
             }
@@ -345,6 +358,7 @@ public class StadiumsFragment extends ProgressFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Const.REQ_SEARCH_STADIUMS && resultCode == Activity.RESULT_OK) {
+            resetFilters();
             filter = (StadiumsFilter) data.getSerializableExtra(Const.KEY_FILTER);
             // load data with this filter
             loadData(false);

@@ -141,9 +141,11 @@ public class ParentActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void setTitle(CharSequence title) {
-        super.setTitle(title);
+        toolbarTitle = title.toString();
         if (tvToolbarTitle != null) {
             tvToolbarTitle.setText(title);
+        } else {
+            super.setTitle(title);
         }
     }
 
@@ -152,6 +154,8 @@ public class ParentActivity extends AppCompatActivity implements View.OnClickLis
         toolbarTitle = getString(titleId);
         if (tvToolbarTitle != null) {
             tvToolbarTitle.setText(titleId);
+        } else {
+            super.setTitle(titleId);
         }
     }
 

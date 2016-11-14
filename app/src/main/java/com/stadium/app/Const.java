@@ -77,12 +77,14 @@ public class Const {
     public static final int REQ_ADD_PLAYERS = 6;
     public static final int REQ_VIEW_CONTACTS = 7;
     public static final int REQ_SEARCH_STADIUMS = 8;
+    public static final int REQ_ADD_RESERVATIONS = 9;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";
     public static final String KEY_TEAM = "team";
     public static final String KEY_FILTER = "filter";
     public static final String KEY_RESERVATION = "reservation";
+    public static final String KEY_TOOLBAR_TITLE = "toolbar_title";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;

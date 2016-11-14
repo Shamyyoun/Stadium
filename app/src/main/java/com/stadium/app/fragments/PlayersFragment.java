@@ -58,8 +58,17 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.players);
         createOptionsMenu(R.menu.menu_players);
+
+        // set suitable title
+        String toolbarTitle = null;
+        if (getArguments() != null) {
+            toolbarTitle = getArguments().getString(Const.KEY_TOOLBAR_TITLE);
+        }
+        if (toolbarTitle == null) {
+            toolbarTitle = getString(R.string.players);
+        }
+        setTitle(toolbarTitle);
     }
 
     @Override

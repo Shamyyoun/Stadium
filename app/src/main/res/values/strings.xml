@@ -254,6 +254,10 @@
     <string name="no_location_info_available">لا يوجد بيانات للموقع متوفرة</string>
     <string name="no_contacts_info_available">لا يوجد بيانات اتصال متاحة</string>
     <string name="no_bio_available">لا يوجد نبذة متاحة</string>
+    <string name="no_available_periods_in_this_day">لا يوجد فترات متاحة في هذا اليوم</string>
+    <string name="failed_loading_available_periods">فشل تحميل الفترات المتاحة</string>
+    <string name="add_players">اضافة لاعبين</string>
+    <string name="add_reservations">اضافة حجوزات</string>
 
 
     <!-- Arrays -->

@@ -93,12 +93,18 @@
             android:theme="@style/AppTheme.FloatingTransparent"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <activity android:name=".activities.PlayersActivity" />
+        <activity
+            android:name=".activities.PlayersActivity"
+            android:label="@string/add_players" />
 
         <activity
             android:name=".activities.StadiumsSearchActivity"
             android:label="@string/stadiums_search"
             android:theme="@style/AppTheme.FloatingTransparent"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".activities.StadiumsActivity"
+            android:label="@string/add_reservations" />
     </application>
 </manifest>
