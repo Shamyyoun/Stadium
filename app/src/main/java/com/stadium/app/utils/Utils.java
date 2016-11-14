@@ -725,4 +725,20 @@ public class Utils {
             return str.trim();
         }
     }
+
+    /**
+     * method, used to reverse array of objects and return it
+     *
+     * @param arr
+     * @return
+     */
+    public static Object[] reverseArray(Object[] arr) {
+        for (int i = 0; i < arr.length / 2; i++) {
+            Object tmpObject = arr[i];
+            arr[i] = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = tmpObject;
+        }
+
+        return arr;
+    }
 }

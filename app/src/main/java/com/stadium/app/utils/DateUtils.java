@@ -74,4 +74,14 @@ public class DateUtils {
         Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
         return currentCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH);
     }
+
+    public static String addDays(String strDate, String strFormat, int days) {
+        Calendar calendar = convertToCalendar(strDate, strFormat);
+        if (calendar != null) {
+            calendar.add(Calendar.DATE, days);
+            return convertToString(calendar, strFormat);
+        } else {
+            return null;
+        }
+    }
 }

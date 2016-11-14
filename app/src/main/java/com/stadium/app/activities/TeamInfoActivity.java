@@ -204,6 +204,8 @@ public class TeamInfoActivity extends ParentActivity {
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
+        hideProgressDialog();
+
         if (Const.API_GET_TEAM_INFO.equals(tag)) {
             super.onFail(ex, statusCode, tag);
             disableControls();

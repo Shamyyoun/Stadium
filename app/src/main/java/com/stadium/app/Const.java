@@ -82,7 +82,7 @@ public class Const {
     public static final String KEY_ID = "id";
     public static final String KEY_TEAM = "team";
     public static final String KEY_FILTER = "filter";
-    public static final String KEY_STADIUM = "stadium";
+    public static final String KEY_RESERVATION = "reservation";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;

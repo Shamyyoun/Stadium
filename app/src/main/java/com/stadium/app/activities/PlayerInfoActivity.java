@@ -286,6 +286,8 @@ public class PlayerInfoActivity extends ParentActivity {
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
+        hideProgressDialog();
+
         if (Const.API_LIST_OF_MY_TEAMS.equals(tag)) {
             showTeamsError();
         } else if (Const.API_GET_PLAYER_INFO.equals(tag)) {
