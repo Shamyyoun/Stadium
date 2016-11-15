@@ -23,6 +23,7 @@ import com.stadium.app.fragments.StadiumPeriodsFragment;
 import com.stadium.app.models.entities.Field;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
+import com.stadium.app.models.entities.Team;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DatePickerFragment;
 import com.stadium.app.utils.DateUtils;
@@ -36,6 +37,7 @@ import java.util.Locale;
  * Created by karam on 7/31/16.
  */
 public class StadiumInfoActivity extends ParentActivity {
+    private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private int id;
     private StadiumController stadiumController;
 
@@ -59,6 +61,8 @@ public class StadiumInfoActivity extends ParentActivity {
     private StadiumBioDialog bioDialog;
     private DatePickerFragment datePickerFragment;
 
+    private boolean isReservationAdded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,7 @@ public class StadiumInfoActivity extends ParentActivity {
 
         // obtain main objects
         id = getIntent().getIntExtra(Const.KEY_ID, 0);
+        selectedTeam = (Team) getIntent().getSerializableExtra(Const.KEY_TEAM);
         stadiumController = new StadiumController();
 
         // init views
@@ -374,6 +379,10 @@ public class StadiumInfoActivity extends ParentActivity {
         ibNextDay.setEnabled(enable);
     }
 
+    public void onReservationAdded() {
+        isReservationAdded = true;
+    }
+
     public class PagerAdapter extends FragmentStatePagerAdapter {
 
         public PagerAdapter(FragmentManager fm) {
@@ -397,6 +406,7 @@ public class StadiumInfoActivity extends ParentActivity {
                 // create bundle with this object
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Const.KEY_RESERVATION, reservation);
+                bundle.putSerializable(Const.KEY_TEAM, selectedTeam);
 
                 // create new fragment and pass its arguments
                 fragment = new StadiumPeriodsFragment();
@@ -419,5 +429,14 @@ public class StadiumInfoActivity extends ParentActivity {
         public CharSequence getPageTitle(int position) {
             return fieldCapacities[position];
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isReservationAdded) {
+            setResult(RESULT_OK);
+        }
+
+        finish();
     }
 }

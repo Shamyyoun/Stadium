@@ -1,7 +1,6 @@
 package com.stadium.app.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.stadium.app.Const;
 import com.stadium.app.R;
-import com.stadium.app.activities.StadiumInfoActivity;
 import com.stadium.app.controllers.StadiumController;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.utils.Utils;
@@ -90,12 +87,6 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
         }
 
         // add listeners
-        holder.layoutContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openStadiumInfoActivity(position);
-            }
-        });
         holder.btnPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,13 +99,6 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
                 Utils.openEmailIntent(context, item.getEmail());
             }
         });
-    }
-
-    private void openStadiumInfoActivity(int position) {
-        Stadium stadium = data.get(position);
-        Intent intent = new Intent(context, StadiumInfoActivity.class);
-        intent.putExtra(Const.KEY_ID, stadium.getId());
-        context.startActivity(intent);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
@@ -143,6 +127,8 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
             viewContactInfoDivider = findViewById(R.id.view_contact_info_divider);
             btnPhone = (Button) findViewById(R.id.btn_phone);
             btnEmail = (Button) findViewById(R.id.btn_email);
+
+            setClickableRootView(layoutContent);
         }
     }
 }

@@ -271,6 +271,9 @@ public class TeamInfoActivity extends ParentActivity {
         } else if (requestCode == Const.REQ_ADD_PLAYERS && resultCode == RESULT_OK) {
             // refresh players fragment
             refreshPlayersFragment();
+        } else if (requestCode == Const.REQ_ADD_RESERVATIONS && resultCode == RESULT_OK) {
+            // refresh reservations fragment
+            refreshReservationsFragment();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

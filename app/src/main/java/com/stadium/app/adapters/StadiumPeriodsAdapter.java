@@ -17,6 +17,7 @@ import com.stadium.app.controllers.UserController;
 import com.stadium.app.dialogs.ChooseTeamDialog;
 import com.stadium.app.dialogs.ReservationPlayersDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.interfaces.OnReservationAddedListener;
 import com.stadium.app.interfaces.OnReservationPlayersSelectedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.Field;
@@ -36,10 +37,12 @@ import java.util.List;
 public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
     private static final String DISPLAY_TIME_FORMAT = "hh:mm a";
 
+    private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private ActiveUserController activeUserController;
     private Reservation reservation; // this is just to hold data like stadium, field size and date.
     private ChooseTeamDialog teamsDialog;
     private ReservationPlayersDialog playersDialog;
+    private OnReservationAddedListener reservationAddedListener;
 
     public StadiumPeriodsAdapter(Context context, List<Reservation> data, int layoutId, Reservation reservation) {
         super(context, data, layoutId);
@@ -79,9 +82,22 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
         holder.layoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseTeam(position);
+                onItemClick(position);
             }
         });
+    }
+
+    private void onItemClick(int position) {
+        // check selected team
+        if (selectedTeam != null) {
+            // selected team exists
+            // show choose players dialog
+            choosePlayers(position, selectedTeam);
+        } else {
+            // no selected team
+            // first, choose the team from teams dialog
+            chooseTeam(position);
+        }
     }
 
     private void chooseTeam(final int position) {
@@ -143,8 +159,12 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
                 // check result
                 if (statusCode == Const.SER_CODE_200) {
                     Utils.showShortToast(context, R.string.reservation_requested_successfully);
-                    removeItem(position
-                    );
+                    removeItem(position);
+
+                    // fire the listener if possible
+                    if (reservationAddedListener != null) {
+                        reservationAddedListener.onReservationAdded(response);
+                    }
                 } else {
                     // show error msg
                     String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_requesting_reservation);
@@ -184,5 +204,13 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
             tvFieldNo = (TextView) findViewById(R.id.tv_field_no);
             tvPeriod = (TextView) findViewById(R.id.tv_period);
         }
+    }
+
+    public void setSelectedTeam(Team selectedTeam) {
+        this.selectedTeam = selectedTeam;
+    }
+
+    public void setOnReservationAddedListener(OnReservationAddedListener reservationAddedListener) {
+        this.reservationAddedListener = reservationAddedListener;
     }
 }

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.StadiumInfoActivity;
+import com.stadium.app.activities.StadiumsActivity;
 import com.stadium.app.activities.StadiumsSearchActivity;
 import com.stadium.app.adapters.StadiumsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
@@ -24,11 +26,13 @@ import com.stadium.app.controllers.OrderController;
 import com.stadium.app.controllers.StadiumsFilterController;
 import com.stadium.app.dialogs.OrderDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.OrderCriteria;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.StadiumsFilter;
+import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.LocationUtils;
 import com.stadium.app.utils.PermissionUtil;
@@ -41,7 +45,8 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class StadiumsFragment extends ProgressFragment {
+public class StadiumsFragment extends ProgressFragment implements OnItemClickListener {
+    private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private OrderController orderController;
     private StadiumsFilterController filterController;
     private TextView tvOrderBy;
@@ -74,6 +79,11 @@ public class StadiumsFragment extends ProgressFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        // get extras
+        if (getArguments() != null) {
+            selectedTeam = (Team) getArguments().getSerializable(Const.KEY_TEAM);
+        }
 
         // create controllers
         orderController = new OrderController();
@@ -144,8 +154,19 @@ public class StadiumsFragment extends ProgressFragment {
 
     private void updateUI() {
         adapter = new StadiumsAdapter(activity, data, R.layout.item_stadium);
+        adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        // open stadium info activity
+        Stadium stadium = data.get(position);
+        Intent intent = new Intent(activity, StadiumInfoActivity.class);
+        intent.putExtra(Const.KEY_ID, stadium.getId());
+        intent.putExtra(Const.KEY_TEAM, selectedTeam);
+        startActivityForResult(intent, Const.REQ_VIEW_STADIUM_INFO);
     }
 
     private void updateOrderByUI() {
@@ -362,6 +383,12 @@ public class StadiumsFragment extends ProgressFragment {
             filter = (StadiumsFilter) data.getSerializableExtra(Const.KEY_FILTER);
             // load data with this filter
             loadData(false);
+        } else if (requestCode == Const.REQ_VIEW_STADIUM_INFO && resultCode == Activity.RESULT_OK) {
+            // user added some reservation
+            if (activity instanceof StadiumsActivity) {
+                // fire the reservation added method
+                ((StadiumsActivity) activity).onReservationAdded();
+            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

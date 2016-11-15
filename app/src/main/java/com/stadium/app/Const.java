@@ -81,6 +81,7 @@ public class Const {
     public static final int REQ_VIEW_CONTACTS = 7;
     public static final int REQ_SEARCH_STADIUMS = 8;
     public static final int REQ_ADD_RESERVATIONS = 9;
+    public static final int REQ_VIEW_STADIUM_INFO = 10;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

@@ -18,8 +18,10 @@ import com.stadium.app.activities.StadiumInfoActivity;
 import com.stadium.app.adapters.StadiumPeriodsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.interfaces.OnItemRemovedListener;
+import com.stadium.app.interfaces.OnReservationAddedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Reservation;
+import com.stadium.app.models.entities.Team;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.utils.ViewUtil;
 
@@ -30,7 +32,8 @@ import java.util.List;
 /**
  * Created by karam on 7/31/16.
  */
-public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemovedListener {
+public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemovedListener, OnReservationAddedListener {
+    private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private Reservation reservation; // this is just to hold data like stadium, field size and date passed from activity.
     private StadiumInfoActivity activity;
     private TextView tvFieldCapacity;
@@ -51,8 +54,9 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_stadium_periods, container, false);
 
-        // get team
+        // get main objects
         reservation = (Reservation) getArguments().getSerializable(Const.KEY_RESERVATION);
+        selectedTeam = (Team) getArguments().getSerializable(Const.KEY_TEAM);
 
         // init views
         tvFieldCapacity = (TextView) findViewById(R.id.tv_field_capacity);
@@ -91,7 +95,9 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     private void updateUI() {
         // set the adapter
         adapter = new StadiumPeriodsAdapter(activity, data, R.layout.item_stadium_period, reservation);
+        adapter.setSelectedTeam(selectedTeam);
         adapter.setOnItemRemovedListener(this);
+        adapter.setOnReservationAddedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
     }
@@ -101,6 +107,12 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         if (data.size() == 0) {
             showEmpty();
         }
+    }
+
+    @Override
+    public void onReservationAdded(Reservation reservation) {
+        // fire the method in the activity
+        activity.onReservationAdded();
     }
 
     public void loadData() {
