@@ -80,7 +80,7 @@ public class AttendanceDialog extends ProgressDialog {
     }
 
     private void updateUI() {
-        adapter = new AttendanceAdapter(context, data, R.layout.item_attendant, id);
+        adapter = new AttendanceAdapter(context, data, R.layout.item_checkable_player, id);
         adapter.setWrapperDialog(this);
         recyclerView.setAdapter(adapter);
         showMain();

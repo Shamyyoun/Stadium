@@ -258,6 +258,18 @@
     <string name="failed_loading_available_periods">فشل تحميل الفترات المتاحة</string>
     <string name="add_players">اضافة لاعبين</string>
     <string name="add_reservations">اضافة حجوزات</string>
+    <string name="field_capacity_d_players">سعة الملعب: %d لاعب</string>
+    <string name="stadium">ملعب</string>
+    <string name="to">الى</string>
+    <string name="player">لاعب</string>
+    <string name="select_all">تحديد الكل</string>
+    <string name="all_selected">الكل محدد</string>
+    <string name="select_players">اختيار اللاعبين</string>
+    <string name="you_must_choose_at_least_one_player">يجب اختيار لاعب واحد على الاقل</string>
+    <string name="selected">محدد</string>
+    <string name="continue_and_request_reservation_with_these_details">الاستمرار وطلب حجز بهذه التفاصيل؟</string>
+    <string name="reservation_requested_successfully">تم الطلب بنجاح</string>
+    <string name="failed_requesting_reservation">فشل طلب الحجز</string>
 
 
     <!-- Arrays -->

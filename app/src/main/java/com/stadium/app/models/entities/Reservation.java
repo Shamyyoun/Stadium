@@ -2,10 +2,13 @@ package com.stadium.app.models.entities;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.stadium.app.models.responses.ServerResponse;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Reservation implements Serializable {
+public class Reservation extends ServerResponse implements Serializable {
     public static final String DATE_FORMAT = "yyyy/MM/dd";
     public static final String TIME_FORMAT = "hh:mm:ss";
 
@@ -41,7 +44,7 @@ public class Reservation implements Serializable {
     private int playerCounter;
     @SerializedName("playerId")
     @Expose
-    private Object playerId;
+    private List<Integer> playerId = new ArrayList<Integer>();
     @SerializedName("reservationFiled")
     @Expose
     private Field field;
@@ -201,14 +204,14 @@ public class Reservation implements Serializable {
     /**
      * @return The playerId
      */
-    public Object getPlayerId() {
+    public List<Integer> getPlayerId() {
         return playerId;
     }
 
     /**
      * @param playerId The playerId
      */
-    public void setPlayerId(Object playerId) {
+    public void setPlayerId(List<Integer> playerId) {
         this.playerId = playerId;
     }
 

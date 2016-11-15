@@ -125,6 +125,11 @@ public class StadiumInfoActivity extends ParentActivity {
         tabLayout.setDistributeEvenly(true);
         tabLayout.setViewPager(viewPager);
 
+        // set off screen page limit to fragments count if 3 or lower
+        if (fragments.length <= 3) {
+            viewPager.setOffscreenPageLimit(fragments.length);
+        }
+
         // select last tab by default as the most right one
         viewPager.setCurrentItem(fieldCapacities.length - 1);
     }
@@ -213,6 +218,9 @@ public class StadiumInfoActivity extends ParentActivity {
                     String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
                     date = DateUtils.formatDate(date, "yyyy/M/d", Const.SER_DATE_FORMAT);
                     tvDate.setText(date);
+
+                    // refresh the fragments
+                    refreshPeriods();
                 }
             });
         }
@@ -239,6 +247,9 @@ public class StadiumInfoActivity extends ParentActivity {
 
             // set it in the date textview
             tvDate.setText(dateStr);
+
+            // refresh the fragments
+            refreshPeriods();
         }
     }
 
@@ -246,6 +257,24 @@ public class StadiumInfoActivity extends ParentActivity {
         String date = DateUtils.addDays(tvDate.getText().toString(), Const.SER_DATE_FORMAT, 1);
         if (date != null) {
             tvDate.setText(date);
+
+            // refresh the fragments
+            refreshPeriods();
+        }
+    }
+
+    private void refreshPeriods() {
+        String date = tvDate.getText().toString();
+        if (fragments == null) {
+            return;
+        }
+
+        for (StadiumPeriodsFragment fragment : fragments) {
+            if (fragment != null) {
+                // update the date and refresh it
+                fragment.updateDate(date);
+                fragment.refresh();
+            }
         }
     }
 
@@ -265,15 +294,6 @@ public class StadiumInfoActivity extends ParentActivity {
     }
 
     private void loadFieldCapacities() {
-        // check internet connection
-        if (!Utils.hasConnection(this)) {
-            Utils.showShortToast(this, R.string.no_internet_connection);
-            enableDateControls(false);
-            return;
-        }
-
-        showProgressDialog();
-
         // send request
         ConnectionHandler connectionHandler = ApiRequests.fieldSizes(this, this);
         cancelWhenDestroyed(connectionHandler);
@@ -281,8 +301,6 @@ public class StadiumInfoActivity extends ParentActivity {
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
-        hideProgressDialog();
-
         // check tag
         if (Const.API_GET_STADIUM_INFO.equals(tag)) {
             Stadium stadium = (Stadium) response;
@@ -296,6 +314,9 @@ public class StadiumInfoActivity extends ParentActivity {
                 // enable the controls
                 enableControls(true);
             } else {
+                // hide progress
+                hideProgressDialog();
+
                 // get and show error msg
                 String errorMsg = AppUtils.getResponseError(this, stadium);
                 if (errorMsg == null) {
@@ -307,6 +328,9 @@ public class StadiumInfoActivity extends ParentActivity {
                 enableControls(false);
             }
         } else if (Const.API_FIELD_SIZE.equals(tag)) {
+            // hide progress
+            hideProgressDialog();
+
             // get field capacities and reverse it
             fieldCapacities = (String[]) response;
             fieldCapacities = (String[]) Utils.reverseArray(fieldCapacities);
@@ -325,9 +349,8 @@ public class StadiumInfoActivity extends ParentActivity {
     public void onFail(Exception ex, int statusCode, String tag) {
         hideProgressDialog();
 
-        if (Const.API_GET_TEAM_INFO.equals(tag)) {
-            super.onFail(ex, statusCode, tag);
-            // disable the controls
+        if (Const.API_GET_STADIUM_INFO.equals(tag)) {
+            Utils.showShortToast(this, R.string.failed_loading_info);
             enableControls(false);
         } else if (Const.API_FIELD_SIZE.equals(tag)) {
             Utils.showShortToast(this, R.string.failed_loading_field_sizes);
@@ -359,8 +382,6 @@ public class StadiumInfoActivity extends ParentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // get the fragment
-
             // get fragment and check it
             StadiumPeriodsFragment fragment = fragments[position];
             if (fragment == null) {

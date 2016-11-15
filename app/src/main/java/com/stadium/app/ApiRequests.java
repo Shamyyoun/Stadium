@@ -5,6 +5,7 @@ import android.content.Context;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
+import com.stadium.app.models.bodies.AvailableReservationsBody;
 import com.stadium.app.models.bodies.CaptainBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
 import com.stadium.app.models.bodies.EditTeamBody;
@@ -26,6 +27,8 @@ import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.models.responses.ServerResponse;
 import com.stadium.app.utils.AppUtils;
+
+import java.util.List;
 
 /**
  * Created by Shamyyoun on 5/31/16.
@@ -646,6 +649,66 @@ public class ApiRequests {
         ConnectionHandler<Stadium> connectionHandler = new ConnectionHandler(context,
                 url, Stadium.class, listener, Const.API_GET_STADIUM_INFO);
         connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation[]> availableReservationSize(Context context, ConnectionListener<Reservation[]> listener,
+                                                                            int stadiumId, String date, String fieldSize) {
+        // create the request body
+        AvailableReservationsBody body = new AvailableReservationsBody();
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        body.setStadium(stadium);
+        Reservation reservation = new Reservation();
+        reservation.setDate(date);
+        Field field = new Field();
+        field.setFieldSize(fieldSize);
+        reservation.setField(field);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_AVAILABLE_RESERVATION_SIZE), Reservation[].class,
+                listener, body, Const.API_AVAILABLE_RESERVATION_SIZE);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation> addReservation(Context context, ConnectionListener<Reservation> listener,
+                                                                int userId, String userToken,
+                                                                int teamId, List<Integer> playersIds,
+                                                                int intervalNum, int price,
+                                                                int playersCount, int fieldId,
+                                                                String date, String timeStart, String timeEnd) {
+        // create the request body
+        ReservationActionBody body = new ReservationActionBody();
+        CaptainBody captain = new CaptainBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        captain.setUserinfo(userInfo);
+        Team hisTeam = new Team();
+        hisTeam.setId(teamId);
+        captain.setHisTeam(hisTeam);
+        body.setCaptain(captain);
+        Reservation reservation = new Reservation();
+        reservation.setPlayerId(playersIds);
+        reservation.setIntrvalNum(intervalNum);
+        reservation.setPrice(price);
+        reservation.setPlayerCounter(playersCount);
+        Field field = new Field();
+        field.setId(fieldId);
+        reservation.setField(field);
+        reservation.setDate(date);
+        reservation.setTimeStart(timeStart);
+        reservation.setTimeEnd(timeEnd);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler<Reservation> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_ADD_RESERVATION), Reservation.class, listener,
+                body, Const.API_ADD_RESERVATION);
+        connectionHandler.executeRawJson();
         return connectionHandler;
     }
 }

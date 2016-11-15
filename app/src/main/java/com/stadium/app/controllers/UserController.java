@@ -3,6 +3,7 @@ package com.stadium.app.controllers;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,5 +59,14 @@ public class UserController {
         }
 
         return users;
+    }
+
+    public List<Integer> getIds(List<User> users) {
+        List<Integer> ids = new ArrayList<>(users.size());
+        for (User user : users) {
+            ids.add(user.getId());
+        }
+
+        return ids;
     }
 }

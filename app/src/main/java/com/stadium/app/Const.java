@@ -10,6 +10,7 @@ public class Const {
     public static final String APP_FILES_DIR = "/.stadium";
     public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
     public static final int STADIUMS_SEARCH_MAX_DATE_DAYS_FROM_NOW = 14;
+    public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
 
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";
@@ -51,6 +52,8 @@ public class Const {
     public static final String API_ALL_DURATIONS = "allDurations";
     public static final String API_STADIUMS_FILTERS = "stadiumsFilters";
     public static final String API_GET_STADIUM_INFO = "getStadiumInfo";
+    public static final String API_AVAILABLE_RESERVATION_SIZE = "AvailbleReservation_Size";
+    public static final String API_ADD_RESERVATION = "AddReservation";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

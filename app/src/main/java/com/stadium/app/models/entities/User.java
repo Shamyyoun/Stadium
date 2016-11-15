@@ -3,11 +3,12 @@ package com.stadium.app.models.entities;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.stadium.app.models.Checkable;
 import com.stadium.app.models.responses.ServerResponse;
 
 import java.io.Serializable;
 
-public class User extends ServerResponse implements Cloneable, Serializable {
+public class User extends ServerResponse implements Cloneable, Serializable, Checkable {
     public static final int TYPE_PLAYER = 1;
 
     @SerializedName("AdminStadium")
@@ -58,6 +59,8 @@ public class User extends ServerResponse implements Cloneable, Serializable {
     @SerializedName("bio")
     @Expose
     private String bio;
+
+    private boolean checked;
 
     /**
      * @return The adminStadium
@@ -281,5 +284,16 @@ public class User extends ServerResponse implements Cloneable, Serializable {
      */
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    @Override
+    public boolean isChecked() {
+        return checked
+                ;
     }
 }

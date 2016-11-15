@@ -91,6 +91,16 @@ public class AppUtils {
      * @param response
      */
     public static String getResponseError(Context context, Object response) {
+        return getResponseError(context, response, R.string.error_doing_operation);
+    }
+
+    /**
+     * method, used to get response errors array as one string or the default string
+     *
+     * @param context
+     * @param response
+     */
+    public static String getResponseError(Context context, Object response, int defMsgId) {
         String error = null;
 
         if (response instanceof ServerResponse) {
@@ -99,7 +109,7 @@ public class AppUtils {
         }
 
         if (Utils.isNullOrEmpty(error)) {
-            error = context.getString(R.string.error_doing_operation);
+            error = context.getString(defMsgId);
         }
         return error;
     }
