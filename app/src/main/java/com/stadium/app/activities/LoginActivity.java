@@ -107,19 +107,20 @@ public class LoginActivity extends ParentActivity {
         hideProgressDialog();
         User user = (User) response;
         if (statusCode == Const.SER_CODE_200) {
-            // TODO remove when implement admin
-            if (user.getAdminStadium() != null) {
-                Utils.showLongToast(this, "Admin is not implemented yet.");
-                return;
-            }
-
-            // save it
+            // save him
             ActiveUserController userController = new ActiveUserController(this);
             userController.setUser(user);
             userController.save();
 
-            // goto main activity
-            Intent intent = new Intent(this, MainActivity.class);
+            // check his role in the system, if admin or not to goto suitable activity
+            Intent intent;
+            if (user.getAdminStadium() != null) {
+                intent = new Intent(this, AdminMainActivity.class);
+            } else {
+                intent = new Intent(this, PlayerMainActivity.class);
+            }
+
+            // goto suitable activity
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else {

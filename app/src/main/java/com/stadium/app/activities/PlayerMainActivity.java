@@ -5,29 +5,29 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stadium.app.R;
-import com.stadium.app.fragments.AdminHomeFragment;
-import com.stadium.app.fragments.BlockedTeamsFragment;
-import com.stadium.app.fragments.RepeatedReservationsFragment;
-import com.stadium.app.fragments.StadiumFragment;
+import com.stadium.app.fragments.MyTeamsFragment;
+import com.stadium.app.fragments.PlayerHomeFragment;
+import com.stadium.app.fragments.PlayersFragment;
+import com.stadium.app.fragments.ReservationsFragment;
 import com.stadium.app.fragments.StadiumsFragment;
 
-public class AdminMainActivity extends MainActivity {
+public class PlayerMainActivity extends MainActivity {
 
     private TextView tvHome;
     private TextView tvStadiums;
-    private TextView tvStadium;
-    private TextView tvBlocked;
-    private TextView tvRepeated;
+    private TextView tvReservations;
+    private TextView tvPlayers;
+    private TextView tvMyTeam;
 
-    private AdminHomeFragment homeFragment;
+    private PlayerHomeFragment homeFragment;
     private StadiumsFragment stadiumsFragment;
-    private StadiumFragment stadiumFragment;
-    private BlockedTeamsFragment blockedFragment;
-    private RepeatedReservationsFragment repeatedFragment;
+    private ReservationsFragment reservationsFragment;
+    private PlayersFragment playersFragment;
+    private MyTeamsFragment myTeamsFragment;
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_admin_main;
+        return R.layout.activity_player_main;
     }
 
     @Override
@@ -37,16 +37,16 @@ public class AdminMainActivity extends MainActivity {
         // init tabs
         tvHome = (TextView) findViewById(R.id.tv_home);
         tvStadiums = (TextView) findViewById(R.id.tv_stadiums);
-        tvStadium = (TextView) findViewById(R.id.tv_stadium);
-        tvBlocked = (TextView) findViewById(R.id.tv_blocked);
-        tvRepeated = (TextView) findViewById(R.id.tv_repeated);
+        tvReservations = (TextView) findViewById(R.id.tv_reservations);
+        tvPlayers = (TextView) findViewById(R.id.tv_players);
+        tvMyTeam = (TextView) findViewById(R.id.tv_my_teams);
 
         // add tabs click listeners
         tvHome.setOnClickListener(this);
         tvStadiums.setOnClickListener(this);
-        tvStadium.setOnClickListener(this);
-        tvBlocked.setOnClickListener(this);
-        tvRepeated.setOnClickListener(this);
+        tvReservations.setOnClickListener(this);
+        tvPlayers.setOnClickListener(this);
+        tvMyTeam.setOnClickListener(this);
     }
 
     @Override
@@ -62,9 +62,9 @@ public class AdminMainActivity extends MainActivity {
         switch (v.getId()) {
             case R.id.tv_home:
             case R.id.tv_stadiums:
-            case R.id.tv_stadium:
-            case R.id.tv_blocked:
-            case R.id.tv_repeated:
+            case R.id.tv_reservations:
+            case R.id.tv_players:
+            case R.id.tv_my_teams:
                 selectTab(v);
                 break;
 
@@ -77,15 +77,15 @@ public class AdminMainActivity extends MainActivity {
         // deselect all tabs first
         tvHome.setSelected(false);
         tvStadiums.setSelected(false);
-        tvStadium.setSelected(false);
-        tvBlocked.setSelected(false);
-        tvRepeated.setSelected(false);
+        tvReservations.setSelected(false);
+        tvPlayers.setSelected(false);
+        tvMyTeam.setSelected(false);
 
         // switch to load the tab fragment
         switch (tvTab.getId()) {
             case R.id.tv_home:
                 if (homeFragment == null) {
-                    homeFragment = new AdminHomeFragment();
+                    homeFragment = new PlayerHomeFragment();
                 }
                 loadFragment(R.id.container, homeFragment);
                 break;
@@ -97,25 +97,25 @@ public class AdminMainActivity extends MainActivity {
                 loadFragment(R.id.container, stadiumsFragment);
                 break;
 
-            case R.id.tv_stadium:
-                if (stadiumFragment == null) {
-                    stadiumFragment = new StadiumFragment();
+            case R.id.tv_reservations:
+                if (reservationsFragment == null) {
+                    reservationsFragment = new ReservationsFragment();
                 }
-                loadFragment(R.id.container, stadiumFragment);
+                loadFragment(R.id.container, reservationsFragment);
                 break;
 
-            case R.id.tv_blocked:
-                if (blockedFragment == null) {
-                    blockedFragment = new BlockedTeamsFragment();
+            case R.id.tv_players:
+                if (playersFragment == null) {
+                    playersFragment = new PlayersFragment();
                 }
-                loadFragment(R.id.container, blockedFragment);
+                loadFragment(R.id.container, playersFragment);
                 break;
 
-            case R.id.tv_repeated:
-                if (repeatedFragment == null) {
-                    repeatedFragment = new RepeatedReservationsFragment();
+            case R.id.tv_my_teams:
+                if (myTeamsFragment == null) {
+                    myTeamsFragment = new MyTeamsFragment();
                 }
-                loadFragment(R.id.container, repeatedFragment);
+                loadFragment(R.id.container, myTeamsFragment);
                 break;
         }
 

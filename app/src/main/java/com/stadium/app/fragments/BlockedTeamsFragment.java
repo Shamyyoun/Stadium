@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by karam on 8/10/16.
  */
-public class AdminBlockedFragment extends ParentFragment {
+public class BlockedTeamsFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
     private BlockedAdapter blockedAdapter;

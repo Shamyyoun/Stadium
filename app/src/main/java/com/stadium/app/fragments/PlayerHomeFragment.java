@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class HomeFragment extends ProgressFragment implements OnItemClickListener {
+public class PlayerHomeFragment extends ProgressFragment implements OnItemClickListener {
     private ActiveUserController userController;
     private View layoutImage;
     private ImageView ivImage;
@@ -104,7 +104,7 @@ public class HomeFragment extends ProgressFragment implements OnItemClickListene
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_player_home;
     }
 
     @Override

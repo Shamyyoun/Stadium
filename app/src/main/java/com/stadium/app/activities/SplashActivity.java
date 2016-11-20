@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import com.stadium.app.R;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.models.entities.User;
 
 public class SplashActivity extends ParentActivity {
     private static final int SPLASH_DURATION = 2 * 1000;
@@ -20,8 +21,16 @@ public class SplashActivity extends ParentActivity {
         // check saved user
         ActiveUserController userController = new ActiveUserController(this);
         if (userController.hasLoggedInUser()) {
-            // goto main activity
-            Intent intent = new Intent(this, MainActivity.class);
+            // check his role in the system, if admin or not to goto suitable activity
+            User user = userController.getUser();
+            Intent intent;
+            if (user.getAdminStadium() != null) {
+                intent = new Intent(this, AdminMainActivity.class);
+            } else {
+                intent = new Intent(this, PlayerMainActivity.class);
+            }
+
+            // goto suitable activity
             startActivity(intent);
         } else {
             // start splash
@@ -29,7 +38,7 @@ public class SplashActivity extends ParentActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    // goto suitable activity
+                    // goto splash activity
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }

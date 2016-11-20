@@ -45,7 +45,7 @@
             android:name=".activities.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.PlayerMainActivity" />
 
         <activity
             android:name=".activities.SignUpActivity"

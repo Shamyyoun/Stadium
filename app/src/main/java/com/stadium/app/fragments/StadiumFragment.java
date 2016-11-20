@@ -24,7 +24,7 @@ import java.util.List;
 /*
  * Created by karam on 8/10/16.
  */
-public class AdminStadeFragment extends ParentFragment {
+public class StadiumFragment extends ParentFragment {
 
     private RecyclerView recyclerView;
     private AdminStadeAdapter adapter;

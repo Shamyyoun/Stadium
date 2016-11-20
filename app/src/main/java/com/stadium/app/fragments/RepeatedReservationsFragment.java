@@ -12,7 +12,7 @@ import com.stadium.app.R;
 /**
  * Created by karam on 8/10/16.
  */
-public class AdminRepeatedFragment extends ParentFragment {
+public class RepeatedReservationsFragment extends ParentFragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
