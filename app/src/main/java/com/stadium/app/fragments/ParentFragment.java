@@ -109,7 +109,7 @@ public class ParentFragment extends Fragment implements View.OnClickListener, Co
     public void onDestroy() {
         // cancel requests if found
         for (ConnectionHandler connectionHandler : connectionHandlers) {
-            connectionHandler.cancel(true);
+            if (connectionHandler != null) connectionHandler.cancel(true);
         }
 
         super.onDestroy();

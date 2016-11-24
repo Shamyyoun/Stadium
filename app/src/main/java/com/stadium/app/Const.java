@@ -54,6 +54,8 @@ public class Const {
     public static final String API_GET_STADIUM_INFO = "getStadiumInfo";
     public static final String API_AVAILABLE_RESERVATION_SIZE = "AvailbleReservation_Size";
     public static final String API_ADD_RESERVATION = "AddReservation";
+    public static final String API_TODAY_RESERVATIONS = "TodayReservations";
+    public static final String API_GET_RESERVATIONS = "getReservations";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -89,6 +91,7 @@ public class Const {
     public static final String KEY_FILTER = "filter";
     public static final String KEY_RESERVATION = "reservation";
     public static final String KEY_TOOLBAR_TITLE = "toolbar_title";
+    public static final String KEY_RESERVATIONS_TYPE = "reservations_type";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;

@@ -85,7 +85,7 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         // cancel requests if found
         for (ConnectionHandler connectionHandler : connectionHandlers) {
-            connectionHandler.cancel(true);
+            if (connectionHandler != null) connectionHandler.cancel(true);
         }
 
         super.onDetachedFromRecyclerView(recyclerView);

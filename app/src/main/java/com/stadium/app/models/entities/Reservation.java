@@ -11,6 +11,7 @@ import java.util.List;
 public class Reservation extends ServerResponse implements Serializable {
     public static final String DATE_FORMAT = "yyyy/MM/dd";
     public static final String TIME_FORMAT = "hh:mm:ss";
+    public static final String CONFIRM_WAITING = "waiting";
 
     @SerializedName("Id")
     @Expose
@@ -26,7 +27,7 @@ public class Reservation extends ServerResponse implements Serializable {
     private Object absent;
     @SerializedName("confirm")
     @Expose
-    private Object confirm;
+    private String confirm;
     @SerializedName("counter")
     @Expose
     private boolean counter;
@@ -120,14 +121,14 @@ public class Reservation extends ServerResponse implements Serializable {
     /**
      * @return The confirm
      */
-    public Object getConfirm() {
+    public String getConfirm() {
         return confirm;
     }
 
     /**
      * @param confirm The confirm
      */
-    public void setConfirm(Object confirm) {
+    public void setConfirm(String confirm) {
         this.confirm = confirm;
     }
 

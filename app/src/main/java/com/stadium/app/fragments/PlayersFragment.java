@@ -20,6 +20,7 @@ import com.stadium.app.activities.PlayersActivity;
 import com.stadium.app.activities.PlayersSearchActivity;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.OrderController;
 import com.stadium.app.controllers.SearchController;
 import com.stadium.app.dialogs.OrderDialog;
@@ -42,6 +43,7 @@ import java.util.List;
  */
 public class PlayersFragment extends ProgressFragment implements OnPlayerAddedListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
+    private ActiveUserController userController;
     private SearchController searchController;
     private OrderController orderController;
     private TextView tvOrderBy;
@@ -81,6 +83,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         }
 
         // create controllers
+        userController = new ActiveUserController(activity);
         searchController = new SearchController();
         orderController = new OrderController();
 
@@ -191,8 +194,11 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         showProgress();
         resetFilters();
 
+        // get active user
+        User user = userController.getUser();
+
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.allPlayers(activity, this);
+        ConnectionHandler connectionHandler = ApiRequests.allPlayers(activity, this, user.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 

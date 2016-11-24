@@ -10,6 +10,9 @@ import com.stadium.app.R;
 import com.stadium.app.dialogs.MessageDialog;
 import com.stadium.app.models.responses.ServerResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Shamyyoun on 22/1/16.
  * A class, with utility methods useful only for the current project "private car"
@@ -164,11 +167,11 @@ public class AppUtils {
      * @param context
      * @return
      */
-    public static String[] prepareContactsPhonesArr(Context context) {
+    public static List<String> prepareContactsPhonesList(Context context) {
         Cursor cursor = context.getContentResolver()
                 .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
-        String[] phoneNumbers = new String[cursor.getCount()];
+        List<String> phoneNumbers = new ArrayList<>(cursor.getCount());
         int i = 0;
         while (cursor.moveToNext()) {
             // get and prepare the phone number
@@ -182,7 +185,7 @@ public class AppUtils {
             phoneNumber = phoneNumber.replaceAll("\\+", "00");
 
             // add it to the array
-            phoneNumbers[i] = phoneNumber;
+            phoneNumbers.add(phoneNumber);
             i++;
         }
         cursor.close();

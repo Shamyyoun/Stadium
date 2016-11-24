@@ -1,27 +1,32 @@
 package com.stadium.app.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stadium.app.Const;
 import com.stadium.app.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.stadium.app.models.enums.ReservationsType;
+import com.stadium.app.views.SlidingTabLayout;
 
 /*
  * Created by karam on 8/10/16.
  */
 public class AdminHomeFragment extends ParentFragment {
-
-    private TabLayout tabLayout;
+    private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
+
+    private String[] tabTitles;
+    private PagerAdapter pagerAdapter;
+    private AdminReservationsFragment todayReservationsFragment;
+    private AdminReservationsFragment acceptedReservationsFragment;
+    private AdminReservationsFragment newReservationsFragment;
+    private AdminReservationsFragment previousReservationsFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,53 +39,91 @@ public class AdminHomeFragment extends ParentFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_admin_home, container, false);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        // init views
+        tabLayout = (SlidingTabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        // customize view pager & its tab layout
+        tabTitles = getResources().getStringArray(R.array.admin_home_tabs);
+        tabLayout.setDistributeEvenly(true);
+        updatePagerUI();
 
         return rootView;
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new PrecedentReservationFragment(), "حجوزات سابقة");
-        adapter.addFragment(new NewReservationFragment(), "حجوزات جديدة");
-        adapter.addFragment(new AcceptedReservationFragment(), "حجوزات مقبولة");
-        adapter.addFragment(new TodayReservationFragment(), "حجوزات اليوم");
+    private void updatePagerUI() {
+        pagerAdapter = new PagerAdapter(activity.getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setViewPager(viewPager);
 
-        viewPager.setAdapter(adapter);
+        // select last tab by default as the most right one
+        viewPager.setCurrentItem(tabTitles.length - 1);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+    public class PagerAdapter extends FragmentStatePagerAdapter {
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+        public PagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            Fragment fragment = null;
+            ReservationsType reservationsType = null;
+
+            switch (position) {
+                case 0:
+                    if (todayReservationsFragment == null) {
+                        todayReservationsFragment = new AdminReservationsFragment();
+                        reservationsType = ReservationsType.ADMIN_TODAY_RESERVATIONS;
+                    }
+                    fragment = todayReservationsFragment;
+
+                    break;
+
+                case 1:
+                    if (acceptedReservationsFragment == null) {
+                        acceptedReservationsFragment = new AdminReservationsFragment();
+                        reservationsType = ReservationsType.ADMIN_ACCEPTED_RESERVATIONS;
+                    }
+                    fragment = acceptedReservationsFragment;
+
+                    break;
+
+                case 2:
+                    if (newReservationsFragment == null) {
+                        newReservationsFragment = new AdminReservationsFragment();
+                        reservationsType = ReservationsType.ADMIN_NEW_RESERVATIONS;
+                    }
+                    fragment = newReservationsFragment;
+
+                    break;
+
+                case 3:
+                    if (previousReservationsFragment == null) {
+                        previousReservationsFragment = new AdminReservationsFragment();
+                        reservationsType = ReservationsType.ADMIN_PREVIOUS_RESERVATIONS;
+                    }
+                    fragment = previousReservationsFragment;
+
+                    break;
+            }
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Const.KEY_RESERVATIONS_TYPE, reservationsType);
+            fragment.setArguments(bundle);
+            return fragment;
         }
 
         @Override
         public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
+            return tabTitles.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+            return tabTitles[position];
         }
     }
-
 }
 

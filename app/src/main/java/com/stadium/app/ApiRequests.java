@@ -5,8 +5,10 @@ import android.content.Context;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
+import com.stadium.app.models.bodies.AdminBody;
 import com.stadium.app.models.bodies.AvailableReservationsBody;
 import com.stadium.app.models.bodies.CaptainBody;
+import com.stadium.app.models.bodies.CheckListOfContactsBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
 import com.stadium.app.models.bodies.EditTeamBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
@@ -516,20 +518,28 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener) {
+    public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener, int userId) {
+        // prepare url
+        String url = AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS) + "/" + userId;
+
         // create & execute the request
-        ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS), User[].class, listener, Const.API_ALL_PLAYERS);
+        ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context, url,
+                User[].class, listener, Const.API_ALL_PLAYERS);
         connectionHandler.executeGet();
         return connectionHandler;
     }
 
     public static ConnectionHandler<User[]> checkListOfContact(Context context, ConnectionListener<User[]> listener,
-                                                               String[] phoneNumbers) {
+                                                               List<String> phoneNumbers, int userId) {
+        // create the request body
+        CheckListOfContactsBody body = new CheckListOfContactsBody();
+        body.setId(userId);
+        body.setContacts(phoneNumbers);
+
         // create & execute the request
         ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_CHECK_LIST_OF_CONTACT), User[].class, listener,
-                phoneNumbers, Const.API_CHECK_LIST_OF_CONTACT);
+                AppUtils.getUserApiUrl(Const.API_CHECK_LIST_OF_CONTACT), User[].class,
+                listener, body, Const.API_CHECK_LIST_OF_CONTACT);
         connectionHandler.setTimeout(3 * 60 * 1000);
         connectionHandler.executeRawJson();
         return connectionHandler;
@@ -676,10 +686,11 @@ public class ApiRequests {
 
     public static ConnectionHandler<Reservation> addReservation(Context context, ConnectionListener<Reservation> listener,
                                                                 int userId, String userToken,
-                                                                int teamId, List<Integer> playersIds,
-                                                                int intervalNum, int price,
-                                                                int playersCount, int fieldId,
-                                                                String date, String timeStart, String timeEnd) {
+                                                                int teamId, String teamName,
+                                                                List<Integer> playersIds, int intervalNum,
+                                                                int price, int playersCount,
+                                                                int fieldId, String date,
+                                                                String timeStart, String timeEnd) {
         // create the request body
         ReservationActionBody body = new ReservationActionBody();
         CaptainBody captain = new CaptainBody();
@@ -689,6 +700,7 @@ public class ApiRequests {
         captain.setUserinfo(userInfo);
         Team hisTeam = new Team();
         hisTeam.setId(teamId);
+        hisTeam.setName(teamName);
         captain.setHisTeam(hisTeam);
         body.setCaptain(captain);
         Reservation reservation = new Reservation();
@@ -708,6 +720,46 @@ public class ApiRequests {
         ConnectionHandler<Reservation> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getCaptainApiUrl(Const.API_ADD_RESERVATION), Reservation.class, listener,
                 body, Const.API_ADD_RESERVATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation[]> todayReservations(Context context, ConnectionListener<Reservation[]> listener,
+                                                                     int userId, String userToken, int stadiumId) {
+        // create the request body
+        AdminBody body = new AdminBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUserinfo(user);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        body.setHisStadium(stadium);
+
+        // create & execute the request
+        ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_TODAY_RESERVATIONS), Reservation[].class,
+                listener, body, Const.API_TODAY_RESERVATIONS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation[]> getReservations(Context context, ConnectionListener<Reservation[]> listener,
+                                                                   int userId, String userToken, int stadiumId) {
+        // create the request body
+        AdminBody body = new AdminBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUserinfo(user);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        body.setHisStadium(stadium);
+
+        // create & execute the request
+        ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_GET_RESERVATIONS), Reservation[].class,
+                listener, body, Const.API_GET_RESERVATIONS);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

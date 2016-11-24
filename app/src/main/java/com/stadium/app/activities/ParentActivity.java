@@ -84,7 +84,7 @@ public class ParentActivity extends AppCompatActivity implements View.OnClickLis
     protected void onDestroy() {
         // cancel requests if found
         for (ConnectionHandler connectionHandler : connectionHandlers) {
-            connectionHandler.cancel(true);
+            if (connectionHandler != null) connectionHandler.cancel(true);
         }
 
         super.onDestroy();

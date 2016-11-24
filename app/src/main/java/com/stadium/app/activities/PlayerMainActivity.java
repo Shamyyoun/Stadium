@@ -8,7 +8,7 @@ import com.stadium.app.R;
 import com.stadium.app.fragments.MyTeamsFragment;
 import com.stadium.app.fragments.PlayerHomeFragment;
 import com.stadium.app.fragments.PlayersFragment;
-import com.stadium.app.fragments.ReservationsFragment;
+import com.stadium.app.fragments.PlayerReservationsFragment;
 import com.stadium.app.fragments.StadiumsFragment;
 
 public class PlayerMainActivity extends MainActivity {
@@ -21,7 +21,7 @@ public class PlayerMainActivity extends MainActivity {
 
     private PlayerHomeFragment homeFragment;
     private StadiumsFragment stadiumsFragment;
-    private ReservationsFragment reservationsFragment;
+    private PlayerReservationsFragment reservationsFragment;
     private PlayersFragment playersFragment;
     private MyTeamsFragment myTeamsFragment;
 
@@ -99,7 +99,7 @@ public class PlayerMainActivity extends MainActivity {
 
             case R.id.tv_reservations:
                 if (reservationsFragment == null) {
-                    reservationsFragment = new ReservationsFragment();
+                    reservationsFragment = new PlayerReservationsFragment();
                 }
                 loadFragment(R.id.container, reservationsFragment);
                 break;

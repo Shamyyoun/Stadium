@@ -30,5 +30,6 @@
     <dimen name="small_player_image_size">50dp</dimen>
     <dimen name="alert_dialog_text_spacing">2dp</dimen>
     <dimen name="periods_circle_size">90dp</dimen>
+    <dimen name="reservation_large_team_image_size">65dp</dimen>
 
 </resources>

@@ -51,7 +51,7 @@ public class PlayerHomeFragment extends ProgressFragment implements OnItemClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.home);
-        createOptionsMenu(R.menu.menu_home);
+        createOptionsMenu(R.menu.menu_player_home);
     }
 
     @Override

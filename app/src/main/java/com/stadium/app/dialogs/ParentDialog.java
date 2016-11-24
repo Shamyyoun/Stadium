@@ -127,7 +127,7 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
     public void dismiss() {
         // cancel requests if found
         for (ConnectionHandler connectionHandler : connectionHandlers) {
-            connectionHandler.cancel(true);
+            if (connectionHandler != null) connectionHandler.cancel(true);
         }
 
         super.dismiss();

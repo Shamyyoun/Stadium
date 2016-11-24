@@ -26,6 +26,8 @@ import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.views.SlidingTabLayout;
 
+import java.util.List;
+
 /**
  * Created by karam on 7/26/16.
  */
@@ -51,6 +53,7 @@ public class TeamInfoActivity extends ParentActivity {
 
     private boolean enableControls = true;
     private Team team;
+    private List<User> players; // this is to update the reservations fragment with players cause it needs them
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -325,6 +328,7 @@ public class TeamInfoActivity extends ParentActivity {
                 case 0:
                     if (reservationsFragment == null) {
                         reservationsFragment = new TeamReservationsFragment();
+                        reservationsFragment.updateTeamPlayers(players);
                     }
                     fragment = reservationsFragment;
 
@@ -351,6 +355,13 @@ public class TeamInfoActivity extends ParentActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return tabTitles[position];
+        }
+    }
+
+    public void updatePlayers(List<User> players) {
+        this.players = players;
+        if (reservationsFragment != null) {
+            reservationsFragment.updateTeamPlayers(players);
         }
     }
 }

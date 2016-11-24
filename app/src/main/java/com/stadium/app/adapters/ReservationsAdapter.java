@@ -38,6 +38,8 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
     private TeamController teamController;
     private ActiveUserController userController;
     private boolean isTeamReservations;
+    // the team players when the adapter is a team reservations
+    // to check if the user is a player in this team or not and specify what he can do
     private List<User> teamPlayers;
 
     public ReservationsAdapter(Context context, List<Reservation> data, int layoutId) {
@@ -138,12 +140,24 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // check if these are team reservations
         if (isTeamReservations && teamPlayers != null) {
-            // check if the user is a not player in this team
-            // to make the content layout not clickable otherwise it is clickable by default
-            if (!teamController.isTeamPlayer(teamPlayers, user.getId())) {
+            // check if the user is a player in this team
+            if (teamController.isTeamPlayer(teamPlayers, user.getId())) {
+                // show the indicator
+                holder.ivIndicator.setVisibility(View.VISIBLE);
+
+                // check if the reservation is waiting to customize views
+                if (Reservation.CONFIRM_WAITING.equals(item.getConfirm())) {
+                    holder.layoutContent.setEnabled(false);
+                    holder.ivIndicator.setImageResource(R.drawable.warning_icon);
+                } else {
+                    holder.layoutContent.setEnabled(true);
+                    holder.ivIndicator.setImageResource(R.drawable.arrow_left);
+                }
+            } else {
                 // he is not a player, so make the content layout not clickable
-                holder.ivArrow.setVisibility(View.GONE);
-                holder.layoutContent.setClickable(false);
+                // to prevent him from clicking and opening the attendance dialog
+                holder.ivIndicator.setVisibility(View.GONE);
+                holder.layoutContent.setEnabled(false);
             }
         }
 
@@ -231,7 +245,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
     class ViewHolder extends ParentRecyclerViewHolder {
         private View layoutContent;
-        private ImageView ivArrow;
+        private ImageView ivIndicator;
         private ImageView ivImage;
         private TextView tvName;
         private TextView tvStadiumAddress;
@@ -244,7 +258,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             super(itemView);
 
             layoutContent = findViewById(R.id.layout_content);
-            ivArrow = (ImageView) findViewById(R.id.iv_arrow);
+            ivIndicator = (ImageView) findViewById(R.id.iv_indicator);
             ivImage = (ImageView) findViewById(R.id.iv_image);
             tvName = (TextView) findViewById(R.id.tv_name);
             tvStadiumAddress = (TextView) findViewById(R.id.tv_stadium_address);
@@ -259,7 +273,8 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         this.isTeamReservations = isTeamReservations;
     }
 
-    public void setTeamPlayers(List<User> teamPlayers) {
+    public void updateTeamPlayers(List<User> teamPlayers) {
         this.teamPlayers = teamPlayers;
+        notifyDataSetChanged();
     }
 }

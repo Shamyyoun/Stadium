@@ -278,4 +278,11 @@
         <item>اللاعبين</item>
     </string-array>
 
+    <string-array name="admin_home_tabs">
+        <item>حجوزات سابقة</item>
+        <item>حجوزات جديدة</item>
+        <item>حجوزات مقبولة</item>
+        <item>حجوزات اليوم</item>
+    </string-array>
+
 </resources>

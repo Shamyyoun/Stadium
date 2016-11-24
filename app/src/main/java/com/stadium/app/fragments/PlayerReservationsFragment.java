@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class ReservationsFragment extends ProgressFragment {
+public class PlayerReservationsFragment extends ProgressFragment {
     private ActiveUserController userController;
     private Button btnAdd;
     private RecyclerView recyclerView;
@@ -90,7 +90,7 @@ public class ReservationsFragment extends ProgressFragment {
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.fragment_resrevations;
+        return R.layout.fragment_player_resrevations;
     }
 
     @Override

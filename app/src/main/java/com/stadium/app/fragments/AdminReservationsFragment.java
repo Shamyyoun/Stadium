@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
@@ -17,40 +15,41 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Reservation;
-import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.ReservationsType;
 import com.stadium.app.utils.Utils;
-import com.stadium.app.utils.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by karam on 7/26/16.
+ * Created by Shamyyoun on 7/2/16.
  */
-public class TeamReservationsFragment extends ParentFragment {
-    private Team team;
+public class AdminReservationsFragment extends ProgressFragment {
+    private ReservationsType reservationsType;
+    private ActiveUserController userController;
     private RecyclerView recyclerView;
-    private ProgressBar pbProgress;
-    private TextView tvEmpty;
-    private TextView tvError;
-    private ReservationsAdapter adapter;
     private List<Reservation> data;
-    private List<User> teamPlayers; // this is to check if the user is a player in this team
+    private ReservationsAdapter adapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle(R.string.reservations);
+        removeOptionsMenu();
+
+        // obtain main objects
+        reservationsType = (ReservationsType) getArguments().getSerializable(Const.KEY_RESERVATIONS_TYPE);
+        userController = new ActiveUserController(activity);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_team_reservations, container, false);
-
-        // get team
-        team = (Team) getArguments().getSerializable(Const.KEY_TEAM);
+        super.onCreateView(inflater, container, savedInstanceState);
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
-        tvEmpty = (TextView) findViewById(R.id.tv_empty);
-        tvError = (TextView) findViewById(R.id.tv_error);
 
         // customize the recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
@@ -66,41 +65,73 @@ public class TeamReservationsFragment extends ParentFragment {
 
         // check data
         if (data != null) {
-            updateUI();
+            if (!data.isEmpty()) {
+                updateUI();
+            } else {
+                showEmpty(R.string.no_reservations_found);
+            }
+        } else {
+            loadData();
         }
 
         return rootView;
     }
 
+    @Override
+    protected int getContentViewResId() {
+        return R.layout.fragment_admin_resrevations;
+    }
+
+    @Override
+    protected int getMainViewResId() {
+        return R.id.swipe_layout;
+    }
+
+    @Override
+    protected OnRefreshListener getOnRefreshListener() {
+        return new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        };
+    }
+
     private void updateUI() {
-        // set the adapter
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
-        adapter.setIsTeamReservations(true);
-        adapter.updateTeamPlayers(teamPlayers);
         recyclerView.setAdapter(adapter);
         showMain();
     }
 
-    public void loadData() {
+    private void loadData() {
         // check internet connection
         if (!Utils.hasConnection(activity)) {
-            Utils.showShortToast(activity, R.string.no_internet_connection);
+            showError(R.string.no_internet_connection);
             return;
         }
 
-        showProgress();
-
-        // get active user
-        ActiveUserController userController = new ActiveUserController(activity);
+        // prepare params
         User user = userController.getUser();
+        int userId = user.getId();
+        String userToken = user.getToken();
+        int stadiumId = user.getAdminStadium().getId();
 
-        // send request
-        ConnectionHandler connectionHandler = ApiRequests.reservationsOfTeam(activity, this, user.getId(),
-                user.getToken(), team.getId());
+        // send suitable request
+        ConnectionHandler connectionHandler = null;
+        if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS) {
+            connectionHandler = ApiRequests.todayReservations(activity, this, userId, userToken, stadiumId);
+        } else if (reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
+            connectionHandler = ApiRequests.getReservations(activity, this, userId, userToken, stadiumId);
+        }
+
+        if (connectionHandler != null) {
+            showProgress();
+        }
+
         cancelWhenDestroyed(connectionHandler);
     }
 
-    public void refresh() {
+    private void refresh() {
         loadData();
     }
 
@@ -112,7 +143,7 @@ public class TeamReservationsFragment extends ParentFragment {
 
         // check size
         if (data.size() == 0) {
-            showEmpty();
+            showEmpty(R.string.no_reservations_found);
         } else {
             updateUI();
         }
@@ -120,23 +151,7 @@ public class TeamReservationsFragment extends ParentFragment {
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        showError();
-    }
-
-    private void showProgress() {
-        ViewUtil.showOneView(pbProgress, tvError, recyclerView, tvEmpty);
-    }
-
-    private void showEmpty() {
-        ViewUtil.showOneView(tvEmpty, pbProgress, tvError, recyclerView);
-    }
-
-    private void showError() {
-        ViewUtil.showOneView(tvError, tvEmpty, pbProgress, recyclerView);
-    }
-
-    private void showMain() {
-        ViewUtil.showOneView(recyclerView, tvError, tvEmpty, pbProgress);
+        showError(R.string.failed_loading_reservations);
     }
 
     @Override
@@ -144,20 +159,5 @@ public class TeamReservationsFragment extends ParentFragment {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         super.onSaveInstanceState(outState);
-    }
-
-    public void updateTeam(Team team) {
-        this.team = team;
-    }
-
-    /**
-     * this method to update the team players in this fragment when loaded from TeamPlayersFragments
-     * to check in the adapter if the current user is a player in this team and specify what he can do
-     */
-    public void updateTeamPlayers(List<User> players) {
-        teamPlayers = players;
-        if (adapter != null) {
-            adapter.updateTeamPlayers(players);
-        }
     }
 }

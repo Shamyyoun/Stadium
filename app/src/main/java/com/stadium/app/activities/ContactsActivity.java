@@ -12,6 +12,7 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.fragments.ProgressFragment;
 import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.models.SerializableListWrapper;
@@ -30,6 +31,7 @@ import java.util.List;
  */
 public class ContactsActivity extends ProgressActivity implements OnPlayerAddedListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
+    private ActiveUserController userController;
     private RecyclerView recyclerView;
     private List<User> data;
     private PlayersAdapter adapter;
@@ -40,8 +42,9 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
         super.onCreate(savedInstanceState);
         enableBackButton();
 
-        // get extras
+        // obtain main objects
         selectedTeam = (Team) getIntent().getSerializableExtra(Const.KEY_TEAM);
+        userController = new ActiveUserController(this);
 
         // customize the recycler view
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -134,10 +137,14 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
             @Override
             protected Object doInBackground(Object[] params) {
                 // get contacts
-                String[] phoneNumbers = AppUtils.prepareContactsPhonesArr(activity);
+                List<String> phoneNumbers = AppUtils.prepareContactsPhonesList(activity);
+
+                // get active user
+                User user = userController.getUser();
 
                 // send request
-                ConnectionHandler connectionHandler = ApiRequests.checkListOfContact(activity, ContactsActivity.this, phoneNumbers);
+                ConnectionHandler connectionHandler = ApiRequests.checkListOfContact(activity, ContactsActivity.this,
+                        phoneNumbers, user.getId());
                 cancelWhenDestroyed(connectionHandler);
                 return null;
             }

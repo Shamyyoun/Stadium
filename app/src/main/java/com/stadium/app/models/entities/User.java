@@ -13,7 +13,7 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
 
     @SerializedName("AdminStadium")
     @Expose
-    private Object adminStadium;
+    private Stadium adminStadium;
     @SerializedName("Id")
     @Expose
     private int id;
@@ -65,14 +65,14 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
     /**
      * @return The adminStadium
      */
-    public Object getAdminStadium() {
+    public Stadium getAdminStadium() {
         return adminStadium;
     }
 
     /**
      * @param adminStadium The AdminStadium
      */
-    public void setAdminStadium(Object adminStadium) {
+    public void setAdminStadium(Stadium adminStadium) {
         this.adminStadium = adminStadium;
     }
 

@@ -128,6 +128,9 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
         } else {
             updateUI();
         }
+
+        // update the team info activity
+        activity.updatePlayers(data);
     }
 
     @Override
