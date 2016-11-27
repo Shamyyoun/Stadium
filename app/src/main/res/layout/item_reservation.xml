@@ -99,13 +99,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp">
 
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/iv_image"
-                        style="@style/CroppedImageView"
-                        android:layout_width="@dimen/reservation_large_team_image_size"
-                        android:layout_height="@dimen/reservation_large_team_image_size"
-                        android:src="@drawable/default_image"
-                        app:riv_oval="true" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/iv_image"
+                            style="@style/CroppedImageView"
+                            android:layout_width="@dimen/reservation_large_team_image_size"
+                            android:layout_height="@dimen/reservation_large_team_image_size"
+                            android:src="@drawable/default_image"
+                            app:riv_oval="true" />
+
+                        <TextView
+                            android:id="@+id/tv_reservations_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="3dp"
+                            android:text="5/50"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/small_text"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_role"

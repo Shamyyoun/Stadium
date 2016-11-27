@@ -19,6 +19,7 @@ import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.ReservationsType;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.utils.ViewUtil;
 
@@ -75,7 +76,7 @@ public class TeamReservationsFragment extends ParentFragment {
     private void updateUI() {
         // set the adapter
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
-        adapter.setIsTeamReservations(true);
+        adapter.setReservationsType(ReservationsType.TEAM_RESERVATIONS);
         adapter.updateTeamPlayers(teamPlayers);
         recyclerView.setAdapter(adapter);
         showMain();

@@ -91,4 +91,13 @@ public class TeamController {
 
         return sameAssistant;
     }
+
+    public String getReservationAbsentTotalCount(Team team) {
+        if (team != null) {
+            String count = team.getAbsentRes() + "/" + team.getTotalRes();
+            return count;
+        } else {
+            return null;
+        }
+    }
 }

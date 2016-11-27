@@ -1,6 +1,7 @@
 package com.stadium.app.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,15 +19,17 @@ import com.stadium.app.views.SlidingTabLayout;
  * Created by karam on 8/10/16.
  */
 public class AdminHomeFragment extends ParentFragment {
+    private static final int TODAY_RES_POS = 0;
+    private static final int ACCEPTED_RES_POS = 1;
+    private static final int NEW_RES_POS = 2;
+    private static final int PREVIOUS_RES_POS = 3;
+
     private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
 
     private String[] tabTitles;
     private PagerAdapter pagerAdapter;
-    private AdminReservationsFragment todayReservationsFragment;
-    private AdminReservationsFragment acceptedReservationsFragment;
-    private AdminReservationsFragment newReservationsFragment;
-    private AdminReservationsFragment previousReservationsFragment;
+    private AdminReservationsFragment[] fragments;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,12 +55,46 @@ public class AdminHomeFragment extends ParentFragment {
     }
 
     private void updatePagerUI() {
+        // create the fragments arr
+        fragments = new AdminReservationsFragment[tabTitles.length];
+
+        // create and set the pager adapter
         pagerAdapter = new PagerAdapter(activity.getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setViewPager(viewPager);
 
-        // select last tab by default as the most right one
-        viewPager.setCurrentItem(tabTitles.length - 1);
+        // add page change listener to load the data only when the fragment is selected
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                // reverse the position cause the UI is arabic from right to left
+                position = tabTitles.length - 1 - position;
+
+                // check the fragment to load the data
+                AdminReservationsFragment fragment = fragments[position];
+                if (fragment != null) {
+                    fragment.loadDataIfRequired();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        // this trick to pass the bug of adapter creation
+        // when select the tab its fragment is still not created so can't load the data
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // select last tab by default as the most right one
+                viewPager.setCurrentItem(tabTitles.length - 1);
+            }
+        }, 10);
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -68,56 +105,48 @@ public class AdminHomeFragment extends ParentFragment {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
+            // reverse the position cause the UI is arabic from right to left
+            position = tabTitles.length - 1 - position;
+
+            // get the fragment and check it
+            AdminReservationsFragment fragment = fragments[position];
+            if (fragment != null) {
+                return fragment;
+            }
+
+            // prepare the reservations type to create the fragment
             ReservationsType reservationsType = null;
-
             switch (position) {
-                case 0:
-                    if (todayReservationsFragment == null) {
-                        todayReservationsFragment = new AdminReservationsFragment();
-                        reservationsType = ReservationsType.ADMIN_TODAY_RESERVATIONS;
-                    }
-                    fragment = todayReservationsFragment;
-
+                case TODAY_RES_POS:
+                    reservationsType = ReservationsType.ADMIN_TODAY_RESERVATIONS;
                     break;
 
-                case 1:
-                    if (acceptedReservationsFragment == null) {
-                        acceptedReservationsFragment = new AdminReservationsFragment();
-                        reservationsType = ReservationsType.ADMIN_ACCEPTED_RESERVATIONS;
-                    }
-                    fragment = acceptedReservationsFragment;
-
+                case ACCEPTED_RES_POS:
+                    reservationsType = ReservationsType.ADMIN_ACCEPTED_RESERVATIONS;
                     break;
 
-                case 2:
-                    if (newReservationsFragment == null) {
-                        newReservationsFragment = new AdminReservationsFragment();
-                        reservationsType = ReservationsType.ADMIN_NEW_RESERVATIONS;
-                    }
-                    fragment = newReservationsFragment;
-
+                case NEW_RES_POS:
+                    reservationsType = ReservationsType.ADMIN_NEW_RESERVATIONS;
                     break;
 
-                case 3:
-                    if (previousReservationsFragment == null) {
-                        previousReservationsFragment = new AdminReservationsFragment();
-                        reservationsType = ReservationsType.ADMIN_PREVIOUS_RESERVATIONS;
-                    }
-                    fragment = previousReservationsFragment;
-
+                case PREVIOUS_RES_POS:
+                    reservationsType = ReservationsType.ADMIN_PREVIOUS_RESERVATIONS;
                     break;
             }
 
+            // create the fragment and add it to the array
+            fragment = new AdminReservationsFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Const.KEY_RESERVATIONS_TYPE, reservationsType);
             fragment.setArguments(bundle);
+            fragments[position] = fragment;
+
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return tabTitles.length;
+            return fragments.length;
         }
 
         @Override

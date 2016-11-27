@@ -36,8 +36,6 @@ public class AdminReservationsFragment extends ProgressFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.reservations);
-        removeOptionsMenu();
 
         // obtain main objects
         reservationsType = (ReservationsType) getArguments().getSerializable(Const.KEY_RESERVATIONS_TYPE);
@@ -70,8 +68,6 @@ public class AdminReservationsFragment extends ProgressFragment {
             } else {
                 showEmpty(R.string.no_reservations_found);
             }
-        } else {
-            loadData();
         }
 
         return rootView;
@@ -99,8 +95,15 @@ public class AdminReservationsFragment extends ProgressFragment {
 
     private void updateUI() {
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
+        adapter.setReservationsType(reservationsType);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    public void loadDataIfRequired() {
+        if (data == null) {
+            loadData();
+        }
     }
 
     private void loadData() {
@@ -122,8 +125,13 @@ public class AdminReservationsFragment extends ProgressFragment {
             connectionHandler = ApiRequests.todayReservations(activity, this, userId, userToken, stadiumId);
         } else if (reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
             connectionHandler = ApiRequests.getReservations(activity, this, userId, userToken, stadiumId);
+        } else if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
+            connectionHandler = ApiRequests.newReservations(activity, this, userId, userToken, stadiumId);
+        } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
+            connectionHandler = ApiRequests.lastReservations(activity, this, userId, userToken, stadiumId);
         }
 
+        // show progress if suitable
         if (connectionHandler != null) {
             showProgress();
         }

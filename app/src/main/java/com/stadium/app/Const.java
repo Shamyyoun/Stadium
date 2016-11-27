@@ -56,6 +56,8 @@ public class Const {
     public static final String API_ADD_RESERVATION = "AddReservation";
     public static final String API_TODAY_RESERVATIONS = "TodayReservations";
     public static final String API_GET_RESERVATIONS = "getReservations";
+    public static final String API_NEW_RESERVATIONS = "NewReservations";
+    public static final String API_LAST_RESERVATIONS = "LastReservations";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
