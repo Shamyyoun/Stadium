@@ -21,10 +21,10 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.User;
-import com.stadium.app.models.enums.PresentConfirmType;
+import com.stadium.app.models.enums.ReservationConfirmType;
 import com.stadium.app.models.enums.EventProfileType;
 import com.stadium.app.models.enums.EventType;
-import com.stadium.app.models.enums.ReservationConfirmType;
+import com.stadium.app.models.enums.ReservationStatusType;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.DialogUtils;
@@ -89,13 +89,13 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
             holder.tvConfirmStatus.setVisibility(View.VISIBLE);
 
             // check the confirm status id
-            if (item.getConfirmStatusId() == ReservationConfirmType.NO_ACTION.getValue()) {
+            if (item.getConfirmStatusId() == ReservationStatusType.NO_ACTION.getValue()) {
                 holder.tvConfirmStatus.setText(R.string.you_are_out_by_the_captain);
-            } else if (item.getConfirmStatusId() == ReservationConfirmType.CONFIRM.getValue()) {
+            } else if (item.getConfirmStatusId() == ReservationStatusType.CONFIRM.getValue()) {
                 String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
                         item.getConfirmStatus() : getString(R.string.confirmed);
                 holder.tvConfirmStatus.setText(confirmStatus);
-            } else if (item.getConfirmStatusId() == ReservationConfirmType.DECLINE.getValue()) {
+            } else if (item.getConfirmStatusId() == ReservationStatusType.DECLINE.getValue()) {
                 String confirmStatus = !Utils.isNullOrEmpty(item.getConfirmStatus()) ?
                         item.getConfirmStatus() : getString(R.string.decline);
                 holder.tvConfirmStatus.setText(confirmStatus);
@@ -191,8 +191,8 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
                     Utils.showShortToast(context, confirm ? R.string.confirmed : R.string.decline);
 
                     // update this item
-                    event.setConfirmStatusId(confirm ? ReservationConfirmType.CONFIRM.getValue()
-                            : ReservationConfirmType.DECLINE.getValue());
+                    event.setConfirmStatusId(confirm ? ReservationStatusType.CONFIRM.getValue()
+                            : ReservationStatusType.DECLINE.getValue());
                     event.setConfirmStatus(getString(confirm ? R.string.confirmed : R.string.decline));
                     notifyItemChanged(position);
                 } else {
@@ -211,8 +211,8 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
 
         // prepare request params
         User user = userController.getUser();
-        final int confirmType = confirm ? PresentConfirmType.CONFIRM.getValue()
-                : PresentConfirmType.DECLINE.getValue();
+        final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
+                : ReservationConfirmType.DECLINE.getValue();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmPresent(context, listener, user.getId(),

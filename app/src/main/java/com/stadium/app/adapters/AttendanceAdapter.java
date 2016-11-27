@@ -18,8 +18,8 @@ import com.stadium.app.controllers.AttendanceController;
 import com.stadium.app.dialogs.ProgressDialog;
 import com.stadium.app.models.entities.Attendant;
 import com.stadium.app.models.entities.User;
-import com.stadium.app.models.enums.PresentConfirmType;
 import com.stadium.app.models.enums.ReservationConfirmType;
+import com.stadium.app.models.enums.ReservationStatusType;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
@@ -68,10 +68,10 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
 
         // check confirm status
         final boolean resConfirmed;
-        if (item.getType() == ReservationConfirmType.CONFIRM.getValue()) {
+        if (item.getType() == ReservationStatusType.CONFIRM.getValue()) {
             holder.ivConfirmStatus.setImageResource(R.drawable.green_true_icon);
             resConfirmed = true;
-        } else if (item.getType() == ReservationConfirmType.DECLINE.getValue()) {
+        } else if (item.getType() == ReservationStatusType.DECLINE.getValue()) {
             holder.ivConfirmStatus.setImageResource(R.drawable.false_icon);
             resConfirmed = false;
         } else {
@@ -153,8 +153,8 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
                     Utils.showShortToast(context, confirm ? R.string.confirmed : R.string.cancelled);
 
                     // update this item
-                    attendant.setType(confirm ? ReservationConfirmType.CONFIRM.getValue()
-                            : ReservationConfirmType.DECLINE.getValue());
+                    attendant.setType(confirm ? ReservationStatusType.CONFIRM.getValue()
+                            : ReservationStatusType.DECLINE.getValue());
                     attendant.setTypeMessage(getString(confirm ? R.string.confirmed : R.string.cancelled));
                     notifyItemChanged(position);
                 } else {
@@ -173,8 +173,8 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
 
         // prepare request params
         User user = userController.getUser();
-        final int confirmType = confirm ? PresentConfirmType.CONFIRM.getValue()
-                : PresentConfirmType.DECLINE.getValue();
+        final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
+                : ReservationConfirmType.DECLINE.getValue();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmPresent(context, listener, user.getId(),

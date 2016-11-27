@@ -3,12 +3,12 @@ package com.stadium.app.models.enums;
 /**
  * Created by Shamyyoun on 6/4/16.
  */
-public enum PresentConfirmType {
-    DECLINE(0), CONFIRM(1);
+public enum ReservationStatusType {
+    NO_ACTION(0), DECLINE(1), CONFIRM(2), PENDING(3);
 
     private int value;
 
-    PresentConfirmType(int value) {
+    ReservationStatusType(int value) {
         this.value = value;
     }
 
