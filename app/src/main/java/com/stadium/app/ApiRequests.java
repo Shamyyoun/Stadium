@@ -803,4 +803,24 @@ public class ApiRequests {
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<Reservation[]> getMyReservations(Context context, ConnectionListener<Reservation[]> listener,
+                                                                    int userId, String userToken, int stadiumId) {
+        // create the request body
+        AdminBody body = new AdminBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUserinfo(user);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        body.setHisStadium(stadium);
+
+        // create & execute the request
+        ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_GET_MY_RESERVATIONS), Reservation[].class,
+                listener, body, Const.API_GET_MY_RESERVATIONS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
 }

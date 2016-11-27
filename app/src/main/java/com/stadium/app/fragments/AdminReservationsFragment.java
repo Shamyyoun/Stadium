@@ -129,6 +129,8 @@ public class AdminReservationsFragment extends ProgressFragment {
             connectionHandler = ApiRequests.newReservations(activity, this, userId, userToken, stadiumId);
         } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
             connectionHandler = ApiRequests.lastReservations(activity, this, userId, userToken, stadiumId);
+        } else if (reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+            connectionHandler = ApiRequests.getMyReservations(activity, this, userId, userToken, stadiumId);
         }
 
         // show progress if suitable

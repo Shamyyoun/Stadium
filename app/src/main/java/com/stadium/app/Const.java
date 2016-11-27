@@ -58,6 +58,7 @@ public class Const {
     public static final String API_GET_RESERVATIONS = "getReservations";
     public static final String API_NEW_RESERVATIONS = "NewReservations";
     public static final String API_LAST_RESERVATIONS = "LastReservations";
+    public static final String API_GET_MY_RESERVATIONS = "getMyReservations";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

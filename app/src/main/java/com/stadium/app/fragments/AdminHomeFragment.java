@@ -23,6 +23,7 @@ public class AdminHomeFragment extends ParentFragment {
     private static final int ACCEPTED_RES_POS = 1;
     private static final int NEW_RES_POS = 2;
     private static final int PREVIOUS_RES_POS = 3;
+    private static final int MY_RES_POS = 4;
 
     private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
@@ -94,7 +95,7 @@ public class AdminHomeFragment extends ParentFragment {
                 // select last tab by default as the most right one
                 viewPager.setCurrentItem(tabTitles.length - 1);
             }
-        }, 10);
+        }, 7);
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -131,6 +132,10 @@ public class AdminHomeFragment extends ParentFragment {
 
                 case PREVIOUS_RES_POS:
                     reservationsType = ReservationsType.ADMIN_PREVIOUS_RESERVATIONS;
+                    break;
+
+                case MY_RES_POS:
+                    reservationsType = ReservationsType.ADMIN_MY_RESERVATIONS;
                     break;
             }
 

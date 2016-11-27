@@ -279,6 +279,7 @@
     </string-array>
 
     <string-array name="admin_home_tabs">
+        <item>حجوزاتي</item>
         <item>حجوزات سابقة</item>
         <item>حجوزات جديدة</item>
         <item>حجوزات مقبولة</item>
