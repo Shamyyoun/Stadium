@@ -17,6 +17,7 @@ import com.stadium.app.R;
 import com.stadium.app.activities.StadiumInfoActivity;
 import com.stadium.app.adapters.StadiumPeriodsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.interfaces.OnItemRemovedListener;
 import com.stadium.app.interfaces.OnReservationAddedListener;
 import com.stadium.app.models.SerializableListWrapper;
@@ -33,6 +34,7 @@ import java.util.List;
  * Created by karam on 7/31/16.
  */
 public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemovedListener, OnReservationAddedListener {
+    private ActiveUserController userController;
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private Reservation reservation; // this is just to hold data like stadium, field size and date passed from activity.
     private StadiumInfoActivity activity;
@@ -48,6 +50,12 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (StadiumInfoActivity) activity;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userController = new ActiveUserController(activity);
     }
 
     @Override
@@ -93,8 +101,16 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     }
 
     private void updateUI() {
-        // set the adapter
-        adapter = new StadiumPeriodsAdapter(activity, data, R.layout.item_stadium_period, reservation);
+        // prepare suitable item layout id
+        int itemLayoutId;
+        if (userController.isAdmin()) {
+            itemLayoutId = R.layout.item_gray_stadium_period;
+        } else {
+            itemLayoutId = R.layout.item_green_stadium_period;
+        }
+
+        // create and set the adapter
+        adapter = new StadiumPeriodsAdapter(activity, data, itemLayoutId, reservation);
         adapter.setSelectedTeam(selectedTeam);
         adapter.setOnItemRemovedListener(this);
         adapter.setOnReservationAddedListener(this);

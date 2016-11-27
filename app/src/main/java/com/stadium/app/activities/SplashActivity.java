@@ -6,7 +6,6 @@ import android.os.Handler;
 
 import com.stadium.app.R;
 import com.stadium.app.controllers.ActiveUserController;
-import com.stadium.app.models.entities.User;
 
 public class SplashActivity extends ParentActivity {
     private static final int SPLASH_DURATION = 2 * 1000;
@@ -22,9 +21,8 @@ public class SplashActivity extends ParentActivity {
         ActiveUserController userController = new ActiveUserController(this);
         if (userController.hasLoggedInUser()) {
             // check his role in the system, if admin or not to goto suitable activity
-            User user = userController.getUser();
             Intent intent;
-            if (user.getAdminStadium() != null) {
+            if (userController.isAdmin()) {
                 intent = new Intent(this, AdminMainActivity.class);
             } else {
                 intent = new Intent(this, PlayerMainActivity.class);

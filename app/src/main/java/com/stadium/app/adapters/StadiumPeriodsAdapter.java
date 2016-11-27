@@ -78,13 +78,16 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
         String period = timeStart + " " + getString(R.string.to) + " " + timeEnd;
         holder.tvPeriod.setText(period);
 
-        // add item click listener
-        holder.layoutContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemClick(position);
-            }
-        });
+        // check layout content to add item click listener if possible
+        if (holder.layoutContent != null) {
+            // add item click listener
+            holder.layoutContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClick(position);
+                }
+            });
+        }
     }
 
     private void onItemClick(int position) {

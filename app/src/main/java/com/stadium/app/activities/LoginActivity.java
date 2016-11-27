@@ -114,7 +114,7 @@ public class LoginActivity extends ParentActivity {
 
             // check his role in the system, if admin or not to goto suitable activity
             Intent intent;
-            if (user.getAdminStadium() != null) {
+            if (userController.isAdmin()) {
                 intent = new Intent(this, AdminMainActivity.class);
             } else {
                 intent = new Intent(this, PlayerMainActivity.class);

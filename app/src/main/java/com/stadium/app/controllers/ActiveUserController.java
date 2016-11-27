@@ -52,4 +52,8 @@ public class ActiveUserController {
     public User clone() {
         return prefs.load(Const.SP_USER);
     }
+
+    public boolean isAdmin() {
+        return getUser().getAdminStadium() != null;
+    }
 }

@@ -36,7 +36,7 @@ public class AdminHomeFragment extends ParentFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.home);
-        createOptionsMenu(R.menu.menu_admin_home);
+        removeOptionsMenu();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class AdminHomeFragment extends ParentFragment {
                 // select last tab by default as the most right one
                 viewPager.setCurrentItem(tabTitles.length - 1);
             }
-        }, 15);
+        }, 20);
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
