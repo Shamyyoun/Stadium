@@ -80,6 +80,9 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             stadiumAddress = stadiumController.getAddress(stadium);
             stadiumImage = stadium.getImageLink();
         }
+        if (Utils.isNullOrEmpty(stadiumName)) {
+            stadiumName = "-----------";
+        }
 
         // prepare the name
         String name;
@@ -92,20 +95,69 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         } else {
             name = reservationController.getTeamStadiumName(item);
         }
-
-        // set the name
-        if (!Utils.isNullOrEmpty(name)) {
-            holder.tvName.setText(name);
-        } else {
-            holder.tvName.setText("-----------");
+        if (Utils.isNullOrEmpty(name)) {
+            name = "-----------";
         }
 
-        // set the stadium address
-        if (!Utils.isNullOrEmpty(stadiumAddress)) {
-            holder.tvStadiumAddress.setText(getString(R.string.address_c) + " " + stadiumAddress);
-            holder.tvStadiumAddress.setVisibility(View.VISIBLE);
+        // prepare the field number
+        String fieldNo = reservationController.getFieldNumber(item);
+        if (Utils.isNullOrEmpty(fieldNo)) {
+            fieldNo = "----";
+        }
+
+        // prepare the date time
+        String dateTime = reservationController.getDateTime(item);
+
+        // check reservations type to set basic data
+        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+
+            // this is a detailed view reservation
+            // set the message
+            String msg = getString(R.string.has_reserved_field) + " " + fieldNo
+                    + "\n" + dateTime;
+            holder.tvMessage.setText(msg);
+
+            // set the reservations count and block count if it is new reservations
+            if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
+                // set reservations count
+                String count = teamController.getReservationAbsentTotalCount(item.getReservationTeam());
+                holder.tvReservationsCount.setText(count);
+                holder.tvReservationsCount.setVisibility(View.VISIBLE);
+
+                // set block count
+                int blockCount = 0;
+                if (item.getReservationTeam() != null) {
+                    blockCount = item.getReservationTeam().getBlockTimes();
+                }
+                holder.tvBlockCount.setText(blockCount + "/");
+                holder.layoutBlockCount.setVisibility(View.VISIBLE);
+            } else {
+                // hide them
+                holder.tvReservationsCount.setVisibility(View.GONE);
+                holder.layoutBlockCount.setVisibility(View.GONE);
+            }
         } else {
-            holder.tvStadiumAddress.setVisibility(View.GONE);
+            // this is a simple view reservation
+            // set name
+            holder.tvName.setText(name);
+
+            // set the stadium address
+            if (!Utils.isNullOrEmpty(stadiumAddress)) {
+                holder.tvStadiumAddress.setText(getString(R.string.address_c) + " " + stadiumAddress);
+                holder.tvStadiumAddress.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvStadiumAddress.setVisibility(View.GONE);
+            }
+
+            // set the field number
+            String filedNoStr = getString(R.string.stadium_name_c) + " " + fieldNo;
+            holder.tvFieldNo.setText(filedNoStr);
+
+            // set the date
+            String dateTimeStr = getString(R.string.appointment_c) + " " + dateTime;
+            holder.tvDateTime.setText(dateTimeStr);
         }
 
         // load the suitable image
@@ -119,29 +171,16 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         }
         Utils.loadImage(context, image, R.drawable.default_image, holder.ivImage);
 
-        // set the field number
-        String fieldNo = reservationController.getFieldNumber(item);
-        if (fieldNo != null) {
-            fieldNo = getString(R.string.stadium_name_c) + " " + fieldNo;
-        } else {
-            fieldNo = getString(R.string.stadium_name_c) + " ----";
-        }
-        holder.tvFieldNo.setText(fieldNo);
-
-        // set the date
-        String dateTime = getString(R.string.appointment_c) + " " + reservationController.getDateTime(item);
-        holder.tvDateTime.setText(dateTime);
-
-        // check to set the reservations count
-        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
-            String count = teamController.getReservationAbsentTotalCount(item.getReservationTeam());
-            holder.tvReservationsCount.setText(count);
-            holder.tvReservationsCount.setVisibility(View.VISIBLE);
-        }
-
         // check to show / hide the buttons layout
-        if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS ||
+        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+
+            // show buttons layout
+            holder.layoutButtons.setVisibility(View.VISIBLE);
+        } else if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS ||
                 reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
+
             // hide buttons layout
             holder.layoutButtons.setVisibility(View.GONE);
         } else {
@@ -154,13 +193,16 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         }
 
         // check reservations type to customize the item clickable or not
-        if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS ||
-                reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS ||
-                reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS ||
-                reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
+        if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
             // make the item not clickable
             holder.layoutContent.setEnabled(false);
             holder.ivIndicator.setVisibility(View.GONE);
+        } else if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+            // make the item not clickable
+            holder.layoutContent.setEnabled(false);
         } else if (reservationsType == ReservationsType.TEAM_RESERVATIONS && teamPlayers != null) {
             // check if the user is a player in this team
             if (teamController.isTeamPlayer(teamPlayers, user.getId())) {
@@ -192,16 +234,45 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                         openAttendanceDialog(position);
                         break;
 
-                    case R.id.btn_cancel:
+                    case R.id.btn_action1:
                         showCancelConfirmDialog(position);
                         break;
                 }
             }
         };
 
-        // add listeners
-        holder.layoutContent.setOnClickListener(clickListener);
-        holder.btnCancel.setOnClickListener(clickListener);
+        // customize buttons according to reservations type and add their click listener
+        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
+            holder.btnAction1.setText(R.string.confirm);
+            holder.btnAction1.setOnClickListener(clickListener);
+
+            holder.btnAction2.setText(R.string.refuse);
+            holder.btnAction2.setOnClickListener(clickListener);
+
+            holder.btnAction3.setVisibility(View.GONE);
+            holder.viewDivider2.setVisibility(View.GONE);
+        } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
+            holder.btnAction1.setText(R.string.didnt_attend);
+            holder.btnAction1.setOnClickListener(clickListener);
+
+            holder.btnAction2.setText(R.string.block_team);
+            holder.btnAction2.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.confirm_icon, 0, 0, 0);
+            holder.btnAction2.setOnClickListener(clickListener);
+
+            holder.btnAction3.setText(R.string.both);
+            holder.btnAction3.setOnClickListener(clickListener);
+        } else if (reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+            holder.btnAction2.setText(R.string.delete);
+            holder.btnAction2.setOnClickListener(clickListener);
+
+            holder.btnAction1.setVisibility(View.GONE);
+            holder.btnAction3.setVisibility(View.GONE);
+            holder.viewDivider1.setVisibility(View.GONE);
+            holder.viewDivider2.setVisibility(View.GONE);
+        } else {
+            holder.layoutContent.setOnClickListener(clickListener);
+            holder.btnAction1.setOnClickListener(clickListener);
+        }
     }
 
     private void openAttendanceDialog(int position) {
@@ -274,8 +345,15 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         private TextView tvStadiumAddress;
         private TextView tvFieldNo;
         private TextView tvDateTime;
+        private TextView tvMessage;
+        private View layoutBlockCount;
+        private TextView tvBlockCount;
         private View layoutButtons;
-        private Button btnCancel;
+        private Button btnAction1;
+        private Button btnAction2;
+        private Button btnAction3;
+        private View viewDivider1;
+        private View viewDivider2;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -288,8 +366,15 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             tvStadiumAddress = (TextView) findViewById(R.id.tv_stadium_address);
             tvFieldNo = (TextView) findViewById(R.id.tv_field_no);
             tvDateTime = (TextView) findViewById(R.id.tv_date_time);
+            tvMessage = (TextView) findViewById(R.id.tv_message);
+            layoutBlockCount = findViewById(R.id.layout_block_count);
+            tvBlockCount = (TextView) findViewById(R.id.tv_block_count);
             layoutButtons = findViewById(R.id.layout_buttons);
-            btnCancel = (Button) findViewById(R.id.btn_cancel);
+            btnAction1 = (Button) findViewById(R.id.btn_action1);
+            btnAction2 = (Button) findViewById(R.id.btn_action2);
+            btnAction3 = (Button) findViewById(R.id.btn_action3);
+            viewDivider1 = findViewById(R.id.view_divider1);
+            viewDivider2 = findViewById(R.id.view_divider2);
         }
     }
 

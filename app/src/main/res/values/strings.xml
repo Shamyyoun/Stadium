@@ -112,7 +112,7 @@
     <string name="new_reservation">حجوزات جديدة</string>
     <string name="appointment">الموعد</string>
     <string name="player_info">بيانات اللاعب</string>
-    <string name="not_attend">لم يحضر</string>
+    <string name="didnt_attend">لم يحضر</string>
     <string name="block_team">حظر الفريق</string>
     <string name="both">كلاهما</string>
     <string name="name_reserve">حجز بااسم</string>
@@ -270,7 +270,9 @@
     <string name="continue_and_request_reservation_with_these_details">الاستمرار وطلب حجز بهذه التفاصيل؟</string>
     <string name="reservation_requested_successfully">تم الطلب بنجاح</string>
     <string name="failed_requesting_reservation">فشل طلب الحجز</string>
-
+    <string name="has_reserved_field">قام بحجز ملعب</string>
+    <string name="delete">حذف</string>
+    
 
     <!-- Arrays -->
     <string-array name="team_info_tabs">

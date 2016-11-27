@@ -94,7 +94,18 @@ public class AdminReservationsFragment extends ProgressFragment {
     }
 
     private void updateUI() {
-        adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
+        // prepare item layout id
+        int itemLayoutId;
+        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+            itemLayoutId = R.layout.item_reservation_detailed;
+        } else {
+            itemLayoutId = R.layout.item_reservation_simple;
+        }
+
+        // create and set the adapter
+        adapter = new ReservationsAdapter(activity, data, itemLayoutId);
         adapter.setReservationsType(reservationsType);
         recyclerView.setAdapter(adapter);
         showMain();

@@ -109,7 +109,7 @@ public class PlayerReservationsFragment extends ProgressFragment {
     }
 
     private void updateUI() {
-        adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation);
+        adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation_simple);
         recyclerView.setAdapter(adapter);
         showMain();
     }

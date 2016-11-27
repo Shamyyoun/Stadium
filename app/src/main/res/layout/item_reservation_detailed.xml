@@ -10,8 +10,10 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical"
             android:paddingBottom="3dp"
             android:paddingLeft="10dp"
@@ -27,31 +29,20 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_name"
+                        style="@style/SingleEllipsizedText"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="منذ ساعة"
-                            android:textColor="@color/gray"
-                            android:textSize="@dimen/small_text" />
-
-                        <TextView
-                            style="@style/SingleEllipsizedText"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight="1"
-                            android:text="فريق الأهلي"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="فريق الأهلي"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -59,12 +50,38 @@
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
+                        <LinearLayout
+                            android:id="@+id/layout_block_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="7dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_block_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2/"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/large_text"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/block_icon" />
+                        </LinearLayout>
+
                         <TextView
-                            android:gravity="right"
+                            android:id="@+id/tv_message"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="قام حجز ملعب المونديال. 04-02-2016 . 8:30 مساءاٌ"
+                            android:gravity="right"
+                            android:lineSpacingExtra="5dp"
+                            android:text="تم حجز ملعب المونديال. 04-02-2016 . 8:30 مساءاٌ"
                             android:textSize="@dimen/small_text" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
@@ -77,16 +94,36 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    style="@style/CroppedImageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/default_image"
-                    app:riv_oval="true" />
+                    android:orientation="vertical">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/iv_image"
+                        style="@style/CroppedImageView"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/default_image"
+                        app:riv_oval="true" />
+
+                    <TextView
+                        android:id="@+id/tv_reservations_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
+                        android:text="5/50"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/small_text"
+                        android:visibility="visible" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -99,44 +136,51 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/btn_action3"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/confirm_icon"
-                        android:text="@string/both" />
+                        android:paddingLeft="10dp"
+                        android:text="@string/confirm" />
 
                     <View
+                        android:id="@+id/view_divider2"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:background="@color/light_gray" />
 
                     <Button
+                        android:id="@+id/btn_action2"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/confirm_icon"
-                        android:text="@string/block_team" />
+                        android:drawableLeft="@drawable/refuse_icon"
+                        android:paddingLeft="10dp"
+                        android:text="@string/confirm" />
 
                     <View
+                        android:id="@+id/view_divider1"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:background="@color/light_gray" />
 
                     <Button
+                        android:id="@+id/btn_action1"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/confirm_icon"
-                        android:text="@string/didnt_attend" />
+                        android:paddingLeft="10dp"
+                        android:text="@string/confirm" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
