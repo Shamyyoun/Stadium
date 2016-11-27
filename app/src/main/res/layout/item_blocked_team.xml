@@ -29,6 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -37,19 +38,16 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/small_block" />
-
                         <TextView
-                            android:id="@+id/tv_block_number"
+                            android:id="@+id/tv_block_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:drawableLeft="@drawable/small_block_icon"
+                            android:drawablePadding="5dp"
                             android:text="4"
-                            android:textSize="@dimen/small_text"
-                            android:textColor="@color/red"/>
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/small_text" />
 
                         <TextView
                             android:id="@+id/tv_name"
@@ -58,36 +56,39 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
+                            android:gravity="right"
                             android:text="فريق الابطال"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_captine"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tv_captain_name"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/captine_icon"
+                        android:gravity="right"
                         android:text="احمد كرم"
                         android:textSize="@dimen/small_text" />
 
                     <TextView
-                        android:id="@+id/tv_players_number"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tv_players_count"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/team_players_icon"
+                        android:gravity="right"
                         android:text="يحتوي على 15 لاعب"
                         android:textSize="@dimen/small_text" />
                 </LinearLayout>
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/iv_photo"
+                    android:id="@+id/iv_image"
                     style="@style/CroppedImageView"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="@dimen/team_large_image_size"
+                    android:layout_height="@dimen/team_large_image_size"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/default_image"
@@ -104,23 +105,14 @@
                     android:layout_height="1dp"
                     android:background="@color/light_gray" />
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/btn_cancel_block"
+                    style="@style/SmallBorderlessButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btn_cancel_block"
-                        style="@style/SmallBorderlessButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/cancle_block_icon"
-                        android:drawablePadding="20dp"
-                        android:text="@string/cancel_block" />
-
-                </LinearLayout>
+                    android:drawableLeft="@drawable/confirm_icon"
+                    android:text="@string/cancel_block" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

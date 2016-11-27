@@ -19,6 +19,7 @@ import com.stadium.app.models.bodies.PlayerConfirmListBody;
 import com.stadium.app.models.bodies.RatePlayerBody;
 import com.stadium.app.models.bodies.ReservationsOfTeamBody;
 import com.stadium.app.models.bodies.TeamPlayerActionBody;
+import com.stadium.app.models.bodies.UnblockTeamBody;
 import com.stadium.app.models.entities.Attendant;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.Event;
@@ -879,8 +880,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler blockTeam(Context context, ConnectionListener listener,
-                                                      int userId, String userToken,
-                                                      int stadiumId, int reservationId) {
+                                              int userId, String userToken,
+                                              int stadiumId, int reservationId) {
         // create the request body
         AdminReservationActionBody body = new AdminReservationActionBody();
         AdminBody admin = new AdminBody();
@@ -905,8 +906,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler absentBlockReservation(Context context, ConnectionListener listener,
-                                                      int userId, String userToken,
-                                                      int stadiumId, int reservationId) {
+                                                           int userId, String userToken,
+                                                           int stadiumId, int reservationId) {
         // create the request body
         AdminReservationActionBody body = new AdminReservationActionBody();
         AdminBody admin = new AdminBody();
@@ -931,8 +932,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler cancelReservationByAdmin(Context context, ConnectionListener listener,
-                                                           int userId, String userToken,
-                                                           int stadiumId, int reservationId) {
+                                                             int userId, String userToken,
+                                                             int stadiumId, int reservationId) {
         // create the request body
         AdminReservationActionBody body = new AdminReservationActionBody();
         AdminBody admin = new AdminBody();
@@ -952,6 +953,52 @@ public class ApiRequests {
         ConnectionHandler connectionHandler = new ConnectionHandler(context,
                 AppUtils.getAdminApiUrl(Const.API_CANCEL_RES_BY_ADMIN), null, listener, body,
                 Const.API_CANCEL_RES_BY_ADMIN);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Team[]> myBlockedList(Context context, ConnectionListener<Team[]> listener,
+                                                                    int userId, String userToken, int stadiumId) {
+        // create the request body
+        AdminBody body = new AdminBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUserinfo(user);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        body.setHisStadium(stadium);
+
+        // create & execute the request
+        ConnectionHandler<Team[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_MY_BLOCKED_LIST), Team[].class,
+                listener, body, Const.API_MY_BLOCKED_LIST);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler unblockTeam(Context context, ConnectionListener listener,
+                                                int userId, String userToken,
+                                                int stadiumId, int teamId) {
+        // create the request body
+        UnblockTeamBody body = new UnblockTeamBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        Team team = new Team();
+        team.setId(teamId);
+        body.setTeam(team);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_UNBLOCK_TEAM), null, listener, body,
+                Const.API_UNBLOCK_TEAM);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

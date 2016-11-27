@@ -7,53 +7,152 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
-import com.stadium.app.adapters.BlockedAdapter;
-import com.stadium.app.models.entities.Blocked;
+import com.stadium.app.adapters.BlockedTeamsAdapter;
+import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.interfaces.OnItemRemovedListener;
+import com.stadium.app.models.SerializableListWrapper;
+import com.stadium.app.models.entities.Team;
+import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by karam on 8/10/16.
+ * Created by Shamyyoun on 7/2/16.
  */
-public class BlockedTeamsFragment extends ParentFragment {
-
+public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemovedListener {
+    private ActiveUserController userController;
     private RecyclerView recyclerView;
-    private BlockedAdapter blockedAdapter;
-    private List<Blocked> data;
+    private List<Team> data;
+    private BlockedTeamsAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.blocked);
-        createOptionsMenu(R.menu.menu_blocked);
+        setTitle(R.string.blocked_teams);
+        removeOptionsMenu();
+
+        // create the user controller
+        userController = new ActiveUserController(activity);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_admin_blocked, container, false);
-
-         // init views
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        super.onCreateView(inflater, container, savedInstanceState);
 
         // customize the recycler view
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        data = getDummyData();
-        blockedAdapter = new BlockedAdapter(activity, data, R.layout.item_blocked);
-        recyclerView.setAdapter(blockedAdapter);
+
+        // get data from saved bundle if exists
+        if (savedInstanceState != null) {
+            SerializableListWrapper<Team> dataWrapper = (SerializableListWrapper<Team>) savedInstanceState.getSerializable("dataWrapper");
+            if (dataWrapper != null) {
+                data = dataWrapper.getList();
+            }
+        }
+
+        // check data
+        if (data != null) {
+            if (!data.isEmpty()) {
+                updateUI();
+            } else {
+                showEmpty(R.string.no_teams_found);
+            }
+        } else {
+            loadData();
+        }
 
         return rootView;
     }
 
-    private List<Blocked> getDummyData() {
-        List<Blocked> data = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            Blocked item = new Blocked();
-            data.add(item);
+    @Override
+    protected int getContentViewResId() {
+        return R.layout.fragment_blocked_teams;
+    }
+
+    @Override
+    protected int getMainViewResId() {
+        return R.id.recycler_view;
+    }
+
+    @Override
+    protected OnRefreshListener getOnRefreshListener() {
+        return new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        };
+    }
+
+    private void updateUI() {
+        adapter = new BlockedTeamsAdapter(activity, data, R.layout.item_blocked_team);
+        adapter.setOnItemRemovedListener(this);
+        recyclerView.setAdapter(adapter);
+        showMain();
+    }
+
+    private void loadData() {
+        // check internet connection
+        if (!Utils.hasConnection(activity)) {
+            showError(R.string.no_internet_connection);
+            return;
         }
 
-        return data;
+        showProgress();
+
+        // prepare request params
+        User user = userController.getUser();
+        int stadiumId = user.getAdminStadium().getId();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.myBlockedList(activity, this, user.getId(),
+                user.getToken(), stadiumId);
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void refresh() {
+        loadData();
+    }
+
+    @Override
+    public void onSuccess(Object response, int statusCode, String tag) {
+        // get data
+        Team[] teamsArr = (Team[]) response;
+        data = new ArrayList<>(Arrays.asList(teamsArr));
+
+        // check size
+        if (data.size() == 0) {
+            showEmpty(R.string.no_blocked_teams_found);
+        } else {
+            updateUI();
+        }
+    }
+
+    @Override
+    public void onFail(Exception ex, int statusCode, String tag) {
+        showError(R.string.failed_loading_teams);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
+        outState.putSerializable("dataWrapper", dataWrapper);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onItemRemoved(int position) {
+        // check new size
+        if (data.size() == 0) {
+            showEmpty(R.string.no_blocked_teams_found);
+        }
     }
 }

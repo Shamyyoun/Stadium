@@ -64,6 +64,8 @@ public class Const {
     public static final String API_BLOCK_TEAM = "BlockTeam";
     public static final String API_ABSENT_BLOCK_RESERVATION = "absent_Block_Reservation";
     public static final String API_CANCEL_RES_BY_ADMIN = "CancelResByAdmin";
+    public static final String API_UNBLOCK_TEAM = "UnblockTeam";
+    public static final String API_MY_BLOCKED_LIST = "MyBlockedList";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
