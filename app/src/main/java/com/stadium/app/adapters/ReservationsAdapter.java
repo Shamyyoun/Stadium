@@ -23,12 +23,15 @@ import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.ReservationConfirmType;
 import com.stadium.app.models.enums.ReservationsType;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
 import java.util.List;
+
+import static com.stadium.app.R.string.confirm;
 
 /**
  * Created by Shamyyoun on 19/2/16.
@@ -95,9 +98,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         } else {
             name = reservationController.getTeamStadiumName(item);
         }
-        if (Utils.isNullOrEmpty(name)) {
-            name = "-----------";
-        }
 
         // prepare the field number
         String fieldNo = reservationController.getFieldNumber(item);
@@ -107,6 +107,13 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // prepare the date time
         String dateTime = reservationController.getDateTime(item);
+
+        // name is shared between all types, set it first :D
+        if (!Utils.isNullOrEmpty(name)) {
+            holder.tvName.setText(name);
+        } else {
+            holder.tvName.setText("-----------");
+        }
 
         // check reservations type to set basic data
         if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
@@ -140,9 +147,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             }
         } else {
             // this is a simple view reservation
-            // set name
-            holder.tvName.setText(name);
-
             // set the stadium address
             if (!Utils.isNullOrEmpty(stadiumAddress)) {
                 holder.tvStadiumAddress.setText(getString(R.string.address_c) + " " + stadiumAddress);
@@ -235,7 +239,15 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                         break;
 
                     case R.id.btn_action1:
-                        showCancelConfirmDialog(position);
+                        onAction1(position);
+                        break;
+
+                    case R.id.btn_action2:
+                        onAction2(position);
+                        break;
+
+                    case R.id.btn_action3:
+                        onAction3(position);
                         break;
                 }
             }
@@ -243,7 +255,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // customize buttons according to reservations type and add their click listener
         if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
-            holder.btnAction1.setText(R.string.confirm);
+            holder.btnAction1.setText(confirm);
             holder.btnAction1.setOnClickListener(clickListener);
 
             holder.btnAction2.setText(R.string.refuse);
@@ -275,10 +287,52 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         }
     }
 
-    private void openAttendanceDialog(int position) {
-        Reservation reservation = data.get(position);
-        AttendanceDialog dialog = new AttendanceDialog(context, reservation.getId());
-        dialog.show();
+    private void onAction1(int position) {
+        // check reservations type to call suitable method
+        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
+            showConfirmConfirmDialog(position, true);
+        } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
+            showDidntAttendConfirmDialog(position);
+        } else {
+            showCancelConfirmDialog(position);
+        }
+    }
+
+    private void onAction2(int position) {
+        // check reservations type to call suitable method
+        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
+            showConfirmConfirmDialog(position, false);
+        } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
+            showBlockTeamConfirmDialog(position);
+        } else if (reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+            showDeleteConfirmDialog(position);
+        }
+    }
+
+    private void onAction3(int position) {
+        showDidntAttendAndBlockConfirmDialog(position);
+    }
+
+    private void showConfirmConfirmDialog(final int position, final boolean confirm) {
+        // prepare msg id
+        int msgId = confirm ? R.string.confirm_this_reservation_q : R.string.decline_this_reservation_q;
+
+        // show confirm dialog
+        DialogUtils.showConfirmDialog(context, msgId, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                confirmReservation(position, confirm);
+            }
+        }, null);
+    }
+
+    private void showDidntAttendConfirmDialog(final int position) {
+        DialogUtils.showConfirmDialog(context, R.string.report_this_team_didnt_attend_q, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reportDidntAttend(position);
+            }
+        }, null);
     }
 
     private void showCancelConfirmDialog(final int position) {
@@ -288,6 +342,229 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                 cancel(position);
             }
         }, null);
+    }
+
+    private void showDeleteConfirmDialog(final int position) {
+        DialogUtils.showConfirmDialog(context, R.string.remove_this_reservation_q, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                removeReservation(position);
+            }
+        }, null);
+    }
+
+    private void showBlockTeamConfirmDialog(final int position) {
+        DialogUtils.showConfirmDialog(context, R.string.block_this_team_q, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                blockTeam(position);
+            }
+        }, null);
+    }
+
+    private void showDidntAttendAndBlockConfirmDialog(final int position) {
+        DialogUtils.showConfirmDialog(context, R.string.report_didnt_attend_and_block_q, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reportDidntAttendAndBlock(position);
+            }
+        }, null);
+    }
+
+    private void openAttendanceDialog(int position) {
+        Reservation reservation = data.get(position);
+        AttendanceDialog dialog = new AttendanceDialog(context, reservation.getId());
+        dialog.show();
+    }
+
+    private void confirmReservation(final int position, final boolean confirm) {
+        // get the reservation
+        final Reservation reservation = data.get(position);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener listener = new ConnectionListener() {
+            @Override
+            public void onSuccess(Object response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check the status code
+                if (statusCode == Const.SER_CODE_200) {
+                    // show success msg and remove it
+                    Utils.showShortToast(context, confirm ? R.string.confirmed : R.string.refused);
+                    removeItem(position);
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseMsg(context, response, confirm ? R.string.error_confirming : R.string.error_declining);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, confirm ? R.string.error_confirming : R.string.error_declining);
+            }
+        };
+
+        // prepare request params
+        User user = userController.getUser();
+        int stadiumId = user.getAdminStadium().getId();
+        final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
+                : ReservationConfirmType.DECLINE.getValue();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.confirmReservation(context, listener,
+                user.getId(), user.getToken(), stadiumId, reservation.getId(), confirmType);
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void reportDidntAttend(final int position) {
+        // get the reservation
+        final Reservation reservation = data.get(position);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener<String> listener = new ConnectionListener<String>() {
+            @Override
+            public void onSuccess(String response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check status code
+                if (statusCode == Const.SER_CODE_200) {
+                    // show success msg and remove it
+                    Utils.showShortToast(context, R.string.reported_successfully);
+                    removeItem(position);
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_reporting);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, R.string.failed_reporting);
+            }
+        };
+
+        // prepare request params
+        User user = userController.getUser();
+        int stadiumId = user.getAdminStadium().getId();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.absentReservation(context, listener,
+                user.getId(), user.getToken(), stadiumId, reservation.getId());
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void blockTeam(final int position) {
+        // get the reservation
+        final Reservation reservation = data.get(position);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener<String> listener = new ConnectionListener<String>() {
+            @Override
+            public void onSuccess(String response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check status code
+                if (statusCode == Const.SER_CODE_200) {
+                    // show success msg and remove it
+                    Utils.showShortToast(context, R.string.blocked_successfully);
+                    removeItem(position);
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_blocking);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, R.string.failed_blocking);
+            }
+        };
+
+        // prepare request params
+        User user = userController.getUser();
+        int stadiumId = user.getAdminStadium().getId();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.blockTeam(context, listener,
+                user.getId(), user.getToken(), stadiumId, reservation.getId());
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void reportDidntAttendAndBlock(final int position) {
+        // get the reservation
+        final Reservation reservation = data.get(position);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener<String> listener = new ConnectionListener<String>() {
+            @Override
+            public void onSuccess(String response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check status code
+                if (statusCode == Const.SER_CODE_200) {
+                    // show success msg and remove it
+                    Utils.showShortToast(context, R.string.reported_and_blocked_successfully);
+                    removeItem(position);
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_reporting_and_blocking);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, R.string.failed_reporting_and_blocking);
+            }
+        };
+
+        // prepare request params
+        User user = userController.getUser();
+        int stadiumId = user.getAdminStadium().getId();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.absentBlockReservation(context, listener,
+                user.getId(), user.getToken(), stadiumId, reservation.getId());
+        cancelWhenDestroyed(connectionHandler);
     }
 
     private void cancel(final int position) {
@@ -303,7 +580,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> connectionListener = new ConnectionListener<String>() {
+        ConnectionListener<String> listener = new ConnectionListener<String>() {
             @Override
             public void onSuccess(String response, int statusCode, String tag) {
                 hideProgressDialog();
@@ -331,8 +608,55 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         // send request
         User user = userController.getUser();
         Team team = reservation.getReservationTeam();
-        ConnectionHandler connectionHandler = ApiRequests.deleteReservation(context, connectionListener,
+        ConnectionHandler connectionHandler = ApiRequests.deleteReservation(context, listener,
                 user.getId(), user.getToken(), team.getId(), team.getName(), reservation.getId());
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void removeReservation(final int position) {
+        // get the reservation
+        final Reservation reservation = data.get(position);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener<String> listener = new ConnectionListener<String>() {
+            @Override
+            public void onSuccess(String response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check status code
+                if (statusCode == Const.SER_CODE_200) {
+                    // show success msg and remove it
+                    Utils.showShortToast(context, R.string.removed_successfully);
+                    removeItem(position);
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_removing);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, R.string.failed_removing);
+            }
+        };
+
+        // prepare request params
+        User user = userController.getUser();
+        int stadiumId = user.getAdminStadium().getId();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.cancelReservationByAdmin(context, listener,
+                user.getId(), user.getToken(), stadiumId, reservation.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 

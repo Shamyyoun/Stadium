@@ -13,6 +13,7 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.ReservationsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.interfaces.OnItemRemovedListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.User;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class AdminReservationsFragment extends ProgressFragment {
+public class AdminReservationsFragment extends ProgressFragment implements OnItemRemovedListener {
     private ReservationsType reservationsType;
     private ActiveUserController userController;
     private RecyclerView recyclerView;
@@ -80,7 +81,7 @@ public class AdminReservationsFragment extends ProgressFragment {
 
     @Override
     protected int getMainViewResId() {
-        return R.id.swipe_layout;
+        return R.id.recycler_view;
     }
 
     @Override
@@ -107,6 +108,7 @@ public class AdminReservationsFragment extends ProgressFragment {
         // create and set the adapter
         adapter = new ReservationsAdapter(activity, data, itemLayoutId);
         adapter.setReservationsType(reservationsType);
+        adapter.setOnItemRemovedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
     }
@@ -180,5 +182,13 @@ public class AdminReservationsFragment extends ProgressFragment {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onItemRemoved(int position) {
+        // check data size
+        if (data.size() == 0) {
+            showEmpty(R.string.no_reservations_found);
+        }
     }
 }

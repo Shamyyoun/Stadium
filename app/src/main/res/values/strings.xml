@@ -272,6 +272,19 @@
     <string name="failed_requesting_reservation">فشل طلب الحجز</string>
     <string name="has_reserved_field">قام بحجز ملعب</string>
     <string name="delete">حذف</string>
+    <string name="refused">تم الرفض</string>
+    <string name="error_confirming">حدث خطأ اثناء التأكيد</string>
+    <string name="report_this_team_didnt_attend_q">ابلاغ عدم حضور هذا الفريق؟</string>
+    <string name="reported_successfully">تم الابلاغ بنجاح</string>
+    <string name="failed_reporting">فشل الابلاغ</string>
+    <string name="block_this_team_q">حظر هذا الفريق؟</string>
+    <string name="blocked_successfully">تم الحظر بنجاح</string>
+    <string name="failed_blocking">فشل الحظر</string>
+    <string name="report_didnt_attend_and_block_q">ابلاغ عدم الحضور والحظر؟</string>
+    <string name="reported_and_blocked_successfully">تم الابلاغ والحظر بنجاح</string>
+    <string name="failed_reporting_and_blocking">فشل الابلاغ والحظر</string>
+    <string name="remove_this_reservation_q">حذف هذا الحجز؟</string>
+
     
 
     <!-- Arrays -->

@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.stadium.app.models.entities.Reservation;
 
-public class ReservationActionBody {
+public class CaptainReservationActionBody {
     @SerializedName("captain")
     @Expose
     private CaptainBody captain;

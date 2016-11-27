@@ -6,8 +6,10 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
 import com.stadium.app.models.bodies.AdminBody;
+import com.stadium.app.models.bodies.AdminReservationActionBody;
 import com.stadium.app.models.bodies.AvailableReservationsBody;
 import com.stadium.app.models.bodies.CaptainBody;
+import com.stadium.app.models.bodies.CaptainReservationActionBody;
 import com.stadium.app.models.bodies.CheckListOfContactsBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
 import com.stadium.app.models.bodies.EditTeamBody;
@@ -15,7 +17,6 @@ import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.bodies.LeaveTeamBody;
 import com.stadium.app.models.bodies.PlayerConfirmListBody;
 import com.stadium.app.models.bodies.RatePlayerBody;
-import com.stadium.app.models.bodies.ReservationActionBody;
 import com.stadium.app.models.bodies.ReservationsOfTeamBody;
 import com.stadium.app.models.bodies.TeamPlayerActionBody;
 import com.stadium.app.models.entities.Attendant;
@@ -460,7 +461,7 @@ public class ApiRequests {
                                                               int userId, String userToken,
                                                               int teamId, String teamName, int reservationId) {
         // create the request body
-        ReservationActionBody body = new ReservationActionBody();
+        CaptainReservationActionBody body = new CaptainReservationActionBody();
         CaptainBody captain = new CaptainBody();
         User userInfo = new User();
         userInfo.setId(userId);
@@ -692,7 +693,7 @@ public class ApiRequests {
                                                                 int fieldId, String date,
                                                                 String timeStart, String timeEnd) {
         // create the request body
-        ReservationActionBody body = new ReservationActionBody();
+        CaptainReservationActionBody body = new CaptainReservationActionBody();
         CaptainBody captain = new CaptainBody();
         User userInfo = new User();
         userInfo.setId(userId);
@@ -785,7 +786,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Reservation[]> lastReservations(Context context, ConnectionListener<Reservation[]> listener,
-                                                                   int userId, String userToken, int stadiumId) {
+                                                                    int userId, String userToken, int stadiumId) {
         // create the request body
         AdminBody body = new AdminBody();
         User user = new User();
@@ -805,7 +806,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Reservation[]> getMyReservations(Context context, ConnectionListener<Reservation[]> listener,
-                                                                    int userId, String userToken, int stadiumId) {
+                                                                     int userId, String userToken, int stadiumId) {
         // create the request body
         AdminBody body = new AdminBody();
         User user = new User();
@@ -820,6 +821,137 @@ public class ApiRequests {
         ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getAdminApiUrl(Const.API_GET_MY_RESERVATIONS), Reservation[].class,
                 listener, body, Const.API_GET_MY_RESERVATIONS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler confirmReservation(Context context, ConnectionListener listener,
+                                                       int userId, String userToken, int stadiumId,
+                                                       int reservationId, int confirmType) {
+        // create the request body
+        AdminReservationActionBody body = new AdminReservationActionBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        body.setReservation(reservation);
+        body.setB(confirmType);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_CONFIRM_RESERVATION), null, listener, body,
+                Const.API_CONFIRM_RESERVATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler absentReservation(Context context, ConnectionListener listener,
+                                                      int userId, String userToken,
+                                                      int stadiumId, int reservationId) {
+        // create the request body
+        AdminReservationActionBody body = new AdminReservationActionBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_ABSENT_RESERVATION), null, listener, body,
+                Const.API_ABSENT_RESERVATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler blockTeam(Context context, ConnectionListener listener,
+                                                      int userId, String userToken,
+                                                      int stadiumId, int reservationId) {
+        // create the request body
+        AdminReservationActionBody body = new AdminReservationActionBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_BLOCK_TEAM), null, listener, body,
+                Const.API_BLOCK_TEAM);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler absentBlockReservation(Context context, ConnectionListener listener,
+                                                      int userId, String userToken,
+                                                      int stadiumId, int reservationId) {
+        // create the request body
+        AdminReservationActionBody body = new AdminReservationActionBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_ABSENT_BLOCK_RESERVATION), null, listener, body,
+                Const.API_ABSENT_BLOCK_RESERVATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler cancelReservationByAdmin(Context context, ConnectionListener listener,
+                                                           int userId, String userToken,
+                                                           int stadiumId, int reservationId) {
+        // create the request body
+        AdminReservationActionBody body = new AdminReservationActionBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_CANCEL_RES_BY_ADMIN), null, listener, body,
+                Const.API_CANCEL_RES_BY_ADMIN);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

@@ -95,7 +95,7 @@ public class AdminHomeFragment extends ParentFragment {
                 // select last tab by default as the most right one
                 viewPager.setCurrentItem(tabTitles.length - 1);
             }
-        }, 7);
+        }, 15);
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
