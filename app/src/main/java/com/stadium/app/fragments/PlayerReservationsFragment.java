@@ -17,6 +17,7 @@ import com.stadium.app.activities.StadiumsActivity;
 import com.stadium.app.adapters.ReservationsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.User;

@@ -15,6 +15,7 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.ReservationPlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.interfaces.OnCheckableCheckedListener;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.interfaces.OnReservationPlayersSelectedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.SerializableListWrapper;

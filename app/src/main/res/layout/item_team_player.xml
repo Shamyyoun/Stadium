@@ -39,6 +39,7 @@
                         style="@style/SingleEllipsizedText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="right"
                         android:text="احمد محمود كرم. مدافع"
                         android:textSize="@dimen/medium_text" />
 
@@ -50,6 +51,7 @@
                         android:layout_marginTop="5dp"
                         android:drawablePadding="6dp"
                         android:drawableRight="@drawable/location_icon"
+                        android:gravity="right"
                         android:text="القاهرة - المعادي - شارع 9"
                         android:textSize="@dimen/below_medium_text" />
                 </LinearLayout>

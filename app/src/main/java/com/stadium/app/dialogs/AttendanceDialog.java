@@ -12,6 +12,7 @@ import com.stadium.app.adapters.AttendanceAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.AttendanceController;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.entities.Attendant;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.Utils;

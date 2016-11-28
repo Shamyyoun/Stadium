@@ -27,6 +27,7 @@ import com.stadium.app.controllers.StadiumsFilterController;
 import com.stadium.app.dialogs.OrderDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.OrderCriteria;

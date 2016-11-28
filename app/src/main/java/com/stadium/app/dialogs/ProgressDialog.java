@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.stadium.app.R;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.views.EmptyView;
 import com.stadium.app.views.ErrorView;
@@ -126,9 +127,5 @@ public abstract class ProgressDialog extends ParentDialog {
             swipeLayout.setRefreshing(false);
 
         mainIsVisible = true;
-    }
-
-    public interface OnRefreshListener {
-        public void onRefresh();
     }
 }

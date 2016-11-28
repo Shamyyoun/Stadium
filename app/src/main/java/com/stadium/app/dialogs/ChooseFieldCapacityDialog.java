@@ -13,6 +13,7 @@ import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.FieldCapacityController;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.FieldCapacity;
 import com.stadium.app.utils.Utils;

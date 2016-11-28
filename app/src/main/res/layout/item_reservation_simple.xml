@@ -70,6 +70,7 @@
                         android:layout_marginTop="10dp"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/location_icon"
+                        android:gravity="right"
                         android:text="القاهرة - المعادي - شارع 9 - شارع الحرية"
                         android:textSize="@dimen/small_text" />
 
@@ -80,6 +81,7 @@
                         android:layout_marginTop="5dp"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/stadium_icon"
+                        android:gravity="right"
                         android:text="ملعب السلام - ملعب 25"
                         android:textSize="@dimen/small_text" />
 
@@ -90,6 +92,7 @@
                         android:layout_marginTop="5dp"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/clock_icon"
+                        android:gravity="right"
                         android:text="23-7-2016 6:20 PM"
                         android:textSize="@dimen/small_text" />
                 </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.app.R;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.utils.Utils;
 import com.stadium.app.views.EmptyView;
 import com.stadium.app.views.ErrorView;
@@ -130,9 +131,5 @@ public abstract class ProgressFragment extends ParentFragment {
             swipeLayout.setRefreshing(false);
 
         mainIsVisible = true;
-    }
-
-    public interface OnRefreshListener {
-        public void onRefresh();
     }
 }

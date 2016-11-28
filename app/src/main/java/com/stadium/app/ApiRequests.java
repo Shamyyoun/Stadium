@@ -458,7 +458,7 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> deleteReservation(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler deleteReservation(Context context, ConnectionListener listener,
                                                               int userId, String userToken,
                                                               int teamId, String teamName, int reservationId) {
         // create the request body
@@ -478,8 +478,8 @@ public class ApiRequests {
         body.setReservation(reservation);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getCaptainApiUrl(Const.API_DELETE_RESERVATION), String.class, listener, body, Const.API_DELETE_RESERVATION);
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_DELETE_RESERVATION), null, listener, body, Const.API_DELETE_RESERVATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

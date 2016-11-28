@@ -190,8 +190,10 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         } else {
             // check his role in the team to show / hide the cancel button
             Team team = item.getReservationTeam();
-            if (team == null || !(teamController.isCaptain(team, user.getId())
+            if (team != null && (teamController.isCaptain(team, user.getId())
                     || teamController.isAssistant(team, user.getId()))) {
+                holder.layoutButtons.setVisibility(View.VISIBLE);
+            } else {
                 holder.layoutButtons.setVisibility(View.GONE);
             }
         }
@@ -439,9 +441,9 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> listener = new ConnectionListener<String>() {
+        ConnectionListener listener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code
@@ -486,9 +488,9 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> listener = new ConnectionListener<String>() {
+        ConnectionListener listener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code
@@ -533,9 +535,9 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> listener = new ConnectionListener<String>() {
+        ConnectionListener listener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code
@@ -580,9 +582,9 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> listener = new ConnectionListener<String>() {
+        ConnectionListener listener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code
@@ -626,9 +628,9 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> listener = new ConnectionListener<String>() {
+        ConnectionListener listener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code

@@ -13,8 +13,8 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
-import com.stadium.app.fragments.ProgressFragment;
 import com.stadium.app.interfaces.OnPlayerAddedListener;
+import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
@@ -87,8 +87,8 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
     }
 
     @Override
-    protected ProgressFragment.OnRefreshListener getOnRefreshListener() {
-        return new ProgressFragment.OnRefreshListener() {
+    protected OnRefreshListener getOnRefreshListener() {
+        return new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refresh();

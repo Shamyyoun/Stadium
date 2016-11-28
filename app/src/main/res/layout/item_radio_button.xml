@@ -13,5 +13,6 @@
         style="@style/OrangeRadioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="right|center_vertical"
         android:text="هذا نص اخبتاري" />
 </LinearLayout>
