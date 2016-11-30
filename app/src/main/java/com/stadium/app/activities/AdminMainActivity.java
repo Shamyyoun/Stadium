@@ -6,9 +6,9 @@ import android.widget.TextView;
 
 import com.stadium.app.R;
 import com.stadium.app.fragments.AdminHomeFragment;
+import com.stadium.app.fragments.AdminStadiumFragment;
 import com.stadium.app.fragments.BlockedTeamsFragment;
 import com.stadium.app.fragments.RepeatedReservationsFragment;
-import com.stadium.app.fragments.AdminStadiumFragment;
 import com.stadium.app.fragments.StadiumsFragment;
 
 public class AdminMainActivity extends MainActivity {

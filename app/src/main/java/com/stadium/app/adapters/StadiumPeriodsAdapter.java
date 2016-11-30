@@ -14,6 +14,7 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.UserController;
+import com.stadium.app.dialogs.AdminAddReservationDialog;
 import com.stadium.app.dialogs.ChooseTeamDialog;
 import com.stadium.app.dialogs.ReservationPlayersDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
@@ -40,6 +41,7 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private ActiveUserController activeUserController;
     private Reservation reservation; // this is just to hold data like stadium, field size and date.
+    private boolean isAdminStadiumScreen; // this flag is used to notify the adapter to handle suitable item click
     private ChooseTeamDialog teamsDialog;
     private ReservationPlayersDialog playersDialog;
     private OnReservationAddedListener reservationAddedListener;
@@ -91,8 +93,10 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
     }
 
     private void onItemClick(int position) {
-        // check selected team
-        if (selectedTeam != null) {
+        // check if admin stadium screen
+        if (isAdminStadiumScreen) {
+            showAdminAddReservationDialog(position);
+        } else if (selectedTeam != null) { // check selected team
             // selected team exists
             // show choose players dialog
             choosePlayers(position, selectedTeam);
@@ -101,6 +105,23 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
             // first, choose the team from teams dialog
             chooseTeam(position);
         }
+    }
+
+    private void showAdminAddReservationDialog(final int position) {
+        Reservation reservation = data.get(position);
+        AdminAddReservationDialog dialog = new AdminAddReservationDialog(context, reservation);
+        dialog.setOnReservationAddedListener(new OnReservationAddedListener() {
+            @Override
+            public void onReservationAdded(Reservation reservation) {
+                // remove item and fire the listener if possible
+                removeItem(position);
+                if (reservationAddedListener != null) {
+                    reservationAddedListener.onReservationAdded(reservation);
+                }
+            }
+        });
+
+        dialog.show();
     }
 
     private void chooseTeam(final int position) {
@@ -189,7 +210,7 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
         int fieldId = (reservation.getField() != null) ? reservation.getField().getId() : 0;
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.addReservation(context, connectionListener,
+        ConnectionHandler connectionHandler = ApiRequests.captainAddReservation(context, connectionListener,
                 user.getId(), user.getToken(), team.getId(), team.getName(), playersIds,
                 reservation.getIntrvalNum(), reservation.getPrice(), playersCount, fieldId,
                 reservation.getDate(), reservation.getTimeStart(), reservation.getTimeEnd());
@@ -215,5 +236,9 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
 
     public void setOnReservationAddedListener(OnReservationAddedListener reservationAddedListener) {
         this.reservationAddedListener = reservationAddedListener;
+    }
+
+    public void setAdminStadiumScreen(boolean adminStadiumScreen) {
+        isAdminStadiumScreen = adminStadiumScreen;
     }
 }

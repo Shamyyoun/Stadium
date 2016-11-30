@@ -38,6 +38,7 @@ import java.util.Locale;
 public abstract class StadiumInfoParentFragment extends ParentFragment {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     protected int id;
+    private boolean isAdminStadiumScreen;
     protected StadiumController stadiumController;
 
     private ImageView ivImage;
@@ -333,6 +334,10 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         ibNextDay.setEnabled(enable);
     }
 
+    public void setAdminStadiumScreen(boolean isAdminStadiumFragment) {
+        this.isAdminStadiumScreen = isAdminStadiumFragment;
+    }
+
     public class PagerAdapter extends FragmentStatePagerAdapter {
 
         public PagerAdapter(FragmentManager fm) {
@@ -357,6 +362,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Const.KEY_RESERVATION, reservation);
                 bundle.putSerializable(Const.KEY_TEAM, selectedTeam);
+                bundle.putSerializable(Const.KEY_IS_ADMIN_STADIUM_SCREEN, isAdminStadiumScreen);
 
                 // create new fragment and pass its arguments
                 fragment = new StadiumPeriodsFragment();

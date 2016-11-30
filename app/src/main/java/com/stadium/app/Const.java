@@ -102,6 +102,7 @@ public class Const {
     public static final String KEY_RESERVATION = "reservation";
     public static final String KEY_TOOLBAR_TITLE = "toolbar_title";
     public static final String KEY_RESERVATIONS_TYPE = "reservations_type";
+    public static final String KEY_IS_ADMIN_STADIUM_SCREEN = "is_admin_stadium_screen";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;

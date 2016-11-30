@@ -459,8 +459,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler deleteReservation(Context context, ConnectionListener listener,
-                                                              int userId, String userToken,
-                                                              int teamId, String teamName, int reservationId) {
+                                                      int userId, String userToken,
+                                                      int teamId, String teamName, int reservationId) {
         // create the request body
         CaptainReservationActionBody body = new CaptainReservationActionBody();
         CaptainBody captain = new CaptainBody();
@@ -686,13 +686,13 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<Reservation> addReservation(Context context, ConnectionListener<Reservation> listener,
-                                                                int userId, String userToken,
-                                                                int teamId, String teamName,
-                                                                List<Integer> playersIds, int intervalNum,
-                                                                int price, int playersCount,
-                                                                int fieldId, String date,
-                                                                String timeStart, String timeEnd) {
+    public static ConnectionHandler<Reservation> captainAddReservation(Context context, ConnectionListener<Reservation> listener,
+                                                                       int userId, String userToken,
+                                                                       int teamId, String teamName,
+                                                                       List<Integer> playersIds, int intervalNum,
+                                                                       int price, int playersCount,
+                                                                       int fieldId, String date,
+                                                                       String timeStart, String timeEnd) {
         // create the request body
         CaptainReservationActionBody body = new CaptainReservationActionBody();
         CaptainBody captain = new CaptainBody();
@@ -958,7 +958,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Team[]> myBlockedList(Context context, ConnectionListener<Team[]> listener,
-                                                                    int userId, String userToken, int stadiumId) {
+                                                          int userId, String userToken, int stadiumId) {
         // create the request body
         AdminBody body = new AdminBody();
         User user = new User();
@@ -999,6 +999,44 @@ public class ApiRequests {
         ConnectionHandler connectionHandler = new ConnectionHandler(context,
                 AppUtils.getAdminApiUrl(Const.API_UNBLOCK_TEAM), null, listener, body,
                 Const.API_UNBLOCK_TEAM);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation> adminAddReservation(Context context, ConnectionListener<Reservation> listener,
+                                                                     int userId, String userToken, int stadiumId,
+                                                                     String customerName, String customerPhone,
+                                                                     int intervalNum, int price,
+                                                                     int fieldId, String date,
+                                                                     String timeStart, String timeEnd) {
+        // create the request body
+        AdminReservationActionBody body = new AdminReservationActionBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium hisStadium = new Stadium();
+        hisStadium.setId(stadiumId);
+        admin.setHisStadium(hisStadium);
+        body.setAdmin(admin);
+        Reservation reservation = new Reservation();
+        reservation.setCustomerName(customerName);
+        reservation.setCustomerPhone(customerPhone);
+        reservation.setIntrvalNum(intervalNum);
+        reservation.setPrice(price);
+        Field field = new Field();
+        field.setId(fieldId);
+        reservation.setField(field);
+        reservation.setDate(date);
+        reservation.setTimeStart(timeStart);
+        reservation.setTimeEnd(timeEnd);
+        body.setReservation(reservation);
+
+        // create & execute the request
+        ConnectionHandler<Reservation> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_ADD_RESERVATION), Reservation.class, listener,
+                body, Const.API_ADD_RESERVATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

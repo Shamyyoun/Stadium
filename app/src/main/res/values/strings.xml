@@ -289,6 +289,12 @@
     <string name="blocked_teams">الفرق المحظورة</string>
     <string name="no_blocked_teams_found">لا يوجد أفرقة محظورة</string>
     <string name="edit">تعديل</string>
+    <string name="reservation_details">بيانات الحجز</string>
+    <string name="field_c">ملعب:</string>
+    <string name="date_c">التاريخ:</string>
+    <string name="time_c">الوقت:</string>
+    <string name="reservation_added_successfully">تم اضافة الحجز بنجاح</string>
+    <string name="failed_adding_reservation">فشل اضافة الحجز</string>
 
 
     <!-- Arrays -->

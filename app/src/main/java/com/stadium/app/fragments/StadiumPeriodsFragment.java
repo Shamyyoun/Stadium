@@ -36,6 +36,7 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     private ActiveUserController userController;
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private Reservation reservation; // this is just to hold data like stadium, field size and date passed from activity.
+    private boolean isAdminStadiumScreen; // this flag is used to notify the adapter to handle suitable item click
     private TextView tvFieldCapacity;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
@@ -47,16 +48,17 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get main objects
+        reservation = (Reservation) getArguments().getSerializable(Const.KEY_RESERVATION);
+        selectedTeam = (Team) getArguments().getSerializable(Const.KEY_TEAM);
+        isAdminStadiumScreen = getArguments().getBoolean(Const.KEY_IS_ADMIN_STADIUM_SCREEN);
         userController = new ActiveUserController(activity);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_stadium_periods, container, false);
-
-        // get main objects
-        reservation = (Reservation) getArguments().getSerializable(Const.KEY_RESERVATION);
-        selectedTeam = (Team) getArguments().getSerializable(Const.KEY_TEAM);
 
         // init views
         tvFieldCapacity = (TextView) findViewById(R.id.tv_field_capacity);
@@ -95,7 +97,9 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     private void updateUI() {
         // prepare suitable item layout id
         int itemLayoutId;
-        if (userController.isAdmin()) {
+        if (isAdminStadiumScreen) {
+            itemLayoutId = R.layout.item_green_stadium_period;
+        } else if (userController.isAdmin()) {
             itemLayoutId = R.layout.item_gray_stadium_period;
         } else {
             itemLayoutId = R.layout.item_green_stadium_period;
@@ -106,6 +110,7 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         adapter.setSelectedTeam(selectedTeam);
         adapter.setOnItemRemovedListener(this);
         adapter.setOnReservationAddedListener(this);
+        adapter.setAdminStadiumScreen(isAdminStadiumScreen);
         recyclerView.setAdapter(adapter);
         showMain();
     }

@@ -25,6 +25,9 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
         ActiveUserController userController = new ActiveUserController(activity);
         id = userController.getUser().getAdminStadium().getId();
 
+        // set admin stadium fragment flag
+        setAdminStadiumScreen(true);
+
         // customize toolbar
         setTitle(R.string.stade);
         createOptionsMenu(R.menu.menu_admin_stadium);
