@@ -288,6 +288,7 @@
     <string name="cancel_block_q">الغاء الحظر؟</string>
     <string name="blocked_teams">الفرق المحظورة</string>
     <string name="no_blocked_teams_found">لا يوجد أفرقة محظورة</string>
+    <string name="edit">تعديل</string>
 
 
     <!-- Arrays -->

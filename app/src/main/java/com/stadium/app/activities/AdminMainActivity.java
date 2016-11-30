@@ -8,7 +8,7 @@ import com.stadium.app.R;
 import com.stadium.app.fragments.AdminHomeFragment;
 import com.stadium.app.fragments.BlockedTeamsFragment;
 import com.stadium.app.fragments.RepeatedReservationsFragment;
-import com.stadium.app.fragments.StadiumFragment;
+import com.stadium.app.fragments.AdminStadiumFragment;
 import com.stadium.app.fragments.StadiumsFragment;
 
 public class AdminMainActivity extends MainActivity {
@@ -21,7 +21,7 @@ public class AdminMainActivity extends MainActivity {
 
     private AdminHomeFragment homeFragment;
     private StadiumsFragment stadiumsFragment;
-    private StadiumFragment stadiumFragment;
+    private AdminStadiumFragment stadiumFragment;
     private BlockedTeamsFragment blockedFragment;
     private RepeatedReservationsFragment repeatedFragment;
 
@@ -99,7 +99,7 @@ public class AdminMainActivity extends MainActivity {
 
             case R.id.tv_stadium:
                 if (stadiumFragment == null) {
-                    stadiumFragment = new StadiumFragment();
+                    stadiumFragment = new AdminStadiumFragment();
                 }
                 loadFragment(R.id.container, stadiumFragment);
                 break;

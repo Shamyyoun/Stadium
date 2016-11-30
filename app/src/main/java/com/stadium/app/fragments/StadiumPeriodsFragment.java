@@ -1,6 +1,5 @@
 package com.stadium.app.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,7 +36,6 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     private ActiveUserController userController;
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private Reservation reservation; // this is just to hold data like stadium, field size and date passed from activity.
-    private StadiumInfoActivity activity;
     private TextView tvFieldCapacity;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
@@ -45,12 +43,6 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     private TextView tvError;
     private StadiumPeriodsAdapter adapter;
     private List<Reservation> data;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = (StadiumInfoActivity) activity;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,8 +119,12 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
 
     @Override
     public void onReservationAdded(Reservation reservation) {
-        // fire the method in the activity
-        activity.onReservationAdded();
+        // check activity type
+        if (activity instanceof StadiumInfoActivity) {
+            // fire the method in stadium info activity
+            StadiumInfoActivity stadiumInfoActivity = (StadiumInfoActivity) activity;
+            stadiumInfoActivity.onReservationAdded();
+        }
     }
 
     public void loadData() {
