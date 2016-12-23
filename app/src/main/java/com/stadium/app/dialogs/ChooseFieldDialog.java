@@ -11,13 +11,16 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.R;
 import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.TimeController;
+import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.controllers.FieldController;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
-import com.stadium.app.models.entities.Time;
+import com.stadium.app.models.entities.Field;
 import com.stadium.app.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.stadium.app.R.string.select;
@@ -25,22 +28,21 @@ import static com.stadium.app.R.string.select;
 /**
  * Created by Shamyyoun on 6/28/16.
  */
-public class ChooseTimeDialog extends ProgressDialog {
-    private TimeController timeController;
+public class ChooseFieldDialog extends ProgressDialog {
+    private FieldController fieldController;
     private RecyclerView recyclerView;
     private Button btnSubmit;
     private RadioButtonsAdapter adapter;
-    private List<Time> data;
+    private List<Field> data;
     private OnCheckableSelectedListener itemSelectedListener;
-    private String selectedTimeStart;
-    private String selectedTimeEnd;
+    private int selectedItemId;
 
-    public ChooseTimeDialog(final Context context) {
+    public ChooseFieldDialog(final Context context) {
         super(context);
-        setTitle(R.string.times);
+        setTitle(R.string.fields);
 
-        // create the controller
-        timeController = new TimeController();
+        // create controllers
+        fieldController = new FieldController();
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -60,7 +62,7 @@ public class ChooseTimeDialog extends ProgressDialog {
 
         // get data from saved bundle if exists
         if (savedInstanceState != null) {
-            SerializableListWrapper<Time> dataWrapper = (SerializableListWrapper<Time>) savedInstanceState.getSerializable("dataWrapper");
+            SerializableListWrapper<Field> dataWrapper = (SerializableListWrapper<Field>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
             }
@@ -76,7 +78,7 @@ public class ChooseTimeDialog extends ProgressDialog {
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.dialog_choose_time;
+        return R.layout.dialog_choose_field;
     }
 
     @Override
@@ -95,9 +97,6 @@ public class ChooseTimeDialog extends ProgressDialog {
     }
 
     private void updateUI() {
-        // add the default item
-        data = timeController.addDefaultItem(data, getString(R.string.all_times));
-
         adapter = new RadioButtonsAdapter(context, data, R.layout.item_radio_button);
         recyclerView.setAdapter(adapter);
         showMain();
@@ -132,20 +131,24 @@ public class ChooseTimeDialog extends ProgressDialog {
 
         showProgress();
 
+        // prepare the stadium id
+        ActiveUserController userController = new ActiveUserController(context);
+        int stadiumId = userController.getUser().getAdminStadium().getId();
+
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.allDurations(context, this);
+        ConnectionHandler connectionHandler = ApiRequests.getMyFields(context, this, stadiumId);
         cancelWhenDestroyed(connectionHandler);
     }
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
         // get data
-        String[] positionsArr = (String[]) response;
-        data = timeController.createList(positionsArr);
+        Field[] fieldsArr = (Field[]) response;
+        data = new ArrayList<>(Arrays.asList(fieldsArr));
 
         // check size
         if (data.size() == 0) {
-            showEmpty(R.string.no_times_found);
+            showEmpty(R.string.no_fields_found);
         } else {
             updateUI();
         }
@@ -153,7 +156,7 @@ public class ChooseTimeDialog extends ProgressDialog {
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        showError(R.string.failed_loading_times);
+        showError(R.string.failed_loading_fields);
     }
 
 
@@ -188,13 +191,12 @@ public class ChooseTimeDialog extends ProgressDialog {
         this.itemSelectedListener = itemSelectedListener;
     }
 
-    public void setSelectedItem(String selectedTimeStart, String selectedTimeEnd) {
-        this.selectedTimeStart = selectedTimeStart;
-        this.selectedTimeEnd = selectedTimeEnd;
+    public void setSelectedItemId(int selectedItemId) {
+        this.selectedItemId = selectedItemId;
     }
 
     private void selectCheckedItem() {
-        int itemPosition = timeController.getItemPosition(data, selectedTimeStart, selectedTimeEnd);
+        int itemPosition = fieldController.getItemPosition(data, selectedItemId);
         if (itemPosition != -1) {
             adapter.setSelectedItem(itemPosition);
         }

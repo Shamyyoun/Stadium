@@ -216,7 +216,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     }
 
     private void increaseDate() {
-        String date = DateUtils.addDays(tvDate.getText().toString(), Const.SER_DATE_FORMAT, 1);
+        String date = DateUtils.getNewStringDate(tvDate.getText().toString(), Const.SER_DATE_FORMAT, 1);
         if (date != null) {
             tvDate.setText(date);
 

@@ -75,13 +75,50 @@ public class DateUtils {
         return currentCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    public static String addDays(String strDate, String strFormat, int days) {
+    public static String getNewStringDate(String strDate, String strFormat, int daysToAdd) {
         Calendar calendar = convertToCalendar(strDate, strFormat);
         if (calendar != null) {
-            calendar.add(Calendar.DATE, days);
+            calendar.add(Calendar.DATE, daysToAdd);
             return convertToString(calendar, strFormat);
         } else {
             return null;
+        }
+    }
+
+    public static Calendar getNewCalendar(String strDate, String strFormat, int daysToAdd) {
+        Calendar calendar = convertToCalendar(strDate, strFormat);
+        if (calendar != null) {
+            calendar.add(Calendar.DATE, daysToAdd);
+            return calendar;
+        } else {
+            return null;
+        }
+    }
+
+    public static Calendar getNewCalendar(int daysToAdd) {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.add(Calendar.DATE, daysToAdd);
+        return calendar;
+    }
+
+    /**
+     * method, used to compare two dates
+     *
+     * @param strDate1
+     * @param strDate2
+     * @param dateFormat
+     * @return 1 if date1 is after date2, -1 if date1 is before date2 and 0 if the the dates are the same
+     */
+    public static int compare(String strDate1, String strDate2, String dateFormat) {
+        Calendar calendar1 = convertToCalendar(strDate1, dateFormat);
+        Calendar calendar2 = convertToCalendar(strDate2, dateFormat);
+
+        if (calendar1.after(calendar2)) {
+            return 1;
+        } else if (calendar1.before(calendar2)) {
+            return -1;
+        } else {
+            return 0;
         }
     }
 }

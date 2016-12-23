@@ -19,7 +19,7 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.UserController;
-import com.stadium.app.dialogs.ChooseTeamDialog;
+import com.stadium.app.dialogs.ChooseFromCaptainTeamsDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.models.Checkable;
@@ -42,7 +42,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
     private OnPlayerAddedListener playerAddedListener;
     private ActiveUserController activeUserController;
     private UserController userController;
-    private ChooseTeamDialog teamsDialog;
+    private ChooseFromCaptainTeamsDialog teamsDialog;
 
     public PlayersAdapter(Context context, List<User> data, int layoutId, int viewType) {
         super(context, data, layoutId);
@@ -147,7 +147,7 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
 
     private void chooseTeam(final int position) {
         if (teamsDialog == null) {
-            teamsDialog = new ChooseTeamDialog(context);
+            teamsDialog = new ChooseFromCaptainTeamsDialog(context);
             teamsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {

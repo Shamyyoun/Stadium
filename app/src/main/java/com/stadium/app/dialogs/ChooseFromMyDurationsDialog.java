@@ -12,12 +12,11 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.RadioButtonsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
-import com.stadium.app.controllers.TeamController;
+import com.stadium.app.controllers.DurationController;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
-import com.stadium.app.models.entities.Team;
-import com.stadium.app.models.entities.User;
+import com.stadium.app.models.entities.Duration;
 import com.stadium.app.utils.Utils;
 
 import java.util.ArrayList;
@@ -29,17 +28,27 @@ import static com.stadium.app.R.string.select;
 /**
  * Created by Shamyyoun on 6/28/16.
  */
-public class ChooseTeamDialog extends ProgressDialog {
+public class ChooseFromMyDurationsDialog extends ProgressDialog {
+    private String startDate;
+    private String endDate;
+    private DurationController durationController;
     private RecyclerView recyclerView;
     private Button btnSubmit;
     private RadioButtonsAdapter adapter;
-    private List<Team> data;
+    private List<Duration> data;
     private OnCheckableSelectedListener itemSelectedListener;
     private int selectedItemId;
 
-    public ChooseTeamDialog(final Context context) {
+    public ChooseFromMyDurationsDialog(final Context context, String startDate, String endDate) {
         super(context);
-        setTitle(R.string.teams);
+        setTitle(R.string.times);
+
+        // set fields
+        this.startDate = startDate;
+        this.endDate = endDate;
+
+        // create the controller
+        durationController = new DurationController();
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -59,7 +68,7 @@ public class ChooseTeamDialog extends ProgressDialog {
 
         // get data from saved bundle if exists
         if (savedInstanceState != null) {
-            SerializableListWrapper<Team> dataWrapper = (SerializableListWrapper<Team>) savedInstanceState.getSerializable("dataWrapper");
+            SerializableListWrapper<Duration> dataWrapper = (SerializableListWrapper<Duration>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
             }
@@ -75,7 +84,7 @@ public class ChooseTeamDialog extends ProgressDialog {
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.dialog_choose_team;
+        return R.layout.dialog_choose_duration;
     }
 
     @Override
@@ -128,24 +137,24 @@ public class ChooseTeamDialog extends ProgressDialog {
 
         showProgress();
 
-        // get current user
+        // prepare the stadium id
         ActiveUserController userController = new ActiveUserController(context);
-        User user = userController.getUser();
+        int stadiumId = userController.getUser().getAdminStadium().getId();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.captainTeams(context, this, user.getId(), user.getToken());
+        ConnectionHandler connectionHandler = ApiRequests.getMyDurations(context, this, stadiumId, startDate, endDate);
         cancelWhenDestroyed(connectionHandler);
     }
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
         // get data
-        Team[] teamsArr = (Team []) response;
-        data = new ArrayList<>(Arrays.asList(teamsArr));
+        Duration[] durationsArr = (Duration[]) response;
+        data = new ArrayList<>(Arrays.asList(durationsArr));
 
         // check size
         if (data.size() == 0) {
-            showEmpty(R.string.no_teams_found);
+            showEmpty(R.string.no_times_found);
         } else {
             updateUI();
         }
@@ -153,7 +162,7 @@ public class ChooseTeamDialog extends ProgressDialog {
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        showError(R.string.failed_loading_teams);
+        showError(R.string.failed_loading_times);
     }
 
 
@@ -193,8 +202,7 @@ public class ChooseTeamDialog extends ProgressDialog {
     }
 
     private void selectCheckedItem() {
-        TeamController teamController = new TeamController();
-        int itemPosition = teamController.getItemPosition(data, selectedItemId);
+        int itemPosition = durationController.getItemPosition(data, selectedItemId);
         if (itemPosition != -1) {
             adapter.setSelectedItem(itemPosition);
         }

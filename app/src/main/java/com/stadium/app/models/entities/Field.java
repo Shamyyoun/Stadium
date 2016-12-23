@@ -2,10 +2,11 @@ package com.stadium.app.models.entities;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.stadium.app.models.Checkable;
 
 import java.io.Serializable;
 
-public class Field implements Serializable {
+public class Field implements Serializable, Checkable {
 
     @SerializedName("Id")
     @Expose
@@ -31,6 +32,7 @@ public class Field implements Serializable {
     @SerializedName("price")
     @Expose
     private int price;
+    private boolean checked;
 
     /**
      * @return The id
@@ -144,4 +146,18 @@ public class Field implements Serializable {
         this.price = price;
     }
 
+    @Override
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    @Override
+    public boolean isChecked() {
+        return checked;
+    }
+
+    @Override
+    public String toString() {
+        return fieldNumber;
+    }
 }

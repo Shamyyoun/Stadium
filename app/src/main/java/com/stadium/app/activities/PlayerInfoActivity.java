@@ -19,7 +19,7 @@ import com.stadium.app.adapters.TeamsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.UserController;
-import com.stadium.app.dialogs.ChooseTeamDialog;
+import com.stadium.app.dialogs.ChooseFromCaptainTeamsDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.models.Checkable;
@@ -55,7 +55,7 @@ public class PlayerInfoActivity extends ParentActivity {
     private User player;
     private List<Team> teams;
     private TeamsAdapter teamsAdapter;
-    private ChooseTeamDialog teamsDialog;
+    private ChooseFromCaptainTeamsDialog teamsDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,7 @@ public class PlayerInfoActivity extends ParentActivity {
 
     private void chooseTeam() {
         if (teamsDialog == null) {
-            teamsDialog = new ChooseTeamDialog(this);
+            teamsDialog = new ChooseFromCaptainTeamsDialog(this);
             teamsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {
@@ -146,7 +146,8 @@ public class PlayerInfoActivity extends ParentActivity {
 
     private void updateTeamsUI() {
         // set the adapter
-        teamsAdapter = new TeamsAdapter(this, teams, R.layout.item_team, id);
+        teamsAdapter = new TeamsAdapter(this, teams, R.layout.item_team_simple);
+        teamsAdapter.setPlayerId(id);
         recyclerView.setAdapter(teamsAdapter);
         showTeamsMain();
 

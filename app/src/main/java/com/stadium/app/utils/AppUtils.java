@@ -51,10 +51,10 @@ public class AppUtils {
      * @param pathParts
      * @return
      */
-    public static String getUserApiUrl(String... pathParts) {
+    public static String getUserApiUrl(Object... pathParts) {
         String fullUrl = Const.END_POINT + "/" + Const.ROUTE_USER;
-        for (String pathPart : pathParts) {
-            fullUrl += "/" + pathPart;
+        for (Object pathPart : pathParts) {
+            fullUrl += "/" + pathPart.toString();
         }
         return fullUrl;
     }

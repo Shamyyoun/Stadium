@@ -12,6 +12,7 @@ import com.stadium.app.models.bodies.CaptainBody;
 import com.stadium.app.models.bodies.CaptainReservationActionBody;
 import com.stadium.app.models.bodies.CheckListOfContactsBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
+import com.stadium.app.models.bodies.DurationsBody;
 import com.stadium.app.models.bodies.EditTeamBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.bodies.LeaveTeamBody;
@@ -22,6 +23,7 @@ import com.stadium.app.models.bodies.TeamPlayerActionBody;
 import com.stadium.app.models.bodies.UnblockTeamBody;
 import com.stadium.app.models.entities.Attendant;
 import com.stadium.app.models.entities.City;
+import com.stadium.app.models.entities.Duration;
 import com.stadium.app.models.entities.Event;
 import com.stadium.app.models.entities.Field;
 import com.stadium.app.models.entities.Image;
@@ -1037,6 +1039,40 @@ public class ApiRequests {
         ConnectionHandler<Reservation> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getAdminApiUrl(Const.API_ADD_RESERVATION), Reservation.class, listener,
                 body, Const.API_ADD_RESERVATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Team[]> getAllTeams(Context context, ConnectionListener<Team[]> listener) {
+        // create & execute the request
+        ConnectionHandler<Team[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_GET_ALL_TEAMS), Team[].class, listener, Const.API_GET_ALL_TEAMS);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Field[]> getMyFields(Context context, ConnectionListener<Field[]> listener, int stadiumId) {
+        // prepare the url
+        String url = AppUtils.getUserApiUrl(Const.API_GET_MY_FIELDS, stadiumId);
+
+        // create & execute the request
+        ConnectionHandler<Field[]> connectionHandler = new ConnectionHandler(context,
+                url, Field[].class, listener, Const.API_GET_MY_FIELDS);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Duration[]> getMyDurations(Context context, ConnectionListener<Duration[]> listener,
+                                                               int stadiumId, String startDate, String endDate) {
+        // create the request body
+        DurationsBody body = new DurationsBody();
+        body.setStadiumId(stadiumId);
+        body.setStartDate(startDate);
+        body.setEndDate(endDate);
+
+        // create & execute the request
+        ConnectionHandler<Duration[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_GET_MY_DURATIONS), Duration[].class, listener, body, Const.API_GET_MY_DURATIONS);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

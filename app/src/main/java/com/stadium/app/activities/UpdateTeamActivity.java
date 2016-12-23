@@ -98,7 +98,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
 
         // set the captain if possible
         if (team.getCaptain() != null) {
-            String captainStr = getString(R.string.captain) + ": "
+            String captainStr = getString(R.string.the_captain) + ": "
                     + team.getCaptain().getName();
             btnCaptain.setText(captainStr);
         }
@@ -227,7 +227,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
                     Utils.showLongToast(activity, R.string.this_player_is_the_assistant_choose_another);
                 } else {
                     // update the ui
-                    String captainStr = getString(R.string.captain)
+                    String captainStr = getString(R.string.the_captain)
                             + ": " + user.getName();
                     btnCaptain.setText(captainStr);
 

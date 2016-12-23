@@ -114,7 +114,8 @@ public class MyTeamsFragment extends ProgressFragment {
     }
 
     private void updateUI() {
-        adapter = new TeamsAdapter(activity, data, R.layout.item_team, userController.getUser().getId());
+        adapter = new TeamsAdapter(activity, data, R.layout.item_team_simple);
+        adapter.setPlayerId(userController.getUser().getId());
         recyclerView.setAdapter(adapter);
         showMain();
 

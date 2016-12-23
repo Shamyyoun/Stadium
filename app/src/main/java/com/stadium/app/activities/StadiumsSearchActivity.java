@@ -16,13 +16,13 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.dialogs.ChooseCityDialog;
 import com.stadium.app.dialogs.ChooseFieldCapacityDialog;
-import com.stadium.app.dialogs.ChooseTimeDialog;
+import com.stadium.app.dialogs.ChooseFromAllDurationsDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.City;
+import com.stadium.app.models.entities.Duration;
 import com.stadium.app.models.entities.FieldCapacity;
 import com.stadium.app.models.entities.StadiumsFilter;
-import com.stadium.app.models.entities.Time;
 import com.stadium.app.utils.DatePickerFragment;
 import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.Utils;
@@ -46,7 +46,7 @@ public class StadiumsSearchActivity extends ParentActivity {
     private ChooseCityDialog citiesDialog;
     private ChooseFieldCapacityDialog fieldsDialog;
     private DatePickerFragment datePickerFragment;
-    private ChooseTimeDialog timesDialog;
+    private ChooseFromAllDurationsDialog timesDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,8 +242,8 @@ public class StadiumsSearchActivity extends ParentActivity {
             datePickerFragment = new DatePickerFragment();
 
             // set max and min dates
-            Calendar midDate = Calendar.getInstance();
-            datePickerFragment.setMinDate(midDate);
+            Calendar minDate = Calendar.getInstance();
+            datePickerFragment.setMinDate(minDate);
             Calendar maxDate = Calendar.getInstance();
             maxDate.add(Calendar.DATE, Const.STADIUMS_SEARCH_MAX_DATE_DAYS_FROM_NOW);
             datePickerFragment.setMaxDate(maxDate);
@@ -266,20 +266,20 @@ public class StadiumsSearchActivity extends ParentActivity {
 
     private void chooseTime() {
         if (timesDialog == null) {
-            timesDialog = new ChooseTimeDialog(this);
+            timesDialog = new ChooseFromAllDurationsDialog(this);
             timesDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {
                     // check the city item
-                    Time time = (Time) item;
-                    if (time.getStart() == null && time.getEnd() == null
-                            && getString(R.string.all_times).equals(time.getDefaultName())) {
+                    Duration duration = (Duration) item;
+                    if (duration.getStartTime() == null && duration.getEndTime() == null
+                            && getString(R.string.all_times).equals(duration.getDefaultName())) {
                         // all times item
                         filter.setTimeStart(null);
                         filter.setTimeEnd(null);
                     } else {
-                        filter.setTimeStart(time.getStart());
-                        filter.setTimeEnd(time.getEnd());
+                        filter.setTimeStart(duration.getStartTime());
+                        filter.setTimeEnd(duration.getEndTime());
                     }
                     updateTimeUI();
                 }

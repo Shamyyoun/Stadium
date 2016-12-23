@@ -66,6 +66,9 @@ public class Const {
     public static final String API_CANCEL_RES_BY_ADMIN = "CancelResByAdmin";
     public static final String API_UNBLOCK_TEAM = "UnblockTeam";
     public static final String API_MY_BLOCKED_LIST = "MyBlockedList";
+    public static final String API_GET_ALL_TEAMS = "getAllTeams";
+    public static final String API_GET_MY_FIELDS = "getMyfields";
+    public static final String API_GET_MY_DURATIONS = "getMyDurations";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

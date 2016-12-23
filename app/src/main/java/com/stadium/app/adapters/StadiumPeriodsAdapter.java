@@ -15,7 +15,7 @@ import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.UserController;
 import com.stadium.app.dialogs.AdminAddReservationDialog;
-import com.stadium.app.dialogs.ChooseTeamDialog;
+import com.stadium.app.dialogs.ChooseFromCaptainTeamsDialog;
 import com.stadium.app.dialogs.ReservationPlayersDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnReservationAddedListener;
@@ -42,7 +42,7 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
     private ActiveUserController activeUserController;
     private Reservation reservation; // this is just to hold data like stadium, field size and date.
     private boolean isAdminStadiumScreen; // this flag is used to notify the adapter to handle suitable item click
-    private ChooseTeamDialog teamsDialog;
+    private ChooseFromCaptainTeamsDialog teamsDialog;
     private ReservationPlayersDialog playersDialog;
     private OnReservationAddedListener reservationAddedListener;
 
@@ -126,7 +126,7 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
 
     private void chooseTeam(final int position) {
         if (teamsDialog == null) {
-            teamsDialog = new ChooseTeamDialog(context);
+            teamsDialog = new ChooseFromCaptainTeamsDialog(context);
             teamsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {

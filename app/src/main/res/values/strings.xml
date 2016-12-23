@@ -74,6 +74,7 @@
     <string name="add_team">اضافة فريق</string>
     <string name="update">تعديل</string>
     <string name="team">فريق</string>
+    <string name="the_team">الفريق</string>
     <string name="update_team">تعديل بيانات الفريق</string>
     <string name="details">نبذه عن الفريق</string>
     <string name="can_create_new_team_start_now">يمكنك انشاء فريق جديد. ابدأ الآن</string>
@@ -106,7 +107,7 @@
     <string name="exit">خروج</string>
     <string name="stade">الاستاد</string>
     <string name="blocked">المحظور</string>
-    <string name="repeated">المتكرر</string>
+    <string name="repeated_reservation">حجز متكرر</string>
     <string name="today_reservation">حجوزات اليوم</string>
     <string name="accepted_reservation">حجوزات مقبولة</string>
     <string name="new_reservation">حجوزات جديدة</string>
@@ -226,7 +227,8 @@
     <string name="ordered">تم الترتيب</string>
     <string name="the_order_by">الترتيب بواسطة</string>
     <string name="add_this_player_to_x_team_q">اضافة هذا اللاعب لفريق %s؟</string>
-    <string name="captain">الكابتن</string>
+    <string name="the_captain">الكابتن</string>
+    <string name="captain">كابتن</string>
     <string name="assistant">المساعد</string>
     <string name="this_player_is_the_captain_choose_another">هذا اللاعب هوا الكابتن، برجاء اختيار لاعب آخر</string>
     <string name="this_player_is_the_assistant_choose_another">هذا اللاعب هوا المساعد، برجاء اختيار لاعب آخر</string>
@@ -299,6 +301,20 @@
     <string name="price">السعر</string>
     <string name="from">من</string>
     <string name="day">اليوم</string>
+    <string name="all_teams">كل الأفرقة</string>
+    <string name="fields">الملاعب</string>
+    <string name="no_fields_found">لا يوجد ملاعب</string>
+    <string name="failed_loading_fields">فشل تحميل الملاعب</string>
+    <string name="please_choose_from_date_first">برجاء اختيار التاريخ من اولا</string>
+    <string name="please_choose_the_date_first">برجاء اختيار التاريخ اولا</string>
+    <string name="saturday">السبت</string>
+    <string name="sunday">الاحد</string>
+    <string name="monday">الاثنين</string>
+    <string name="tuesday">الثلاثاء</string>
+    <string name="wednesday">الاربعاء</string>
+    <string name="thursday">الخميس</string>
+    <string name="friday">الجمعة</string>
+    <string name="days">الايام</string>
 
 
     <!-- Arrays -->

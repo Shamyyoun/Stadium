@@ -19,12 +19,11 @@ import java.util.List;
  * Created by Shamyyoun on 19/2/16.
  */
 public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
-    private int playerId;
     private TeamController teamController;
+    private int playerId; // the player id to check his role in the every team and display it if required
 
-    public TeamsAdapter(Context context, List<Team> data, int layoutId, int playerId) {
+    public TeamsAdapter(Context context, List<Team> data, int layoutId) {
         super(context, data, layoutId);
-        this.playerId = playerId;
         teamController = new TeamController();
     }
 
@@ -46,14 +45,31 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         holder.tvTitle.setText(item.getName());
         Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivLogo);
 
-        // set the role
-        PlayerRole role = teamController.getPlayerRole(item, playerId);
-        if (role != null) {
-            holder.tvRole.setText(role.getChar());
-            holder.tvRole.setBackgroundResource(role.getBackgroundResId());
-            holder.tvRole.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvRole.setVisibility(View.GONE);
+        // check to set the captain name
+        if (holder.tvCaptainName != null) {
+            // check the captain name
+            if (item.getCaptain() != null && !Utils.isNullOrEmpty(item.getCaptain().getName())) {
+                // set the captain name
+                String captainName = item.getCaptain().getName();
+                String captainNameStr = getString(R.string.captain) + " . " + captainName;
+                holder.tvCaptainName.setText(captainNameStr);
+                holder.tvCaptainName.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvCaptainName.setVisibility(View.GONE);
+            }
+        }
+
+        // check to set the role
+        if (holder.tvRole != null) {
+            // set the role
+            PlayerRole role = teamController.getPlayerRole(item, playerId);
+            if (role != null) {
+                holder.tvRole.setText(role.getChar());
+                holder.tvRole.setBackgroundResource(role.getBackgroundResId());
+                holder.tvRole.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvRole.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -61,6 +77,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         private ImageView ivLogo;
         private TextView tvRole;
         private TextView tvTitle;
+        private TextView tvCaptainName;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -68,6 +85,11 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
             ivLogo = (ImageView) findViewById(R.id.iv_logo);
             tvRole = (TextView) findViewById(R.id.tv_role);
             tvTitle = (TextView) findViewById(R.id.tv_title);
+            tvCaptainName = (TextView) findViewById(R.id.tv_captain_name);
         }
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 }

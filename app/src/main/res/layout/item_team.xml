@@ -4,43 +4,52 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="horizontal"
+    android:paddingBottom="6dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="15dp"
+    android:paddingTop="6dp">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/iv_logo"
-            style="@style/CroppedImageView"
-            android:layout_width="@dimen/my_teams_logo_size"
-            android:layout_height="@dimen/my_teams_logo_size"
-            android:src="@drawable/default_image"
-            app:riv_oval="true" />
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_role"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="right"
-            android:background="@drawable/orange_circle"
-            android:gravity="center"
-            android:text="C"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/above_medium_text"
-            android:textStyle="bold"
-            android:visibility="gone" />
-    </FrameLayout>
+            android:id="@+id/tv_title"
+            style="@style/SingleEllipsizedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="الأهلي"
+            android:textSize="@dimen/medium_text" />
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:gravity="center"
-        android:text="الاهلي"
-        android:textSize="@dimen/medium_text" />
+        <TextView
+            android:id="@+id/tv_captain_name"
+            style="@style/SingleEllipsizedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/captine_icon"
+            android:gravity="right"
+            android:text="كابتن. محمود الشامي"
+            android:textSize="@dimen/medium_text" />
+    </LinearLayout>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_logo"
+        style="@style/CroppedImageView"
+        android:layout_width="@dimen/small_team_image_size"
+        android:layout_height="@dimen/small_team_image_size"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/default_image"
+        app:riv_border_color="@color/light_gray"
+        app:riv_border_width="0.5dp"
+        app:riv_oval="true" />
 </LinearLayout>
