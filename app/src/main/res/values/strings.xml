@@ -295,6 +295,10 @@
     <string name="time_c">الوقت:</string>
     <string name="reservation_added_successfully">تم اضافة الحجز بنجاح</string>
     <string name="failed_adding_reservation">فشل اضافة الحجز</string>
+    <string name="field_number">رقم الملعب</string>
+    <string name="price">السعر</string>
+    <string name="from">من</string>
+    <string name="day">اليوم</string>
 
 
     <!-- Arrays -->

@@ -12,7 +12,7 @@ import com.stadium.app.R;
 /**
  * Created by karam on 8/10/16.
  */
-public class RepeatedReservationsFragment extends ParentFragment {
+public class RepeatedReservationFragment extends ParentFragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -25,7 +25,7 @@ public class RepeatedReservationsFragment extends ParentFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_admin_repeated, container, false);
+        rootView = inflater.inflate(R.layout.fragment_repeated_reservation, container, false);
 
         return rootView;
     }

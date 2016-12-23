@@ -8,7 +8,7 @@ import com.stadium.app.R;
 import com.stadium.app.fragments.AdminHomeFragment;
 import com.stadium.app.fragments.AdminStadiumFragment;
 import com.stadium.app.fragments.BlockedTeamsFragment;
-import com.stadium.app.fragments.RepeatedReservationsFragment;
+import com.stadium.app.fragments.RepeatedReservationFragment;
 import com.stadium.app.fragments.StadiumsFragment;
 
 public class AdminMainActivity extends MainActivity {
@@ -23,7 +23,7 @@ public class AdminMainActivity extends MainActivity {
     private StadiumsFragment stadiumsFragment;
     private AdminStadiumFragment stadiumFragment;
     private BlockedTeamsFragment blockedFragment;
-    private RepeatedReservationsFragment repeatedFragment;
+    private RepeatedReservationFragment repeatedFragment;
 
     @Override
     protected int getContentView() {
@@ -113,7 +113,7 @@ public class AdminMainActivity extends MainActivity {
 
             case R.id.tv_repeated:
                 if (repeatedFragment == null) {
-                    repeatedFragment = new RepeatedReservationsFragment();
+                    repeatedFragment = new RepeatedReservationFragment();
                 }
                 loadFragment(R.id.container, repeatedFragment);
                 break;
