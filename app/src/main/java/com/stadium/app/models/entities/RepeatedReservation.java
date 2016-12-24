@@ -7,6 +7,7 @@ package com.stadium.app.models.entities;
 public class RepeatedReservation {
     private Team team;
     private Field field;
+    private float price;
     private String dateFrom;
     private String dateTo;
     private Duration duration;
@@ -26,6 +27,14 @@ public class RepeatedReservation {
 
     public void setField(Field field) {
         this.field = field;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public String getDateFrom() {

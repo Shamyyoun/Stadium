@@ -73,6 +73,12 @@
         <item name="android:textSize">@dimen/below_medium_text</item>
     </style>
 
+    <style name="DialogStrokedOrangeButton" parent="StrokedOrangeButton">
+        <item name="android:minHeight">36dp</item>
+        <item name="android:minWidth">110dp</item>
+        <item name="android:textSize">@dimen/below_medium_text</item>
+    </style>
+
     <style name="OrangeWidget">
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryDark">@color/orange</item>
@@ -126,6 +132,11 @@
     <style name="StrokedGreenButton" parent="MyButton">
         <item name="android:background">@drawable/stroked_green_button</item>
         <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="StrokedOrangeButton" parent="MyButton">
+        <item name="android:background">@drawable/stroked_orange_button</item>
+        <item name="android:textColor">@color/orange</item>
     </style>
 
     <style name="SmallOrangeButton" parent="OrangeButton">
@@ -184,6 +195,11 @@
         <item name="backgroundTint">@color/gray_green_edittext_bg</item>
         <item name="android:drawableLeft">@drawable/gray_et_button_left_arrow</item>
         <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="MonthlyReservationDialogTitle">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

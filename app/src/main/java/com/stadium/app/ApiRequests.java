@@ -5,6 +5,7 @@ import android.content.Context;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.models.bodies.AddMemberToTeamBody;
+import com.stadium.app.models.bodies.AddMonthlyReservationBody;
 import com.stadium.app.models.bodies.AdminBody;
 import com.stadium.app.models.bodies.AdminReservationActionBody;
 import com.stadium.app.models.bodies.AvailableReservationsBody;
@@ -16,6 +17,7 @@ import com.stadium.app.models.bodies.DurationsBody;
 import com.stadium.app.models.bodies.EditTeamBody;
 import com.stadium.app.models.bodies.ForgetPasswordBody;
 import com.stadium.app.models.bodies.LeaveTeamBody;
+import com.stadium.app.models.bodies.MonthlyReservationBody;
 import com.stadium.app.models.bodies.PlayerConfirmListBody;
 import com.stadium.app.models.bodies.RatePlayerBody;
 import com.stadium.app.models.bodies.ReservationsOfTeamBody;
@@ -31,6 +33,7 @@ import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.responses.MonthlyReservationResponse;
 import com.stadium.app.models.responses.ServerResponse;
 import com.stadium.app.utils.AppUtils;
 
@@ -1073,6 +1076,55 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<Duration[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_GET_MY_DURATIONS), Duration[].class, listener, body, Const.API_GET_MY_DURATIONS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<MonthlyReservationResponse> monthlyReservation(Context context, ConnectionListener<MonthlyReservationResponse> listener,
+                                                                                   int stadiumId, String startDate, String endDate,
+                                                                                   int fieldId, String fieldSize,
+                                                                                   int intervalNum, String dayName) {
+        // create the request body
+        MonthlyReservationBody body = new MonthlyReservationBody();
+        body.setStadiumId(stadiumId);
+        body.setStartDate(startDate);
+        body.setEndDate(endDate);
+        body.setFieldId(fieldId);
+        body.setFieldSize(fieldSize);
+        body.setIntervalNum(intervalNum);
+        body.setDayName(dayName);
+
+        // create & execute the request
+        ConnectionHandler<MonthlyReservationResponse> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_MONTHLY_RESERVATION), MonthlyReservationResponse.class,
+                listener, body, Const.API_MONTHLY_RESERVATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler addMonthlyReservations(Context context, ConnectionListener listener,
+                                                          int userId, String userToken, int stadiumId,
+                                                          MonthlyReservationResponse monthlyReservationResponse,
+                                                          int teamId, float price) {
+        // create the request body
+        AddMonthlyReservationBody body = new AddMonthlyReservationBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        monthlyReservationResponse.setTeamId(teamId);
+        monthlyReservationResponse.setPrice(price);
+        body.setReservation(monthlyReservationResponse);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_ADD_MONTHLY_RESERVATIONS), null, listener,
+                body, Const.API_ADD_MONTHLY_RESERVATIONS);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

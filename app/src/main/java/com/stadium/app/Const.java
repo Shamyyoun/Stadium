@@ -69,6 +69,8 @@ public class Const {
     public static final String API_GET_ALL_TEAMS = "getAllTeams";
     public static final String API_GET_MY_FIELDS = "getMyfields";
     public static final String API_GET_MY_DURATIONS = "getMyDurations";
+    public static final String API_MONTHLY_RESERVATION = "MonthlyReservation";
+    public static final String API_ADD_MONTHLY_RESERVATIONS = "addMonthlyReservations";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

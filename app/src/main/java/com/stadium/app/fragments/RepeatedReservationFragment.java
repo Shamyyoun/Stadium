@@ -9,20 +9,28 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.connection.ConnectionHandler;
+import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.dialogs.ChooseDayDialog;
 import com.stadium.app.dialogs.ChooseFieldDialog;
 import com.stadium.app.dialogs.ChooseFromAllTeamsDialog;
 import com.stadium.app.dialogs.ChooseFromMyDurationsDialog;
+import com.stadium.app.dialogs.MonthlyReservationDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.interfaces.OnReservationAddedListener;
 import com.stadium.app.interfaces.OnTeamSelectedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.Day;
 import com.stadium.app.models.entities.Duration;
 import com.stadium.app.models.entities.Field;
 import com.stadium.app.models.entities.RepeatedReservation;
+import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Team;
+import com.stadium.app.models.responses.MonthlyReservationResponse;
+import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DatePickerFragment;
 import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.Utils;
@@ -32,7 +40,9 @@ import java.util.Calendar;
 /**
  * Created by karam on 8/10/16.
  */
-public class RepeatedReservationFragment extends ParentFragment {
+public class RepeatedReservationFragment extends ParentFragment implements OnReservationAddedListener {
+    private static final String DISPLAYED_DATE_FORMAT = "d-M-yyyy";
+
     private Button btnTeamName;
     private Button btnFieldNo;
     private EditText etPrice;
@@ -41,7 +51,6 @@ public class RepeatedReservationFragment extends ParentFragment {
     private Button btnDuration;
     private Button btnDay;
     private Button btnAdd;
-    private Button btnCancel;
 
     private RepeatedReservation holder; // used to hold objects & values
     private ChooseFromAllTeamsDialog teamsDialog;
@@ -72,7 +81,6 @@ public class RepeatedReservationFragment extends ParentFragment {
         btnDuration = (Button) findViewById(R.id.btn_duration);
         btnDay = (Button) findViewById(R.id.btn_day);
         btnAdd = (Button) findViewById(R.id.btn_add);
-        btnCancel = (Button) findViewById(R.id.btn_cancel);
 
         // add listeners
         btnTeamName.setOnClickListener(this);
@@ -82,7 +90,6 @@ public class RepeatedReservationFragment extends ParentFragment {
         btnDuration.setOnClickListener(this);
         btnDay.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
 
         return rootView;
     }
@@ -112,6 +119,10 @@ public class RepeatedReservationFragment extends ParentFragment {
 
             case R.id.btn_day:
                 chooseDay();
+                break;
+
+            case R.id.btn_add:
+                add();
                 break;
 
             default:
@@ -205,6 +216,7 @@ public class RepeatedReservationFragment extends ParentFragment {
 
                 // reset duration
                 holder.setDuration(null);
+                durationsDialog = null;
                 updateDurationUI();
             }
         });
@@ -214,7 +226,7 @@ public class RepeatedReservationFragment extends ParentFragment {
     }
 
     private void updateFromDateUI() {
-        String date = DateUtils.formatDate(holder.getDateFrom(), Const.SER_DATE_FORMAT, "d-M-yyyy");
+        String date = DateUtils.formatDate(holder.getDateFrom(), Const.SER_DATE_FORMAT, DISPLAYED_DATE_FORMAT);
         String str = getString(R.string.from) + ": " + date;
         btnDateFrom.setText(str);
     }
@@ -245,6 +257,7 @@ public class RepeatedReservationFragment extends ParentFragment {
 
                 // reset duration
                 holder.setDuration(null);
+                durationsDialog = null;
                 updateDurationUI();
             }
         });
@@ -255,7 +268,7 @@ public class RepeatedReservationFragment extends ParentFragment {
 
     private void updateToDateUI() {
         if (holder.getDateTo() != null) {
-            String date = DateUtils.formatDate(holder.getDateTo(), Const.SER_DATE_FORMAT, "d-M-yyyy");
+            String date = DateUtils.formatDate(holder.getDateTo(), Const.SER_DATE_FORMAT, DISPLAYED_DATE_FORMAT);
             String str = getString(R.string.to) + ": " + date;
             btnDateTo.setText(str);
         } else {
@@ -327,5 +340,86 @@ public class RepeatedReservationFragment extends ParentFragment {
     private void updateDayUI() {
         String str = getString(R.string.day) + ": " + holder.getDay().getTitle();
         btnDay.setText(str);
+    }
+
+    private void add() {
+        // add price to the holder
+        String priceStr = Utils.getText(etPrice);
+        float price = (float) Utils.convertToDouble(priceStr);
+        holder.setPrice(price);
+
+        // validate inputs
+        if (holder.getTeam() == null
+                || holder.getField() == null
+                || Utils.isEmpty(etPrice)
+                || holder.getDateFrom() == null
+                || holder.getDateTo() == null
+                || holder.getDuration() == null
+                || holder.getDay() == null) {
+
+            // show msg
+            Utils.showShortToast(activity, R.string.please_fill_all_fields);
+            return;
+        }
+
+        hideKeyboard();
+
+        // check internet connection
+        if (!Utils.hasConnection(activity)) {
+            Utils.showShortToast(activity, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // get stadium id
+        ActiveUserController activeUserController = new ActiveUserController(activity);
+        int stadiumId = activeUserController.getUser().getAdminStadium().getId();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.monthlyReservation(activity, this,
+                stadiumId, holder.getDateFrom(), holder.getDateTo(), holder.getField().getId(),
+                holder.getField().getFieldSize(), holder.getDuration().getDurationNumber(), holder.getDay().getValue());
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    @Override
+    public void onSuccess(Object response, int statusCode, String tag) {
+        hideProgressDialog();
+
+        // check response
+        MonthlyReservationResponse monthlyReservationResponse = (MonthlyReservationResponse) response;
+        if (statusCode == Const.SER_CODE_200 && monthlyReservationResponse != null) {
+            // show the reservation dialog
+            MonthlyReservationDialog dialog = new MonthlyReservationDialog(activity, holder,
+                    monthlyReservationResponse);
+            dialog.setOnReservationAddedListener(this);
+            dialog.show();
+        } else {
+            // show msg
+            String msg = AppUtils.getResponseMsg(activity, response, R.string.failed_adding_reservation);
+            Utils.showLongToast(activity, msg);
+        }
+    }
+
+    @Override
+    public void onReservationAdded(Reservation reservation) {
+        reset();
+    }
+
+    private void reset() {
+        holder = new RepeatedReservation();
+        durationsDialog = null;
+        updateUI();
+    }
+
+    private void updateUI() {
+        updateTeamUI();
+        updateFieldUI();
+        etPrice.setText("");
+        updateFromDateUI();
+        updateToDateUI();
+        updateDurationUI();
+        updateDayUI();
     }
 }

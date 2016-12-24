@@ -138,4 +138,10 @@ public class ParentFragment extends Fragment implements View.OnClickListener, Co
             activity.removeOptionsMenu();
         }
     }
+
+    public void hideKeyboard() {
+        if (rootView != null) {
+            Utils.hideKeyboard(rootView);
+        }
+    }
 }

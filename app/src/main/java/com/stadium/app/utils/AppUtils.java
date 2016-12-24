@@ -192,4 +192,16 @@ public class AppUtils {
 
         return phoneNumbers;
     }
+
+    /**
+     * method, used to format the price with the app currency and return it
+     *
+     * @param context
+     * @param price
+     * @return
+     */
+    public static String getFormattedPrice(Context context, String price) {
+        price += " " + context.getString(R.string.currency);
+        return price;
+    }
 }

@@ -61,6 +61,12 @@ public class Reservation extends ServerResponse implements Serializable {
     @SerializedName("timeStart")
     @Expose
     private String timeStart;
+    @SerializedName("Filedid")
+    @Expose
+    private int fieldId;
+    @SerializedName("Stadiumid")
+    @Expose
+    private int stadiumId;
 
     /**
      * @return The id
@@ -284,6 +290,34 @@ public class Reservation extends ServerResponse implements Serializable {
      */
     public void setTimeStart(String timeStart) {
         this.timeStart = timeStart;
+    }
+
+    /**
+     * @return The fieldId
+     */
+    public int getFieldId() {
+        return fieldId;
+    }
+
+    /**
+     * @param fieldId The fieldId
+     */
+    public void setFieldId(int fieldId) {
+        this.fieldId = fieldId;
+    }
+
+    /**
+     * @return The stadiumId
+     */
+    public int getStadiumId() {
+        return stadiumId;
+    }
+
+    /**
+     * @param stadiumId The stadiumId
+     */
+    public void setStadiumId(int stadiumId) {
+        this.stadiumId = stadiumId;
     }
 
 }

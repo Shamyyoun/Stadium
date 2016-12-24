@@ -315,6 +315,15 @@
     <string name="thursday">الخميس</string>
     <string name="friday">الجمعة</string>
     <string name="days">الايام</string>
+    <string name="filed">ملعب</string>
+    <string name="status">الحالة</string>
+    <string name="currency">ر.س</string>
+    <string name="available">متاح</string>
+    <string name="not_available_in_this_duration">غير متاح في هذا التوقيت</string>
+    <string name="available_but_change_field_or_more">متاح مع تغيير ملعب او اكثر</string>
+    <string name="please_fill_all_fields">يرجي ملأ كافة الحقول</string>
+    <string name="price_isnt_valid">السعر غير صالح</string>
+    <string name="day_c">يوم:</string>
 
 
     <!-- Arrays -->

@@ -85,29 +85,13 @@
             android:text="@string/day" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.stadium.app.views.DarkenedButton
+        android:id="@+id/btn_add"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        android:padding="15dp">
-
-        <com.stadium.app.views.DarkenedButton
-            android:id="@+id/btn_cancel"
-            style="@style/GreenButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:text="@string/cancel" />
-
-        <com.stadium.app.views.DarkenedButton
-            android:id="@+id/btn_add"
-            style="@style/StrokedGreenButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1"
-            android:text="@string/add" />
-    </LinearLayout>
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:minWidth="130dp"
+        android:text="@string/add" />
 </LinearLayout>
