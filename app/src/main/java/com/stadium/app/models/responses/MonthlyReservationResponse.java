@@ -12,6 +12,9 @@ public class MonthlyReservationResponse extends ServerResponse {
     @SerializedName("AvailbleRes")
     @Expose
     private List<Reservation> availableRes = null;
+    @SerializedName("AvailbleReservations")
+    @Expose
+    private List<Reservation> availableReservations = null;
     @SerializedName("EndDate")
     @Expose
     private String endDate;
@@ -52,12 +55,12 @@ public class MonthlyReservationResponse extends ServerResponse {
     @Expose
     private float price;
 
-    public List<Reservation> getAvailableRes() {
-        return availableRes;
+    public List<Reservation> getAvailableReservations() {
+        return availableReservations;
     }
 
-    public void setAvailableRes(List<Reservation> availableRes) {
-        this.availableRes = availableRes;
+    public void setAvailableReservations(List<Reservation> availableReservations) {
+        this.availableReservations = availableReservations;
     }
 
     public String getEndDate() {

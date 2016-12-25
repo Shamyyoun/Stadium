@@ -39,7 +39,7 @@ public class MonthlyReservationAltAdapter extends ParentListAdapter<Reservation>
 
         // set data
         final Reservation item = data.get(position);
-        holder.tvFieldNo.setText("" + item.getFieldId());
+        holder.tvFieldNo.setText(item.getField().getFieldNumber());
         String dateStr = DateUtils.formatDate(item.getDate(), Const.SER_DATE_FORMAT, "d-M-yyyy");
         holder.tvDate.setText(dateStr);
 

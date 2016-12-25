@@ -146,8 +146,12 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
     }
 
     private void updateTeamUI() {
-        String str = getString(R.string.the_team) + ": " + holder.getTeam().getName();
-        btnTeamName.setText(str);
+        if (holder.getTeam() != null) {
+            String str = getString(R.string.the_team) + ": " + holder.getTeam().getName();
+            btnTeamName.setText(str);
+        } else {
+            btnTeamName.setText(R.string.team_name);
+        }
     }
 
     private void chooseField() {
@@ -172,8 +176,12 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
     }
 
     private void updateFieldUI() {
-        String str = getString(R.string.field_c) + " " + holder.getField().getFieldNumber();
-        btnFieldNo.setText(str);
+        if (holder.getField() != null) {
+            String str = getString(R.string.field_c) + " " + holder.getField().getFieldNumber();
+            btnFieldNo.setText(str);
+        } else {
+            btnFieldNo.setText(R.string.field_number);
+        }
     }
 
     private void createDatePickerFragment(Calendar minDate) {
@@ -226,9 +234,13 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
     }
 
     private void updateFromDateUI() {
-        String date = DateUtils.formatDate(holder.getDateFrom(), Const.SER_DATE_FORMAT, DISPLAYED_DATE_FORMAT);
-        String str = getString(R.string.from) + ": " + date;
-        btnDateFrom.setText(str);
+        if (holder.getDateFrom() != null) {
+            String date = DateUtils.formatDate(holder.getDateFrom(), Const.SER_DATE_FORMAT, DISPLAYED_DATE_FORMAT);
+            String str = getString(R.string.from) + ": " + date;
+            btnDateFrom.setText(str);
+        } else {
+            btnDateFrom.setText(R.string.from);
+        }
     }
 
     private void chooseToDate() {
@@ -338,8 +350,12 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
     }
 
     private void updateDayUI() {
-        String str = getString(R.string.day) + ": " + holder.getDay().getTitle();
-        btnDay.setText(str);
+        if (holder.getDay() != null) {
+            String str = getString(R.string.day) + ": " + holder.getDay().getTitle();
+            btnDay.setText(str);
+        } else {
+            btnDay.setText(R.string.day);
+        }
     }
 
     private void add() {

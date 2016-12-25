@@ -110,18 +110,21 @@ public class MonthlyReservationDialog extends ParentDialog {
         MonthlyReservationStatusType statusType = monthlyReservationController.getStatusType(context, monthlyReservationResponse.getStatus());
         tvStatus.setText(statusType.getTitle(context));
 
-        // check status
+        // customize listview
+        if (statusType != MonthlyReservationStatusType.NOT_AVAILABLE) {
+            // set the list adapter
+            MonthlyReservationAltAdapter adapter = new MonthlyReservationAltAdapter(context,
+                    monthlyReservationResponse.getAvailableReservations(), R.layout.item_monthly_reservation_alt);
+            listView.setAdapter(adapter);
+            ObjectAnimator.ofInt(scrollView, "scrollY", 0).setDuration(50).start();
+        }
+
+        // customize buttons
         if (statusType == MonthlyReservationStatusType.NOT_AVAILABLE) {
             // hide reserve btn
             btnReserve.setVisibility(View.GONE);
             btnCancel.setText(R.string.close);
         }
-
-        // set the list adapter
-        MonthlyReservationAltAdapter adapter = new MonthlyReservationAltAdapter(context,
-                monthlyReservationResponse.getAvailableRes(), R.layout.item_monthly_reservation_alt);
-        listView.setAdapter(adapter);
-        ObjectAnimator.ofInt(scrollView, "scrollY", 0).setDuration(50).start();
     }
 
     @Override
