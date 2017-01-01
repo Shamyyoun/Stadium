@@ -57,7 +57,8 @@
     <string name="main_info">المعلومات الاساسية</string>
     <string name="name">الاسم</string>
     <string name="age">السن</string>
-    <string name="city">المدينة</string>
+    <string name="the_city">المدينة</string>
+    <string name="city">مدينة</string>
     <string name="account_info">معلومات الحساب</string>
     <string name="sign_up">التسجيل</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
@@ -324,6 +325,18 @@
     <string name="please_fill_all_fields">يرجي ملأ كافة الحقول</string>
     <string name="price_isnt_valid">السعر غير صالح</string>
     <string name="day_c">يوم:</string>
+    <string name="stadium_details">نبذة عن الملعب</string>
+    <string name="start">البداية</string>
+    <string name="update_the_stadium">تعديل الملعب</string>
+    <string name="durations">الفترات</string>
+    <string name="duration">فترة</string>
+    <string name="stadium_updated_successfully">تم تعديل الملعب بنجاح</string>
+    <string name="failed_updating_stadium">فشل تعديل الملعب</string>
+    <string name="please_fill_all_times">يرجى ملأ كل التوقيتات</string>
+    <string name="durations_changed_successfully">تم تغيير الفترات بنجاح</string>
+    <string name="failed_changing_durations">فشل تعديل الفترات</string>
+    <string name="end_time_must_be_higher_one_hour">يجب ان يكون وقت النهاية اكبر من البداية بساعة على الاقل</string>
+    <string name="nested_durations_found">يوجد فترات متداخلة</string>
 
 
     <!-- Arrays -->

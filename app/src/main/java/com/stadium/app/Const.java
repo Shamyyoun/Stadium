@@ -9,7 +9,6 @@ public class Const {
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
     public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
-    public static final int STADIUMS_SEARCH_MAX_DATE_DAYS_FROM_NOW = 14;
     public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
 
     // APIs:------------------------------
@@ -71,6 +70,8 @@ public class Const {
     public static final String API_GET_MY_DURATIONS = "getMyDurations";
     public static final String API_MONTHLY_RESERVATION = "MonthlyReservation";
     public static final String API_ADD_MONTHLY_RESERVATIONS = "addMonthlyReservations";
+    public static final String API_CHANGE_DURATION = "ChangeDuration";
+    public static final String API_STADIUM_PROFILE = "stadiumProfile";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -78,7 +79,7 @@ public class Const {
     // Server Constants:--------------------
     public static final int SER_CODE_200 = 200;
     public static final String SER_DATE_FORMAT = "yyyy/MM/dd";
-    public static final String SER_TIME_FORMAT = "hh:mm:ss";
+    public static final String SER_TIME_FORMAT = "HH:mm:ss";
 
     // Images uploading:-------------------
     public static final int IMG_ASPECT_X_PROFILE = 1;
@@ -87,6 +88,9 @@ public class Const {
     public static final int IMG_ASPECT_X_TEAM = 1;
     public static final int IMG_ASPECT_Y_TEAM = 1;
     public static final int MAX_IMG_DIMEN_TEAM = 500;
+    public static final int IMG_ASPECT_X_STADIUM = 1;
+    public static final int IMG_ASPECT_Y_STADIUM = 1;
+    public static final int MAX_IMG_DIMEN_STADIUM = 500;
 
     // Activity requests:-------------------
     public static final int REQ_UPDATE_PROFILE = 1;
@@ -99,6 +103,7 @@ public class Const {
     public static final int REQ_SEARCH_STADIUMS = 8;
     public static final int REQ_ADD_RESERVATIONS = 9;
     public static final int REQ_VIEW_STADIUM_INFO = 10;
+    public static final int REQ_UPDATE_STADIUM = 11;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";
@@ -108,8 +113,15 @@ public class Const {
     public static final String KEY_TOOLBAR_TITLE = "toolbar_title";
     public static final String KEY_RESERVATIONS_TYPE = "reservations_type";
     public static final String KEY_IS_ADMIN_STADIUM_SCREEN = "is_admin_stadium_screen";
+    public static final String KEY_STADIUM = "stadium";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;
     public static final int PERM_REQ_LOCATION = 2;
+
+    // Validations:-----------------------------
+    public static final int STADIUMS_SEARCH_MAX_DATE_DAYS_FROM_NOW = 14;
+    public static final int UPDATE_STADIUM_MAX_DATE_DAYS_FROM_NOW = 14;
+    public static final int UPDATE_STADIUM_MAX_DURATIONS_COUNT = 6;
+    public static final int STADIUM_DURATIONS_MIN_HOURS = 1;
 }

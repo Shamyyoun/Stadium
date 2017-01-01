@@ -354,7 +354,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
             setResult(RESULT_OK, intent);
             finish();
         } else {
-            String errorMsg = AppUtils.getResponseError(this, team);
+            String errorMsg = AppUtils.getResponseMsg(this, team);
             Utils.showShortToast(this, errorMsg);
         }
     }

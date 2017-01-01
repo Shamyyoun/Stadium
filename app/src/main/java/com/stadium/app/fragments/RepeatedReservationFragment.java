@@ -195,7 +195,7 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
 
     private void chooseFromDate() {
         // create and customize the date picker fragment
-        Calendar minDate = DateUtils.getNewCalendar(1);
+        Calendar minDate = DateUtils.addDays(1);
         createDatePickerFragment(minDate);
         if (holder.getDateFrom() != null) {
             datePickerFragment.setDate(holder.getDateFrom(), Const.SER_DATE_FORMAT);
@@ -247,9 +247,9 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
         // prepare min date
         Calendar minDate;
         if (holder.getDateFrom() != null) {
-            minDate = DateUtils.getNewCalendar(holder.getDateFrom(), Const.SER_DATE_FORMAT, 1);
+            minDate = DateUtils.addDays(holder.getDateFrom(), Const.SER_DATE_FORMAT, 1);
         } else {
-            minDate = DateUtils.getNewCalendar(2);
+            minDate = DateUtils.addDays(2);
         }
 
         // create and customize the date picker fragment

@@ -24,7 +24,7 @@
             style="@style/WhiteETButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/city" />
+            android:text="@string/the_city" />
 
         <EditText
             android:id="@+id/et_name"

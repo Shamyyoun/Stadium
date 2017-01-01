@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/green"
+                android:paddingBottom="12dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_image"
+                    style="@style/CroppedImageView"
+                    android:layout_width="@dimen/update_stadium_image_size"
+                    android:layout_height="@dimen/update_stadium_image_size"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/def_form_image"
+                    app:riv_oval="true" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:animateLayoutChanges="true"
+                android:gravity="right"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <EditText
+                    android:id="@+id/et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:text="title" />
+
+                <EditText
+                    android:id="@+id/et_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:text="city" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/stadium_details"
+                    android:textColor="@color/gray" />
+
+                <EditText
+                    android:id="@+id/et_desc"
+                    style="@style/GreenStrokedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:inputType="textMultiLine"
+                    android:lineSpacingExtra="3dp"
+                    android:minHeight="100dp"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/btn_start_date"
+                    style="@style/GrayETButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/clickable_gray_calendar_icon"
+                    android:text="@string/start" />
+
+                <LinearLayout
+                    android:id="@+id/layout_durations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/ib_add_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="7dp"
+                            android:src="@drawable/green_add_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="7dp"
+                            android:text="@string/durations"
+                            android:textSize="@dimen/medium_text" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_durations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <com.stadium.app.views.DarkenedButton
+                        android:id="@+id/btn_cancel"
+                        style="@style/GreenButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/cancel" />
+
+                    <com.stadium.app.views.DarkenedButton
+                        android:id="@+id/btn_update"
+                        style="@style/StrokedGreenButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/update" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

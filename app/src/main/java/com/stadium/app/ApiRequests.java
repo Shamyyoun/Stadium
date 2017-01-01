@@ -11,6 +11,7 @@ import com.stadium.app.models.bodies.AdminReservationActionBody;
 import com.stadium.app.models.bodies.AvailableReservationsBody;
 import com.stadium.app.models.bodies.CaptainBody;
 import com.stadium.app.models.bodies.CaptainReservationActionBody;
+import com.stadium.app.models.bodies.ChangeDurationsBody;
 import com.stadium.app.models.bodies.CheckListOfContactsBody;
 import com.stadium.app.models.bodies.ConfirmPresentBody;
 import com.stadium.app.models.bodies.DurationsBody;
@@ -1103,9 +1104,9 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler addMonthlyReservations(Context context, ConnectionListener listener,
-                                                          int userId, String userToken, int stadiumId,
-                                                          MonthlyReservationResponse monthlyReservationResponse,
-                                                          int teamId, float price) {
+                                                           int userId, String userToken, int stadiumId,
+                                                           MonthlyReservationResponse monthlyReservationResponse,
+                                                           int teamId, float price) {
         // create the request body
         AddMonthlyReservationBody body = new AddMonthlyReservationBody();
         AdminBody admin = new AdminBody();
@@ -1125,6 +1126,59 @@ public class ApiRequests {
         ConnectionHandler connectionHandler = new ConnectionHandler(context,
                 AppUtils.getAdminApiUrl(Const.API_ADD_MONTHLY_RESERVATIONS), null, listener,
                 body, Const.API_ADD_MONTHLY_RESERVATIONS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Stadium> editStadium(Context context, ConnectionListener<Stadium> listener,
+                                                         int userId, String userToken,
+                                                         int stadiumId, String bio,
+                                                         String encodedImage, String imageName) {
+        // create the request body
+        AdminBody body = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        body.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        stadium.setBio(bio);
+        if (encodedImage != null) {
+            Image image = new Image();
+            image.setContentBase64(encodedImage);
+            image.setName(imageName);
+            stadium.setStadiumImage(image);
+        }
+        body.setHisStadium(stadium);
+
+        // create & execute the request
+        ConnectionHandler<Stadium> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_STADIUM_PROFILE), Stadium.class, listener, body, Const.API_STADIUM_PROFILE);
+        connectionHandler.setTimeout(4 * 60 * 1000);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler changeDuration(Context context, ConnectionListener listener,
+                                                   int userId, String userToken, int stadiumId,
+                                                   String startDate, List<Duration> times) {
+        // create the request body
+        ChangeDurationsBody body = new ChangeDurationsBody();
+        AdminBody admin = new AdminBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        admin.setUserinfo(userInfo);
+        Stadium stadium = new Stadium();
+        stadium.setId(stadiumId);
+        admin.setHisStadium(stadium);
+        body.setAdmin(admin);
+        body.setStartDate(startDate);
+        body.setTimes(times);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getAdminApiUrl(Const.API_CHANGE_DURATION), null, listener, body, Const.API_CHANGE_DURATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

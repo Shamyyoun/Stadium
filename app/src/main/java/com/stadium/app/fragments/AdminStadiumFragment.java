@@ -1,13 +1,19 @@
 package com.stadium.app.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.UpdateStadiumActivity;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.utils.Utils;
 
 /*
@@ -68,6 +74,36 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
             tvDescription.setText(desc);
         } else {
             tvDescription.setText("-------- --------");
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit) {
+            if (isControlsEnabled()) {
+                openUpdateStadiumActivity();
+            }
+
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openUpdateStadiumActivity() {
+        Intent intent = new Intent(activity, UpdateStadiumActivity.class);
+        intent.putExtra(Const.KEY_STADIUM, stadium);
+        startActivityForResult(intent, Const.REQ_UPDATE_STADIUM);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_UPDATE_STADIUM && resultCode == Activity.RESULT_OK) {
+            // get new stadium object and update the ui
+            stadium = (Stadium) data.getSerializableExtra(Const.KEY_STADIUM);
+            updateStadiumUI();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

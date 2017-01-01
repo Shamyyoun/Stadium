@@ -146,7 +146,7 @@ public class AdminAddReservationDialog extends ParentDialog {
             dismiss();
         } else {
             // show error msg
-            String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_adding_reservation);
+            String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_adding_reservation);
             Utils.showShortToast(context, errorMsg);
         }
     }

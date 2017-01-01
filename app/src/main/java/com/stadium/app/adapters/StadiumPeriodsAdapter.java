@@ -191,7 +191,7 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
                     }
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseError(context, response, R.string.failed_requesting_reservation);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_requesting_reservation);
                     Utils.showShortToast(context, errorMsg);
                 }
             }

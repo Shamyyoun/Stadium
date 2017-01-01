@@ -196,7 +196,7 @@ public class TeamInfoActivity extends ParentActivity {
                 enableControls();
             } else {
                 // get and show error msg
-                String errorMsg = AppUtils.getResponseError(this, team);
+                String errorMsg = AppUtils.getResponseMsg(this, team);
                 if (errorMsg == null) {
                     errorMsg = getString(R.string.failed_loading_info);
                 }

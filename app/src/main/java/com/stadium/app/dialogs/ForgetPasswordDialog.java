@@ -132,7 +132,7 @@ public class ForgetPasswordDialog extends ParentDialog {
                     switchMethodChoosingView();
                 } else {
                     // show error
-                    Utils.showLongToast(context, AppUtils.getResponseError(context, response));
+                    Utils.showLongToast(context, AppUtils.getResponseMsg(context, response));
                 }
                 break;
 
@@ -152,7 +152,7 @@ public class ForgetPasswordDialog extends ParentDialog {
                     dismiss();
                 } else {
                     // show error
-                    Utils.showLongToast(context, AppUtils.getResponseError(context, response));
+                    Utils.showLongToast(context, AppUtils.getResponseMsg(context, response));
                 }
                 break;
 

@@ -29,7 +29,7 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/iv_image"
                     style="@style/CroppedImageView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/update_team_image_size"
                     android:layout_height="@dimen/update_team_image_size"
                     android:layout_gravity="center"
                     android:background="?attr/selectableItemBackgroundBorderless"

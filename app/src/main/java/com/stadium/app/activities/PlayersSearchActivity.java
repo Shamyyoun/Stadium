@@ -91,10 +91,10 @@ public class PlayersSearchActivity extends ParentActivity {
 
     private void updateCityUI() {
         if (filter.getCity() != null) {
-            String str = getString(R.string.city) + ": " + filter.getCity().toString();
+            String str = getString(R.string.the_city) + ": " + filter.getCity().toString();
             btnCity.setText(str);
         } else {
-            btnCity.setText(R.string.city);
+            btnCity.setText(R.string.the_city);
         }
     }
 

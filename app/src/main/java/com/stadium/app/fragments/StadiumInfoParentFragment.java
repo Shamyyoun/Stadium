@@ -54,8 +54,8 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     private StadiumPeriodsFragment[] fragments;
     protected Stadium stadium;
     private String[] fieldCapacities;
-
     private DatePickerFragment datePickerFragment;
+    private boolean controlsEnabled;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -280,10 +280,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
                 hideProgressDialog();
 
                 // get and show error msg
-                String errorMsg = AppUtils.getResponseError(activity, stadium);
-                if (errorMsg == null) {
-                    errorMsg = getString(R.string.failed_loading_info);
-                }
+                String errorMsg = AppUtils.getResponseMsg(activity, stadium, R.string.failed_loading_info);
                 Utils.showShortToast(activity, errorMsg);
 
                 // disable the controls
@@ -326,6 +323,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         tvDate.setEnabled(enable);
         ibPreviousDay.setEnabled(enable);
         ibNextDay.setEnabled(enable);
+        controlsEnabled = enable;
     }
 
     private void enableDateControls(boolean enable) {
@@ -385,6 +383,10 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         public CharSequence getPageTitle(int position) {
             return fieldCapacities[position];
         }
+    }
+
+    protected boolean isControlsEnabled() {
+        return controlsEnabled;
     }
 }
 

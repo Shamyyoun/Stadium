@@ -14,7 +14,7 @@ public class Stadium implements Serializable, Checkable {
     private int id;
     @SerializedName("StadiumImage")
     @Expose
-    private Object stadiumImage;
+    private Image stadiumImage;
     @SerializedName("email")
     @Expose
     private String email;
@@ -48,6 +48,7 @@ public class Stadium implements Serializable, Checkable {
     @SerializedName("staduimCity")
     @Expose
     private City stadiumCity;
+    private String startDate;
     private boolean checked;
 
     /**
@@ -67,14 +68,14 @@ public class Stadium implements Serializable, Checkable {
     /**
      * @return The stadiumImage
      */
-    public Object getStadiumImage() {
+    public Image getStadiumImage() {
         return stadiumImage;
     }
 
     /**
      * @param stadiumImage The StadiumImage
      */
-    public void setStadiumImage(Object stadiumImage) {
+    public void setStadiumImage(Image stadiumImage) {
         this.stadiumImage = stadiumImage;
     }
 
@@ -230,6 +231,14 @@ public class Stadium implements Serializable, Checkable {
      */
     public void setStadiumCity(City stadiumCity) {
         this.stadiumCity = stadiumCity;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
     @Override

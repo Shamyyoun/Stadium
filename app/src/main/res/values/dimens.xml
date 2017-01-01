@@ -33,5 +33,6 @@
     <dimen name="reservation_large_team_image_size">65dp</dimen>
     <dimen name="team_large_image_size">65dp</dimen>
     <dimen name="small_team_image_size">50dp</dimen>
+    <dimen name="update_stadium_image_size">90dp</dimen>
 
 </resources>

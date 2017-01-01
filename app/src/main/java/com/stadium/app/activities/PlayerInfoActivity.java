@@ -241,7 +241,7 @@ public class PlayerInfoActivity extends ParentActivity {
 
                 loadUserTeams();
             } else {
-                String errorMsg = AppUtils.getResponseError(this, user);
+                String errorMsg = AppUtils.getResponseMsg(this, user);
                 if (errorMsg == null) {
                     errorMsg = getString(R.string.failed_loading_info);
                 }
@@ -255,7 +255,7 @@ public class PlayerInfoActivity extends ParentActivity {
             if (statusCode == Const.SER_CODE_200) {
                 Utils.showShortToast(this, R.string.rated_successfully);
             } else {
-                String errorMsg = AppUtils.getResponseError(this, response);
+                String errorMsg = AppUtils.getResponseMsg(this, response);
                 if (Utils.isNullOrEmpty(errorMsg)) {
                     errorMsg = getString(R.string.failed_rating);
                 }

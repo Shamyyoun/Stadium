@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.widget.DatePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,7 +12,7 @@ import java.util.Locale;
 /**
  * Created by Shamyyoun on 9/11/2015.
  */
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment {
     private DatePickerDialog.OnDateSetListener datePickerListener;
     private Calendar date;
     private Calendar minDate;
@@ -44,11 +43,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
         return datePickerDialog;
     }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-    }
-
 
     public DatePickerDialog.OnDateSetListener getDatePickerListener() {
         return datePickerListener;

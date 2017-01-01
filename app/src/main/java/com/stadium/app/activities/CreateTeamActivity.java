@@ -227,7 +227,7 @@ public class CreateTeamActivity extends PicPickerActivity {
             setResult(RESULT_OK);
             finish();
         } else {
-            Utils.showLongToast(this, AppUtils.getResponseError(this, team));
+            Utils.showLongToast(this, AppUtils.getResponseMsg(this, team));
         }
     }
 

@@ -108,5 +108,10 @@
         <activity
             android:name=".activities.StadiumsActivity"
             android:label="@string/add_reservations" />
+
+        <activity
+            android:name=".activities.UpdateStadiumActivity"
+            android:label="@string/update_the_stadium"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
 </manifest>

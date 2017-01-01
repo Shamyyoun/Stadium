@@ -9,6 +9,7 @@ import java.util.Locale;
  * Created by Shamyyoun on 2/22/2015.
  */
 public class DateUtils {
+
     public static Calendar convertToCalendar(String strDate, String strFormat) {
         Calendar calendar = Calendar.getInstance();
         try {
@@ -85,7 +86,7 @@ public class DateUtils {
         }
     }
 
-    public static Calendar getNewCalendar(String strDate, String strFormat, int daysToAdd) {
+    public static Calendar addDays(String strDate, String strFormat, int daysToAdd) {
         Calendar calendar = convertToCalendar(strDate, strFormat);
         if (calendar != null) {
             calendar.add(Calendar.DATE, daysToAdd);
@@ -95,10 +96,20 @@ public class DateUtils {
         }
     }
 
-    public static Calendar getNewCalendar(int daysToAdd) {
+    public static Calendar addDays(int daysToAdd) {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.add(Calendar.DATE, daysToAdd);
         return calendar;
+    }
+
+    public static Calendar addHours(String strDate, String strFormat, int hoursToAdd) {
+        Calendar calendar = convertToCalendar(strDate, strFormat);
+        if (calendar != null) {
+            calendar.add(Calendar.HOUR, hoursToAdd);
+            return calendar;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -113,12 +124,13 @@ public class DateUtils {
         Calendar calendar1 = convertToCalendar(strDate1, dateFormat);
         Calendar calendar2 = convertToCalendar(strDate2, dateFormat);
 
-        if (calendar1.after(calendar2)) {
-            return 1;
-        } else if (calendar1.before(calendar2)) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return calendar1.compareTo(calendar2);
+    }
+
+    public static long difference(String strDate1, String strDate2, String dateFormat) {
+        long calMillis1 = convertToCalendar(strDate1, dateFormat).getTimeInMillis();
+        long calMillis2 = convertToCalendar(strDate2, dateFormat).getTimeInMillis();
+
+        return calMillis2 - calMillis1;
     }
 }

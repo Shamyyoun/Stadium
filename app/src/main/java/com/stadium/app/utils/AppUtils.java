@@ -88,37 +88,18 @@ public class AppUtils {
     }
 
     /**
-     * method, used to get response errors array as one string or the default string
+     * method, used to get the error msg from the server response if possible or the def msg
      *
      * @param context
      * @param response
+     * @return
      */
-    public static String getResponseError(Context context, Object response) {
-        return getResponseError(context, response, R.string.error_doing_operation);
+    public static String getResponseMsg(Context context, Object response) {
+        return getResponseMsg(context, response, R.string.something_went_wrong_please_try_again);
     }
 
     /**
-     * method, used to get response errors array as one string or the default string
-     *
-     * @param context
-     * @param response
-     */
-    public static String getResponseError(Context context, Object response, int defMsgId) {
-        String error = null;
-
-        if (response instanceof ServerResponse) {
-            ServerResponse serverResponse = (ServerResponse) response;
-            error = serverResponse.getErrorMessage();
-        }
-
-        if (Utils.isNullOrEmpty(error)) {
-            error = context.getString(defMsgId);
-        }
-        return error;
-    }
-
-    /**
-     * method, used to get the error msg from the server response if possible of the def msg
+     * method, used to get the error msg from the server response if possible or the def msg
      *
      * @param context
      * @param response

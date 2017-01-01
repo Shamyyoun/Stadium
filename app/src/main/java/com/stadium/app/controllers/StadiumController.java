@@ -58,4 +58,12 @@ public class StadiumController {
 
         return -1;
     }
+
+    public String getCityName(Stadium stadium) {
+        if (stadium.getStadiumCity() == null) {
+            return null;
+        } else {
+            return stadium.getStadiumCity().getName().trim();
+        }
+    }
 }
