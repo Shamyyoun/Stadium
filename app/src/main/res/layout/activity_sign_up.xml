@@ -53,13 +53,13 @@
                 android:selectAllOnFocus="true"
                 android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/et_age"
+            <Button
+                android:id="@+id/btn_birthdate"
+                style="@style/GrayETButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/age"
-                android:inputType="number"
-                android:selectAllOnFocus="true" />
+                android:drawableLeft="@drawable/clickable_gray_calendar_icon"
+                android:text="@string/birthdate" />
 
             <Spinner
                 android:id="@+id/sp_city"
@@ -80,8 +80,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:hint="@string/phone_number"
+                android:hint="@string/phone_number_hint"
                 android:inputType="phone"
+                android:maxLength="@integer/user_phone_number_max_chars"
                 android:selectAllOnFocus="true" />
 
             <EditText
@@ -90,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:maxLength="@integer/user_password_max_chars"
                 android:selectAllOnFocus="true" />
 
             <EditText

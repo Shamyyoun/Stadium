@@ -1,5 +1,6 @@
 package com.stadium.app.activities;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -19,12 +21,14 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.CityController;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.controllers.CityController;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.BitmapUtils;
+import com.stadium.app.utils.DatePickerFragment;
+import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
@@ -37,9 +41,10 @@ import java.util.List;
  * Created by karam on 6/29/16.
  */
 public class SignUpActivity extends PicPickerActivity {
+    private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
     private ImageView ivImage;
     private EditText etName;
-    private EditText etAge;
+    private Button btnBirthdate;
     private Spinner spCity;
     private EditText etPhone;
     private EditText etPassword;
@@ -49,6 +54,7 @@ public class SignUpActivity extends PicPickerActivity {
 
     private List<City> cities;
     private File image;
+    private DatePickerFragment datePickerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class SignUpActivity extends PicPickerActivity {
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
         etName = (EditText) findViewById(R.id.et_name);
-        etAge = (EditText) findViewById(R.id.et_age);
+        btnBirthdate = (Button) findViewById(R.id.btn_birthdate);
         spCity = (Spinner) findViewById(R.id.sp_city);
         etPhone = (EditText) findViewById(R.id.et_phone);
         etPassword = (EditText) findViewById(R.id.et_password);
@@ -68,6 +74,7 @@ public class SignUpActivity extends PicPickerActivity {
 
         // add listeners
         ivImage.setOnClickListener(this);
+        btnBirthdate.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
         etRePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -112,6 +119,10 @@ public class SignUpActivity extends PicPickerActivity {
         switch (v.getId()) {
             case R.id.iv_image:
                 chooseImage();
+                break;
+
+            case R.id.btn_birthdate:
+                chooseBirthdate();
                 break;
 
             case R.id.btn_register:
@@ -181,10 +192,30 @@ public class SignUpActivity extends PicPickerActivity {
         ivImage.setImageResource(R.drawable.def_user_form_image);
     }
 
+    private void chooseBirthdate() {
+        // create the date picker fragment if required
+        if (datePickerFragment == null) {
+            datePickerFragment = new DatePickerFragment();
+
+            // add date set listener
+            datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    // update the ui
+                    String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+                    btnBirthdate.setText(date);
+                }
+            });
+        }
+
+        // show date dialog
+        datePickerFragment.show(getSupportFragmentManager(), null);
+    }
+
     private void register() {
         // prepare params
         String name = Utils.getText(etName);
-        int age = Utils.getInt(etAge);
+        String birthdate = DateUtils.formatDate(btnBirthdate.getText().toString(), DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
         City city = (City) spCity.getSelectedItem();
         String phone = Utils.getText(etPhone);
         String password = etPassword.getText().toString();
@@ -195,11 +226,8 @@ public class SignUpActivity extends PicPickerActivity {
             etName.setError(getString(R.string.required));
             return;
         }
-        if (Utils.isEmpty(Utils.getText(etAge))) {
-            etAge.setError(getString(R.string.required));
-            return;
-        } else if (age <= 0) {
-            etAge.setError(getString(R.string.invalid_value));
+        if (birthdate == null) {
+            Utils.showShortToast(this, R.string.choose_birthdate);
             return;
         }
         if (city.getId() == 0) {
@@ -213,7 +241,12 @@ public class SignUpActivity extends PicPickerActivity {
         if (Utils.isEmpty(password)) {
             etPassword.setError(getString(R.string.required));
             return;
-        } else if (!password.equals(rePassword)) {
+        }
+        if (password.length() < Const.USER_PASSWORD_MIN_CHARS) {
+            etPassword.setError(getString(R.string.too_short_password));
+            return;
+        }
+        if (!password.equals(rePassword)) {
             etRePassword.setError(getString(R.string.passwords_dont_match));
             return;
         }
@@ -235,7 +268,7 @@ public class SignUpActivity extends PicPickerActivity {
         }
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.createUser(this, this, name, age, city, phone,
+        ConnectionHandler connectionHandler = ApiRequests.createUser(this, this, name, birthdate, city, phone,
                 password, imageEncoded, User.TYPE_PLAYER);
         cancelWhenDestroyed(connectionHandler);
     }

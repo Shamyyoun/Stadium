@@ -11,28 +11,25 @@ import java.util.Locale;
 public class DateUtils {
 
     public static Calendar convertToCalendar(String strDate, String strFormat) {
-        Calendar calendar = Calendar.getInstance();
         try {
+            Calendar calendar = Calendar.getInstance(Locale.getDefault());
             final DateFormat df = new SimpleDateFormat(strFormat);
             calendar.setTime(df.parse(strDate));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        return calendar;
+            return calendar;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static String convertToString(Calendar calendar, String strFormat) {
-        String strDate;
         try {
             SimpleDateFormat format = new SimpleDateFormat(strFormat);
-            strDate = format.format(calendar.getTime());
+            String strDate = format.format(calendar.getTime());
+            return strDate;
         } catch (Exception e) {
-            strDate = null;
-            e.printStackTrace();
+            return null;
         }
-
-        return strDate;
     }
 
     public static String formatDate(String strDate, String originalFormat, String desiredFormat) {

@@ -269,17 +269,19 @@ public class UpdateStadiumActivity extends PicPickerActivity {
     private void updateStadium() {
         hideKeyboard();
 
-        // ensure that user has filled all durations
-        if (stadium.getStartDate() != null && durations != null
-                && !durationController.checkDurationsFilled(durations)) {
-            Utils.showShortToast(this, R.string.please_fill_all_times);
-            return;
-        }
+        // check start date
+        if (stadium.getStartDate() != null) {
+            // ensure that user has filled all durations
+            if (!durationController.checkDurationsFilled(durations)) {
+                Utils.showShortToast(this, R.string.please_fill_all_times);
+                return;
+            }
 
-        // ensure that no nested durations
-        if (!durationController.checkNoNestedDurations(durations)) {
-            Utils.showShortToast(this, R.string.nested_durations_found);
-            return;
+            // ensure that no nested durations
+            if (!durationController.checkNoNestedDurations(durations)) {
+                Utils.showShortToast(this, R.string.nested_durations_found);
+                return;
+            }
         }
 
         // check internet connection

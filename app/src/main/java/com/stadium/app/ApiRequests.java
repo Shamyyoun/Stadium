@@ -94,13 +94,13 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<User> createUser(Context context, ConnectionListener<User> listener,
-                                                     String name, int age, City city,
+                                                     String name, String birthdate, City city,
                                                      String phone, String password,
                                                      String encodedImage, int userType) {
         // create the request body
         User body = new User();
         body.setName(name);
-        body.setAge(age);
+//        body.setAge(age); TODO set birthdate
         body.setCity(city);
         body.setPhone(phone);
         body.setPassword(password);

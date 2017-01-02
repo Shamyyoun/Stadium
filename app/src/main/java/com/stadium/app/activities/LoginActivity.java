@@ -86,6 +86,10 @@ public class LoginActivity extends ParentActivity {
             etPassword.setError(getString(R.string.required));
             return;
         }
+        if (password.length() < Const.USER_PASSWORD_MIN_CHARS) {
+            etPassword.setError(getString(R.string.too_short_password));
+            return;
+        }
 
         hideKeyboard();
 
@@ -124,7 +128,7 @@ public class LoginActivity extends ParentActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else {
-            Utils.showLongToast(this, AppUtils.getResponseMsg(this, user));
+            Utils.showShortToast(this, AppUtils.getResponseMsg(this, response));
         }
     }
 

@@ -5,6 +5,7 @@
 
     <!-- untranslated strings -->
     <string name="empty_string"></string>
+    <string name="phone_number_hint">05xxxxxxxx</string>
 
 
     <!-- translated strings -->
@@ -337,6 +338,9 @@
     <string name="failed_changing_durations">فشل تعديل الفترات</string>
     <string name="end_time_must_be_higher_one_hour">يجب ان يكون وقت النهاية اكبر من البداية بساعة على الاقل</string>
     <string name="nested_durations_found">يوجد فترات متداخلة</string>
+    <string name="too_short_password">كلمة مرور قصيرة جدا</string>
+    <string name="birthdate">تاريخ الميلاد</string>
+    <string name="choose_birthdate">برجاء اختيار تاريخ الميلاد</string>
 
 
     <!-- Arrays -->

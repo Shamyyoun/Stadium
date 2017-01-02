@@ -107,33 +107,20 @@ public class AppUtils {
      * @return
      */
     public static String getResponseMsg(Context context, Object response, int defMsgId) {
-        // try to parse the response
-        ServerResponse serverResponse = null;
-        try {
-            serverResponse = new Gson().fromJson((String) response, ServerResponse.class);
-        } catch (Exception e) {
-        }
-
-        // check the msg
         String msg = null;
-        if (serverResponse != null && !Utils.isNullOrEmpty(serverResponse.getErrorMessage())) {
-            msg = serverResponse.getErrorMessage();
-        }
 
-        // again, check the msg
-        if (Utils.isNullOrEmpty(msg)) {
-            // try to convert the objct to string
-            msg = null;
+        // check the class type and get the msg
+        if (response instanceof ServerResponse) {
+            msg = ((ServerResponse) response).getErrorMessage();
+        } else if (response instanceof String) {
             try {
-                msg = (String) response;
-                if (Utils.isNullOrEmpty(msg)) {
-                    msg = null;
-                }
+                ServerResponse serverResponse = new Gson().fromJson((String) response, ServerResponse.class);
+                msg = serverResponse.getErrorMessage();
             } catch (Exception e) {
             }
         }
 
-        // again :D, check the msg
+        // check the msg
         if (Utils.isNullOrEmpty(msg)) {
             return context.getString(defMsgId);
         } else {

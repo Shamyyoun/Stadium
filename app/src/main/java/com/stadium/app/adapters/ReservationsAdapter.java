@@ -115,16 +115,19 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             holder.tvName.setText("-----------");
         }
 
+        // date is shared to, set it
+        String dateTimeStr = getString(R.string.appointment_c) + " " + dateTime;
+        holder.tvDateTime.setText(dateTimeStr);
+
         // check reservations type to set basic data
         if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
                 || reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS
                 || reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
 
             // this is a detailed view reservation
-            // set the message
-            String msg = getString(R.string.has_reserved_field) + " " + fieldNo
-                    + "\n" + dateTime;
-            holder.tvMessage.setText(msg);
+            // set field no msg
+            String msg = getString(R.string.has_reserved_field) + " " + fieldNo;
+            holder.tvFieldNoMsg.setText(msg);
 
             // set the reservations count and block count if it is new reservations
             if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
@@ -158,10 +161,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             // set the field number
             String filedNoStr = getString(R.string.stadium_name_c) + " " + fieldNo;
             holder.tvFieldNo.setText(filedNoStr);
-
-            // set the date
-            String dateTimeStr = getString(R.string.appointment_c) + " " + dateTime;
-            holder.tvDateTime.setText(dateTimeStr);
         }
 
         // load the suitable image
@@ -276,7 +275,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             holder.btnAction3.setText(R.string.both);
             holder.btnAction3.setOnClickListener(clickListener);
         } else if (reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
-            holder.btnAction2.setText(R.string.delete);
+            holder.btnAction2.setText(R.string.cancel_reservation);
             holder.btnAction2.setOnClickListener(clickListener);
 
             holder.btnAction1.setVisibility(View.GONE);
@@ -307,7 +306,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
             showBlockTeamConfirmDialog(position);
         } else if (reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
-            showDeleteConfirmDialog(position);
+            showCancelAdminResConfirmDialog(position);
         }
     }
 
@@ -346,11 +345,11 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         }, null);
     }
 
-    private void showDeleteConfirmDialog(final int position) {
-        DialogUtils.showConfirmDialog(context, R.string.remove_this_reservation_q, new DialogInterface.OnClickListener() {
+    private void showCancelAdminResConfirmDialog(final int position) {
+        DialogUtils.showConfirmDialog(context, R.string.cancel_reservation_q, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                removeReservation(position);
+                cancelAdminRes(position);
             }
         }, null);
     }
@@ -615,7 +614,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         cancelWhenDestroyed(connectionHandler);
     }
 
-    private void removeReservation(final int position) {
+    private void cancelAdminRes(final int position) {
         // get the reservation
         final Reservation reservation = data.get(position);
 
@@ -636,11 +635,11 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
                     // show success msg and remove it
-                    Utils.showShortToast(context, R.string.removed_successfully);
+                    Utils.showShortToast(context, R.string.cancelled_successfully);
                     removeItem(position);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_removing);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_cancelling);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
@@ -648,7 +647,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             @Override
             public void onFail(Exception ex, int statusCode, String tag) {
                 hideProgressDialog();
-                Utils.showShortToast(context, R.string.failed_removing);
+                Utils.showShortToast(context, R.string.failed_cancelling);
             }
         };
 
@@ -671,7 +670,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         private TextView tvStadiumAddress;
         private TextView tvFieldNo;
         private TextView tvDateTime;
-        private TextView tvMessage;
+        private TextView tvFieldNoMsg;
         private View layoutBlockCount;
         private TextView tvBlockCount;
         private View layoutButtons;
@@ -692,7 +691,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             tvStadiumAddress = (TextView) findViewById(R.id.tv_stadium_address);
             tvFieldNo = (TextView) findViewById(R.id.tv_field_no);
             tvDateTime = (TextView) findViewById(R.id.tv_date_time);
-            tvMessage = (TextView) findViewById(R.id.tv_message);
+            tvFieldNoMsg = (TextView) findViewById(R.id.tv_field_no_msg);
             layoutBlockCount = findViewById(R.id.layout_block_count);
             tvBlockCount = (TextView) findViewById(R.id.tv_block_count);
             layoutButtons = findViewById(R.id.layout_buttons);

@@ -124,4 +124,5 @@ public class Const {
     public static final int UPDATE_STADIUM_MAX_DATE_DAYS_FROM_NOW = 14;
     public static final int UPDATE_STADIUM_MAX_DURATIONS_COUNT = 6;
     public static final int STADIUM_DURATIONS_MIN_HOURS = 1;
+    public static final int USER_PASSWORD_MIN_CHARS = 8;
 }

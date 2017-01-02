@@ -179,7 +179,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
                     // set date and update its ui
                     String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
                     date = DateUtils.formatDate(date, "yyyy/M/d", Const.SER_DATE_FORMAT);
-                    tvDate.setText(date);
+                    updateDateUI(date);
 
                     // refresh the fragments
                     refreshPeriods();
@@ -203,12 +203,10 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         // check this date
         if (date != null && !DateUtils.isToday(date)) {
             // this is a day higher than today
-            // decrease it
+            // decrease it and update its ui
             date.add(Calendar.DATE, -1);
             dateStr = DateUtils.convertToString(date, Const.SER_DATE_FORMAT);
-
-            // set it in the date textview
-            tvDate.setText(dateStr);
+            updateDateUI(dateStr);
 
             // refresh the fragments
             refreshPeriods();
@@ -218,7 +216,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     private void increaseDate() {
         String date = DateUtils.getNewStringDate(tvDate.getText().toString(), Const.SER_DATE_FORMAT, 1);
         if (date != null) {
-            tvDate.setText(date);
+            updateDateUI(date);
 
             // refresh the fragments
             refreshPeriods();
