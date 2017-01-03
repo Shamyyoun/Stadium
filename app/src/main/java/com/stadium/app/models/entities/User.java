@@ -26,6 +26,9 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
     @SerializedName("age")
     @Expose
     private int age;
+    @SerializedName("dateOfBirth")
+    @Expose
+    private String dateOfBirth;
     @SerializedName("email")
     @Expose
     private String email;
@@ -130,6 +133,20 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
      */
     public void setAge(int age) {
         this.age = age;
+    }
+
+    /**
+     * @return The dateOfBirth
+     */
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    /**
+     * @param dateOfBirth The dateOfBirth
+     */
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     /**

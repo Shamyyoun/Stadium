@@ -72,7 +72,15 @@ public class DatePickerFragment extends DialogFragment {
         this.minDate = minDate;
     }
 
+    public void setMinDate(String minDateStr, String dateFormat) {
+        minDate = DateUtils.convertToCalendar(minDateStr, dateFormat);
+    }
+
     public void setMaxDate(Calendar maxDate) {
         this.maxDate = maxDate;
+    }
+
+    public void setMaxDate(String maxDateStr, String dateFormat) {
+        maxDate = DateUtils.convertToCalendar(maxDateStr, dateFormat);
     }
 }

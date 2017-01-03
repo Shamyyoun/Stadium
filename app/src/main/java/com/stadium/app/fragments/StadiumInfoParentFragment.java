@@ -53,7 +53,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     private PagerAdapter pagerAdapter;
     private StadiumPeriodsFragment[] fragments;
     protected Stadium stadium;
-    private String[] fieldCapacities;
+    private Field[] fieldCapacities;
     private DatePickerFragment datePickerFragment;
     private boolean controlsEnabled;
 
@@ -132,6 +132,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         // set the adapter and tab layout
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setDistributeEvenly(true);
+        tabLayout.setTextSize((int) getResources().getDimension(R.dimen.small_text));
         tabLayout.setViewPager(viewPager);
 
         // set off screen page limit to fragments count if 3 or lower
@@ -255,7 +256,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
 
     private void loadFieldCapacities() {
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.fieldSizes(activity, this);
+        ConnectionHandler connectionHandler = ApiRequests.fieldSizes(activity, this, stadium.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -289,8 +290,8 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
             hideProgressDialog();
 
             // get field capacities and reverse it
-            fieldCapacities = (String[]) response;
-            fieldCapacities = (String[]) Utils.reverseArray(fieldCapacities);
+            fieldCapacities = (Field[]) response;
+            fieldCapacities = (Field[]) Utils.reverseArray(fieldCapacities);
 
             // enable the date controls
             enableDateControls(true);
@@ -350,9 +351,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
                 reservation.setReservationStadium(stadium);
                 String date = tvDate.getText().toString();
                 reservation.setDate(date);
-                Field field = new Field();
-                field.setFieldSize(fieldCapacities[position]);
-                reservation.setField(field);
+                reservation.setField(fieldCapacities[position]);
 
                 // create bundle with this object
                 Bundle bundle = new Bundle();
@@ -379,7 +378,9 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return fieldCapacities[position];
+            Field field = fieldCapacities[position];
+            String pageTitle = field.getFieldSize() + " (" + field.getPrice() + " " + getString(R.string.currency) + ")";
+            return pageTitle;
         }
     }
 

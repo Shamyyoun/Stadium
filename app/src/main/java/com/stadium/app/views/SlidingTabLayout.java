@@ -78,6 +78,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
     private final SlidingTabStrip mTabStrip;
 
+    private int textSize;
+
     public SlidingTabLayout(Context context) {
         this(context, null);
     }
@@ -167,7 +169,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
         TextView textView = new TextView(context);
         textView.setTextColor(context.getResources().getColorStateList(R.color.tab_title_text));
         textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -175,6 +176,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
         getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
                 outValue, true);
         textView.setBackgroundResource(outValue.resourceId);
+
+        // set the text size
+        if (textSize > 0) {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        } else {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
+        }
 
         int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
         textView.setPadding(padding, padding, padding, padding);
@@ -318,4 +326,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
     }
 
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+    }
 }

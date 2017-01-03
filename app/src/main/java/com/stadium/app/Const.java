@@ -125,4 +125,6 @@ public class Const {
     public static final int UPDATE_STADIUM_MAX_DURATIONS_COUNT = 6;
     public static final int STADIUM_DURATIONS_MIN_HOURS = 1;
     public static final int USER_PASSWORD_MIN_CHARS = 8;
+    public static final String USER_MIN_BIRTHDATE = "1920/01/01";
+    public static final String USER_MAX_BIRTHDATE = "2006/12/31";
 }

@@ -100,7 +100,7 @@ public class ApiRequests {
         // create the request body
         User body = new User();
         body.setName(name);
-//        body.setAge(age); TODO set birthdate
+        body.setDateOfBirth(birthdate);
         body.setCity(city);
         body.setPhone(phone);
         body.setPassword(password);
@@ -1180,6 +1180,17 @@ public class ApiRequests {
         ConnectionHandler connectionHandler = new ConnectionHandler(context,
                 AppUtils.getAdminApiUrl(Const.API_CHANGE_DURATION), null, listener, body, Const.API_CHANGE_DURATION);
         connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Field[]> fieldSizes(Context context, ConnectionListener<Field[]> listener, int stadiumId) {
+        // prepare url
+        String url = AppUtils.getUserApiUrl(Const.API_FIELD_SIZE, stadiumId);
+
+        // create & execute the request
+        ConnectionHandler<Field[]> connectionHandler = new ConnectionHandler(context,
+                url, Field[].class, listener, Const.API_FIELD_SIZE);
+        connectionHandler.executeGet();
         return connectionHandler;
     }
 }

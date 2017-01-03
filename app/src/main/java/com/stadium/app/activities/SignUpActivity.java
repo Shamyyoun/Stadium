@@ -197,6 +197,10 @@ public class SignUpActivity extends PicPickerActivity {
         if (datePickerFragment == null) {
             datePickerFragment = new DatePickerFragment();
 
+            // set min & max dates
+            datePickerFragment.setMinDate(Const.USER_MIN_BIRTHDATE, Const.SER_DATE_FORMAT);
+            datePickerFragment.setMaxDate(Const.USER_MAX_BIRTHDATE, Const.SER_DATE_FORMAT);
+
             // add date set listener
             datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
                 @Override
