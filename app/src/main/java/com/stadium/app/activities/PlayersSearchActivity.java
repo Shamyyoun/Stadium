@@ -165,10 +165,11 @@ public class PlayersSearchActivity extends ParentActivity {
     private void choosePosition() {
         if (positionsDialog == null) {
             positionsDialog = new ChoosePositionDialog(this);
+            positionsDialog.addDefaultItem(getString(R.string.all_positions));
             positionsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {
-                    // check the city item
+                    // check the position item
                     Position position = (Position) item;
                     if (position.getName().equals(getString(R.string.all_positions))) {
                         // all positions item

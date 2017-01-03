@@ -68,6 +68,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:lineSpacingExtra="4dp"
                             android:text="تم حجز ملعب المونديال. 04-02-2016 . 8:30 مساءاٌ"
                             android:textSize="@dimen/small_text" />
 

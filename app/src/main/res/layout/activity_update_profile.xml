@@ -48,13 +48,13 @@
                 android:hint="@string/name"
                 android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/et_age"
+            <Button
+                android:id="@+id/btn_birthdate"
+                style="@style/GrayETButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/age"
-                android:inputType="number"
-                android:selectAllOnFocus="true" />
+                android:drawableLeft="@drawable/clickable_gray_calendar_icon"
+                android:text="@string/birthdate" />
 
             <Spinner
                 android:id="@+id/sp_city"
@@ -87,16 +87,13 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/additional_info" />
 
-            <EditText
-                android:id="@+id/et_position"
+            <Button
+                android:id="@+id/btn_position"
+                style="@style/GrayETButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:capitalize="words"
-                android:hint="@string/position"
-                android:inputType="textCapWords"
-                android:selectAllOnFocus="true"
-                android:singleLine="true" />
+                android:text="@string/position" />
 
             <EditText
                 android:id="@+id/et_email"

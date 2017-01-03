@@ -1,9 +1,11 @@
 package com.stadium.app.activities;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -12,10 +14,16 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
-import com.stadium.app.controllers.CityController;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.controllers.CityController;
+import com.stadium.app.dialogs.ChoosePositionDialog;
+import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.City;
+import com.stadium.app.models.entities.Position;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.DatePickerFragment;
+import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.Utils;
 
 import java.util.ArrayList;
@@ -26,18 +34,22 @@ import java.util.List;
  * Created by karam on 6/29/16.
  */
 public class UpdateProfileActivity extends ParentActivity {
+    private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
     private ActiveUserController userController;
     private ImageView ivImage;
     private EditText etName;
-    private EditText etAge;
+    private Button btnBirthdate;
     private Spinner spCity;
     private EditText etPhone;
-    private EditText etPosition;
+    private Button btnPosition;
     private EditText etEmail;
     private EditText etBio;
     private Button btnUpdate;
 
     private List<City> cities;
+    private DatePickerFragment datePickerFragment;
+    private ChoosePositionDialog positionsDialog;
+    private Position selectedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +62,17 @@ public class UpdateProfileActivity extends ParentActivity {
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
         etName = (EditText) findViewById(R.id.et_name);
-        etAge = (EditText) findViewById(R.id.et_age);
+        btnBirthdate = (Button) findViewById(R.id.btn_birthdate);
         spCity = (Spinner) findViewById(R.id.sp_city);
         etPhone = (EditText) findViewById(R.id.et_phone);
-        etPosition = (EditText) findViewById(R.id.et_position);
+        btnPosition = (Button) findViewById(R.id.btn_position);
         etEmail = (EditText) findViewById(R.id.et_email);
         etBio = (EditText) findViewById(R.id.et_bio);
         btnUpdate = (Button) findViewById(R.id.btn_update);
 
         // add listeners
+        btnBirthdate.setOnClickListener(this);
+        btnPosition.setOnClickListener(this);
         btnUpdate.setOnClickListener(this);
 
         // update and load cities
@@ -76,20 +90,26 @@ public class UpdateProfileActivity extends ParentActivity {
 
         // set basic info
         etName.setText(user.getName());
-        etAge.setText("" + user.getAge());
         etPhone.setText(user.getPhone());
-        etPosition.setText(user.getPosition());
         etEmail.setText(Utils.trim(user.getEmail()));
         etBio.setText(user.getBio());
+
+        // set birthdate
+        String birthdate = DateUtils.formatDate(user.getDateOfBirth(), Const.SER_DATE_FORMAT, DISPLAYED_DATE_FORMAT);
+        btnBirthdate.setText(Utils.isNullOrEmpty(birthdate) ? getString(R.string.birthdate) : birthdate);
+
+        // set the position
+        String position = Utils.isNullOrEmpty(user.getPosition()) ? getString(R.string.position) : user.getPosition();
+        btnPosition.setText(position);
 
         // set the city
         City city = user.getCity();
         if (city != null) {
             CityController cityController = new CityController();
             if (cities != null) {
-                int position = cityController.getItemPosition(cities, city.getId());
-                if (position != -1) {
-                    spCity.setSelection(position);
+                int itemPosition = cityController.getItemPosition(cities, city.getId());
+                if (itemPosition != -1) {
+                    spCity.setSelection(itemPosition);
                 }
             } else {
                 cities = new ArrayList<>();
@@ -120,6 +140,14 @@ public class UpdateProfileActivity extends ParentActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_birthdate:
+                chooseBirthdate();
+                break;
+
+            case R.id.btn_position:
+                choosePosition();
+                break;
+
             case R.id.btn_update:
                 update();
                 break;
@@ -129,21 +157,69 @@ public class UpdateProfileActivity extends ParentActivity {
         }
     }
 
+    private void chooseBirthdate() {
+        // create the date picker fragment if required
+        if (datePickerFragment == null) {
+            datePickerFragment = new DatePickerFragment();
+
+            // set dates
+            datePickerFragment.setMinDate(Const.USER_MIN_BIRTHDATE, Const.SER_DATE_FORMAT);
+            datePickerFragment.setMaxDate(Const.USER_MAX_BIRTHDATE, Const.SER_DATE_FORMAT);
+            datePickerFragment.setDate(userController.getUser().getDateOfBirth(), Const.SER_DATE_FORMAT);
+
+            // add date set listener
+            datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    // update the ui
+                    String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+                    btnBirthdate.setText(date);
+                }
+            });
+        }
+
+        // show date dialog
+        datePickerFragment.show(getSupportFragmentManager(), null);
+    }
+
+    private void choosePosition() {
+        if (positionsDialog == null) {
+            positionsDialog = new ChoosePositionDialog(this);
+            positionsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
+                @Override
+                public void onCheckableSelected(Checkable item) {
+                    // set position and update its ui
+                    selectedPosition = (Position) item;
+                    btnPosition.setText(selectedPosition.getName());
+                }
+            });
+        }
+
+        // check to select item if possible
+        if (selectedPosition != null) {
+            positionsDialog.setSelectedItem(selectedPosition.getName());
+        } else if (userController.getUser().getPosition() != null) {
+            positionsDialog.setSelectedItem(userController.getUser().getPosition());
+        }
+
+        positionsDialog.show();
+    }
+
     private void update() {
+        // get the user
+        User user = userController.getUser();
+
         // prepare params
-        int age = Utils.getInt(etAge);
+        String birthdate = DateUtils.formatDate(btnBirthdate.getText().toString(), DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
         City city = (City) spCity.getSelectedItem();
         String phone = Utils.getText(etPhone);
-        String position = Utils.getText(etPosition);
+        String position = this.selectedPosition != null ? this.selectedPosition.getName() : user.getPosition();
         String email = Utils.getText(etEmail);
         String bio = Utils.getText(etBio);
 
         // validate inputs
-        if (Utils.isEmpty(Utils.getText(etAge))) {
-            etAge.setError(getString(R.string.required));
-            return;
-        } else if (age <= 0) {
-            etAge.setError(getString(R.string.invalid_value));
+        if (birthdate == null) {
+            Utils.showShortToast(this, R.string.choose_birthdate);
             return;
         }
         if (city.getId() == 0) {
@@ -170,9 +246,8 @@ public class UpdateProfileActivity extends ParentActivity {
         showProgressDialog();
 
         // send request
-        User user = userController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.editProfile(this, this, user.getId(),
-                user.getToken(), age, city, phone, position, email, bio);
+                user.getToken(), birthdate, city, phone, position, email, bio);
         cancelWhenDestroyed(connectionHandler);
     }
 

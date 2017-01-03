@@ -146,13 +146,13 @@ public class ApiRequests {
 
     public static ConnectionHandler<User> editProfile(Context context, ConnectionListener<User> listener,
                                                       int userId, String userToken,
-                                                      int age, City city, String phone,
+                                                      String birthDate, City city, String phone,
                                                       String position, String email, String bio) {
         // create the request body
         User body = new User();
         body.setId(userId);
         body.setToken(userToken);
-        body.setAge(age);
+        body.setDateOfBirth(birthDate);
         body.setCity(city);
         body.setPhone(phone);
         body.setPosition(position);

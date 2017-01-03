@@ -33,6 +33,7 @@ public class ChoosePositionDialog extends ProgressDialog {
     private List<Position> data;
     private OnCheckableSelectedListener itemSelectedListener;
     private String selectedItem;
+    private String defaultItem;
 
     public ChoosePositionDialog(final Context context) {
         super(context);
@@ -94,8 +95,10 @@ public class ChoosePositionDialog extends ProgressDialog {
     }
 
     private void updateUI() {
-        // add the default item
-        data = positionController.addDefaultItem(data, getString(R.string.all_positions));
+        // check to add default item
+        if (defaultItem != null) {
+            data = positionController.addDefaultItem(data, defaultItem);
+        }
 
         adapter = new RadioButtonsAdapter(context, data, R.layout.item_radio_button);
         recyclerView.setAdapter(adapter);
@@ -205,5 +208,9 @@ public class ChoosePositionDialog extends ProgressDialog {
         if (data != null && adapter != null) {
             selectCheckedItem();
         }
+    }
+
+    public void addDefaultItem(String defaultItem) {
+        this.defaultItem = defaultItem;
     }
 }
