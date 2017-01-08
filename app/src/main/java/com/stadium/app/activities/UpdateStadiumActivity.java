@@ -67,6 +67,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
     private DatePickerFragment datePickerFragment;
     private List<Duration> durations;
     private StadiumDurationsAdapter durationsAdapter;
+    private String startDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,7 +197,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
             datePickerFragment = new DatePickerFragment();
 
             // set min date
-            Calendar minDate = DateUtils.addDays(Const.UPDATE_STADIUM_MAX_DATE_DAYS_FROM_NOW);
+            Calendar minDate = DateUtils.addDays(Const.UPDATE_STADIUM_MIN_DATE_DAYS_FROM_NOW);
             datePickerFragment.setMinDate(minDate);
 
             // add date set listener
@@ -207,12 +208,14 @@ public class UpdateStadiumActivity extends PicPickerActivity {
                     String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
                     btnStartDate.setText(date);
 
-                    // set the date
-                    date = DateUtils.formatDate(date, DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
-                    stadium.setStartDate(date);
+                    // check start date
+                    if (startDate == null) {
+                        // update durations ui
+                        updateDurationsUI();
+                    }
 
-                    // update durations ui
-                    updateDurationsUI();
+                    // set the date
+                    startDate = DateUtils.formatDate(date, DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
                 }
             });
         }
@@ -270,7 +273,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
         hideKeyboard();
 
         // check start date
-        if (stadium.getStartDate() != null) {
+        if (startDate != null) {
             // ensure that user has filled all durations
             if (!durationController.checkDurationsFilled(durations)) {
                 Utils.showShortToast(this, R.string.please_fill_all_times);
@@ -337,7 +340,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
                 }
 
                 // check start date
-                if (stadium.getStartDate() != null) {
+                if (startDate != null) {
                     // user changed durations,
                     // send the request
                     changeDurations();
@@ -386,7 +389,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.changeDuration(this, this, user.getId(),
-                user.getToken(), stadium.getId(), stadium.getStartDate(), durations);
+                user.getToken(), stadium.getId(), startDate, durations);
         cancelWhenDestroyed(connectionHandler);
     }
 

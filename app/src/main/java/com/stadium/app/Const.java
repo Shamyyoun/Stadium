@@ -121,7 +121,7 @@ public class Const {
 
     // Validations:-----------------------------
     public static final int STADIUMS_SEARCH_MAX_DATE_DAYS_FROM_NOW = 14;
-    public static final int UPDATE_STADIUM_MAX_DATE_DAYS_FROM_NOW = 14;
+    public static final int UPDATE_STADIUM_MIN_DATE_DAYS_FROM_NOW = 15;
     public static final int UPDATE_STADIUM_MAX_DURATIONS_COUNT = 6;
     public static final int STADIUM_DURATIONS_MIN_HOURS = 1;
     public static final int USER_PASSWORD_MIN_CHARS = 8;
