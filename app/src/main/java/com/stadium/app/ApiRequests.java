@@ -245,7 +245,7 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<ServerResponse> ratePlayer(Context context, ConnectionListener<ServerResponse> listener,
+    public static ConnectionHandler<User> ratePlayer(Context context, ConnectionListener<User> listener,
                                                                int userId, String userToken, String userName,
                                                                int playerRatedId, double rate) {
         // create the request body
@@ -261,8 +261,8 @@ public class ApiRequests {
         body.setUser(user);
 
         // create & execute the request
-        ConnectionHandler<ServerResponse> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_RATE_PLAYER), ServerResponse.class, listener, body, Const.API_RATE_PLAYER);
+        ConnectionHandler<User> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_RATE_PLAYER), User.class, listener, body, Const.API_RATE_PLAYER);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -295,10 +295,10 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> addMemberToTeam(Context context, ConnectionListener<String> listener,
-                                                            int userId, String userToken,
-                                                            int teamId, String teamName,
-                                                            int playerId, String playerName) {
+    public static ConnectionHandler addMemberToTeam(Context context, ConnectionListener listener,
+                                                    int userId, String userToken,
+                                                    int teamId, String teamName,
+                                                    int playerId, String playerName) {
         // create the request body
         AddMemberToTeamBody body = new AddMemberToTeamBody();
         User player = new User();
@@ -315,8 +315,8 @@ public class ApiRequests {
         body.setTeam(team);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getCaptainApiUrl(Const.API_ADD_MEMBER_TO_TEAM), String.class, listener, body, Const.API_ADD_MEMBER_TO_TEAM);
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_ADD_MEMBER_TO_TEAM), null, listener, body, Const.API_ADD_MEMBER_TO_TEAM);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

@@ -1,11 +1,13 @@
 package com.stadium.app.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
@@ -13,6 +15,7 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.PlayersAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
@@ -29,13 +32,14 @@ import java.util.List;
 /**
  * Created by karam on 7/17/16.
  */
-public class ContactsActivity extends ProgressActivity implements OnPlayerAddedListener {
+public class ContactsActivity extends ProgressActivity implements OnPlayerAddedListener, OnItemClickListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private ActiveUserController userController;
     private RecyclerView recyclerView;
     private List<User> data;
     private PlayersAdapter adapter;
     private boolean isPlayersAdded; // used to set the result when leaving the activity to notify parents if players added
+    private int selectedItemPosition; // used to hold clicked player to open his info
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,9 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        // get data from saved bundle if exists
+        // obtain saved data if possible
         if (savedInstanceState != null) {
+            selectedItemPosition = savedInstanceState.getInt("selectedItemPosition");
             SerializableListWrapper<User> dataWrapper = (SerializableListWrapper<User>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
@@ -113,9 +118,19 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
     private void updateUI() {
         adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_PHONE_NUMBER);
         adapter.setSelectedTeam(selectedTeam);
+        adapter.setOnItemClickListener(this);
         adapter.setOnPlayerAddedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        // open player info activity
+        User user = data.get(position);
+        Intent intent = new Intent(activity, PlayerInfoActivity.class);
+        intent.putExtra(Const.KEY_ID, user.getId());
+        startActivityForResult(intent, Const.REQ_VIEW_PLAYER_INFO);
     }
 
     @Override
@@ -175,9 +190,29 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_VIEW_PLAYER_INFO && resultCode == RESULT_OK) {
+            // update the player rating if possible
+            double rating = data.getDoubleExtra(Const.KEY_RATING, -1);
+            if (rating != -1) {
+                updatePlayerRating(selectedItemPosition, rating);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void updatePlayerRating(int position, double rating) {
+        User player = this.data.get(position);
+        player.setRate(rating);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
+        outState.putInt("selectedItemPosition", selectedItemPosition);
         super.onSaveInstanceState(outState);
     }
 

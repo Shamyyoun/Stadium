@@ -86,7 +86,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".activities.ProfileImageActivity"
+            android:name=".activities.UpdateProfileImageActivity"
             android:theme="@style/AppTheme.BlackTheme" />
 
         <activity
@@ -113,5 +113,9 @@
             android:name=".activities.UpdateStadiumActivity"
             android:label="@string/update_the_stadium"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".activities.ViewImageActivity"
+            android:theme="@style/AppTheme.BlackTheme" />
     </application>
 </manifest>

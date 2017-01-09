@@ -16,6 +16,7 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.activities.ContactsActivity;
+import com.stadium.app.activities.PlayerInfoActivity;
 import com.stadium.app.activities.PlayersActivity;
 import com.stadium.app.activities.PlayersSearchActivity;
 import com.stadium.app.adapters.PlayersAdapter;
@@ -25,6 +26,7 @@ import com.stadium.app.controllers.OrderController;
 import com.stadium.app.controllers.SearchController;
 import com.stadium.app.dialogs.OrderDialog;
 import com.stadium.app.interfaces.OnCheckableSelectedListener;
+import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.Checkable;
@@ -42,7 +44,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class PlayersFragment extends ProgressFragment implements OnPlayerAddedListener {
+public class PlayersFragment extends ProgressFragment implements OnPlayerAddedListener, OnItemClickListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private ActiveUserController userController;
     private SearchController searchController;
@@ -57,6 +59,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     private PlayersFilter filter;
     private OrderDialog orderDialog;
     private OrderCriteria orderCriteria;
+    private int selectedItemPosition; // used to hold clicked player to open his info
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,8 +104,9 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         orderCriteria = orderDialog.getDefaultCriteria();
         updateOrderByUI();
 
-        // get data from saved bundle if exists
+        // obtain saved data if possible
         if (savedInstanceState != null) {
+            selectedItemPosition = savedInstanceState.getInt("selectedItemPosition");
             SerializableListWrapper<User> dataWrapper = (SerializableListWrapper<User>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
@@ -154,9 +158,20 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     private void updateUI(List<User> data) {
         adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_ADDRESS);
         adapter.setSelectedTeam(selectedTeam);
+        adapter.setOnItemClickListener(this);
         adapter.setOnPlayerAddedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        // open player info activity
+        User user = data.get(position);
+        Intent intent = new Intent(activity, PlayerInfoActivity.class);
+        intent.putExtra(Const.KEY_ID, user.getId());
+        startActivityForResult(intent, Const.REQ_VIEW_PLAYER_INFO);
+        selectedItemPosition = position;
     }
 
     @Override
@@ -233,6 +248,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     public void onSaveInstanceState(Bundle outState) {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
+        outState.putInt("selectedItemPosition", selectedItemPosition);
         super.onSaveInstanceState(outState);
     }
 
@@ -276,16 +292,32 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Const.REQ_SEARCH_PLAYERS && resultCode == Activity.RESULT_OK) {
-            filter = (PlayersFilter) data.getSerializableExtra(Const.KEY_FILTER);
-            search();
-        } else if (requestCode == Const.REQ_VIEW_CONTACTS && resultCode == Activity.RESULT_OK) {
-            // some players have been added
-            // notify players activity
-            notifyPlayersActivity();
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Const.REQ_SEARCH_PLAYERS) {
+                filter = (PlayersFilter) data.getSerializableExtra(Const.KEY_FILTER);
+                search();
+            } else if (requestCode == Const.REQ_VIEW_CONTACTS) {
+                // some players have been added
+                // notify players activity
+                notifyPlayersActivity();
+            } else if (requestCode == Const.REQ_VIEW_PLAYER_INFO) {
+                // update the player rating if possible
+                double rating = data.getDoubleExtra(Const.KEY_RATING, -1);
+                if (rating != -1) {
+                    updatePlayerRating(selectedItemPosition, rating);
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void updatePlayerRating(int position, double rating) {
+        User player = this.data.get(position);
+        player.setRate(rating);
+        adapter.notifyDataSetChanged();
     }
 
     private void search() {

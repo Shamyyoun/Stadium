@@ -114,6 +114,7 @@
                         android:layout_width="@dimen/entity_info_image_size"
                         android:layout_height="@dimen/entity_info_image_size"
                         android:layout_gravity="center"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/default_image"
                         app:riv_oval="true" />
                 </FrameLayout>

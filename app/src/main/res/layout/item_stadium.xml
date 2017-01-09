@@ -47,7 +47,8 @@
                             android:layout_height="wrap_content"
                             android:isIndicator="true"
                             android:rating="3.5"
-                            android:theme="@style/MyRatingBar" />
+                            android:theme="@style/MyRatingBar"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_title"

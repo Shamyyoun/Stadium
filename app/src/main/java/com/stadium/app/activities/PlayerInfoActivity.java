@@ -92,14 +92,28 @@ public class PlayerInfoActivity extends ParentActivity {
                 }
             }
         });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseTeam();
-            }
-        });
+        ivImage.setOnClickListener(this);
+        btnAdd.setOnClickListener(this);
 
         loadUserInfo();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_image) {
+            openViewImageActivity();
+        } else if (v.getId() == R.id.btn_add) {
+            chooseTeam();
+        } else {
+            super.onClick(v);
+        }
+    }
+
+    private void openViewImageActivity() {
+        Intent intent = new Intent(this, ViewImageActivity.class);
+        intent.putExtra(Const.KEY_IMAGE_URL, player.getImageLink());
+        startActivity(intent);
+        overridePendingTransition(R.anim.scale_fade_enter, R.anim.scale_fade_exit);
     }
 
     private void showRateDialog(final double rate) {
@@ -168,7 +182,7 @@ public class PlayerInfoActivity extends ParentActivity {
         // check internet connection
         if (!Utils.hasConnection(this)) {
             Utils.showShortToast(this, R.string.no_internet_connection);
-            disableControls();
+            enableControls(false);
             return;
         }
 
@@ -177,6 +191,10 @@ public class PlayerInfoActivity extends ParentActivity {
         // send request
         ConnectionHandler connectionHandler = ApiRequests.getPlayerInfo(this, this, id);
         cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void refreshUserTeams() {
+        loadUserTeams();
     }
 
     private void loadUserTeams() {
@@ -238,6 +256,7 @@ public class PlayerInfoActivity extends ParentActivity {
             if (statusCode == Const.SER_CODE_200 && user != null) {
                 player = user;
                 updateUserUI();
+                enableControls(true);
 
                 loadUserTeams();
             } else {
@@ -248,26 +267,33 @@ public class PlayerInfoActivity extends ParentActivity {
 
                 Utils.showShortToast(this, errorMsg);
 
-                disableControls();
+                enableControls(false);
             }
         } else if (Const.API_RATE_PLAYER.equals(tag)) {
             // check result
             if (statusCode == Const.SER_CODE_200) {
-                Utils.showShortToast(this, R.string.rated_successfully);
-            } else {
-                String errorMsg = AppUtils.getResponseMsg(this, response);
-                if (Utils.isNullOrEmpty(errorMsg)) {
-                    errorMsg = getString(R.string.failed_rating);
+                // update player rating if possible
+                User user = (User) response;
+                if (user != null) {
+                    player.setRate(user.getRate());
                 }
 
+                // show msg
+                Utils.showShortToast(this, R.string.rated_successfully);
+            } else {
+                // show error msg
+                String errorMsg = AppUtils.getResponseMsg(this, response, R.string.failed_rating);
                 Utils.showShortToast(this, errorMsg);
             }
         } else if (Const.API_ADD_MEMBER_TO_TEAM.equals(tag)) {
             // check result
             if (statusCode == Const.SER_CODE_200) {
                 Utils.showShortToast(this, R.string.added_successfully);
+                refreshUserTeams();
             } else {
-                Utils.showShortToast(this, R.string.failed_adding_player);
+                // show error msg
+                String errorMsg = AppUtils.getResponseMsg(this, response, R.string.failed_adding_player);
+                Utils.showShortToast(this, errorMsg);
             }
         } else if (Const.API_LIST_OF_MY_TEAMS.equals(tag)) {
             // get data
@@ -293,16 +319,16 @@ public class PlayerInfoActivity extends ParentActivity {
             showTeamsError();
         } else if (Const.API_GET_PLAYER_INFO.equals(tag)) {
             super.onFail(ex, statusCode, tag);
-            disableControls();
+            enableControls(false);
         } else {
             super.onFail(ex, statusCode, tag);
         }
     }
 
-    private void disableControls() {
-        // disable the controls
-        rbRating.setIsIndicator(true);
-        btnAdd.setEnabled(false);
+    private void enableControls(boolean enable) {
+        ivImage.setEnabled(enable);
+        rbRating.setIsIndicator(!enable);
+        btnAdd.setEnabled(enable);
     }
 
     private void showTeamsProgress() {
@@ -319,5 +345,17 @@ public class PlayerInfoActivity extends ParentActivity {
 
     private void showTeamsMain() {
         ViewUtil.showOneView(recyclerView, tvTeamsError, tvTeamsEmpty, pbTeamsProgress);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // set player rating as result if possible
+        if (player != null) {
+            Intent intent = new Intent();
+            intent.putExtra(Const.KEY_RATING, player.getRate());
+            setResult(RESULT_OK, intent);
+        }
+
+        super.onBackPressed();
     }
 }

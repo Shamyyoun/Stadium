@@ -7,8 +7,8 @@ import android.widget.TextView;
 import com.stadium.app.R;
 import com.stadium.app.fragments.MyTeamsFragment;
 import com.stadium.app.fragments.PlayerHomeFragment;
-import com.stadium.app.fragments.PlayersFragment;
 import com.stadium.app.fragments.PlayerReservationsFragment;
+import com.stadium.app.fragments.PlayersFragment;
 import com.stadium.app.fragments.StadiumsFragment;
 
 public class PlayerMainActivity extends MainActivity {

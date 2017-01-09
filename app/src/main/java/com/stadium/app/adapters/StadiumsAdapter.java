@@ -10,7 +10,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.stadium.app.R;
-import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.StadiumController;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.utils.Utils;
@@ -21,11 +20,9 @@ import java.util.List;
  * Created by Shamyyoun on 7/2/16.
  */
 public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
-    private ActiveUserController userController;
 
     public StadiumsAdapter(Context context, List<Stadium> data, int layoutId) {
         super(context, data, layoutId);
-        userController = new ActiveUserController(context);
     }
 
     @Override
@@ -133,12 +130,6 @@ public class StadiumsAdapter extends ParentRecyclerAdapter<Stadium> {
 
             // set clickable view
             setClickableRootView(layoutContent);
-
-            // check if admin
-            if (userController.isAdmin()) {
-                // hide rating
-                rbRating.setVisibility(View.GONE);
-            }
         }
     }
 }

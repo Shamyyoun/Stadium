@@ -1,6 +1,7 @@
 package com.stadium.app.fragments;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,8 +31,9 @@ import java.util.List;
 /**
  * Created by karam on 7/26/16.
  */
-public class TeamReservationsFragment extends ParentFragment {
+public class TeamReservationsFragment extends ParentFragment implements SwipeRefreshLayout.OnRefreshListener {
     private Team team;
+    private SwipeRefreshLayout swipeLayout;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
     private TextView tvEmpty;
@@ -48,10 +50,14 @@ public class TeamReservationsFragment extends ParentFragment {
         team = (Team) getArguments().getSerializable(Const.KEY_TEAM);
 
         // init views
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
         tvEmpty = (TextView) findViewById(R.id.tv_empty);
         tvError = (TextView) findViewById(R.id.tv_error);
+
+        // customize swipe layout
+        swipeLayout.setOnRefreshListener(this);
 
         // customize the recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
@@ -80,6 +86,11 @@ public class TeamReservationsFragment extends ParentFragment {
         adapter.updateTeamPlayers(teamPlayers);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onRefresh() {
+        refresh();
     }
 
     public void loadData() {
@@ -126,18 +137,23 @@ public class TeamReservationsFragment extends ParentFragment {
 
     private void showProgress() {
         ViewUtil.showOneView(pbProgress, tvError, recyclerView, tvEmpty);
+        swipeLayout.setRefreshing(false);
+        swipeLayout.setEnabled(false);
     }
 
     private void showEmpty() {
         ViewUtil.showOneView(tvEmpty, pbProgress, tvError, recyclerView);
+        swipeLayout.setEnabled(true);
     }
 
     private void showError() {
         ViewUtil.showOneView(tvError, tvEmpty, pbProgress, recyclerView);
+        swipeLayout.setEnabled(true);
     }
 
     private void showMain() {
         ViewUtil.showOneView(recyclerView, tvError, tvEmpty, pbProgress);
+        swipeLayout.setEnabled(true);
     }
 
     @Override

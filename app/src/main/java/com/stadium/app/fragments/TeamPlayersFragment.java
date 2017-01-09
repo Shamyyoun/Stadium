@@ -2,6 +2,7 @@ package com.stadium.app.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,9 +33,11 @@ import java.util.List;
 /**
  * Created by karam on 7/26/16.
  */
-public class TeamPlayersFragment extends ParentFragment implements OnItemRemovedListener, OnCaptainChangedListener, OnAssistantChangedListener {
+public class TeamPlayersFragment extends ParentFragment implements OnItemRemovedListener, OnCaptainChangedListener,
+        OnAssistantChangedListener, SwipeRefreshLayout.OnRefreshListener {
     private Team team;
     private TeamInfoActivity activity;
+    private SwipeRefreshLayout swipeLayout;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
     private TextView tvEmpty;
@@ -56,10 +59,14 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
         team = (Team) getArguments().getSerializable(Const.KEY_TEAM);
 
         // init views
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
         tvEmpty = (TextView) findViewById(R.id.tv_empty);
         tvError = (TextView) findViewById(R.id.tv_error);
+
+        // customize swipe layout
+        swipeLayout.setOnRefreshListener(this);
 
         // customize the recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
@@ -96,6 +103,11 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
         if (data.size() == 0) {
             showEmpty();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        refresh();
     }
 
     public void loadData() {
@@ -140,18 +152,23 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
 
     private void showProgress() {
         ViewUtil.showOneView(pbProgress, tvError, recyclerView, tvEmpty);
+        swipeLayout.setRefreshing(false);
+        swipeLayout.setEnabled(false);
     }
 
     private void showEmpty() {
         ViewUtil.showOneView(tvEmpty, pbProgress, tvError, recyclerView);
+        swipeLayout.setEnabled(true);
     }
 
     private void showError() {
         ViewUtil.showOneView(tvError, tvEmpty, pbProgress, recyclerView);
+        swipeLayout.setEnabled(true);
     }
 
     private void showMain() {
         ViewUtil.showOneView(recyclerView, tvError, tvEmpty, pbProgress);
+        swipeLayout.setEnabled(true);
     }
 
     @Override

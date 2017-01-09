@@ -85,12 +85,8 @@ public class TeamInfoActivity extends ParentActivity {
         updatePagerUI();
 
         // add listeners
-        fabAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAdd();
-            }
-        });
+        ivImage.setOnClickListener(this);
+        fabAdd.setOnClickListener(this);
 
         loadTeamInfo();
     }
@@ -136,6 +132,24 @@ public class TeamInfoActivity extends ParentActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_image) {
+            openViewImageActivity();
+        } else if (v.getId() == R.id.fab_add) {
+            onAdd();
+        } else {
+            super.onClick(v);
+        }
+    }
+
+    private void openViewImageActivity() {
+        Intent intent = new Intent(this, ViewImageActivity.class);
+        intent.putExtra(Const.KEY_IMAGE_URL, team.getImageLink());
+        startActivity(intent);
+        overridePendingTransition(R.anim.scale_fade_enter, R.anim.scale_fade_exit);
+    }
+
     private void onAdd() {
         // switch the current page
         Intent intent = null;
@@ -163,7 +177,7 @@ public class TeamInfoActivity extends ParentActivity {
         // check internet connection
         if (!Utils.hasConnection(this)) {
             Utils.showShortToast(this, R.string.no_internet_connection);
-            disableControls();
+            enableControls(false);
             return;
         }
 
@@ -193,7 +207,7 @@ public class TeamInfoActivity extends ParentActivity {
                 reservationsFragment.loadData();
 
                 // enable the controls
-                enableControls();
+                enableControls(true);
             } else {
                 // get and show error msg
                 String errorMsg = AppUtils.getResponseMsg(this, team);
@@ -203,7 +217,7 @@ public class TeamInfoActivity extends ParentActivity {
                 Utils.showShortToast(this, errorMsg);
 
                 // disable the controls
-                disableControls();
+                enableControls(false);
             }
         } else {
             super.onSuccess(response, statusCode, tag);
@@ -216,20 +230,16 @@ public class TeamInfoActivity extends ParentActivity {
 
         if (Const.API_GET_TEAM_INFO.equals(tag)) {
             super.onFail(ex, statusCode, tag);
-            disableControls();
+            enableControls(false);
         } else {
             super.onFail(ex, statusCode, tag);
         }
     }
 
-    private void disableControls() {
-        fabAdd.setEnabled(false);
-        enableControls = false;
-    }
-
-    private void enableControls() {
-        fabAdd.setEnabled(true);
-        enableControls = true;
+    private void enableControls(boolean enable) {
+        ivImage.setEnabled(enable);
+        fabAdd.setEnabled(enable);
+        enableControls = enable;
     }
 
     @Override

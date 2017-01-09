@@ -341,6 +341,7 @@
     <string name="too_short_password">كلمة مرور قصيرة جدا</string>
     <string name="birthdate">تاريخ الميلاد</string>
     <string name="choose_birthdate">برجاء اختيار تاريخ الميلاد</string>
+    <string name="refuse_u"><u>اعتذار</u></string>
 
 
     <!-- Arrays -->

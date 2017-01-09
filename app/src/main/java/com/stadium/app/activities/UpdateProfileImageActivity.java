@@ -26,7 +26,7 @@ import java.io.File;
 /**
  * Created by Shamyyoun on 10/22/16.
  */
-public class ProfileImageActivity extends PicPickerActivity {
+public class UpdateProfileImageActivity extends PicPickerActivity {
     private ActiveUserController userController;
     private ImageView ivImage;
     private ImageButton ibEdit;
@@ -41,7 +41,7 @@ public class ProfileImageActivity extends PicPickerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_image);
+        setContentView(R.layout.activity_update_profile_image);
 
         // create the user controller
         userController = new ActiveUserController(this);

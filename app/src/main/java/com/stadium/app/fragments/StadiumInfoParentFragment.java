@@ -1,6 +1,7 @@
 package com.stadium.app.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
+import com.stadium.app.activities.ViewImageActivity;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.StadiumController;
 import com.stadium.app.models.entities.Field;
@@ -85,6 +87,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
         // add listeners
+        ivImage.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         ibPreviousDay.setOnClickListener(this);
         ibNextDay.setOnClickListener(this);
@@ -147,6 +150,10 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_image:
+                openViewImageActivity();
+                break;
+
             case R.id.tv_date:
                 chooseDate();
                 break;
@@ -162,6 +169,13 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
             default:
                 super.onClick(v);
         }
+    }
+
+    private void openViewImageActivity() {
+        Intent intent = new Intent(activity, ViewImageActivity.class);
+        intent.putExtra(Const.KEY_IMAGE_URL, stadium.getImageLink());
+        startActivity(intent);
+        activity.overridePendingTransition(R.anim.scale_fade_enter, R.anim.scale_fade_exit);
     }
 
     private void chooseDate() {
@@ -319,6 +333,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     }
 
     protected void enableControls(boolean enable) {
+        ivImage.setEnabled(enable);
         tvDate.setEnabled(enable);
         ibPreviousDay.setEnabled(enable);
         ibNextDay.setEnabled(enable);

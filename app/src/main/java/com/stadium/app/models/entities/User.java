@@ -26,7 +26,7 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
     @SerializedName("age")
     @Expose
     private int age;
-    @SerializedName("dateOfBirth")
+    @SerializedName("Birthdate")
     @Expose
     private String dateOfBirth;
     @SerializedName("email")

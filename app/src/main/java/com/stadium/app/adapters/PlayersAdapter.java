@@ -2,7 +2,6 @@ package com.stadium.app.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
-import com.stadium.app.activities.PlayerInfoActivity;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.connection.ConnectionListener;
 import com.stadium.app.controllers.ActiveUserController;
@@ -94,32 +92,13 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
             }
         }
 
-        // create global click listener
-        View.OnClickListener clickListener = new View.OnClickListener() {
+        // add listeners
+        holder.ibAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.layout_content:
-                        openPlayerInfo(position);
-                        break;
-
-                    case R.id.ib_add:
-                        onAdd(position);
-                        break;
-                }
+                onAdd(position);
             }
-        };
-
-        // add listeners
-        holder.layoutContent.setOnClickListener(clickListener);
-        holder.ibAdd.setOnClickListener(clickListener);
-    }
-
-    private void openPlayerInfo(int position) {
-        User user = data.get(position);
-        Intent intent = new Intent(context, PlayerInfoActivity.class);
-        intent.putExtra(Const.KEY_ID, user.getId());
-        context.startActivity(intent);
+        });
     }
 
     private void onAdd(int position) {
@@ -227,6 +206,9 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
             if (viewType == TYPE_SHOW_PHONE_NUMBER) {
                 tvSecondary.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.gray_phone_icon, 0);
             }
+
+            // change clickable root view
+            setClickableRootView(layoutContent);
         }
     }
 

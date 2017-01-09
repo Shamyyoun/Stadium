@@ -18,7 +18,7 @@ import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.activities.CreateTeamActivity;
-import com.stadium.app.activities.ProfileImageActivity;
+import com.stadium.app.activities.UpdateProfileImageActivity;
 import com.stadium.app.activities.UpdateProfileActivity;
 import com.stadium.app.adapters.EventsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
@@ -153,7 +153,7 @@ public class PlayerHomeFragment extends ProgressFragment implements OnItemClickL
     public void onClick(View v) {
         if (v.getId() == R.id.layout_image) {
             // open profile image activity
-            Intent intent = new Intent(activity, ProfileImageActivity.class);
+            Intent intent = new Intent(activity, UpdateProfileImageActivity.class);
             startActivityForResult(intent, Const.REQ_UPDATE_PROFILE_IMAGE);
             activity.overridePendingTransition(R.anim.scale_fade_enter, R.anim.scale_fade_exit);
         } else if (v.getId() == R.id.btn_create_team) {
