@@ -60,42 +60,49 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         // set the name
         final Attendant item = data.get(position);
         holder.tvName.setText(item.getPlayer().getName());
-        holder.tvName.setEnabled(false);
-        holder.tvName.setTextColor(context.getResources().getColor(R.color.dark_gray));
 
         // load image
         Utils.loadImage(context, item.getPlayer().getImageLink(), R.drawable.default_image, holder.ivImage);
 
-        // check confirm status
-        final boolean resConfirmed;
+        // set confirm status suitable icon
         if (item.getType() == ReservationStatusType.CONFIRM.getValue()) {
             holder.ivConfirmStatus.setImageResource(R.drawable.green_true_icon);
-            resConfirmed = true;
         } else if (item.getType() == ReservationStatusType.DECLINE.getValue()) {
             holder.ivConfirmStatus.setImageResource(R.drawable.false_icon);
-            resConfirmed = false;
         } else {
             holder.ivConfirmStatus.setImageResource(R.drawable.exclamation_icon);
-            resConfirmed = false;
         }
 
         // check if current item is the current active user
         User user = userController.getUser();
         if (attendanceController.isCurrentActiveUser(item, user.getId())) {
-            // customize name and cancel views
-            holder.tvName.setTextColor(context.getResources().getColor(R.color.orange));
-            if (resConfirmed) {
-                holder.tvName.setText(R.string.confirmed);
-                holder.tvName.setEnabled(false);
-                holder.tvCancel.setVisibility(View.VISIBLE);
+            // check confirm status and update ui
+            if (item.getType() == ReservationStatusType.CONFIRM.getValue()) {
+                // hide refuse tv and update confirm tv
+                holder.tvRefuse.setVisibility(View.GONE);
+                holder.tvConfirm.setText(R.string.confirmed);
+                holder.tvConfirm.setEnabled(false);
+            } else if (item.getType() == ReservationStatusType.DECLINE.getValue()) {
+                // hide confirm tv and update refuse tv
+                holder.tvConfirm.setVisibility(View.GONE);
+                holder.tvRefuse.setText(R.string.refused);
+                holder.tvRefuse.setEnabled(false);
             } else {
-                holder.tvName.setText(R.string.confirm_your_attendance_u);
-                holder.tvName.setEnabled(true);
-                holder.tvCancel.setVisibility(View.GONE);
+                // show two tvs and update their text
+                holder.tvConfirm.setText(R.string.confirm_your_attendance_u);
+                holder.tvConfirm.setEnabled(true);
+                holder.tvConfirm.setVisibility(View.VISIBLE);
+                holder.tvRefuse.setText(R.string.refuse_u);
+                holder.tvRefuse.setEnabled(true);
+                holder.tvRefuse.setVisibility(View.VISIBLE);
             }
+            // show actions layout and hide name
+            holder.layoutActions.setVisibility(View.VISIBLE);
+            holder.tvName.setVisibility(View.GONE);
         } else {
-            // hide the confirm text view
-            holder.tvCancel.setVisibility(View.GONE);
+            // hide actions layout and show name
+            holder.layoutActions.setVisibility(View.GONE);
+            holder.tvName.setVisibility(View.VISIBLE);
         }
 
         // create the global click listener
@@ -103,11 +110,11 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.tv_name:
+                    case R.id.tv_confirm:
                         showConfirmDialog(position, true);
                         break;
 
-                    case R.id.tv_cancel:
+                    case R.id.tv_refuse:
                         showConfirmDialog(position, false);
                         break;
                 }
@@ -115,12 +122,12 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         };
 
         // add listeners
-        holder.tvName.setOnClickListener(clickListener);
-        holder.tvCancel.setOnClickListener(clickListener);
+        holder.tvConfirm.setOnClickListener(clickListener);
+        holder.tvRefuse.setOnClickListener(clickListener);
     }
 
     private void showConfirmDialog(final int position, final boolean confirm) {
-        int msgId = confirm ? R.string.confirm_your_attendance_q : R.string.cancel_your_attendance_q;
+        int msgId = confirm ? R.string.confirm_your_attendance_q : R.string.refuse_u;
         DialogUtils.showConfirmDialog(context, msgId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -150,16 +157,16 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
                 // check the status code
                 if (statusCode == Const.SER_CODE_200) {
                     // show success msg
-                    Utils.showShortToast(context, confirm ? R.string.confirmed : R.string.cancelled);
+                    Utils.showShortToast(context, confirm ? R.string.confirmed : R.string.refused);
 
                     // update this item
                     attendant.setType(confirm ? ReservationStatusType.CONFIRM.getValue()
                             : ReservationStatusType.DECLINE.getValue());
-                    attendant.setTypeMessage(getString(confirm ? R.string.confirmed : R.string.cancelled));
+                    attendant.setTypeMessage(getString(confirm ? R.string.confirmed : R.string.refused));
                     notifyItemChanged(position);
                 } else {
                     // show error msg
-                    String errorMsg = AppUtils.getResponseMsg(context, response, confirm ? R.string.failed_confirming : R.string.failed_cancelling);
+                    String errorMsg = AppUtils.getResponseMsg(context, response, confirm ? R.string.failed_confirming : R.string.failed_refusing);
                     Utils.showShortToast(context, errorMsg);
                 }
             }
@@ -167,7 +174,7 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
             @Override
             public void onFail(Exception ex, int statusCode, String tag) {
                 hideProgress();
-                Utils.showShortToast(context, confirm ? R.string.failed_confirming : R.string.failed_cancelling);
+                Utils.showShortToast(context, confirm ? R.string.failed_confirming : R.string.failed_refusing);
             }
         };
 
@@ -186,7 +193,9 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         private ImageView ivImage;
         private ImageView ivConfirmStatus;
         private TextView tvName;
-        private TextView tvCancel;
+        private View layoutActions;
+        private TextView tvConfirm;
+        private TextView tvRefuse;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -194,7 +203,9 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
             ivImage = (ImageView) findViewById(R.id.iv_image);
             ivConfirmStatus = (ImageView) findViewById(R.id.iv_confirm_status);
             tvName = (TextView) findViewById(R.id.tv_name);
-            tvCancel = (TextView) findViewById(R.id.tv_cancel);
+            layoutActions = findViewById(R.id.layout_actions);
+            tvConfirm = (TextView) findViewById(R.id.tv_confirm);
+            tvRefuse = (TextView) findViewById(R.id.tv_refuse);
         }
     }
 

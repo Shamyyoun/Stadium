@@ -229,9 +229,9 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> connectionListener = new ConnectionListener<String>() {
+        ConnectionListener connectionListener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code
@@ -301,9 +301,9 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> connectionListener = new ConnectionListener<String>() {
+        ConnectionListener connectionListener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code
@@ -373,9 +373,9 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener<String> connectionListener = new ConnectionListener<String>() {
+        ConnectionListener connectionListener = new ConnectionListener() {
             @Override
-            public void onSuccess(String response, int statusCode, String tag) {
+            public void onSuccess(Object response, int statusCode, String tag) {
                 hideProgressDialog();
 
                 // check status code

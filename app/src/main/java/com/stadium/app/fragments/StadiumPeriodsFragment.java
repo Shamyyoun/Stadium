@@ -17,6 +17,7 @@ import com.stadium.app.activities.StadiumInfoActivity;
 import com.stadium.app.adapters.StadiumPeriodsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.interfaces.OnItemClickListener;
 import com.stadium.app.interfaces.OnItemRemovedListener;
 import com.stadium.app.interfaces.OnReservationAddedListener;
 import com.stadium.app.models.SerializableListWrapper;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * Created by karam on 7/31/16.
  */
-public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemovedListener, OnReservationAddedListener {
+public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemovedListener, OnReservationAddedListener, OnItemClickListener {
     private ActiveUserController userController;
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private Reservation reservation; // this is just to hold data like stadium, field size and date passed from activity.
@@ -108,11 +109,34 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         // create and set the adapter
         adapter = new StadiumPeriodsAdapter(activity, data, itemLayoutId, reservation);
         adapter.setSelectedTeam(selectedTeam);
+        adapter.setOnItemClickListener(this);
         adapter.setOnItemRemovedListener(this);
         adapter.setOnReservationAddedListener(this);
         adapter.setAdminStadiumScreen(isAdminStadiumScreen);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    private void updateFieldCapacityUI(String capacityStr) {
+        tvFieldCapacity.setText(capacityStr);
+        tvFieldCapacity.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        // prepare field capacity str
+        Reservation reservation = data.get(position);
+        String capacityStr;
+        if (reservation.getField() != null) {
+            capacityStr = getString(R.string.field_capacity_d_players, reservation.getField().getPlayerCapcity());
+        } else {
+            capacityStr = getString(R.string.field_capacity_undefined);
+        }
+
+        // update field capacity ui & show it in msg
+        updateFieldCapacityUI(capacityStr);
+        Utils.showShortToast(activity, capacityStr);
+
     }
 
     @Override

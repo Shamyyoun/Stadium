@@ -13,6 +13,16 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
+        <ImageButton
+            android:id="@+id/ib_leave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp"
+            android:src="@drawable/large_red_delete_icon"
+            android:visibility="gone" />
+
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv_logo"
             style="@style/CroppedImageView"

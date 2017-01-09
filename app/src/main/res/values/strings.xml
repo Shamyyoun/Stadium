@@ -343,8 +343,9 @@
     <string name="birthdate">تاريخ الميلاد</string>
     <string name="choose_birthdate">برجاء اختيار تاريخ الميلاد</string>
     <string name="refuse_u"><u>اعتذار</u></string>
-    <string name="capacity_x_players">كثافة: %d لاعب</string>
-    <string name="capacity_undefined">كثافة: غير معلوم</string>
+    <string name="field_capacity_undefined">كثافة الملعب: غير معلوم</string>
+    <string name="leave_team">مغادرة الفريق</string>
+    <string name="failed_refusing">فشلت المغادرة</string>
 
 
     <!-- Arrays -->

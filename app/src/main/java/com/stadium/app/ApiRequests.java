@@ -345,7 +345,7 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> deleteMemberFromTeam(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler deleteMemberFromTeam(Context context, ConnectionListener listener,
                                                                  int userId, String userToken,
                                                                  int teamId, String teamName,
                                                                  int playerId, String playerName) {
@@ -367,13 +367,13 @@ public class ApiRequests {
         body.setPlayer(player);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getCaptainApiUrl(Const.API_DELETE_MEMBER_FROM_TEAM), String.class, listener, body, Const.API_DELETE_MEMBER_FROM_TEAM);
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_DELETE_MEMBER_FROM_TEAM), null, listener, body, Const.API_DELETE_MEMBER_FROM_TEAM);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> chooseAssistant(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler chooseAssistant(Context context, ConnectionListener listener,
                                                             int userId, String userToken,
                                                             int teamId, int playerId) {
         // create the request body
@@ -392,8 +392,8 @@ public class ApiRequests {
         body.setUser(user);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getCaptainApiUrl(Const.API_CHOOSE_ASSISTANT), String.class, listener, body, Const.API_CHOOSE_ASSISTANT);
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_CHOOSE_ASSISTANT), null, listener, body, Const.API_CHOOSE_ASSISTANT);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -417,7 +417,7 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> changeCaptain(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler changeCaptain(Context context, ConnectionListener listener,
                                                           int userId, String userToken,
                                                           int teamId, int playerId) {
         // create the request body
@@ -436,13 +436,13 @@ public class ApiRequests {
         body.setUser(user);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getCaptainApiUrl(Const.API_CHANGE_CAPTAIN), String.class, listener, body, Const.API_CHANGE_CAPTAIN);
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_CHANGE_CAPTAIN), null, listener, body, Const.API_CHANGE_CAPTAIN);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
 
-    public static ConnectionHandler<String> leaveTeam(Context context, ConnectionListener<String> listener,
+    public static ConnectionHandler leaveTeam(Context context, ConnectionListener listener,
                                                       int userId, String userToken, String userName,
                                                       int teamId, String teamName) {
         // create the request body
@@ -458,8 +458,8 @@ public class ApiRequests {
         body.setHisTeam(team);
 
         // create & execute the request
-        ConnectionHandler<String> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_LEAVE_TEAM), String.class, listener, body, Const.API_LEAVE_TEAM);
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_LEAVE_TEAM), null, listener, body, Const.API_LEAVE_TEAM);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
