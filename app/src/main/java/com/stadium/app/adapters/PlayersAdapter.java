@@ -23,6 +23,7 @@ import com.stadium.app.interfaces.OnPlayerAddedListener;
 import com.stadium.app.models.Checkable;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
@@ -127,14 +128,16 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
     private void chooseTeam(final int position) {
         if (teamsDialog == null) {
             teamsDialog = new ChooseFromCaptainTeamsDialog(context);
-            teamsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
-                @Override
-                public void onCheckableSelected(Checkable item) {
-                    Team team = (Team) item;
-                    addPlayerToTeam(position, team);
-                }
-            });
         }
+
+        teamsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
+            @Override
+            public void onCheckableSelected(Checkable item) {
+                Team team = (Team) item;
+                User player = data.get(position);
+                addPlayerToTeam(position, team);
+            }
+        });
 
         teamsDialog.show();
     }
@@ -166,7 +169,9 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
                         playerAddedListener.onPlayerAdded(player);
                     }
                 } else {
-                    Utils.showShortToast(context, R.string.failed_adding_player);
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_adding_player);
+                    Utils.showShortToast(context, errorMsg);
                 }
             }
 

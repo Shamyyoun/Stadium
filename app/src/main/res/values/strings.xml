@@ -28,6 +28,7 @@
     <string name="from_gallery">اختيار من معرض الصور</string>
     <string name="from_camera">التقاط من الكاميرا</string>
     <string name="remove_image">حذف الصورة</string>
+    <string name="no_email_app_found_in_this_device">لا يوجد أي تطبيق للبريد الالكتروني على هذا الجهاز</string>
     <string name="login1">تسجيل الدخول</string>
     <string name="login2">الدخول</string>
     <string name="phone_number">رقم الجوال</string>
@@ -342,6 +343,8 @@
     <string name="birthdate">تاريخ الميلاد</string>
     <string name="choose_birthdate">برجاء اختيار تاريخ الميلاد</string>
     <string name="refuse_u"><u>اعتذار</u></string>
+    <string name="capacity_x_players">كثافة: %d لاعب</string>
+    <string name="capacity_undefined">كثافة: غير معلوم</string>
 
 
     <!-- Arrays -->

@@ -80,6 +80,20 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
         String period = timeStart + " " + getString(R.string.to) + " " + timeEnd;
         holder.tvPeriod.setText(period);
 
+        // set field capacity if possible
+        if (holder.tvFieldCapacity != null) {
+            // prepare capacity str
+            String capacityStr;
+            if (reservation.getField() != null) {
+                capacityStr = context.getString(R.string.capacity_x_players, reservation.getField().getPlayerCapcity());
+            } else {
+                capacityStr = getString(R.string.capacity_undefined);
+            }
+
+            // set capacity str
+            holder.tvFieldCapacity.setText(capacityStr);
+        }
+
         // check layout content to add item click listener if possible
         if (holder.layoutContent != null) {
             // add item click listener
@@ -221,12 +235,14 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
         private View layoutContent;
         private TextView tvFieldNo;
         private TextView tvPeriod;
+        private TextView tvFieldCapacity;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             layoutContent = findViewById(R.id.layout_content);
             tvFieldNo = (TextView) findViewById(R.id.tv_field_no);
             tvPeriod = (TextView) findViewById(R.id.tv_period);
+            tvFieldCapacity = (TextView) findViewById(R.id.tv_field_capacity);
         }
     }
 

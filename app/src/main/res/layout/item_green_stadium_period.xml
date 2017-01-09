@@ -39,5 +39,14 @@
         android:layout_marginTop="7dp"
         android:gravity="center"
         android:text="10 الى 12"
+        android:textSize="@dimen/below_medium_text"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_field_capacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="كثافة: 16 لاعب"
         android:textSize="@dimen/below_medium_text" />
 </LinearLayout>

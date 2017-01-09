@@ -2,6 +2,7 @@ package com.stadium.app.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.stadium.app.Const;
+import com.stadium.app.R;
 
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
@@ -666,10 +668,14 @@ public class Utils {
             return;
         }
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
-        intent.setType("message/rfc822");
-        context.startActivity(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+            intent.setType("message/rfc822");
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            showShortToast(context, R.string.no_email_app_found_in_this_device);
+        }
     }
 
     /**
