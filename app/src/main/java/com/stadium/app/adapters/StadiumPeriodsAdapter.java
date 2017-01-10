@@ -212,12 +212,13 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
         User user = activeUserController.getUser();
         UserController userController = new UserController(null);
         List<Integer> playersIds = userController.getIds(selectedUsers);
+        int price = (reservation.getField() != null) ? reservation.getField().getPrice() : 0;
         int fieldId = (reservation.getField() != null) ? reservation.getField().getId() : 0;
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.captainAddReservation(context, connectionListener,
                 user.getId(), user.getToken(), team.getId(), team.getName(), playersIds,
-                reservation.getIntrvalNum(), reservation.getPrice(), playersCount, fieldId,
+                reservation.getIntrvalNum(), price, playersCount, fieldId,
                 reservation.getDate(), reservation.getTimeStart(), reservation.getTimeEnd());
         cancelWhenDestroyed(connectionHandler);
     }

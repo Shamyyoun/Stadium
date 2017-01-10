@@ -3,6 +3,7 @@ package com.stadium.app.fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -92,13 +93,18 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         ibPreviousDay.setOnClickListener(this);
         ibNextDay.setOnClickListener(this);
 
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         // update date ui with current date
         updateDateUI(null);
 
         // load stadium info
         loadStadiumInfo();
-
-        return rootView;
     }
 
     /**

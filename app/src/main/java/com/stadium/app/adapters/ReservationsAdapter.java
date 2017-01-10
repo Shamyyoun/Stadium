@@ -295,6 +295,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
             showDidntAttendConfirmDialog(position);
         } else {
+            logE("Position1: " + position);
             showCancelConfirmDialog(position);
         }
     }
@@ -340,6 +341,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         DialogUtils.showConfirmDialog(context, R.string.cancel_reservation_q, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                logE("Position2: " + position);
                 cancel(position);
             }
         }, null);
@@ -569,6 +571,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
     }
 
     private void cancel(final int position) {
+        logE("Position3: " + position);
         // get the reservation
         final Reservation reservation = data.get(position);
 
@@ -588,6 +591,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
+                    logE("Position4: " + position);
                     removeItem(position);
 
                     // show msg

@@ -94,6 +94,7 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
     public void removeItem(int position) {
         data.remove(position);
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
 
         if (itemRemovedListener != null) {
             itemRemovedListener.onItemRemoved(position);

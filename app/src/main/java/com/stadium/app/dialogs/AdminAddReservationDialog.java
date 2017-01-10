@@ -119,12 +119,14 @@ public class AdminAddReservationDialog extends ParentDialog {
         // get active user
         ActiveUserController userController = new ActiveUserController(context);
         User user = userController.getUser();
+        int price = (reservation.getField() != null) ? reservation.getField().getPrice() : 0;
+        int fieldId = (reservation.getField() != null) ? reservation.getField().getId() : 0;
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.adminAddReservation(context, this,
                 user.getId(), user.getToken(), user.getAdminStadium().getId(), name, phone,
-                reservation.getIntrvalNum(), reservation.getPrice(), reservation.getField().getId(),
-                reservation.getDate(), reservation.getTimeStart(), reservation.getTimeEnd());
+                reservation.getIntrvalNum(), price, fieldId, reservation.getDate(),
+                reservation.getTimeStart(), reservation.getTimeEnd());
         cancelWhenDestroyed(connectionHandler);
     }
 

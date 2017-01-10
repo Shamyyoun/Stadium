@@ -60,6 +60,7 @@ public class ReservationPlayersAdapter extends ParentRecyclerAdapter<User> {
         } else {
             // set data
             holder.tvName.setText(item.getName());
+            holder.tvName.setTextColor(context.getResources().getColor(R.color.dark_gray));
             Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivImage);
             holder.ivConfirmStatus.setVisibility(item.isChecked() ? View.VISIBLE : View.GONE);
         }
