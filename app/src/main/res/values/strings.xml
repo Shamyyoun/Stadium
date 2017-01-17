@@ -347,6 +347,7 @@
     <string name="leave_team">مغادرة الفريق</string>
     <string name="failed_refusing">فشلت المغادرة</string>
     <string name="contacts_info">بيانات التواصل</string>
+    <string name="goto_map">الذهاب الى الخريطة</string>
 
 
     <!-- Arrays -->

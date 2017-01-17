@@ -13,6 +13,7 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.activities.UpdateStadiumActivity;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.dialogs.StadiumContactsDialog;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.utils.Utils;
 
@@ -22,6 +23,9 @@ import com.stadium.app.utils.Utils;
 public class AdminStadiumFragment extends StadiumInfoParentFragment {
     private TextView tvAddress;
     private TextView tvDescription;
+    private TextView tvOpenMap;
+    private TextView tvContactsInfo;
+    private StadiumContactsDialog contactsDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,12 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
         // init views
         tvAddress = (TextView) findViewById(R.id.tv_address);
         tvDescription = (TextView) findViewById(R.id.tv_desc);
+        tvOpenMap = (TextView) findViewById(R.id.tv_open_map);
+        tvContactsInfo = (TextView) findViewById(R.id.tv_contacts_info);
+
+        // add listeners
+        tvOpenMap.setOnClickListener(this);
+        tvContactsInfo.setOnClickListener(this);
 
         return rootView;
     }
@@ -53,6 +63,22 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
     @Override
     protected int getContentViewResId() {
         return R.layout.fragment_admin_stadium;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_open_map:
+                onOpenMap();
+                break;
+
+            case R.id.tv_contacts_info:
+                onContactsInfo();
+                break;
+
+            default:
+                super.onClick(v);
+        }
     }
 
     @Override
@@ -74,6 +100,42 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
             tvDescription.setText(desc);
         } else {
             tvDescription.setText("-------- --------");
+        }
+
+        // check stadium location
+        if (stadiumController.hasLocation(stadium)) {
+            tvOpenMap.setVisibility(View.VISIBLE);
+        } else {
+            tvOpenMap.setVisibility(View.GONE);
+        }
+
+        // check stadium contacts info
+        if (stadiumController.hasContactInfo(stadium)) {
+            tvContactsInfo.setVisibility(View.VISIBLE);
+        } else {
+            tvContactsInfo.setVisibility(View.GONE);
+        }
+    }
+
+    private void onOpenMap() {
+        // check if this stadium has location
+        if (stadiumController.hasLocation(stadium)) {
+            Utils.openMapIntent(activity, stadium.getName(), stadium.getLatitude(), stadium.getLongitude());
+        } else {
+            Utils.showShortToast(activity, R.string.no_location_info_available);
+        }
+    }
+
+    private void onContactsInfo() {
+        // check if this stadium has contacts info
+        if (stadiumController.hasContactInfo(stadium)) {
+            // open contacts dialog
+            if (contactsDialog == null) {
+                contactsDialog = new StadiumContactsDialog(activity, stadium);
+            }
+            contactsDialog.show();
+        } else {
+            Utils.showShortToast(activity, R.string.no_contacts_info_available);
         }
     }
 
@@ -105,6 +167,13 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected void enableControls(boolean enable) {
+        super.enableControls(enable);
+        tvOpenMap.setEnabled(enable);
+        tvContactsInfo.setEnabled(enable);
     }
 }
 

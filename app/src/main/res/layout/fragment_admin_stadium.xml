@@ -55,6 +55,31 @@
                     android:text="-------- --------"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:id="@+id/tv_open_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawablePadding="7dp"
+                    android:drawableRight="@drawable/white_location_icon"
+                    android:padding="3dp"
+                    android:text="@string/goto_map"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:id="@+id/tv_contacts_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawablePadding="7dp"
+                    android:drawableRight="@drawable/white_contacts_icon"
+                    android:padding="3dp"
+                    android:text="@string/contacts_info"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/small_text" />
             </LinearLayout>
 
             <RelativeLayout
