@@ -34,6 +34,9 @@ import java.util.List;
 public class TeamReservationsFragment extends ParentFragment implements SwipeRefreshLayout.OnRefreshListener {
     private Team team;
     private SwipeRefreshLayout swipeLayout;
+    private View mainView;
+    private TextView tvReservationsCount;
+    private TextView tvAbsentCount;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
     private TextView tvEmpty;
@@ -51,6 +54,9 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
 
         // init views
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mainView = findViewById(R.id.main_view);
+        tvReservationsCount = (TextView) findViewById(R.id.tv_reservations_count);
+        tvAbsentCount = (TextView) findViewById(R.id.tv_absent_counts);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
         tvEmpty = (TextView) findViewById(R.id.tv_empty);
@@ -80,6 +86,10 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
     }
 
     private void updateUI() {
+        // set header data
+        tvReservationsCount.setText("" + team.getTotalRes());
+        tvAbsentCount.setText("" + team.getAbsentRes());
+
         // set the adapter
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation_simple);
         adapter.setReservationsType(ReservationsType.TEAM_RESERVATIONS);
@@ -136,23 +146,23 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
     }
 
     private void showProgress() {
-        ViewUtil.showOneView(pbProgress, tvError, recyclerView, tvEmpty);
+        ViewUtil.showOneView(pbProgress, tvError, mainView, tvEmpty);
         swipeLayout.setRefreshing(false);
         swipeLayout.setEnabled(false);
     }
 
     private void showEmpty() {
-        ViewUtil.showOneView(tvEmpty, pbProgress, tvError, recyclerView);
+        ViewUtil.showOneView(tvEmpty, pbProgress, tvError, mainView);
         swipeLayout.setEnabled(true);
     }
 
     private void showError() {
-        ViewUtil.showOneView(tvError, tvEmpty, pbProgress, recyclerView);
+        ViewUtil.showOneView(tvError, tvEmpty, pbProgress, mainView);
         swipeLayout.setEnabled(true);
     }
 
     private void showMain() {
-        ViewUtil.showOneView(recyclerView, tvError, tvEmpty, pbProgress);
+        ViewUtil.showOneView(mainView, tvError, tvEmpty, pbProgress);
         swipeLayout.setEnabled(true);
     }
 

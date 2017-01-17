@@ -348,6 +348,8 @@
     <string name="failed_refusing">فشلت المغادرة</string>
     <string name="contacts_info">بيانات التواصل</string>
     <string name="goto_map">الذهاب الى الخريطة</string>
+    <string name="reservations_count">عدد الحجوزات</string>
+    <string name="absent_count">عدد مرات الغياب</string>
 
 
     <!-- Arrays -->

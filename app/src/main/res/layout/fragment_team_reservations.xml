@@ -38,13 +38,67 @@
             android:textSize="@dimen/medium_text"
             android:visibility="gone" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <LinearLayout
+            android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
-            android:overScrollMode="ifContentScrolls"
-            android:scrollbars="vertical"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_absent_counts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:textColor="@color/red"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:text="@string/absent_count" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="/"
+                    android:textSize="@dimen/medium_text" />
+
+                <TextView
+                    android:id="@+id/tv_reservations_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:textColor="@color/green"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:text="@string/reservations_count" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:overScrollMode="ifContentScrolls"
+                android:scrollbars="vertical" />
+        </LinearLayout>
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
