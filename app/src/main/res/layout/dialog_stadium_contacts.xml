@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
@@ -12,44 +13,74 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/contact_dialog_icon" />
-
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/layout_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_email_icon"
                 android:background="?attr/selectableItemBackground"
-                android:gravity="center"
+                android:gravity="right"
                 android:padding="3dp"
-                android:text="ahmed.karam2@gmail.com"
+                android:text="ahmed.karam2@gmail.comahmed.karam2@gmail.com"
                 android:textSize="@dimen/medium_text" />
+
+            <ImageView
+                android:id="@+id/iv_email_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/gray_email_icon" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="15dp"
+            android:background="@color/light_gray"
+            tools:visibility="visible" />
+
+        <RelativeLayout
+            android:id="@+id/layout_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_phone_icon"
                 android:background="?attr/selectableItemBackground"
-                android:gravity="center"
+                android:gravity="right"
                 android:padding="3dp"
-                android:text="01155086602"
+                android:text="01155086602ssasdasdasdasdasdasdasdasdsadasdasdasdsadasdasdasdsadasdasdasdasdasdasdasdasdasdasdasdasdasd"
                 android:textSize="@dimen/medium_text" />
-        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_phone_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/light_gray_phone_icon" />
+        </RelativeLayout>
     </LinearLayout>
 
     <com.stadium.app.views.DarkenedButton

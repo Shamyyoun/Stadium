@@ -346,6 +346,7 @@
     <string name="field_capacity_undefined">كثافة الملعب: غير معلوم</string>
     <string name="leave_team">مغادرة الفريق</string>
     <string name="failed_refusing">فشلت المغادرة</string>
+    <string name="contacts_info">بيانات التواصل</string>
 
 
     <!-- Arrays -->

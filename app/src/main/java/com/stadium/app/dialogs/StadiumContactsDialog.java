@@ -14,20 +14,27 @@ import com.stadium.app.utils.Utils;
  */
 public class StadiumContactsDialog extends ParentDialog {
     private Stadium stadium;
+    private View layoutEmail;
     private TextView tvEmail;
+    private View layoutPhone;
     private TextView tvPhone;
+    private View viewDivider;
     private Button btnClose;
 
     public StadiumContactsDialog(Context context, Stadium stadium) {
         super(context);
         setContentView(R.layout.dialog_stadium_contacts);
+        setTitle(R.string.contacts_info);
 
         // assign stadium object
         this.stadium = stadium;
 
         // init views
+        layoutEmail = findViewById(R.id.layout_email);
         tvEmail = (TextView) findViewById(R.id.tv_email);
+        layoutPhone = findViewById(R.id.layout_phone);
         tvPhone = (TextView) findViewById(R.id.tv_phone);
+        viewDivider = findViewById(R.id.view_divider);
         btnClose = (Button) findViewById(R.id.btn_close);
 
         // update the ui
@@ -45,7 +52,7 @@ public class StadiumContactsDialog extends ParentDialog {
         if (!Utils.isNullOrEmpty(email)) {
             tvEmail.setText(email);
         } else {
-            tvEmail.setVisibility(View.GONE);
+            hideEmailLayout();
         }
 
         // set phone
@@ -53,8 +60,18 @@ public class StadiumContactsDialog extends ParentDialog {
         if (!Utils.isNullOrEmpty(phone)) {
             tvPhone.setText(phone);
         } else {
-            tvPhone.setVisibility(View.GONE);
+            hidePhoneLayout();
         }
+    }
+
+    private void hideEmailLayout() {
+        layoutEmail.setVisibility(View.GONE);
+        viewDivider.setVisibility(View.GONE);
+    }
+
+    private void hidePhoneLayout() {
+        layoutPhone.setVisibility(View.GONE);
+        viewDivider.setVisibility(View.GONE);
     }
 
     @Override
