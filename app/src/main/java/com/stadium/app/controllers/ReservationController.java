@@ -38,23 +38,44 @@ public class ReservationController {
         Team team = reservation.getReservationTeam();
         Stadium stadium = reservation.getReservationStadium();
 
-        String name = "";
+        String text = "";
         if (team != null) {
-            name = team.getName();
+            text = team.getName();
         }
 
         if (stadium != null) {
-            if (Utils.isNullOrEmpty(name)) {
-                name = stadium.getName();
+            if (Utils.isNullOrEmpty(text)) {
+                text = stadium.getName();
             } else {
-                name += " . " + stadium.getName();
+                text += " . " + stadium.getName();
             }
         }
 
-        if (Utils.isNullOrEmpty(name)) {
-            name = null;
+        if (Utils.isNullOrEmpty(text)) {
+            text = null;
         }
 
-        return name;
+        return text;
+    }
+
+    public String getCustomerNamePhone(Reservation reservation) {
+        String name = reservation.getCustomerName();
+        String phone = reservation.getCustomerPhone();
+
+        String text = name;
+
+        if (!Utils.isNullOrEmpty(phone)) {
+            if (Utils.isNullOrEmpty(text)) {
+                text = phone;
+            } else {
+                text += " - " + phone;
+            }
+        }
+
+        if (Utils.isNullOrEmpty(text)) {
+            text = null;
+        }
+
+        return text;
     }
 }

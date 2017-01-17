@@ -33,10 +33,10 @@ public class Reservation extends ServerResponse implements Serializable {
     private boolean counter;
     @SerializedName("customerName")
     @Expose
-    private Object customerName;
+    private String customerName;
     @SerializedName("customerPhone")
     @Expose
-    private Object customerPhone;
+    private String customerPhone;
     @SerializedName("date")
     @Expose
     private String date;
@@ -155,28 +155,28 @@ public class Reservation extends ServerResponse implements Serializable {
     /**
      * @return The customerName
      */
-    public Object getCustomerName() {
+    public String getCustomerName() {
         return customerName;
     }
 
     /**
      * @param customerName The customerName
      */
-    public void setCustomerName(Object customerName) {
+    public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
     /**
      * @return The customerPhone
      */
-    public Object getCustomerPhone() {
+    public String getCustomerPhone() {
         return customerPhone;
     }
 
     /**
      * @param customerPhone The customerPhone
      */
-    public void setCustomerPhone(Object customerPhone) {
+    public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
 

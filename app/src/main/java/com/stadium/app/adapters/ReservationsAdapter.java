@@ -96,7 +96,14 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                 name = stadiumName;
             }
         } else {
+            // set name as team . stadium name
             name = reservationController.getTeamStadiumName(item);
+
+            // check it
+            if (Utils.isNullOrEmpty(name)) {
+                // set name as customer name - customer phone
+                name = reservationController.getCustomerNamePhone(item);
+            }
         }
 
         // prepare the field number

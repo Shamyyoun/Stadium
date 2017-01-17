@@ -103,12 +103,13 @@ public class ConnectionHandler<T> {
         switch (level) {
             case 0:
                 startTime = System.currentTimeMillis();
-                Log.e(LOG_TAG, tag + "request started. time=" + Calendar.getInstance().getTime()
+                logE(tag + "request started. time=" + Calendar.getInstance().getTime()
                         + "\nUrl: " + url);
                 break;
             case 1:
                 finishTime = System.currentTimeMillis();
-                Log.e(LOG_TAG, tag + "request finished and parsing started. time=" + Calendar.getInstance().getTime() + ", Time diff: " + (finishTime - startTime) + " MS");
+                logE(tag + "request finished and parsing started. time=" + Calendar.getInstance().getTime()
+                        + ", Time diff: " + (finishTime - startTime) + " MS");
                 break;
 
         }
@@ -161,7 +162,7 @@ public class ConnectionHandler<T> {
 
             if (params != null) {
                 for (String key : params.keySet()) {
-                    Log.e(LOG_TAG, "Request Parameter: " + key + "=" + params.get(key));
+                    logE("Request Parameter: " + key + "=" + params.get(key));
                 }
                 ionBuilder.setBodyParameters(params);
             }
@@ -198,14 +199,14 @@ public class ConnectionHandler<T> {
 
             if (params != null) {
                 for (String key : params.keySet()) {
-                    Log.e(LOG_TAG, "Request Parameter: " + key + "=" + params.get(key).get(0));
+                    logE("Request Parameter: " + key + "=" + params.get(key).get(0));
                 }
 
                 ionBuilder.setMultipartParameters(params);
             }
 
             for (String key : files.keySet()) {
-                Log.e(LOG_TAG, "Multipart Parameter: " + key + "=" + files.get(key).getAbsolutePath());
+                logE("Multipart Parameter: " + key + "=" + files.get(key).getAbsolutePath());
                 ionBuilder.setMultipartFile(key, "image/jpeg", files.get(key));
             }
 
@@ -242,7 +243,7 @@ public class ConnectionHandler<T> {
 
             if (body != null) {
                 String bodyJson = gson.toJson(body);
-                Log.e(LOG_TAG, "Request Body: " + bodyJson);
+                logE("Request Body: " + bodyJson);
                 ionBuilder.setJsonPojoBody(body);
             }
 
@@ -276,13 +277,13 @@ public class ConnectionHandler<T> {
         }
 
         if (e != null) { //on request failure
-            Log.e(LOG_TAG, "Error(" + statusCode + "): " + e.getMessage());
+            logE("Error(" + statusCode + "): " + e.getMessage());
             if (!(e instanceof CancellationException))
                 if (listener != null) {
                     listener.onFail(e, statusCode, tag);
                 }
         } else if (result.getResult() != null) {
-            Log.e(LOG_TAG, "Response(" + statusCode + "): " + result.getResult());
+            logE("Response(" + statusCode + "): " + result.getResult());
 
             if (cls == null && listener != null) { //T must be of type: Object or String
                 listener.onSuccess((T) result.getResult(), statusCode, tag);
@@ -290,7 +291,7 @@ public class ConnectionHandler<T> {
                 try {
                     listener.onSuccess((T) new Gson().fromJson(result.getResult(), cls), statusCode, tag);
                 } catch (Exception ex) {
-                    Log.e(LOG_TAG, "Error(" + statusCode + "): " + ex.getMessage());
+                    logE("Error(" + statusCode + "): " + ex.getMessage());
                     listener.onFail(ex, statusCode, tag);
                 }
             }
@@ -314,5 +315,29 @@ public class ConnectionHandler<T> {
      */
     public void setTimeout(int timeout) {
         this.timeout = timeout;
+    }
+
+    /**
+     * method, used to log messages
+     *
+     * @param message
+     */
+    private void logE(String message) {
+        if (!Utils.DEBUGGABLE) {
+            return;
+        }
+
+        if (Utils.isNullOrEmpty(message)) {
+            Log.e(LOG_TAG, "" + message);
+            return;
+        }
+
+        int maxLogSize = 1000;
+        for (int i = 0; i <= message.length() / maxLogSize; i++) {
+            int start = i * maxLogSize;
+            int end = (i + 1) * maxLogSize;
+            end = end > message.length() ? message.length() : end;
+            Log.e(LOG_TAG, message.substring(start, end));
+        }
     }
 }

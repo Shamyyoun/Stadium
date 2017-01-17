@@ -205,8 +205,9 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
         datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                // set date and update its ui
-                String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+                // format date, set it in the holder and update its ui
+                String date = dayOfMonth + "-" + (++monthOfYear) + "-" + year;
+                date = DateUtils.formatDate(date, DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
                 holder.setDateFrom(date);
                 updateFromDateUI();
 
@@ -262,8 +263,9 @@ public class RepeatedReservationFragment extends ParentFragment implements OnRes
         datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                // set date and update its ui
-                String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+                // format date, set it in the holder and update its ui
+                String date = dayOfMonth + "-" + (++monthOfYear) + "-" + year;
+                date = DateUtils.formatDate(date, DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
                 holder.setDateTo(date);
                 updateToDateUI();
 

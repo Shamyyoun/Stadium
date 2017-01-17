@@ -48,6 +48,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.stadium.app.Const.LOG_TAG;
+
 /**
  * Created by Shamyyoun on 18/12/15.
  * A class, with general purpose utility methods (useful for many projects).
@@ -256,7 +258,22 @@ public class Utils {
     }
 
     public static void logE(String msg) {
-        if (DEBUGGABLE) Log.e(Const.LOG_TAG, msg == null ? "null" : msg);
+        if (!DEBUGGABLE) {
+            return;
+        }
+
+        if (Utils.isNullOrEmpty(msg)) {
+            Log.e(LOG_TAG, "" + msg);
+            return;
+        }
+
+        int maxLogSize = 1000;
+        for (int i = 0; i <= msg.length() / maxLogSize; i++) {
+            int start = i * maxLogSize;
+            int end = (i + 1) * maxLogSize;
+            end = end > msg.length() ? msg.length() : end;
+            Log.e(LOG_TAG, msg.substring(start, end));
+        }
     }
 
 
@@ -518,6 +535,25 @@ public class Utils {
             return true;
         } catch (Exception e) {
             // app is not installed
+            return false;
+        }
+    }
+
+    /**
+     * method, used to share text
+     *
+     * @param context
+     * @param text
+     * @return
+     */
+    public static boolean shareText(Context context, String text) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, text);
+            context.startActivity(intent);
+            return true;
+        } catch (Exception e) {
             return false;
         }
     }
