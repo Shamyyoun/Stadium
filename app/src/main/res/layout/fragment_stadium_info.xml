@@ -13,7 +13,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/green"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
@@ -90,18 +94,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
-                android:background="?attr/selectableItemBackground"
-                android:drawablePadding="6dp"
-                android:drawableRight="@drawable/small_white_info_icon"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:paddingBottom="4dp"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
-                android:paddingTop="4dp"
                 android:text="----------"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/medium_text" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawablePadding="6dp"
+                android:drawableRight="@drawable/small_white_info_icon"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/small_text_spacing"
+                android:maxHeight="@dimen/stadium_info_max_head_size"
+                android:text="-------- --------"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/small_text" />
         </LinearLayout>
 
         <LinearLayout

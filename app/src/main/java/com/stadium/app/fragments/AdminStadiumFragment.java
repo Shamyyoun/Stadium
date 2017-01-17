@@ -13,19 +13,15 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.activities.UpdateStadiumActivity;
 import com.stadium.app.controllers.ActiveUserController;
-import com.stadium.app.dialogs.StadiumContactsDialog;
 import com.stadium.app.models.entities.Stadium;
-import com.stadium.app.utils.Utils;
 
 /*
  * Created by karam on 8/10/16.
  */
 public class AdminStadiumFragment extends StadiumInfoParentFragment {
     private TextView tvAddress;
-    private TextView tvDescription;
     private TextView tvOpenMap;
     private TextView tvContactsInfo;
-    private StadiumContactsDialog contactsDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +45,6 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
 
         // init views
         tvAddress = (TextView) findViewById(R.id.tv_address);
-        tvDescription = (TextView) findViewById(R.id.tv_desc);
         tvOpenMap = (TextView) findViewById(R.id.tv_open_map);
         tvContactsInfo = (TextView) findViewById(R.id.tv_contacts_info);
 
@@ -69,11 +64,11 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_open_map:
-                onOpenMap();
+                onLocation();
                 break;
 
             case R.id.tv_contacts_info:
-                onContactsInfo();
+                onContacts();
                 break;
 
             default:
@@ -94,14 +89,6 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
             tvAddress.setVisibility(View.VISIBLE);
         }
 
-        // set description
-        String desc = stadium.getBio();
-        if (!Utils.isNullOrEmpty(desc)) {
-            tvDescription.setText(desc);
-        } else {
-            tvDescription.setText("-------- --------");
-        }
-
         // check stadium location
         if (stadiumController.hasLocation(stadium)) {
             tvOpenMap.setVisibility(View.VISIBLE);
@@ -114,28 +101,6 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
             tvContactsInfo.setVisibility(View.VISIBLE);
         } else {
             tvContactsInfo.setVisibility(View.GONE);
-        }
-    }
-
-    private void onOpenMap() {
-        // check if this stadium has location
-        if (stadiumController.hasLocation(stadium)) {
-            Utils.openMapIntent(activity, stadium.getName(), stadium.getLatitude(), stadium.getLongitude());
-        } else {
-            Utils.showShortToast(activity, R.string.no_location_info_available);
-        }
-    }
-
-    private void onContactsInfo() {
-        // check if this stadium has contacts info
-        if (stadiumController.hasContactInfo(stadium)) {
-            // open contacts dialog
-            if (contactsDialog == null) {
-                contactsDialog = new StadiumContactsDialog(activity, stadium);
-            }
-            contactsDialog.show();
-        } else {
-            Utils.showShortToast(activity, R.string.no_contacts_info_available);
         }
     }
 

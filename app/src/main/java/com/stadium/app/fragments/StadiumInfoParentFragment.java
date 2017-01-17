@@ -22,6 +22,7 @@ import com.stadium.app.R;
 import com.stadium.app.activities.ViewImageActivity;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.StadiumController;
+import com.stadium.app.dialogs.StadiumContactsDialog;
 import com.stadium.app.models.entities.Field;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
@@ -47,6 +48,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     private ImageView ivImage;
     private TextView tvRating;
     protected TextView tvName;
+    private TextView tvDescription;
     private TextView tvDate;
     private ImageButton ibPreviousDay;
     private ImageButton ibNextDay;
@@ -57,8 +59,9 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     private StadiumPeriodsFragment[] fragments;
     protected Stadium stadium;
     private Field[] fieldCapacities;
-    private DatePickerFragment datePickerFragment;
     private boolean controlsEnabled;
+    private DatePickerFragment datePickerFragment;
+    private StadiumContactsDialog contactsDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         ivImage = (ImageView) findViewById(R.id.iv_image);
         tvRating = (TextView) findViewById(R.id.tv_rating);
         tvName = (TextView) findViewById(R.id.tv_name);
+        tvDescription = (TextView) findViewById(R.id.tv_desc);
         tvDate = (TextView) findViewById(R.id.tv_date);
         ibPreviousDay = (ImageButton) findViewById(R.id.ib_previous_day);
         ibNextDay = (ImageButton) findViewById(R.id.ib_next_day);
@@ -128,6 +132,15 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         // set basic info
         tvName.setText(stadium.getName());
         tvRating.setText(Utils.formatDouble(stadium.getRate()));
+
+        // set description
+        String desc = stadium.getBio();
+        if (!Utils.isNullOrEmpty(desc)) {
+            tvDescription.setVisibility(View.VISIBLE);
+            tvDescription.setText(desc);
+        } else {
+            tvDescription.setVisibility(View.GONE);
+        }
 
         // load the image
         Utils.loadImage(activity, stadium.getImageLink(), R.drawable.default_image, ivImage);
@@ -182,6 +195,28 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         intent.putExtra(Const.KEY_IMAGE_URL, stadium.getImageLink());
         startActivity(intent);
         activity.overridePendingTransition(R.anim.scale_fade_enter, R.anim.scale_fade_exit);
+    }
+
+    protected void onContacts() {
+        // check if this stadium has contacts info
+        if (stadiumController.hasContactInfo(stadium)) {
+            // open contacts dialog
+            if (contactsDialog == null) {
+                contactsDialog = new StadiumContactsDialog(activity, stadium);
+            }
+            contactsDialog.show();
+        } else {
+            Utils.showShortToast(activity, R.string.no_contacts_info_available);
+        }
+    }
+
+    protected void onLocation() {
+        // check if this stadium has location
+        if (stadiumController.hasLocation(stadium)) {
+            Utils.openMapIntent(activity, stadium.getName(), stadium.getLatitude(), stadium.getLongitude());
+        } else {
+            Utils.showShortToast(activity, R.string.no_location_info_available);
+        }
     }
 
     private void chooseDate() {

@@ -51,7 +51,7 @@
                     android:layout_marginTop="7dp"
                     android:ellipsize="end"
                     android:lineSpacingExtra="@dimen/small_text_spacing"
-                    android:maxHeight="@dimen/team_info_max_head_size"
+                    android:maxHeight="@dimen/stadium_info_max_head_size"
                     android:text="-------- --------"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/small_text" />
