@@ -16,6 +16,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -782,5 +783,34 @@ public class Utils {
         }
 
         return arr;
+    }
+
+    /**
+     * print content of intent extras
+     * @param intent
+     */
+    public static void printContent(Intent intent) {
+        if (intent == null) {
+            logE("Intent is null");
+            return;
+        }
+
+        printContent(intent.getExtras());
+
+    }
+
+    /**
+     * print content of bundle
+     * @param bundle
+     */
+    public static void printContent(Bundle bundle) {
+        if (bundle == null) {
+            logE("Bundle is null");
+        }
+
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            logE("Key: " + key + "  --  Value: " + value.toString());
+        }
     }
 }

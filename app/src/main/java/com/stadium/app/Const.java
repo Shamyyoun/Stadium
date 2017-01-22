@@ -11,6 +11,11 @@ public class Const {
     public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
 //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
     public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
+    public static final String PARSE_APP_ID = "StaduimId";
+    public static final String PARSE_CLIENT_KEY = "KEY";
+    public static final String PARSE_SERVER_URL = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com:1337/parse/";
+    public static final String PARSE_USERNAME = "St";
+    public static final String PARSE_PASSWORD = "aaaa";
 
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";
