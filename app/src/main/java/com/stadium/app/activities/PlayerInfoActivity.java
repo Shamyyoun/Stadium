@@ -45,6 +45,7 @@ public class PlayerInfoActivity extends ParentActivity {
     private TextView tvRating;
     private TextView tvName;
     private TextView tvCity;
+    private TextView tvBio;
     private RatingBar rbRating;
     private Button btnAdd;
     private RecyclerView recyclerView;
@@ -72,6 +73,7 @@ public class PlayerInfoActivity extends ParentActivity {
         tvRating = (TextView) findViewById(R.id.tv_rating);
         tvName = (TextView) findViewById(R.id.tv_name);
         tvCity = (TextView) findViewById(R.id.tv_city);
+        tvBio = (TextView) findViewById(R.id.tv_bio);
         rbRating = (RatingBar) findViewById(R.id.rb_rating);
         btnAdd = (Button) findViewById(R.id.btn_add);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -146,6 +148,7 @@ public class PlayerInfoActivity extends ParentActivity {
         UserController userController = new UserController(player);
         tvName.setText(userController.getNamePosition());
         tvRating.setText(Utils.formatDouble(player.getRate()));
+        tvBio.setText(player.getBio());
 
         // set city
         if (!Utils.isNullOrEmpty(userController.getCityName())) {

@@ -35,5 +35,6 @@
     <dimen name="small_team_image_size">50dp</dimen>
     <dimen name="update_stadium_image_size">90dp</dimen>
     <dimen name="stadium_info_max_head_size">150dp</dimen>
+    <dimen name="player_info_max_head_size">150dp</dimen>
 
 </resources>
