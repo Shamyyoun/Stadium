@@ -17,10 +17,9 @@ import com.stadium.app.interfaces.OnCheckableSelectedListener;
 import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Duration;
+import com.stadium.app.models.responses.DurationsResponse;
 import com.stadium.app.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.stadium.app.R.string.select;
@@ -148,15 +147,20 @@ public class ChooseFromMyDurationsDialog extends ProgressDialog {
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
-        // get data
-        Duration[] durationsArr = (Duration[]) response;
-        data = new ArrayList<>(Arrays.asList(durationsArr));
+        // check response
+        DurationsResponse durationsResponse = (DurationsResponse) response;
+        if (durationsResponse != null && durationsResponse.getTimes() != null) {
+            // get data
+            data = durationsResponse.getTimes();
 
-        // check size
-        if (data.size() == 0) {
-            showEmpty(R.string.no_times_found);
+            // check size
+            if (data.size() == 0) {
+                showEmpty(R.string.no_times_found);
+            } else {
+                updateUI();
+            }
         } else {
-            updateUI();
+            showError(R.string.failed_loading_times);
         }
     }
 

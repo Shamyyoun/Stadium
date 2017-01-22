@@ -34,6 +34,7 @@ import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.Team;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.responses.DurationsResponse;
 import com.stadium.app.models.responses.MonthlyReservationResponse;
 import com.stadium.app.models.responses.ServerResponse;
 import com.stadium.app.utils.AppUtils;
@@ -1066,8 +1067,8 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<Duration[]> getMyDurations(Context context, ConnectionListener<Duration[]> listener,
-                                                               int stadiumId, String startDate, String endDate) {
+    public static ConnectionHandler<DurationsResponse> getMyDurations(Context context, ConnectionListener<DurationsResponse> listener,
+                                                                        int stadiumId, String startDate, String endDate) {
         // create the request body
         DurationsBody body = new DurationsBody();
         body.setStadiumId(stadiumId);
@@ -1075,8 +1076,8 @@ public class ApiRequests {
         body.setEndDate(endDate);
 
         // create & execute the request
-        ConnectionHandler<Duration[]> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_GET_MY_DURATIONS), Duration[].class, listener, body, Const.API_GET_MY_DURATIONS);
+        ConnectionHandler<DurationsResponse> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_GET_MY_DURATIONS), DurationsResponse.class, listener, body, Const.API_GET_MY_DURATIONS);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
