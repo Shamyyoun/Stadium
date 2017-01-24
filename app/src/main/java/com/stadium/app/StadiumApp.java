@@ -7,7 +7,6 @@ import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.parse.Parse;
 import com.stadium.app.utils.Utils;
 
 import java.util.Locale;
@@ -31,6 +30,7 @@ public class StadiumApp extends Application {
                 .build();
         Fabric.with(this, crashlytics, new Crashlytics());
 
+        /*
         // init Parse
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .server(Const.PARSE_SERVER_URL)
@@ -38,7 +38,6 @@ public class StadiumApp extends Application {
                 .clientKey(Const.PARSE_CLIENT_KEY)
                 .build());
 
-        /*
         ParseUser.logInInBackground(Const.PARSE_USERNAME, Const.PARSE_PASSWORD, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
@@ -47,7 +46,7 @@ public class StadiumApp extends Application {
 
                     // install
                     ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                    installation.put("UserId", 119);
+//                    installation.put("UserId", "119");
                     installation.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

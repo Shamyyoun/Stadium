@@ -14,8 +14,8 @@ public class Const {
     public static final String PARSE_APP_ID = "StaduimId";
     public static final String PARSE_CLIENT_KEY = "KEY";
     public static final String PARSE_SERVER_URL = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com:1337/parse/";
-    public static final String PARSE_USERNAME = "St";
-    public static final String PARSE_PASSWORD = "aaaa";
+    public static final String PARSE_USERNAME = "stad";
+    public static final String PARSE_PASSWORD = "stad";
 
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";

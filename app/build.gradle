@@ -50,5 +50,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;
     }
-    compile 'com.parse:parse-android:1.13.0'
+    compile 'com.parse:parse-android:1.13.1'
 }
