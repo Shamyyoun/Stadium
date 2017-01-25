@@ -355,6 +355,9 @@
     <string name="failed_loading_durations">فشل تحميل الفترات</string>
     <string name="add_next_durations_u"><u>اضافة فترات قادمة</u></string>
     <string name="add_next_durations">اضافة فترات قادمة</string>
+    <string name="next_durations_start">بداية الفترات القادمة</string>
+    <string name="add_duration_u"><u>اضافة فترة</u></string>
+    <string name="choose_start_date">برجاء اختيار تاريخ البداية</string>
 
 
     <!-- Arrays -->

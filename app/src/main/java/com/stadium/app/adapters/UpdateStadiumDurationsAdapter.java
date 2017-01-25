@@ -24,12 +24,12 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 19/2/16.
  */
-public class EditStadiumDurationsAdapter extends ParentRecyclerAdapter<Duration> {
+public class UpdateStadiumDurationsAdapter extends ParentRecyclerAdapter<Duration> {
     private static final String DISPLAYED_TIME_FORMAT = "hh:mm a";
     private TimePickerFragment timePickerFragment;
     private DurationController durationController;
 
-    public EditStadiumDurationsAdapter(Context context, List<Duration> data, int layoutId) {
+    public UpdateStadiumDurationsAdapter(Context context, List<Duration> data, int layoutId) {
         super(context, data, layoutId);
         timePickerFragment = new TimePickerFragment();
         durationController = new DurationController();

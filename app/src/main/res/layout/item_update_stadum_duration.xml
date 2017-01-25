@@ -20,26 +20,27 @@
 
     <Button
         android:id="@+id/btn_to"
-        style="@style/GrayETButton"
+        style="@style/WhiteETButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="7dp"
         android:layout_weight="1"
-        android:drawableLeft="@drawable/clickable_gray_clock_icon"
+        android:drawableLeft="@drawable/white_clock_icon"
         android:text="@string/to" />
 
     <Button
         android:id="@+id/btn_from"
-        style="@style/GrayETButton"
+        style="@style/WhiteETButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
         android:layout_weight="1"
-        android:drawableLeft="@drawable/clickable_gray_clock_icon"
+        android:drawableLeft="@drawable/white_clock_icon"
         android:text="@string/from" />
 
     <TextView
+        android:textColor="@android:color/white"
         android:id="@+id/tv_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

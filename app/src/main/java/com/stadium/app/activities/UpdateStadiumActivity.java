@@ -21,6 +21,7 @@ import com.stadium.app.adapters.StadiumDurationsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.StadiumController;
+import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Duration;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.User;
@@ -37,8 +38,6 @@ import java.util.List;
  * Created by karam on 7/2/16.
  */
 public class UpdateStadiumActivity extends PicPickerActivity {
-    private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
-
     private Stadium stadium;
     private ActiveUserController userController;
     private StadiumController stadiumController;
@@ -142,7 +141,6 @@ public class UpdateStadiumActivity extends PicPickerActivity {
     private void customizeRecyclerView(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -283,7 +281,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
                     Picasso.with(this).invalidate(stadium.getImageLink());
                 }
 
-                // finis the activity
+                // finish the activity
                 finishActivity();
             } else {
                 String errorMsg = AppUtils.getResponseMsg(this, response, R.string.failed_updating_stadium);
@@ -308,7 +306,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
                     updateNextDurationsUI();
                 } else {
                     // show add durations tv
-                    showAddDurations();
+                    showAddDurations(true);
                 }
             } else {
                 // show msg
@@ -328,8 +326,23 @@ public class UpdateStadiumActivity extends PicPickerActivity {
         pbDurations.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    private void showAddDurations() {
-        tvAddNextDurations.setVisibility(View.VISIBLE);
+    private void showAddDurations(boolean show) {
+        tvAddNextDurations.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_ADD_DURATIONS && resultCode == RESULT_OK) {
+            // update next durations
+            SerializableListWrapper<Duration> durationsWrapper = (SerializableListWrapper<Duration>) data.getSerializableExtra(Const.KEY_DURATIONS);
+            nextDurations = durationsWrapper.getList();
+            updateNextDurationsUI();
+
+            // hide add durations
+            showAddDurations(false);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void finishActivity() {

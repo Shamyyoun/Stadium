@@ -124,6 +124,7 @@ public class Const {
     public static final String KEY_STADIUM = "stadium";
     public static final String KEY_IMAGE_URL = "image_url";
     public static final String KEY_RATING = "rating";
+    public static final String KEY_DURATIONS = "durations";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;
