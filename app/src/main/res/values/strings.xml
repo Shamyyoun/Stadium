@@ -352,6 +352,9 @@
     <string name="absent_count">عدد مرات الغياب</string>
     <string name="current_durations">الفترات الحالية</string>
     <string name="next_durations">الفترات القادمة</string>
+    <string name="failed_loading_durations">فشل تحميل الفترات</string>
+    <string name="add_next_durations_u"><u>اضافة فترات قادمة</u></string>
+    <string name="add_next_durations">اضافة فترات قادمة</string>
 
 
     <!-- Arrays -->

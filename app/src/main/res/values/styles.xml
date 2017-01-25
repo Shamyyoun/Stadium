@@ -202,4 +202,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ETTextView">
+        <item name="android:background">?attr/editTextBackground</item>
+        <item name="backgroundTint">@color/gray</item>
+    </style>
+
 </resources>

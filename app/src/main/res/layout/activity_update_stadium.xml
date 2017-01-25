@@ -83,52 +83,66 @@
                     android:minHeight="100dp"
                     android:scrollbars="vertical" />
 
-                <Button
-                    android:id="@+id/btn_start_date"
-                    style="@style/GrayETButton"
+                <ProgressBar
+                    android:id="@+id/pb_durations"
+                    android:layout_width="@dimen/medium_progress_bar_size"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="7dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layout_current_durations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/clickable_gray_calendar_icon"
-                    android:text="@string/start" />
-
-                <LinearLayout
-                    android:id="@+id/layout_durations"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:gravity="right"
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/ib_add_duration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:padding="7dp"
-                            android:src="@drawable/green_add_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="7dp"
-                            android:text="@string/durations"
-                            android:textSize="@dimen/medium_text" />
-                    </LinearLayout>
+                        android:text="@string/current_durations"
+                        android:textSize="@dimen/medium_text" />
 
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_durations"
+                        android:id="@+id/rv_current_durations"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_next_durations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/next_durations"
+                        android:textSize="@dimen/medium_text" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_next_durations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_add_next_durations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/add_next_durations_u"
+                    android:textColor="@color/clickable_green_text"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

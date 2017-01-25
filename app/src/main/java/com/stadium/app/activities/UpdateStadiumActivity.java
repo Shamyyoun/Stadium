@@ -1,18 +1,16 @@
 package com.stadium.app.activities;
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -22,22 +20,17 @@ import com.stadium.app.R;
 import com.stadium.app.adapters.StadiumDurationsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
-import com.stadium.app.controllers.DurationController;
 import com.stadium.app.controllers.StadiumController;
-import com.stadium.app.interfaces.OnItemRemovedListener;
 import com.stadium.app.models.entities.Duration;
 import com.stadium.app.models.entities.Stadium;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.responses.DurationsResponse;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.BitmapUtils;
-import com.stadium.app.utils.DatePickerFragment;
-import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -49,25 +42,25 @@ public class UpdateStadiumActivity extends PicPickerActivity {
     private Stadium stadium;
     private ActiveUserController userController;
     private StadiumController stadiumController;
-    private DurationController durationController;
 
-    private NestedScrollView scrollView;
     private ImageView ivImage;
     private EditText etTitle;
     private EditText etCity;
     private EditText etDesc;
-    private Button btnStartDate;
-    private View layoutDurations;
-    private ImageButton ibAddDuration;
-    private RecyclerView rvDurations;
+    private ProgressBar pbDurations;
+    private View layoutCurrentDurations;
+    private RecyclerView rvCurrentDurations;
+    private View layoutNextDurations;
+    private RecyclerView rvNextDurations;
+    private TextView tvAddNextDurations;
     private Button btnUpdate;
     private Button btnCancel;
 
     private File image;
-    private DatePickerFragment datePickerFragment;
-    private List<Duration> durations;
-    private StadiumDurationsAdapter durationsAdapter;
-    private String startDate;
+    private List<Duration> currentDurations;
+    private List<Duration> nextDurations;
+    private StadiumDurationsAdapter currentDurationsAdapter;
+    private StadiumDurationsAdapter nextDurationsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,34 +73,29 @@ public class UpdateStadiumActivity extends PicPickerActivity {
         stadium = (Stadium) getIntent().getSerializableExtra(Const.KEY_STADIUM);
         userController = new ActiveUserController(this);
         stadiumController = new StadiumController();
-        durationController = new DurationController();
 
         // init views
-        scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
         ivImage = (ImageView) findViewById(R.id.iv_image);
         etTitle = (EditText) findViewById(R.id.et_title);
         etCity = (EditText) findViewById(R.id.et_city);
         etDesc = (EditText) findViewById(R.id.et_desc);
-        layoutDurations = findViewById(R.id.layout_durations);
-        ibAddDuration = (ImageButton) findViewById(R.id.ib_add_duration);
-        rvDurations = (RecyclerView) findViewById(R.id.rv_durations);
-        btnStartDate = (Button) findViewById(R.id.btn_start_date);
+        pbDurations = (ProgressBar) findViewById(R.id.pb_durations);
+        layoutCurrentDurations = findViewById(R.id.layout_current_durations);
+        rvCurrentDurations = (RecyclerView) findViewById(R.id.rv_current_durations);
+        layoutNextDurations = findViewById(R.id.layout_next_durations);
+        rvNextDurations = (RecyclerView) findViewById(R.id.rv_next_durations);
+        tvAddNextDurations = (TextView) findViewById(R.id.tv_add_next_durations);
         btnUpdate = (Button) findViewById(R.id.btn_update);
         btnCancel = (Button) findViewById(R.id.btn_cancel);
 
-        // customize durations recycler
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-        rvDurations.setLayoutManager(layoutManager);
-        rvDurations.setNestedScrollingEnabled(false);
-
         // add listeners
         ivImage.setOnClickListener(this);
-        btnStartDate.setOnClickListener(this);
-        ibAddDuration.setOnClickListener(this);
+        tvAddNextDurations.setOnClickListener(this);
         btnUpdate.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
         updateUI();
+        loadDurations();
     }
 
     private void updateUI() {
@@ -127,6 +115,36 @@ public class UpdateStadiumActivity extends PicPickerActivity {
         Utils.loadImage(this, stadium.getImageLink(), R.drawable.default_image, ivImage);
     }
 
+    private void updateCurrentDurationsUI() {
+        // customize the recycler view
+        customizeRecyclerView(rvCurrentDurations);
+
+        // create and set the durations adapter
+        currentDurationsAdapter = new StadiumDurationsAdapter(this, currentDurations, R.layout.item_stadium_duration);
+        rvCurrentDurations.setAdapter(currentDurationsAdapter);
+
+        // show the layout
+        layoutCurrentDurations.setVisibility(View.VISIBLE);
+    }
+
+    private void updateNextDurationsUI() {
+        // customize the recycler view
+        customizeRecyclerView(rvNextDurations);
+
+        // create and set the durations adapter
+        nextDurationsAdapter = new StadiumDurationsAdapter(this, nextDurations, R.layout.item_stadium_duration);
+        rvNextDurations.setAdapter(nextDurationsAdapter);
+
+        // show the layout
+        layoutNextDurations.setVisibility(View.VISIBLE);
+    }
+
+    private void customizeRecyclerView(RecyclerView recyclerView) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -134,12 +152,8 @@ public class UpdateStadiumActivity extends PicPickerActivity {
                 chooseImage();
                 break;
 
-            case R.id.btn_start_date:
-                chooseDate();
-                break;
-
-            case R.id.ib_add_duration:
-                onAddDuration();
+            case R.id.tv_add_next_durations:
+                openAddDurationsActivity();
                 break;
 
             case R.id.btn_update:
@@ -153,6 +167,12 @@ public class UpdateStadiumActivity extends PicPickerActivity {
             default:
                 super.onClick(v);
         }
+    }
+
+    private void openAddDurationsActivity() {
+        Intent intent = new Intent(this, AddDurationsActivity.class);
+        startActivityForResult(intent, Const.REQ_ADD_DURATIONS);
+        overridePendingTransition(R.anim.top_translate_enter, R.anim.no_anim);
     }
 
     private void chooseImage() {
@@ -191,101 +211,23 @@ public class UpdateStadiumActivity extends PicPickerActivity {
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(ivImage);
     }
 
-    private void chooseDate() {
-        // create the date picker fragment and customize it
-        if (datePickerFragment == null) {
-            datePickerFragment = new DatePickerFragment();
-
-            // set min date
-            Calendar minDate = DateUtils.addDays(Const.UPDATE_STADIUM_MIN_DATE_DAYS_FROM_NOW);
-            datePickerFragment.setMinDate(minDate);
-
-            // add date set listener
-            datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    // update the ui
-                    String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
-                    btnStartDate.setText(date);
-
-                    // check start date
-                    if (startDate == null) {
-                        // update durations ui
-                        updateDurationsUI();
-                    }
-
-                    // set the date
-                    startDate = DateUtils.formatDate(date, DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
-                }
-            });
+    private void loadDurations() {
+        // check the internet connection
+        if (!Utils.hasConnection(this)) {
+            Utils.showShortToast(this, R.string.no_internet_connection);
+            return;
         }
 
-        // show date dialog
-        datePickerFragment.show(getSupportFragmentManager(), null);
-    }
+        showDurationsProgress(true);
 
-    private void updateDurationsUI() {
-        // create durations list
-        durations = new ArrayList<>();
-
-        // add first item
-        addDuration();
-
-        // create and set the durations adapter
-        durationsAdapter = new StadiumDurationsAdapter(this, durations, R.layout.item_stadium_duration);
-        rvDurations.setAdapter(durationsAdapter);
-        durationsAdapter.setOnItemRemovedListener(new OnItemRemovedListener() {
-            @Override
-            public void onItemRemoved(int position) {
-                // show add btn
-                ibAddDuration.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // show the layout
-        layoutDurations.setVisibility(View.VISIBLE);
-    }
-
-    private void onAddDuration() {
-        // add to the list and notify the adapter
-        addDuration();
-        durationsAdapter.notifyDataSetChanged();
-
-        // scroll scrollview to bottom
-        scrollView.fullScroll(View.FOCUS_DOWN);
-
-        // check new size
-        if (durations.size() == Const.UPDATE_STADIUM_MAX_DURATIONS_COUNT) {
-            // hide add btn
-            ibAddDuration.setVisibility(View.GONE);
-        }
-    }
-
-    private void addDuration() {
-        // create and add the duration
-        Duration duration = new Duration();
-        duration.setDurationNumber(durations.size() + 1);
-        durations.add(duration);
+        // send the request
+        ConnectionHandler connectionHandler = ApiRequests.getMyDurations(this, this, stadium.getId());
+        cancelWhenDestroyed(connectionHandler);
     }
 
 
     private void updateStadium() {
         hideKeyboard();
-
-        // check start date
-        if (startDate != null) {
-            // ensure that user has filled all durations
-            if (!durationController.checkDurationsFilled(durations)) {
-                Utils.showShortToast(this, R.string.please_fill_all_times);
-                return;
-            }
-
-            // ensure that no nested durations
-            if (!durationController.checkNoNestedDurations(durations)) {
-                Utils.showShortToast(this, R.string.nested_durations_found);
-                return;
-            }
-        }
 
         // check internet connection
         if (!Utils.hasConnection(this)) {
@@ -322,7 +264,9 @@ public class UpdateStadiumActivity extends PicPickerActivity {
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
+        // hide progress
         hideProgressDialog();
+        showDurationsProgress(false);
 
         // check tag
         if (Const.API_STADIUM_PROFILE.equals(tag)) {
@@ -339,63 +283,57 @@ public class UpdateStadiumActivity extends PicPickerActivity {
                     Picasso.with(this).invalidate(stadium.getImageLink());
                 }
 
-                // check start date
-                if (startDate != null) {
-                    // user changed durations,
-                    // send the request
-                    changeDurations();
-                } else {
-                    // didn't change durations,
-                    // finish
-                    onBackPressed();
-                }
+                // finis the activity
+                finishActivity();
             } else {
                 String errorMsg = AppUtils.getResponseMsg(this, response, R.string.failed_updating_stadium);
                 Utils.showShortToast(this, errorMsg);
             }
-        } else {
-            // change durations request
-            // check status code
-            if (statusCode == Const.SER_CODE_200) {
-                // show msg and finish
-                Utils.showShortToast(this, R.string.durations_changed_successfully);
-                onBackPressed();
+        } else if (Const.API_GET_MY_DURATIONS.equals(tag)) {
+            // my durations request
+            // check response
+            DurationsResponse durationsResponse = (DurationsResponse) response;
+            if (durationsResponse != null) {
+                // check current durations
+                if (!Utils.isNullOrEmpty(durationsResponse.getTimes())) {
+                    // update it ui
+                    currentDurations = durationsResponse.getTimes();
+                    updateCurrentDurationsUI();
+                }
+
+                // check next durations
+                if (!Utils.isNullOrEmpty(durationsResponse.getNextTimes())) {
+                    // update it ui
+                    nextDurations = durationsResponse.getNextTimes();
+                    updateNextDurationsUI();
+                } else {
+                    // show add durations tv
+                    showAddDurations();
+                }
             } else {
-                String errorMsg = AppUtils.getResponseMsg(this, response, R.string.failed_changing_durations);
-                Utils.showShortToast(this, errorMsg);
+                // show msg
+                String msg = AppUtils.getResponseMsg(this, response, R.string.failed_loading_durations);
+                Utils.showShortToast(this, msg);
             }
         }
     }
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        hideProgressDialog();
-
-        // check tag
-        if (Const.API_STADIUM_PROFILE.equals(tag)) {
-            // edit stadium request
-            Utils.showShortToast(this, R.string.failed_updating_stadium);
-        } else {
-            // change durations request
-            Utils.showShortToast(this, R.string.failed_changing_durations);
-        }
+        super.onFail(ex, statusCode, tag);
+        showDurationsProgress(false);
     }
 
-    private void changeDurations() {
-        showProgressDialog();
-
-        // get the user
-        User user = userController.getUser();
-
-        // send request
-        ConnectionHandler connectionHandler = ApiRequests.changeDuration(this, this, user.getId(),
-                user.getToken(), stadium.getId(), startDate, durations);
-        cancelWhenDestroyed(connectionHandler);
+    private void showDurationsProgress(boolean show) {
+        pbDurations.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onBackPressed() {
-        // set stadium as result and finish
+    private void showAddDurations() {
+        tvAddNextDurations.setVisibility(View.VISIBLE);
+    }
+
+    private void finishActivity() {
+        // set result and finish
         Intent intent = new Intent();
         intent.putExtra(Const.KEY_STADIUM, stadium);
         setResult(RESULT_OK, intent);

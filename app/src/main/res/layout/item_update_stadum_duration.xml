@@ -4,40 +4,39 @@
     android:layout_height="wrap_content"
     android:gravity="right|center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="3dp"
-    android:paddingLeft="15dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
     android:paddingRight="15dp"
-    android:paddingTop="3dp">
+    android:paddingTop="5dp">
 
-    <TextView
-        android:id="@+id/tv_to"
-        style="@style/ETTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="5 AM" />
-
-    <TextView
+    <ImageButton
+        android:id="@+id/ib_remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="6dp"
+        android:src="@drawable/false_icon"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_to"
+        style="@style/GrayETButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="7dp"
+        android:layout_weight="1"
+        android:drawableLeft="@drawable/clickable_gray_clock_icon"
         android:text="@string/to" />
 
-    <TextView
-        android:id="@+id/tv_from"
-        style="@style/ETTextView"
+    <Button
+        android:id="@+id/btn_from"
+        style="@style/GrayETButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="5 AM" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
+        android:layout_weight="1"
+        android:drawableLeft="@drawable/clickable_gray_clock_icon"
         android:text="@string/from" />
 
     <TextView

@@ -111,6 +111,7 @@ public class Const {
     public static final int REQ_VIEW_STADIUM_INFO = 10;
     public static final int REQ_UPDATE_STADIUM = 11;
     public static final int REQ_VIEW_PLAYER_INFO = 12;
+    public static final int REQ_ADD_DURATIONS = 13;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

@@ -348,14 +348,19 @@ public class UpdateTeamActivity extends PicPickerActivity {
                 Picasso.with(this).invalidate(team.getImageLink());
             }
 
-            // set result and finish
-            Intent intent = new Intent();
-            intent.putExtra(Const.KEY_TEAM, team);
-            setResult(RESULT_OK, intent);
-            finish();
+            // finis the activity
+            finishActivity();
         } else {
             String errorMsg = AppUtils.getResponseMsg(this, team);
             Utils.showShortToast(this, errorMsg);
         }
+    }
+
+    private void finishActivity() {
+        // set result and finish
+        Intent intent = new Intent();
+        intent.putExtra(Const.KEY_TEAM, team);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

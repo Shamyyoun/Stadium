@@ -152,5 +152,10 @@
         <activity
             android:name=".activities.ViewImageActivity"
             android:theme="@style/AppTheme.BlackTheme" />
+
+        <activity
+            android:name=".activities.AddDurationsActivity"
+            android:label="@string/add_next_durations"
+            android:theme="@style/AppTheme.FloatingTransparent" />
     </application>
 </manifest>

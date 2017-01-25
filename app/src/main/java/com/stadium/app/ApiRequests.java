@@ -247,8 +247,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<User> ratePlayer(Context context, ConnectionListener<User> listener,
-                                                               int userId, String userToken, String userName,
-                                                               int playerRatedId, double rate) {
+                                                     int userId, String userToken, String userName,
+                                                     int playerRatedId, double rate) {
         // create the request body
         RatePlayerBody body = new RatePlayerBody();
         body.setRate(rate);
@@ -347,9 +347,9 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler deleteMemberFromTeam(Context context, ConnectionListener listener,
-                                                                 int userId, String userToken,
-                                                                 int teamId, String teamName,
-                                                                 int playerId, String playerName) {
+                                                         int userId, String userToken,
+                                                         int teamId, String teamName,
+                                                         int playerId, String playerName) {
         // create the request body
         TeamPlayerActionBody body = new TeamPlayerActionBody();
         CaptainBody captain = new CaptainBody();
@@ -375,8 +375,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler chooseAssistant(Context context, ConnectionListener listener,
-                                                            int userId, String userToken,
-                                                            int teamId, int playerId) {
+                                                    int userId, String userToken,
+                                                    int teamId, int playerId) {
         // create the request body
         TeamPlayerActionBody body = new TeamPlayerActionBody();
         CaptainBody captain = new CaptainBody();
@@ -419,8 +419,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler changeCaptain(Context context, ConnectionListener listener,
-                                                          int userId, String userToken,
-                                                          int teamId, int playerId) {
+                                                  int userId, String userToken,
+                                                  int teamId, int playerId) {
         // create the request body
         TeamPlayerActionBody body = new TeamPlayerActionBody();
         CaptainBody captain = new CaptainBody();
@@ -444,8 +444,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler leaveTeam(Context context, ConnectionListener listener,
-                                                      int userId, String userToken, String userName,
-                                                      int teamId, String teamName) {
+                                              int userId, String userToken, String userName,
+                                              int teamId, String teamName) {
         // create the request body
         LeaveTeamBody body = new LeaveTeamBody();
         User userInfo = new User();
@@ -1068,7 +1068,12 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<DurationsResponse> getMyDurations(Context context, ConnectionListener<DurationsResponse> listener,
-                                                                        int stadiumId, String startDate, String endDate) {
+                                                                      int stadiumId) {
+        return getMyDurations(context, listener, stadiumId, null, null);
+    }
+
+    public static ConnectionHandler<DurationsResponse> getMyDurations(Context context, ConnectionListener<DurationsResponse> listener,
+                                                                      int stadiumId, String startDate, String endDate) {
         // create the request body
         DurationsBody body = new DurationsBody();
         body.setStadiumId(stadiumId);
