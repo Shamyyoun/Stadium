@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.stadium.app.ApiRequests;
 import com.stadium.app.Const;
 import com.stadium.app.R;
-import com.stadium.app.adapters.UpdateStadiumDurationsAdapter;
+import com.stadium.app.adapters.StadiumDurationsAdapter;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.DurationController;
@@ -54,7 +54,7 @@ public class AddDurationsActivity extends ParentActivity {
     private Rect contentLayoutRect; // to handle the outside click
     private DatePickerFragment datePickerFragment;
     private List<Duration> durations;
-    private UpdateStadiumDurationsAdapter durationsAdapter;
+    private StadiumDurationsAdapter durationsAdapter;
     private String startDate;
 
     @Override
@@ -163,7 +163,7 @@ public class AddDurationsActivity extends ParentActivity {
         addDuration();
 
         // create and set the durations adapter
-        durationsAdapter = new UpdateStadiumDurationsAdapter(this, durations, R.layout.item_update_stadum_duration);
+        durationsAdapter = new StadiumDurationsAdapter(this, durations, R.layout.item_update_stadum_duration);
         rvDurations.setAdapter(durationsAdapter);
         durationsAdapter.setOnItemRemovedListener(new OnItemRemovedListener() {
             @Override
