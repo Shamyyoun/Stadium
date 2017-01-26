@@ -9,13 +9,18 @@ public class Const {
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
     public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
-//    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
+    //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
     public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
     public static final String PARSE_APP_ID = "StaduimId";
     public static final String PARSE_CLIENT_KEY = "KEY";
     public static final String PARSE_SERVER_URL = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com:1337/parse/";
     public static final String PARSE_USERNAME = "stad";
     public static final String PARSE_PASSWORD = "stad";
+    // Shamy Parse App values
+    //    public static final String PARSE_APP_ID = "BPI3n4ABjbPhighvBWZiWepkkHgxmGQmoG2FxldL";
+    //    public static final String PARSE_CLIENT_KEY = "2mWTXscIZyh8SW43uaQzWKkDx5MY1FcU6p3UqGzR";
+    //    public static final String PARSE_USERNAME = "shamy";
+    //    public static final String PARSE_PASSWORD = "shamyPass";
 
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";
@@ -81,6 +86,7 @@ public class Const {
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
+    public static final String SP_PARSE_INSTALLED = "parse_installed";
 
     // Server Constants:--------------------
     public static final int SER_CODE_200 = 200;
@@ -125,6 +131,7 @@ public class Const {
     public static final String KEY_IMAGE_URL = "image_url";
     public static final String KEY_RATING = "rating";
     public static final String KEY_DURATIONS = "durations";
+    public static final String KEY_REFRESH_HOME = "refresh_home";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;

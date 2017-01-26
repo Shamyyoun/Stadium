@@ -118,9 +118,13 @@ public class PlayerHomeFragment extends ProgressFragment implements OnItemClickL
         return new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
+                refresh();
             }
         };
+    }
+
+    public void refresh() {
+        loadData();
     }
 
     private void updateUserUI() {

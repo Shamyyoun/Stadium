@@ -14,12 +14,16 @@ import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.controllers.ParseController;
 import com.stadium.app.dialogs.ForgetPasswordDialog;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.Utils;
 
 public class LoginActivity extends ParentActivity {
+    private ActiveUserController userController;
+    private ParseController parseController;
+
     private EditText etPhone;
     private EditText etPassword;
     private Button btnLogin;
@@ -31,6 +35,10 @@ public class LoginActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // obtain main objects
+        userController = new ActiveUserController(this);
+        parseController = new ParseController(this);
 
         // init views
         etPhone = (EditText) findViewById(R.id.et_phone);
@@ -112,9 +120,11 @@ public class LoginActivity extends ParentActivity {
         User user = (User) response;
         if (statusCode == Const.SER_CODE_200) {
             // save him
-            ActiveUserController userController = new ActiveUserController(this);
             userController.setUser(user);
             userController.save();
+
+            // install parse
+            parseController.install(user.getId());
 
             // check his role in the system, if admin or not to goto suitable activity
             Intent intent;

@@ -358,6 +358,7 @@
     <string name="next_durations_start">بداية الفترات القادمة</string>
     <string name="add_duration_u"><u>اضافة فترة</u></string>
     <string name="choose_start_date">برجاء اختيار تاريخ البداية</string>
+    <string name="failed_logging_out">فشل تسجيل الخروج</string>
 
 
     <!-- Arrays -->

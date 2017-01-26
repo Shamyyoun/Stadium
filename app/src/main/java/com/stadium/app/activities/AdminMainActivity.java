@@ -1,9 +1,11 @@
 package com.stadium.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.fragments.AdminHomeFragment;
 import com.stadium.app.fragments.AdminStadiumFragment;
@@ -123,5 +125,17 @@ public class AdminMainActivity extends MainActivity {
 
         // select the tab
         tvTab.setSelected(true);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // check refresh home flag
+        boolean refreshHome = intent.getBooleanExtra(Const.KEY_REFRESH_HOME, false);
+        if (refreshHome) {
+            // just goto home
+            selectTab(tvHome);
+        }
     }
 }

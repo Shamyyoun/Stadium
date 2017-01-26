@@ -1,9 +1,12 @@
 package com.stadium.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
+import com.stadium.app.Const;
 import com.stadium.app.R;
 import com.stadium.app.fragments.MyTeamsFragment;
 import com.stadium.app.fragments.PlayerHomeFragment;
@@ -121,5 +124,30 @@ public class PlayerMainActivity extends MainActivity {
 
         // select the tab
         tvTab.setSelected(true);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // check refresh home flag
+        boolean refreshHome = intent.getBooleanExtra(Const.KEY_REFRESH_HOME, false);
+        if (refreshHome) {
+            // goto home
+            selectTab(tvHome);
+
+            // refresh
+            refreshHome();
+        }
+    }
+
+    private void refreshHome() {
+        // refresh after some static time to ensure tab is loaded
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                homeFragment.refresh();
+            }
+        }, 300);
     }
 }

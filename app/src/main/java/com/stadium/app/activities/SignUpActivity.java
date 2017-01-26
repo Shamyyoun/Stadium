@@ -23,6 +23,7 @@ import com.stadium.app.R;
 import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.CityController;
+import com.stadium.app.controllers.ParseController;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
@@ -42,6 +43,10 @@ import java.util.List;
  */
 public class SignUpActivity extends PicPickerActivity {
     private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
+
+    private ActiveUserController userController;
+    private ParseController parseController;
+
     private ImageView ivImage;
     private EditText etName;
     private Button btnBirthdate;
@@ -60,6 +65,10 @@ public class SignUpActivity extends PicPickerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        // obtain main objects
+        userController = new ActiveUserController(this);
+        parseController = new ParseController(this);
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
@@ -296,9 +305,11 @@ public class SignUpActivity extends PicPickerActivity {
                 User user = (User) response;
                 if (statusCode == Const.SER_CODE_200) {
                     // save it
-                    ActiveUserController userController = new ActiveUserController(this);
                     userController.setUser(user);
                     userController.save();
+
+                    // install parse
+                    parseController.install(user.getId());
 
                     // goto main activity
                     Intent intent = new Intent(this, PlayerMainActivity.class);

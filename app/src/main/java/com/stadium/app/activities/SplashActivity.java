@@ -6,9 +6,12 @@ import android.os.Handler;
 
 import com.stadium.app.R;
 import com.stadium.app.controllers.ActiveUserController;
+import com.stadium.app.controllers.ParseController;
 
 public class SplashActivity extends ParentActivity {
     private static final int SPLASH_DURATION = 2 * 1000;
+    private ActiveUserController userController;
+    private ParseController parseController;
     private Handler handler;
     private Runnable runnable;
 
@@ -17,9 +20,15 @@ public class SplashActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // obtain main objects
+        userController = new ActiveUserController(this);
+        parseController = new ParseController(this);
+
         // check saved user
-        ActiveUserController userController = new ActiveUserController(this);
         if (userController.hasLoggedInUser()) {
+            // install parse if required
+            parseController.installInRequired(userController.getUser().getId());
+
             // check his role in the system, if admin or not to goto suitable activity
             Intent intent;
             if (userController.isAdmin()) {
