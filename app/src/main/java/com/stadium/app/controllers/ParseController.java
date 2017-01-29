@@ -15,8 +15,6 @@ import com.stadium.app.utils.Utils;
  */
 
 public class ParseController implements LogInCallback, SaveCallback {
-    private static final String KEY_USER_ID = "UserId";
-    private static final String KEY_LOGGED_IN = "loggedIn";
     private Context context;
     private int userId;
 
@@ -51,8 +49,8 @@ public class ParseController implements LogInCallback, SaveCallback {
 
             // install parse
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-            installation.put(KEY_USER_ID, "" + userId);
-            installation.put(KEY_LOGGED_IN, true);
+            installation.put(Const.PARSE_KEY_USER_ID, "" + userId);
+            installation.put(Const.PARSE_KEY_LOGGED_IN, true);
             installation.saveInBackground(this);
         } else {
             String msg = "Parse user login failed";
@@ -86,7 +84,7 @@ public class ParseController implements LogInCallback, SaveCallback {
 
         try {
             // change loggedIn flag
-            installation.put(KEY_LOGGED_IN, false);
+            installation.put(Const.PARSE_KEY_LOGGED_IN, false);
             installation.save();
 
             // logout current user

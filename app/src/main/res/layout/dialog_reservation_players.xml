@@ -73,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:gravity="center"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:padding="3dp"
                     android:scrollHorizontally="true"
