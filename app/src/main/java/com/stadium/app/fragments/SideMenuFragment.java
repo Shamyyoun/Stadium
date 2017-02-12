@@ -107,7 +107,7 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
             public void run() {
                 activity.closeMenuDrawer();
             }
-        }, 100);
+        }, 200);
     }
 
     private class LogoutTask extends AsyncTask<Void, Void, Boolean> {

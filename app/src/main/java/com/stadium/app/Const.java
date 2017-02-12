@@ -17,6 +17,7 @@ public class Const {
     public static final String CON_STADIUM_EMAIL = "stadium@stormnology.com";
     public static final String CON_STADIUM_TWITTER = "https://twitter.com/stadium";
     public static final String CON_STADIUM_YOUTUBE = "https://www.youtube.com/stadium";
+    public static final String CON_STADIUM_SNAPCHAT = "https://snapchat.com/add/stadium";
 
     // Parse:-----------------------------
     public static final String PARSE_APP_ID = "StaduimId";

@@ -52,6 +52,7 @@ public class ContactUsActivity extends ParentActivity {
                 break;
 
             case R.id.tv_snapchat:
+                openSnapchatIntent();
                 break;
 
             default:
@@ -69,5 +70,9 @@ public class ContactUsActivity extends ParentActivity {
 
     private void openYoutubeIntent() {
         Utils.openBrowser(this, Const.CON_STADIUM_YOUTUBE);
+    }
+
+    private void openSnapchatIntent() {
+        Utils.openBrowser(this, Const.CON_STADIUM_SNAPCHAT);
     }
 }
