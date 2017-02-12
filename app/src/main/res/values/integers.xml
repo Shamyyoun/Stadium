@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="activity_scale_fade_anim_duration">300</integer>
-    <integer name="activity_top_translate_enter_anim_duration">950</integer>
-    <integer name="activity_top_translate_exit_anim_duration">450</integer>
+    <integer name="activity_top_translate_anim_duration">950</integer>
     <integer name="user_phone_number_max_chars">10</integer>
     <integer name="user_password_max_chars">16</integer>
 </resources>

@@ -248,7 +248,7 @@ public class TeamPlayersAdapter extends ParentRecyclerAdapter<User> {
                     notifyDataSetChanged();
                     Utils.showShortToast(context, R.string.captain_changed_successfully);
 
-                    // fire the listener of available
+                    // fire the listener if available
                     if (captainChangedListener != null) {
                         captainChangedListener.onCaptainChanged(newCaptain);
                     }

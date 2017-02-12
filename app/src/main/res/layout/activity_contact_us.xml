@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/stadium_app_is_offered_by"
+                android:textSize="@dimen/medium_text" />
+
+            <ImageView
+                style="@style/NormalImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/stormnology_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/light_gray" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                style="@style/StadiumContactsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/dark_gray_email_icon"
+                android:text="@string/stadium_email" />
+
+            <TextView
+                android:id="@+id/tv_twitter"
+                style="@style/StadiumContactsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/dark_gray_twitter_icon"
+                android:text="@string/stadium_twitter" />
+
+            <TextView
+                android:id="@+id/tv_youtube"
+                style="@style/StadiumContactsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/dark_gray_youtube_icon"
+                android:text="@string/stadium_youtube" />
+
+            <TextView
+                android:id="@+id/tv_snapchat"
+                style="@style/StadiumContactsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/dark_gray_snapchat_icon"
+                android:text="@string/stadium_snapchat" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

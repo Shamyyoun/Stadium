@@ -66,7 +66,8 @@
             </intent-filter>
         </receiver>
 
-        <meta-data android:name="com.parse.push.gcm_sender_id"
+        <meta-data
+            android:name="com.parse.push.gcm_sender_id"
             android:value="id:516311892647" />;
 
         <!-- ======================= Activities ======================= -->
@@ -162,5 +163,9 @@
             android:name=".activities.AddDurationsActivity"
             android:label="@string/add_next_durations"
             android:theme="@style/AppTheme.FloatingTransparent" />
+
+        <activity
+            android:name=".activities.ContactUsActivity"
+            android:label="@string/contact_us" />
     </application>
 </manifest>

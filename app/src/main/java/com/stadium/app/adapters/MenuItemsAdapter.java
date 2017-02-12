@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.stadium.app.R;
+import com.stadium.app.interfaces.OnMenuItemClickListener;
 import com.stadium.app.models.entities.MenuItem;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by Shamyyoun on 19/2/16.
  */
 public class MenuItemsAdapter extends ParentRecyclerAdapter<MenuItem> {
+    private OnMenuItemClickListener onMenuItemClickListener;
 
     public MenuItemsAdapter(Context context, List<MenuItem> data, int layoutId) {
         super(context, data, layoutId);
@@ -37,17 +39,28 @@ public class MenuItemsAdapter extends ParentRecyclerAdapter<MenuItem> {
         final MenuItem item = data.get(position);
         holder.tvTitle.setText(item.getTitle());
         holder.tvTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, item.getIconResId(), 0);
+
+        // add menu item click listener
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onMenuItemClickListener != null) {
+                    onMenuItemClickListener.onItemClick(item.getType());
+                }
+            }
+        });
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
-        View itemView;
         TextView tvTitle;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-
-            this.itemView = itemView;
             tvTitle = (TextView) findViewById(R.id.tv_title);
         }
+    }
+
+    public void setOnMenuItemClickListener(OnMenuItemClickListener onMenuItemClickListener) {
+        this.onMenuItemClickListener = onMenuItemClickListener;
     }
 }

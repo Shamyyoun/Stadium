@@ -13,14 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stadium.app.R;
+import com.stadium.app.activities.ContactUsActivity;
 import com.stadium.app.activities.LoginActivity;
 import com.stadium.app.activities.MainActivity;
 import com.stadium.app.adapters.MenuItemsAdapter;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.MenuItemController;
 import com.stadium.app.controllers.ParseController;
-import com.stadium.app.interfaces.OnItemClickListener;
+import com.stadium.app.interfaces.OnMenuItemClickListener;
 import com.stadium.app.models.entities.MenuItem;
+import com.stadium.app.models.enums.MenuItemType;
 import com.stadium.app.utils.DialogUtils;
 import com.stadium.app.utils.Utils;
 
@@ -29,7 +31,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 5/28/16.
  */
-public class SideMenuFragment extends ParentFragment implements OnItemClickListener {
+public class SideMenuFragment extends ParentFragment implements OnMenuItemClickListener {
     private MainActivity activity;
     private RecyclerView rvItems;
     private List<MenuItem> menuItems;
@@ -58,29 +60,29 @@ public class SideMenuFragment extends ParentFragment implements OnItemClickListe
         // set the adapter
         itemsAdapter = new MenuItemsAdapter(activity, menuItems, R.layout.item_menu_item);
         rvItems.setAdapter(itemsAdapter);
-        itemsAdapter.setOnItemClickListener(this);
+        itemsAdapter.setOnMenuItemClickListener(this);
 
         return rootView;
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        switch (position) {
-            case 0:
+    public void onItemClick(MenuItemType menuItemType) {
+        switch (menuItemType) {
+            case CONTACT_US:
+                openContactUsActivity();
                 break;
 
-            case 1:
-                break;
-
-            case 2:
-                break;
-
-            case 3:
+            case LOGOUT:
                 onLogout();
                 break;
         }
 
         closeMenuDrawer();
+    }
+
+    private void openContactUsActivity() {
+        Intent intent = new Intent(activity, ContactUsActivity.class);
+        startActivity(intent);
     }
 
     private void onLogout() {

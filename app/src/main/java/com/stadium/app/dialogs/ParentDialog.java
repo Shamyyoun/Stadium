@@ -34,7 +34,7 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
         super(context);
         this.context = context;
 
-        // set no title and transparent bg
+        // set no title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 

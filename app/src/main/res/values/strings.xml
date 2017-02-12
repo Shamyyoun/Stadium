@@ -359,6 +359,11 @@
     <string name="add_duration_u"><u>اضافة فترة</u></string>
     <string name="choose_start_date">برجاء اختيار تاريخ البداية</string>
     <string name="failed_logging_out">فشل تسجيل الخروج</string>
+    <string name="stadium_app_is_offered_by">تطبيق Stadium مقدم من</string>
+    <string name="stadium_email">stadium@stormnology.com</string>
+    <string name="stadium_twitter">twitter/stadium</string>
+    <string name="stadium_youtube">youtube/stadium</string>
+    <string name="stadium_snapchat">/stadium</string>
 
 
     <!-- Arrays -->

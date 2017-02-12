@@ -43,7 +43,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/gray_email_icon" />
+                android:src="@drawable/light_gray_email_icon" />
         </RelativeLayout>
 
         <View

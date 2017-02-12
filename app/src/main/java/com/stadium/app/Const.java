@@ -9,9 +9,14 @@ public class Const {
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
     public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
-    //    public static final String END_POINT = "http://stormnology.com/Staduim/test/Service1.svc";
+//    public static final String END_POINT = "http://stormnology.com/Staduim/test/Service1.svc";
 //    public static final String END_POINT = "http://stormnology.com/Staduim/preproduction/Service1.svc";
     public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
+
+    // App contacts:----------------------
+    public static final String CON_STADIUM_EMAIL = "stadium@stormnology.com";
+    public static final String CON_STADIUM_TWITTER = "https://twitter.com/stadium";
+    public static final String CON_STADIUM_YOUTUBE = "https://www.youtube.com/stadium";
 
     // Parse:-----------------------------
     public static final String PARSE_APP_ID = "StaduimId";
