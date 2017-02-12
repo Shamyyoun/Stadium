@@ -50,7 +50,6 @@ public class ParseController implements LogInCallback, SaveCallback {
             // install parse
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
             installation.put(Const.PARSE_KEY_USER_ID, "" + userId);
-            installation.put(Const.PARSE_KEY_LOGGED_IN, true);
             installation.saveInBackground(this);
         } else {
             String msg = "Parse user login failed";
@@ -72,42 +71,6 @@ public class ParseController implements LogInCallback, SaveCallback {
             String msg = "Parse installation failed";
             msg += "\n" + e.getMessage();
             Utils.logE(msg);
-        }
-    }
-
-    public boolean logOut() {
-        // check installation
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        if (installation == null) {
-            return false;
-        }
-
-        try {
-            // change loggedIn flag
-            installation.put(Const.PARSE_KEY_LOGGED_IN, false);
-            installation.save();
-
-            // logout current user
-            logoutCurrentUser();
-
-            // log
-            Utils.logE("Parse changing loggedIn flag successful");
-
-            return true;
-        } catch (ParseException e) {
-            // check exception
-            if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                // no user found
-                // logout logic is successful, so return true
-                Utils.logE("Parse changing loggedIn flag failed because object is not found");
-                return true;
-            } else {
-                String msg = "Parse changing loggedIn flag failed";
-                msg += "\n" + e.getMessage();
-                Utils.logE(msg);
-
-                return false;
-            }
         }
     }
 

@@ -26,7 +26,6 @@ public class Const {
     public static final String PARSE_USERNAME = "stad";
     public static final String PARSE_PASSWORD = "stad";
     public static final String PARSE_KEY_USER_ID = "UserId";
-    public static final String PARSE_KEY_LOGGED_IN = "loggedIn";
 
     // APIs:------------------------------
     public static final String ROUTE_USER = "user";

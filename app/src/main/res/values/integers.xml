@@ -4,4 +4,5 @@
     <integer name="activity_top_translate_anim_duration">950</integer>
     <integer name="user_phone_number_max_chars">10</integer>
     <integer name="user_password_max_chars">16</integer>
+    <integer name="stadium_bio_max_chars">250</integer>
 </resources>
