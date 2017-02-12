@@ -27,8 +27,9 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
     protected Context context;
     protected FrameLayout rootView;
     private TextView tvDialogTitle;
-    private ImageButton ibClose;
+    protected ImageButton ibClose;
     private View progressView;
+    private boolean cancellable = true; // cancellable by default
 
     public ParentDialog(Context context) {
         super(context);
@@ -67,6 +68,7 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
     @Override
     public void setCancelable(boolean flag) {
         super.setCancelable(flag);
+        cancellable = flag;
         if (ibClose != null) {
             ibClose.setVisibility(flag ? View.VISIBLE : View.GONE);
         }
@@ -116,7 +118,9 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
         if (progressView != null) {
             progressView.setVisibility(View.GONE);
         }
-        super.setCancelable(true);
+
+        // reset the original status
+        super.setCancelable(cancellable);
     }
 
     public void cancelWhenDestroyed(ConnectionHandler connectionHandler) {

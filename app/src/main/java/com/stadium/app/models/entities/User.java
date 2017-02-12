@@ -62,6 +62,12 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
     @SerializedName("bio")
     @Expose
     private String bio;
+    @SerializedName("validationNumber")
+    @Expose
+    private String validationNumber;
+    @SerializedName("validationStatus")
+    @Expose
+    private boolean validationStatus;
 
     private boolean checked;
 
@@ -303,6 +309,34 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
         this.bio = bio;
     }
 
+    /**
+     * @return The validationNumber
+     */
+    public String getValidationNumber() {
+        return validationNumber;
+    }
+
+    /**
+     * @param validationNumber The validationNumber
+     */
+    public void setValidationNumber(String validationNumber) {
+        this.validationNumber = validationNumber;
+    }
+
+    /**
+     * @return The validationStatus
+     */
+    public boolean isValidationStatus() {
+        return validationStatus;
+    }
+
+    /**
+     * @param validationStatus The validationStatus
+     */
+    public void setValidationStatus(boolean validationStatus) {
+        this.validationStatus = validationStatus;
+    }
+
     @Override
     public void setChecked(boolean checked) {
         this.checked = checked;
@@ -310,7 +344,6 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
 
     @Override
     public boolean isChecked() {
-        return checked
-                ;
+        return checked;
     }
 }

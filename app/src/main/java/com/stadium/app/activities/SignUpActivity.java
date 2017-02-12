@@ -24,7 +24,9 @@ import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.CityController;
 import com.stadium.app.controllers.ParseController;
 import com.stadium.app.dialogs.PolicyDialog;
+import com.stadium.app.dialogs.VerifyAccountDialog;
 import com.stadium.app.interfaces.ConfirmListener;
+import com.stadium.app.interfaces.OnVerifyAccountListener;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
@@ -140,7 +142,7 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
                 break;
 
             case R.id.tv_login:
-                finish();
+                endActivity();
                 break;
 
             default:
@@ -332,17 +334,8 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
             case Const.API_CREATE_USER:
                 User user = (User) response;
                 if (statusCode == Const.SER_CODE_200) {
-                    // save it
-                    userController.setUser(user);
-                    userController.save();
-
-                    // install parse
-                    parseController.install(user.getId());
-
-                    // goto main activity
-                    Intent intent = new Intent(this, PlayerMainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    // verify account first
+                    showVerifyAccountDialog(user);
                 } else {
                     Utils.showLongToast(this, AppUtils.getResponseMsg(this, user));
                 }
@@ -351,6 +344,42 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
             default:
                 super.onSuccess(response, statusCode, tag);
         }
+    }
+
+    private void showVerifyAccountDialog(final User user) {
+        // create the dialog and add listeners
+        VerifyAccountDialog dialog = new VerifyAccountDialog(this, user.getId());
+        dialog.setOnVerifyAccountListener(new OnVerifyAccountListener() {
+            @Override
+            public void onAccountVerified() {
+                // change status and continue handling the login
+                user.setValidationStatus(true);
+                handleSuccessfulSignup(user);
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                endActivity();
+            }
+        });
+
+        // show the dialog
+        dialog.show();
+    }
+
+    private void handleSuccessfulSignup(User user) {
+        // save it
+        userController.setUser(user);
+        userController.save();
+
+        // install parse
+        parseController.install(user.getId());
+
+        // goto main activity
+        Intent intent = new Intent(this, PlayerMainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -373,6 +402,10 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_dropdown_selected, cities);
         adapter.setDropDownViewResource(R.layout.item_dropdown);
         spCity.setAdapter(adapter);
+    }
+
+    private void endActivity() {
+        onBackPressed();
     }
 
     @Override

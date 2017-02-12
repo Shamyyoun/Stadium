@@ -369,6 +369,15 @@
     <string name="terms_and_conditions">الشروط والأحكام</string>
     <string name="terms_and_conditions_u"><u>الشروط والأحكام</u></string>
     <string name="you_must_accept_terms_and_conditions">يجب الموافقة على الشروط والأحكام</string>
+    <string name="activate_account">تفعيل الحساب</string>
+    <string name="enter_activation_code">ادخل كود التفعيل</string>
+    <string name="resend_code_u"><u>اعادة ارسال الكود</u></string>
+    <string name="activate">تفعيل</string>
+    <string name="failed_activating_account">فشل تفعيل الحساب</string>
+    <string name="code_sent_successfully">تم ارسال الكود بنجاح</string>
+    <string name="failed_sending_code">فشل ارسال الكود</string>
+    <string name="enter_code">ادخل الكود</string>
+    <string name="activation_failed_check_code_try_again">فشل التفعيل، تأكد من الكود وأعد المحاولة</string>
 
 
     <!-- Arrays -->

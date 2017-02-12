@@ -16,6 +16,8 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.ParseController;
 import com.stadium.app.dialogs.ForgetPasswordDialog;
+import com.stadium.app.dialogs.VerifyAccountDialog;
+import com.stadium.app.interfaces.OnVerifyAccountListener;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
 import com.stadium.app.utils.Utils;
@@ -119,27 +121,53 @@ public class LoginActivity extends ParentActivity {
         hideProgressDialog();
         User user = (User) response;
         if (statusCode == Const.SER_CODE_200) {
-            // save him
-            userController.setUser(user);
-            userController.save();
-
-            // install parse
-            parseController.install(user.getId());
-
-            // check his role in the system, if admin or not to goto suitable activity
-            Intent intent;
-            if (userController.isAdmin()) {
-                intent = new Intent(this, AdminMainActivity.class);
+            // check validation status
+            if (user.isValidationStatus()) {
+                handleSuccessfulLogin(user);
             } else {
-                intent = new Intent(this, PlayerMainActivity.class);
+                // show verify account dialog
+                showVerifyAccountDialog(user);
             }
-
-            // goto suitable activity
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
         } else {
             Utils.showShortToast(this, AppUtils.getResponseMsg(this, response));
         }
+    }
+
+    private void handleSuccessfulLogin(User user) {
+        // save him
+        userController.setUser(user);
+        userController.save();
+
+        // install parse
+        parseController.install(user.getId());
+
+        // check his role in the system, if admin or not to goto suitable activity
+        Intent intent;
+        if (userController.isAdmin()) {
+            intent = new Intent(this, AdminMainActivity.class);
+        } else {
+            intent = new Intent(this, PlayerMainActivity.class);
+        }
+
+        // goto suitable activity
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void showVerifyAccountDialog(final User user) {
+        // create the dialog and set its listener
+        VerifyAccountDialog dialog = new VerifyAccountDialog(this, user.getId());
+        dialog.setOnVerifyAccountListener(new OnVerifyAccountListener() {
+            @Override
+            public void onAccountVerified() {
+                // change status and continue handling the login
+                user.setValidationStatus(true);
+                handleSuccessfulLogin(user);
+            }
+        });
+
+        // show the dialog
+        dialog.show();
     }
 
     private void forgetPassword() {

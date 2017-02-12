@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:minHeight="@dimen/min_dialog_height"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_dialog_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="30dp">
+
+        <EditText
+            android:id="@+id/et_code"
+            style="@style/OrangeStrokedEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_activation_code"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:selectAllOnFocus="true" />
+
+        <TextView
+            android:id="@+id/tv_resend_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:padding="7dp"
+            android:text="@string/resend_code_u"
+            android:textColor="@color/clickable_orange_text" />
+    </LinearLayout>
+
+    <com.stadium.app.views.DarkenedButton
+        android:id="@+id/btn_submit"
+        style="@style/DialogOrangeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
+        android:text="@string/activate" />
+</LinearLayout>

@@ -64,9 +64,9 @@ public class PolicyDialog extends ParentDialog {
         }
     }
 
-    private void confirm(boolean confirm) {
+    private void confirm(boolean flag) {
         if (confirmListener != null) {
-            if (confirm) {
+            if (flag) {
                 confirmListener.onAccept();
             } else {
                 confirmListener.onDecline();

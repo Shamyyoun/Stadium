@@ -843,4 +843,13 @@ public class Utils {
             return null;
         }
     }
+
+    /**
+     * method, used to check boolean object if null and check its value
+     * @param bool
+     * @return
+     */
+    public static boolean checkBoolean(Boolean bool) {
+        return (bool != null && bool);
+    }
 }

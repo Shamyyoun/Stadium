@@ -1199,4 +1199,31 @@ public class ApiRequests {
         connectionHandler.executeGet();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<Boolean> phoneValidation(Context context, ConnectionListener<Boolean> listener,
+                                                    int userId, String validationNumber) {
+        // create the request body
+        User body = new User();
+        body.setId(userId);
+        body.setValidationNumber(validationNumber);
+
+        // create & execute the request
+        ConnectionHandler<Boolean> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_PHONE_VALIDATION), Boolean.class, listener, body, Const.API_PHONE_VALIDATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Boolean> resendValidation(Context context, ConnectionListener<Boolean> listener,
+                                                     int userId) {
+        // create the request body
+        User body = new User();
+        body.setId(userId);
+
+        // create & execute the request
+        ConnectionHandler<Boolean> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_RESEND_VALIDATION), Boolean.class, listener, body, Const.API_RESEND_VALIDATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
 }

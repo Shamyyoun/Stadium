@@ -55,7 +55,6 @@ public class Const {
     public static final String API_RESERVATIONS_OF_TEAM = "ReservationsOfTeam";
     public static final String API_CHANGE_CAPTAIN = "ChangeCaptain";
     public static final String API_LEAVE_TEAM = "leaveTeam";
-    public static final String API_CANCEL_RESERVATION = "deleteReservation";
     public static final String API_DELETE_RESERVATION = "DeleteReservation";
     public static final String API_PLAYER_CONFIRMED_LIST = "playerConfirmedList";
     public static final String API_MY_TEAMS_RESERVATIONS = "myTeamsReservations";
@@ -89,6 +88,8 @@ public class Const {
     public static final String API_ADD_MONTHLY_RESERVATIONS = "addMonthlyReservations";
     public static final String API_CHANGE_DURATION = "ChangeDuration";
     public static final String API_STADIUM_PROFILE = "stadiumProfile";
+    public static final String API_PHONE_VALIDATION = "phoneValidation";
+    public static final String API_RESEND_VALIDATION = "resendValidation";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
