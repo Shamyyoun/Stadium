@@ -364,6 +364,11 @@
     <string name="stadium_twitter">twitter/stadium</string>
     <string name="stadium_youtube">youtube/stadium</string>
     <string name="stadium_snapchat">/stadium</string>
+    <string name="accept">اوافق</string>
+    <string name="not_accept">لا اوافق</string>
+    <string name="terms_and_conditions">الشروط والأحكام</string>
+    <string name="terms_and_conditions_u"><u>الشروط والأحكام</u></string>
+    <string name="you_must_accept_terms_and_conditions">يجب الموافقة على الشروط والأحكام</string>
 
 
     <!-- Arrays -->

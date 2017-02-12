@@ -158,7 +158,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:text="----/--/--"
-                android:textColor="@color/clickable_gray_text" />
+                android:textColor="@color/clickable_dark_gray_text" />
 
             <ImageButton
                 android:id="@+id/ib_next_day"

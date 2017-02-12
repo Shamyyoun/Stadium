@@ -4,11 +4,10 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +23,8 @@ import com.stadium.app.connection.ConnectionHandler;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.CityController;
 import com.stadium.app.controllers.ParseController;
+import com.stadium.app.dialogs.PolicyDialog;
+import com.stadium.app.interfaces.ConfirmListener;
 import com.stadium.app.models.entities.City;
 import com.stadium.app.models.entities.User;
 import com.stadium.app.utils.AppUtils;
@@ -41,7 +42,7 @@ import java.util.List;
 /**
  * Created by karam on 6/29/16.
  */
-public class SignUpActivity extends PicPickerActivity {
+public class SignUpActivity extends PicPickerActivity implements ConfirmListener {
     private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
 
     private ActiveUserController userController;
@@ -54,12 +55,15 @@ public class SignUpActivity extends PicPickerActivity {
     private EditText etPhone;
     private EditText etPassword;
     private EditText etRePassword;
+    private CheckBox cbPolicy;
+    private TextView tvPolicy;
     private Button btnRegister;
     private TextView tvLogin;
 
     private List<City> cities;
     private File image;
     private DatePickerFragment datePickerFragment;
+    private PolicyDialog policyDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,24 +82,17 @@ public class SignUpActivity extends PicPickerActivity {
         etPhone = (EditText) findViewById(R.id.et_phone);
         etPassword = (EditText) findViewById(R.id.et_password);
         etRePassword = (EditText) findViewById(R.id.et_re_password);
+        cbPolicy = (CheckBox) findViewById(R.id.cb_policy);
+        tvPolicy = (TextView) findViewById(R.id.tv_policy);
         btnRegister = (Button) findViewById(R.id.btn_register);
         tvLogin = (TextView) findViewById(R.id.tv_login);
 
         // add listeners
         ivImage.setOnClickListener(this);
         btnBirthdate.setOnClickListener(this);
+        tvPolicy.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
-        etRePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    register();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         updateCitiesUI();
         loadCities();
@@ -132,6 +129,10 @@ public class SignUpActivity extends PicPickerActivity {
 
             case R.id.btn_birthdate:
                 chooseBirthdate();
+                break;
+
+            case R.id.tv_policy:
+                openPolicyDialog();
                 break;
 
             case R.id.btn_register:
@@ -225,6 +226,29 @@ public class SignUpActivity extends PicPickerActivity {
         datePickerFragment.show(getSupportFragmentManager(), null);
     }
 
+    private void openPolicyDialog() {
+        // create the dialog if required
+        if (policyDialog == null) {
+            policyDialog = new PolicyDialog(this);
+            policyDialog.setConfirmListener(this);
+        }
+
+        // show it
+        policyDialog.show();
+    }
+
+    // policy accepted method
+    @Override
+    public void onAccept() {
+        cbPolicy.setChecked(true);
+    }
+
+    // policy decline method
+    @Override
+    public void onDecline() {
+        cbPolicy.setChecked(false);
+    }
+
     private void register() {
         // prepare params
         String name = Utils.getText(etName);
@@ -234,7 +258,7 @@ public class SignUpActivity extends PicPickerActivity {
         String password = etPassword.getText().toString();
         String rePassword = etRePassword.getText().toString();
 
-        // validate inputs
+        // validate conditions
         if (Utils.isEmpty(name)) {
             etName.setError(getString(R.string.required));
             return;
@@ -261,6 +285,10 @@ public class SignUpActivity extends PicPickerActivity {
         }
         if (!password.equals(rePassword)) {
             etRePassword.setError(getString(R.string.passwords_dont_match));
+            return;
+        }
+        if (!cbPolicy.isChecked()) {
+            Utils.showShortToast(this, R.string.you_must_accept_terms_and_conditions);
             return;
         }
 

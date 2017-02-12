@@ -37,6 +37,9 @@ import com.squareup.picasso.RequestCreator;
 import com.stadium.app.Const;
 import com.stadium.app.R;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -787,6 +790,7 @@ public class Utils {
 
     /**
      * print content of intent extras
+     *
      * @param intent
      */
     public static void printContent(Intent intent) {
@@ -801,6 +805,7 @@ public class Utils {
 
     /**
      * print content of bundle
+     *
      * @param bundle
      */
     public static void printContent(Bundle bundle) {
@@ -811,6 +816,31 @@ public class Utils {
         for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
             logE("Key: " + key + "  --  Value: " + value.toString());
+        }
+    }
+
+    /**
+     * method, used to read content of text file in raw folder
+     *
+     * @param context
+     * @param rawResId
+     * @return
+     */
+    public static String getRawText(Context context, int rawResId) {
+        try {
+            InputStream is = context.getResources().openRawResource(rawResId);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+
+            is.close();
+            return sb.toString();
+        } catch (Exception e) {
+            return null;
         }
     }
 }
