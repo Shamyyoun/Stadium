@@ -13,7 +13,7 @@ public class DateUtils {
     public static Calendar convertToCalendar(String strDate, String strFormat) {
         try {
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
-            final DateFormat df = new SimpleDateFormat(strFormat);
+            final DateFormat df = new SimpleDateFormat(strFormat, Locale.ENGLISH);
             calendar.setTime(df.parse(strDate));
 
             return calendar;
@@ -24,7 +24,7 @@ public class DateUtils {
 
     public static String convertToString(Calendar calendar, String strFormat) {
         try {
-            SimpleDateFormat format = new SimpleDateFormat(strFormat);
+            SimpleDateFormat format = new SimpleDateFormat(strFormat, Locale.ENGLISH);
             String strDate = format.format(calendar.getTime());
             return strDate;
         } catch (Exception e) {
@@ -38,10 +38,7 @@ public class DateUtils {
 
     public static String getDayName(String date, String dateFormat) {
         Calendar calendar = convertToCalendar(date, dateFormat);
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        String dayName = sdf.format(calendar.getTime());
-
-        return dayName;
+        return getDayName(calendar);
     }
 
     public static String getDayName(Calendar date) {
@@ -101,12 +98,8 @@ public class DateUtils {
 
     public static Calendar addHours(String strDate, String strFormat, int hoursToAdd) {
         Calendar calendar = convertToCalendar(strDate, strFormat);
-        if (calendar != null) {
-            calendar.add(Calendar.HOUR, hoursToAdd);
-            return calendar;
-        } else {
-            return null;
-        }
+        calendar.add(Calendar.HOUR, hoursToAdd);
+        return calendar;
     }
 
     /**
@@ -129,5 +122,26 @@ public class DateUtils {
         long calMillis2 = convertToCalendar(strDate2, dateFormat).getTimeInMillis();
 
         return calMillis2 - calMillis1;
+    }
+
+    public static String getLocalizedDate(String date) {
+        try {
+            // check language
+            String lang = Utils.getAppLanguage();
+            if ("ar".equals(lang)) {
+                // arabic
+                // format date to be arabic
+                date = date.toLowerCase().replace("am", "ص").replace("pm", "م");
+            } else {
+                // not arabic,
+                // mostly it should be english
+                // format ∂ate to be english
+                date = date.replace("ص", "AM").replace("م", "PM");
+            }
+
+        } catch (Exception e) {
+        }
+
+        return date;
     }
 }

@@ -845,7 +845,6 @@ public class Utils {
     }
 
     /**
-     * method, used to check boolean object if null and check its value
      * @param bool
      * @return
      */
