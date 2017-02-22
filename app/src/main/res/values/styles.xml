@@ -210,8 +210,12 @@
     <style name="StadiumContactsTextView">
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:drawablePadding">12dp</item>
-        <item name="android:padding">7dp</item>
         <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="DialogTransitions">
+        <item name="android:windowEnterAnimation">@anim/dialog_translate_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_scale_fade_exit</item>
     </style>
 
 </resources>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/scale_fade_anim_duration">
+    android:duration="@integer/dialog_scale_fade_anim_duration">
 
     <scale
         android:fromXScale="100%"
         android:fromYScale="100%"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toXScale="120%"
-        android:toYScale="120%" />
+        android:toXScale="110%"
+        android:toYScale="110%" />
 
     <alpha
         android:fromAlpha="1"

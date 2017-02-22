@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.Window;
+
+import com.stadium.app.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,8 +29,11 @@ public class TimePickerFragment extends DialogFragment {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
+        // create TimePickerDialog instance and customize it
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
                 timePickerListener, hour, minute, false);
+        timePickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        timePickerDialog.getWindow().getAttributes().windowAnimations = R.style.DialogTransitions;
 
         return timePickerDialog;
     }

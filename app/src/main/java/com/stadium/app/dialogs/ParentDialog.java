@@ -35,8 +35,9 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
         super(context);
         this.context = context;
 
-        // set no title
+        // customize dialog
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().getAttributes().windowAnimations = R.style.DialogTransitions;
     }
 
     @Override

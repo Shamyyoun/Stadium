@@ -4,6 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.Window;
+
+import com.stadium.app.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,9 +32,11 @@ public class DatePickerFragment extends DialogFragment {
         int month = date.get(Calendar.MONTH);
         int day = date.get(Calendar.DAY_OF_MONTH);
 
-        // create DatePickerDialog instance
+        // create DatePickerDialog instance and customize it
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), datePickerListener, year, month, day);
         datePickerDialog.getDatePicker().setSpinnersShown(true);
+        datePickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        datePickerDialog.getWindow().getAttributes().windowAnimations = R.style.DialogTransitions;
 
         // set min & max if possible
         if (minDate != null) {
