@@ -667,7 +667,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         int stadiumId = user.getAdminStadium().getId();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.cancelReservationByAdmin(context, listener,
+        ConnectionHandler connectionHandler = ApiRequests.cancelReservation(context, listener,
                 user.getId(), user.getToken(), stadiumId, reservation.getId());
         cancelWhenDestroyed(connectionHandler);
     }

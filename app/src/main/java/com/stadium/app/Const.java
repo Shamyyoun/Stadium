@@ -8,8 +8,8 @@ public class Const {
     public static final String LOG_TAG = "Stadium";
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
-    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
-    //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
+    //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
+    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
     public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
 
     // App contacts:----------------------
@@ -76,7 +76,7 @@ public class Const {
     public static final String API_ABSENT_RESERVATION = "AbsentReservation";
     public static final String API_BLOCK_TEAM = "BlockTeam";
     public static final String API_ABSENT_BLOCK_RESERVATION = "absent_Block_Reservation";
-    public static final String API_CANCEL_RES_BY_ADMIN = "CancelResByAdmin";
+    public static final String API_CANCEL_RESERVATION = "cancelReservation";
     public static final String API_UNBLOCK_TEAM = "UnblockTeam";
     public static final String API_MY_BLOCKED_LIST = "MyBlockedList";
     public static final String API_GET_ALL_TEAMS = "getAllTeams";

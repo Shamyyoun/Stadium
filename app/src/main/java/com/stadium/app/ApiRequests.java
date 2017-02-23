@@ -938,9 +938,9 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler cancelReservationByAdmin(Context context, ConnectionListener listener,
-                                                             int userId, String userToken,
-                                                             int stadiumId, int reservationId) {
+    public static ConnectionHandler cancelReservation(Context context, ConnectionListener listener,
+                                                      int userId, String userToken,
+                                                      int stadiumId, int reservationId) {
         // create the request body
         AdminReservationActionBody body = new AdminReservationActionBody();
         AdminBody admin = new AdminBody();
@@ -951,15 +951,15 @@ public class ApiRequests {
         Stadium stadium = new Stadium();
         stadium.setId(stadiumId);
         admin.setHisStadium(stadium);
-        body.setAdmin(admin);
+        body.setUser(admin);
         Reservation reservation = new Reservation();
         reservation.setId(reservationId);
         body.setReservation(reservation);
 
         // create & execute the request
         ConnectionHandler connectionHandler = new ConnectionHandler(context,
-                AppUtils.getAdminApiUrl(Const.API_CANCEL_RES_BY_ADMIN), null, listener, body,
-                Const.API_CANCEL_RES_BY_ADMIN);
+                AppUtils.getAdminApiUrl(Const.API_CANCEL_RESERVATION), null, listener, body,
+                Const.API_CANCEL_RESERVATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -1201,7 +1201,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Boolean> phoneValidation(Context context, ConnectionListener<Boolean> listener,
-                                                    int userId, String validationNumber) {
+                                                             int userId, String validationNumber) {
         // create the request body
         User body = new User();
         body.setId(userId);
@@ -1215,7 +1215,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Boolean> resendValidation(Context context, ConnectionListener<Boolean> listener,
-                                                     int userId) {
+                                                              int userId) {
         // create the request body
         User body = new User();
         body.setId(userId);

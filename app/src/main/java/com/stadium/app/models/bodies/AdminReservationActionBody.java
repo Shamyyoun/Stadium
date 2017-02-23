@@ -12,6 +12,9 @@ public class AdminReservationActionBody {
     @SerializedName("admin")
     @Expose
     private AdminBody admin;
+    @SerializedName("user")
+    @Expose
+    private AdminBody user;
     @SerializedName("b")
     @Expose
     private int b;
@@ -58,4 +61,17 @@ public class AdminReservationActionBody {
         this.b = b;
     }
 
+    /**
+     * @return The user
+     */
+    public AdminBody getUser() {
+        return user;
+    }
+
+    /**
+     * @param user The user
+     */
+    public void setUser(AdminBody user) {
+        this.user = user;
+    }
 }
