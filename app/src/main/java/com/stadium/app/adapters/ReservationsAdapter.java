@@ -204,37 +204,40 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             }
         }
 
-        // check reservations type to customize the item clickable or not
-        if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS
-                || reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
-            // make the item not clickable
-            holder.layoutContent.setEnabled(false);
-            holder.ivIndicator.setVisibility(View.GONE);
-        } else if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
-                || reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS
-                || reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
-            // make the item not clickable
-            holder.layoutContent.setEnabled(false);
-        } else if (reservationsType == ReservationsType.TEAM_RESERVATIONS && teamPlayers != null) {
+        // check reservations type to customize clickable root and action iv
+        if (reservationsType == ReservationsType.TEAM_RESERVATIONS && teamPlayers != null) {
+            // this is team reservations
             // check if the user is a player in this team
             if (teamController.isTeamPlayer(teamPlayers, user.getId())) {
-                // show the indicator
-                holder.ivIndicator.setVisibility(View.VISIBLE);
+                // show arrow indicator
+                holder.ivAction.setImageResource(R.drawable.arrow_left);
+                holder.ivAction.setEnabled(false);
+                holder.ivAction.setVisibility(View.VISIBLE);
 
                 // check if the reservation is waiting to customize views
                 if (Reservation.CONFIRM_WAITING.equals(item.getConfirm())) {
                     holder.layoutContent.setEnabled(false);
-                    holder.ivIndicator.setImageResource(R.drawable.warning_icon);
+                    holder.ivAction.setImageResource(R.drawable.warning_icon);
                 } else {
                     holder.layoutContent.setEnabled(true);
-                    holder.ivIndicator.setImageResource(R.drawable.arrow_left);
+                    holder.ivAction.setImageResource(R.drawable.arrow_left);
                 }
             } else {
                 // he is not a player, so make the content layout not clickable
                 // to prevent him from clicking and opening the attendance dialog
-                holder.ivIndicator.setVisibility(View.GONE);
+                holder.ivAction.setVisibility(View.GONE);
                 holder.layoutContent.setEnabled(false);
             }
+        } else if (reservationsType == ReservationsType.PLAYER_RESERVATIONS) {
+            // this is normal player reservations
+            // show arrow indicator
+            holder.ivAction.setImageResource(R.drawable.arrow_left);
+            holder.ivAction.setEnabled(false);
+            holder.ivAction.setVisibility(View.VISIBLE);
+        } else {
+            // this is admin reservations
+            // make the item not clickable
+            holder.layoutContent.setEnabled(false);
         }
 
         // create the global click listener
@@ -244,6 +247,10 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                 switch (v.getId()) {
                     case R.id.layout_content:
                         openAttendanceDialog(position);
+                        break;
+
+                    case R.id.iv_action:
+                        openPhoneIntent(position);
                         break;
 
                     case R.id.btn_action1:
@@ -261,37 +268,49 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             }
         };
 
-        // customize buttons according to reservations type and add their click listener
+        // add click listeners
+        addClickListener(holder.layoutContent, clickListener);
+        addClickListener(holder.ivAction, clickListener);
+        addClickListener(holder.btnAction1, clickListener);
+        addClickListener(holder.btnAction2, clickListener);
+        addClickListener(holder.btnAction3, clickListener);
+
+        // customize buttons according to reservations type
         if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
             holder.btnAction1.setText(confirm);
-            holder.btnAction1.setOnClickListener(clickListener);
-
             holder.btnAction2.setText(R.string.refuse);
-            holder.btnAction2.setOnClickListener(clickListener);
-
             holder.btnAction3.setVisibility(View.GONE);
             holder.viewDivider2.setVisibility(View.GONE);
         } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
             holder.btnAction1.setText(R.string.didnt_attend);
-            holder.btnAction1.setOnClickListener(clickListener);
-
             holder.btnAction2.setText(R.string.block_team);
             holder.btnAction2.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.confirm_icon, 0, 0, 0);
-            holder.btnAction2.setOnClickListener(clickListener);
-
             holder.btnAction3.setText(R.string.both);
-            holder.btnAction3.setOnClickListener(clickListener);
         } else if (reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
             holder.btnAction2.setText(R.string.cancel_reservation);
-            holder.btnAction2.setOnClickListener(clickListener);
-
             holder.btnAction1.setVisibility(View.GONE);
             holder.btnAction3.setVisibility(View.GONE);
             holder.viewDivider1.setVisibility(View.GONE);
             holder.viewDivider2.setVisibility(View.GONE);
+        }
+    }
+
+    private void openAttendanceDialog(int position) {
+        Reservation reservation = data.get(position);
+        AttendanceDialog dialog = new AttendanceDialog(context, reservation.getId());
+        dialog.show();
+    }
+
+    private void openPhoneIntent(int position) {
+        // get suitable phone
+        Reservation reservation = data.get(position);
+        String phone = reservationController.getPhone(reservation);
+
+        // check phone
+        if (!Utils.isNullOrEmpty(phone)) {
+            Utils.openPhoneIntent(context, phone);
         } else {
-            holder.layoutContent.setOnClickListener(clickListener);
-            holder.btnAction1.setOnClickListener(clickListener);
+            Utils.showShortToast(context, R.string.no_available_phone_for_this_reservation);
         }
     }
 
@@ -302,7 +321,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
             showDidntAttendConfirmDialog(position);
         } else {
-            logE("Position1: " + position);
             showCancelConfirmDialog(position);
         }
     }
@@ -348,7 +366,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         DialogUtils.showConfirmDialog(context, R.string.cancel_reservation_q, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                logE("Position2: " + position);
                 cancel(position);
             }
         }, null);
@@ -379,12 +396,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
                 reportDidntAttendAndBlock(position);
             }
         }, null);
-    }
-
-    private void openAttendanceDialog(int position) {
-        Reservation reservation = data.get(position);
-        AttendanceDialog dialog = new AttendanceDialog(context, reservation.getId());
-        dialog.show();
     }
 
     private void confirmReservation(final int position, final boolean confirm) {
@@ -578,7 +589,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
     }
 
     private void cancel(final int position) {
-        logE("Position3: " + position);
         // get the reservation
         final Reservation reservation = data.get(position);
 
@@ -598,7 +608,6 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
                 // check status code
                 if (statusCode == Const.SER_CODE_200) {
-                    logE("Position4: " + position);
                     removeItem(position);
 
                     // show msg
@@ -672,9 +681,15 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         cancelWhenDestroyed(connectionHandler);
     }
 
+    private void addClickListener(View view, View.OnClickListener clickListener) {
+        if (view != null) {
+            view.setOnClickListener(clickListener);
+        }
+    }
+
     class ViewHolder extends ParentRecyclerViewHolder {
         private View layoutContent;
-        private ImageView ivIndicator;
+        private ImageView ivAction;
         private ImageView ivImage;
         private TextView tvReservationsCount;
         private TextView tvName;
@@ -695,7 +710,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             super(itemView);
 
             layoutContent = findViewById(R.id.layout_content);
-            ivIndicator = (ImageView) findViewById(R.id.iv_indicator);
+            ivAction = (ImageView) findViewById(R.id.iv_action);
             ivImage = (ImageView) findViewById(R.id.iv_image);
             tvReservationsCount = (TextView) findViewById(R.id.tv_reservations_count);
             tvName = (TextView) findViewById(R.id.tv_name);

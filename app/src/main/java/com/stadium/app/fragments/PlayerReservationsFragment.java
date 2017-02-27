@@ -21,6 +21,7 @@ import com.stadium.app.interfaces.OnRefreshListener;
 import com.stadium.app.models.SerializableListWrapper;
 import com.stadium.app.models.entities.Reservation;
 import com.stadium.app.models.entities.User;
+import com.stadium.app.models.enums.ReservationsType;
 import com.stadium.app.utils.Utils;
 
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class PlayerReservationsFragment extends ProgressFragment {
     private void updateUI() {
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation_simple);
         recyclerView.setAdapter(adapter);
+        adapter.setReservationsType(ReservationsType.PLAYER_RESERVATIONS);
         showMain();
     }
 

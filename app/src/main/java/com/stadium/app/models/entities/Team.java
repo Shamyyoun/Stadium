@@ -58,6 +58,9 @@ public class Team extends ServerResponse implements Checkable, Serializable {
     @SerializedName("totalRes")
     @Expose
     private int totalRes;
+    @SerializedName("captainPhone")
+    @Expose
+    private String captainPhone;
     private boolean checked;
 
     /**
@@ -282,6 +285,20 @@ public class Team extends ServerResponse implements Checkable, Serializable {
      */
     public void setTotalRes(int totalRes) {
         this.totalRes = totalRes;
+    }
+
+    /**
+     * @param captainPhone The captainPhone
+     */
+    public void setCaptainPhone(String captainPhone) {
+        this.captainPhone = captainPhone;
+    }
+
+    /**
+     * @return The captainPhone
+     */
+    public String getCaptainPhone() {
+        return captainPhone;
     }
 
     @Override

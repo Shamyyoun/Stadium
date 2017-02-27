@@ -378,6 +378,7 @@
     <string name="failed_sending_code">فشل ارسال الكود</string>
     <string name="enter_code">ادخل الكود</string>
     <string name="activation_failed_check_code_try_again">فشل التفعيل، تأكد من الكود وأعد المحاولة</string>
+    <string name="no_available_phone_for_this_reservation">لا يوجد رقم جوال متاح لهذا الحجز</string>
 
 
     <!-- Arrays -->

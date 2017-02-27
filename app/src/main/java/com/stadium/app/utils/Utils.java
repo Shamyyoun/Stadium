@@ -698,6 +698,22 @@ public class Utils {
     }
 
     /**
+     * method, used to open the phone intent using the passed phone number
+     *
+     * @param context
+     * @param phone
+     */
+    public static void openCallIntent(Context context, String phone) {
+        if (Utils.isNullOrEmpty(phone)) {
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + phone));
+        context.startActivity(intent);
+    }
+
+    /**
      * method, used to open the email intent using the passed email address
      *
      * @param context

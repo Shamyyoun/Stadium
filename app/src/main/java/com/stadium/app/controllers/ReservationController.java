@@ -78,4 +78,13 @@ public class ReservationController {
 
         return text;
     }
+
+    public String getPhone(Reservation reservation) {
+        Team team = reservation.getReservationTeam();
+        if (team != null &&  !Utils.isNullOrEmpty(team.getCaptainPhone())) {
+            return team.getCaptainPhone();
+        } else {
+            return reservation.getCustomerPhone();
+        }
+    }
 }
