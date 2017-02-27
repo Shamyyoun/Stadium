@@ -125,7 +125,7 @@ public class AdminAddReservationDialog extends ParentDialog {
         // send request
         ConnectionHandler connectionHandler = ApiRequests.adminAddReservation(context, this,
                 user.getId(), user.getToken(), user.getAdminStadium().getId(), name, phone,
-                reservation.getIntrvalNum(), price, fieldId, reservation.getDate(),
+                reservation.getIntervalNum(), price, fieldId, reservation.getDate(),
                 reservation.getTimeStart(), reservation.getTimeEnd());
         cancelWhenDestroyed(connectionHandler);
     }

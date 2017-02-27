@@ -714,7 +714,7 @@ public class ApiRequests {
         body.setCaptain(captain);
         Reservation reservation = new Reservation();
         reservation.setPlayerId(playersIds);
-        reservation.setIntrvalNum(intervalNum);
+        reservation.setIntervalNum(intervalNum);
         reservation.setPrice(price);
         reservation.setPlayerCounter(playersCount);
         Field field = new Field();
@@ -1030,7 +1030,7 @@ public class ApiRequests {
         Reservation reservation = new Reservation();
         reservation.setCustomerName(customerName);
         reservation.setCustomerPhone(customerPhone);
-        reservation.setIntrvalNum(intervalNum);
+        reservation.setIntervalNum(intervalNum);
         reservation.setPrice(price);
         Field field = new Field();
         field.setId(fieldId);

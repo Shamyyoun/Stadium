@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/dark_gray_email_icon"
+                android:padding="5dp"
                 android:text="@string/stadium_email" />
 
             <TextView
@@ -61,6 +62,7 @@
                 android:layout_marginTop="3dp"
                 android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/dark_gray_twitter_icon"
+                android:padding="5dp"
                 android:text="@string/stadium_twitter" />
 
             <TextView
@@ -71,6 +73,7 @@
                 android:layout_marginTop="3dp"
                 android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/dark_gray_youtube_icon"
+                android:padding="5dp"
                 android:text="@string/stadium_youtube" />
 
             <TextView
@@ -81,6 +84,7 @@
                 android:layout_marginTop="3dp"
                 android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/dark_gray_snapchat_icon"
+                android:padding="5dp"
                 android:text="@string/stadium_snapchat" />
         </LinearLayout>
     </ScrollView>

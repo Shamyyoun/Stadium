@@ -18,7 +18,7 @@ public class Reservation extends ServerResponse implements Serializable {
     private int id;
     @SerializedName("IntrvalNum")
     @Expose
-    private int intrvalNum;
+    private int intervalNum;
     @SerializedName("Price")
     @Expose
     private int price;
@@ -83,17 +83,17 @@ public class Reservation extends ServerResponse implements Serializable {
     }
 
     /**
-     * @return The intrvalNum
+     * @return The intervalNum
      */
-    public int getIntrvalNum() {
-        return intrvalNum;
+    public int getIntervalNum() {
+        return intervalNum;
     }
 
     /**
-     * @param intrvalNum The IntrvalNum
+     * @param intervalNum The IntrvalNum
      */
-    public void setIntrvalNum(int intrvalNum) {
-        this.intrvalNum = intrvalNum;
+    public void setIntervalNum(int intervalNum) {
+        this.intervalNum = intervalNum;
     }
 
     /**
