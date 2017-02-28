@@ -17,7 +17,6 @@ import com.stadium.app.controllers.DurationController;
 import com.stadium.app.models.entities.Duration;
 import com.stadium.app.utils.DateUtils;
 import com.stadium.app.utils.TimePickerFragment;
-import com.stadium.app.utils.Utils;
 
 import java.util.List;
 
@@ -126,18 +125,9 @@ public class StadiumDurationsAdapter extends ParentRecyclerAdapter<Duration> {
         timePickerFragment.setTimePickerListener(new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                // prepare start time
+                // set start time
                 String startTime = hourOfDay + ":" + minute;
                 startTime = DateUtils.formatDate(startTime, "H:m", Const.SER_TIME_FORMAT);
-
-                // check times if possible
-                if (duration.getEndTime() != null
-                        && !durationController.checkTimesValid(startTime, duration.getEndTime())) {
-                    // remove end time
-                    duration.setEndTime(null);
-                }
-
-                // set start time & notify the adapter
                 duration.setStartTime(startTime);
                 notifyItemChanged(position);
             }
@@ -162,20 +152,11 @@ public class StadiumDurationsAdapter extends ParentRecyclerAdapter<Duration> {
         timePickerFragment.setTimePickerListener(new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                // prepare end time
+                // set end time
                 String endTime = hourOfDay + ":" + minute;
                 endTime = DateUtils.formatDate(endTime, "H:m", Const.SER_TIME_FORMAT);
-
-                // check times if possible
-                if (duration.getStartTime() != null
-                        && !durationController.checkTimesValid(duration.getStartTime(), endTime)) {
-                    // show msg
-                    Utils.showShortToast(context, R.string.end_time_must_be_higher_one_hour);
-                } else {
-                    // set end time and update this item
-                    duration.setEndTime(endTime);
-                    notifyItemChanged(position);
-                }
+                duration.setEndTime(endTime);
+                notifyItemChanged(position);
             }
         });
 
