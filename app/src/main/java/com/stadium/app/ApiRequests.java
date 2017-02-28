@@ -45,7 +45,8 @@ import java.util.List;
  * Created by Shamyyoun on 5/31/16.
  */
 public class ApiRequests {
-    public static ConnectionHandler<User> login(Context context, ConnectionListener<User> listener, String phone, String password) {
+    public static ConnectionHandler<User> login(Context context, ConnectionListener<User> listener,
+                                                String phone, String password) {
         // create the request body
         User body = new User();
         body.setPhone(phone);
@@ -58,7 +59,8 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<ServerResponse> checkEmail(Context context, ConnectionListener<ServerResponse> listener, String phone) {
+    public static ConnectionHandler<ServerResponse> checkEmail(Context context, ConnectionListener<ServerResponse> listener,
+                                                               String phone) {
         // create the request body
         User body = new User();
         body.setPhone(phone);
@@ -1223,6 +1225,23 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<Boolean> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_RESEND_VALIDATION), Boolean.class, listener, body, Const.API_RESEND_VALIDATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler changePassword(Context context, ConnectionListener listener,
+                                                   int userId, String userToken,
+                                                   String password, String newPassword) {
+        // create the request body
+        User body = new User();
+        body.setId(userId);
+        body.setToken(userToken);
+        body.setPassword(password);
+        body.setNewPassword(newPassword);
+
+        // create & execute the request
+        ConnectionHandler connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHANGE_PASSWORD), null, listener, body, Const.API_CHANGE_PASSWORD);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

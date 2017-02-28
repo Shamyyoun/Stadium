@@ -285,6 +285,10 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
             etPassword.setError(getString(R.string.too_short_password));
             return;
         }
+        if (Utils.isEmpty(rePassword)) {
+            etRePassword.setError(getString(R.string.required));
+            return;
+        }
         if (!password.equals(rePassword)) {
             etRePassword.setError(getString(R.string.passwords_dont_match));
             return;
@@ -369,6 +373,10 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
     }
 
     private void handleSuccessfulSignup(User user) {
+        // set user password
+        String password = Utils.getText(etPassword);
+        user.setPassword(password);
+
         // save it
         userController.setUser(user);
         userController.save();

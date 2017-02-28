@@ -26,7 +26,7 @@ public class VerifyAccountDialog extends ParentDialog {
 
     private EditText etCode;
     private TextView tvResendCode;
-    private Button btnActivate;
+    private Button btnSubmit;
 
     private OnVerifyAccountListener onVerifyAccountListener;
 
@@ -46,12 +46,11 @@ public class VerifyAccountDialog extends ParentDialog {
         // init views
         etCode = (EditText) findViewById(R.id.et_code);
         tvResendCode = (TextView) findViewById(R.id.tv_resend_code);
-        btnActivate = (Button) findViewById(R.id.btn_submit);
+        btnSubmit = (Button) findViewById(R.id.btn_submit);
 
         // add listeners
-        ibClose.setOnClickListener(this);
         tvResendCode.setOnClickListener(this);
-        btnActivate.setOnClickListener(this);
+        btnSubmit.setOnClickListener(this);
         etCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -76,10 +75,10 @@ public class VerifyAccountDialog extends ParentDialog {
     }
 
     private void validationPhone() {
-        // prepare params
+        // prepare inputs
         String code = Utils.getText(etCode);
 
-        // validate params
+        // validate inputs
         if (Utils.isEmpty(code)) {
             etCode.setError(getString(R.string.enter_code));
             return;

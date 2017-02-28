@@ -379,6 +379,14 @@
     <string name="enter_code">ادخل الكود</string>
     <string name="activation_failed_check_code_try_again">فشل التفعيل، تأكد من الكود وأعد المحاولة</string>
     <string name="no_available_phone_for_this_reservation">لا يوجد رقم جوال متاح لهذا الحجز</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="current_password">كلمة المرور الحالية</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="change">تغيير</string>
+    <string name="password_is_incorrect">كلمة المرور غير صحيحة</string>
+    <string name="password_changed_successfully">تم تغيير كلمة المرور بنجاح</string>
+    <string name="failed_changing_password">فشل تغيير كلمة المرور</string>
 
 
     <!-- Arrays -->

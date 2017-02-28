@@ -20,6 +20,7 @@ import com.stadium.app.adapters.MenuItemsAdapter;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.MenuItemController;
 import com.stadium.app.controllers.ParseController;
+import com.stadium.app.dialogs.ChangePasswordDialog;
 import com.stadium.app.interfaces.OnMenuItemClickListener;
 import com.stadium.app.models.entities.MenuItem;
 import com.stadium.app.models.enums.MenuItemType;
@@ -36,6 +37,8 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     private RecyclerView rvItems;
     private List<MenuItem> menuItems;
     private MenuItemsAdapter itemsAdapter;
+
+    private ChangePasswordDialog changePasswordDialog;
     private LogoutTask logoutTask;
 
     @Override
@@ -72,12 +75,26 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
                 openContactUsActivity();
                 break;
 
+            case CHANGE_PASSWORD:
+                showChangePasswordDialog();
+                break;
+
             case LOGOUT:
                 onLogout();
                 break;
         }
 
         closeMenuDrawer();
+    }
+
+    private void showChangePasswordDialog() {
+        // create the dialog if required
+        if (changePasswordDialog == null) {
+            changePasswordDialog = new ChangePasswordDialog(activity);
+        }
+
+        // show it
+        changePasswordDialog.show();
     }
 
     private void closeMenuDrawer() {

@@ -56,4 +56,12 @@ public class ActiveUserController {
     public boolean isAdmin() {
         return getUser().getAdminStadium() != null;
     }
+
+    public void updatePassword(String password) {
+        getUser();
+        if (instance != null) {
+            instance.setPassword(password);
+            save();
+        }
+    }
 }

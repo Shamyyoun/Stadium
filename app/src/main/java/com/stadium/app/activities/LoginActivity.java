@@ -134,6 +134,10 @@ public class LoginActivity extends ParentActivity {
     }
 
     private void handleSuccessfulLogin(User user) {
+        // set user password
+        String password = Utils.getText(etPassword);
+        user.setPassword(password);
+
         // save him
         userController.setUser(user);
         userController.save();

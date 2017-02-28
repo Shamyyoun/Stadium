@@ -89,6 +89,7 @@ public class Const {
     public static final String API_STADIUM_PROFILE = "stadiumProfile";
     public static final String API_PHONE_VALIDATION = "phoneValidation";
     public static final String API_RESEND_VALIDATION = "resendValidation";
+    public static final String API_CHANGE_PASSWORD = "ChangePassword";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

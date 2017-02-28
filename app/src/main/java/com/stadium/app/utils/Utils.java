@@ -867,4 +867,15 @@ public class Utils {
     public static boolean checkBoolean(Boolean bool) {
         return (bool != null && bool);
     }
+
+    /**
+     * method used to empty edit text if not null
+     *
+     * @param editText
+     */
+    public static void emptyEditText(EditText editText) {
+        if (editText != null) {
+            editText.setText("");
+        }
+    }
 }
