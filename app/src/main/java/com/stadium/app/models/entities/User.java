@@ -7,6 +7,8 @@ import com.stadium.app.models.Checkable;
 import com.stadium.app.models.responses.ServerResponse;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User extends ServerResponse implements Cloneable, Serializable, Checkable {
     public static final int TYPE_PLAYER = 1;
@@ -62,12 +64,15 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
     @SerializedName("bio")
     @Expose
     private String bio;
-    @SerializedName("validationNumber")
-    @Expose
-    private String validationNumber;
     @SerializedName("validationStatus")
     @Expose
     private boolean validationStatus;
+    @SerializedName("validationNumber")
+    @Expose
+    private String validationNumber;
+    @SerializedName("channels")
+    @Expose
+    private List<String> channels = new ArrayList<>();
 
     private boolean checked;
 
@@ -335,6 +340,20 @@ public class User extends ServerResponse implements Cloneable, Serializable, Che
      */
     public void setValidationStatus(boolean validationStatus) {
         this.validationStatus = validationStatus;
+    }
+
+    /**
+     * @return The channels
+     */
+    public List<String> getChannels() {
+        return channels;
+    }
+
+    /**
+     * @param channels The channels
+     */
+    public void setChannels(List<String> channels) {
+        this.channels = channels;
     }
 
     @Override

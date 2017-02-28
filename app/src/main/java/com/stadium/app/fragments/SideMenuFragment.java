@@ -3,6 +3,7 @@ package com.stadium.app.fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,10 +19,12 @@ import com.stadium.app.activities.MainActivity;
 import com.stadium.app.adapters.MenuItemsAdapter;
 import com.stadium.app.controllers.ActiveUserController;
 import com.stadium.app.controllers.MenuItemController;
+import com.stadium.app.controllers.ParseController;
 import com.stadium.app.interfaces.OnMenuItemClickListener;
 import com.stadium.app.models.entities.MenuItem;
 import com.stadium.app.models.enums.MenuItemType;
 import com.stadium.app.utils.DialogUtils;
+import com.stadium.app.utils.Utils;
 
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     private RecyclerView rvItems;
     private List<MenuItem> menuItems;
     private MenuItemsAdapter itemsAdapter;
+    private LogoutTask logoutTask;
 
     @Override
     public void onAttach(Activity activity) {
@@ -76,6 +80,16 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
         closeMenuDrawer();
     }
 
+    private void closeMenuDrawer() {
+        // close the menu drawer delayed to prevent animations confusing
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                activity.closeMenuDrawer();
+            }
+        }, 200);
+    }
+
     private void openContactUsActivity() {
         Intent intent = new Intent(activity, ContactUsActivity.class);
         startActivity(intent);
@@ -91,23 +105,68 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     }
 
     private void logout() {
-        // logout using active user controller
-        ActiveUserController userController = new ActiveUserController(activity);
-        userController.logout();
-
-        // goto login activity
-        Intent intent = new Intent(activity, LoginActivity.class);
-        startActivity(intent);
-        activity.finish();
+        // execute new logout task
+        logoutTask = new LogoutTask();
+        logoutTask.execute();
     }
 
-    private void closeMenuDrawer() {
-        // close the menu drawer delayed to prevent animations confusing
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                activity.closeMenuDrawer();
+    private class LogoutTask extends AsyncTask<Void, Void, Boolean> {
+        ActiveUserController userController;
+        ParseController parseController;
+
+        public LogoutTask() {
+            userController = new ActiveUserController(activity);
+            parseController = new ParseController(activity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // check internet connection
+            if (!Utils.hasConnection(activity)) {
+                Utils.showShortToast(activity, R.string.no_internet_connection);
+                cancel(true);
+                return;
             }
-        }, 200);
+
+            showProgressDialog();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return parseController.logOut();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            hideProgressDialog();
+
+            if (result != null && result.booleanValue()) {
+                // logout from user controller
+                userController.logout();
+
+                // goto login activity
+                Intent intent = new Intent(activity, LoginActivity.class);
+                startActivity(intent);
+                activity.finish();
+            } else {
+                // show msg
+                Utils.showShortToast(activity, R.string.failed_logging_out);
+            }
+        }
+    }
+
+    private void cancelLogoutTask() {
+        if (logoutTask != null) {
+            logoutTask.cancel(true);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cancelLogoutTask();
     }
 }

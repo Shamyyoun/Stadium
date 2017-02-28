@@ -139,7 +139,7 @@ public class LoginActivity extends ParentActivity {
         userController.save();
 
         // install parse
-        parseController.install(user.getId());
+        parseController.install(user.getId(), user.getChannels());
 
         // check his role in the system, if admin or not to goto suitable activity
         Intent intent;

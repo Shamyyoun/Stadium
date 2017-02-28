@@ -10,6 +10,8 @@ import com.parse.SaveCallback;
 import com.stadium.app.Const;
 import com.stadium.app.utils.Utils;
 
+import java.util.List;
+
 /**
  * Created by Shamyyoun on 1/26/17.
  */
@@ -17,13 +19,15 @@ import com.stadium.app.utils.Utils;
 public class ParseController implements LogInCallback, SaveCallback {
     private Context context;
     private int userId;
+    private List<String> channels;
 
     public ParseController(Context context) {
         this.context = context;
     }
 
-    public void install(int userId) {
+    public void install(int userId, List<String> channels) {
         this.userId = userId;
+        this.channels = channels;
 
         // logout current user if exists
         logoutCurrentUser();
@@ -32,11 +36,11 @@ public class ParseController implements LogInCallback, SaveCallback {
         ParseUser.logInInBackground(Const.PARSE_USERNAME, Const.PARSE_PASSWORD, this);
     }
 
-    public void installInRequired(int userId) {
+    public void installIfRequired(int userId, List<String> channels) {
         // check cached flag
         boolean installed = Utils.getCachedBoolean(context, Const.SP_PARSE_INSTALLED, false);
         if (!installed) {
-            install(userId);
+            install(userId, channels);
         }
     }
 
@@ -50,6 +54,7 @@ public class ParseController implements LogInCallback, SaveCallback {
             // install parse
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
             installation.put(Const.PARSE_KEY_USER_ID, "" + userId);
+            installation.put(Const.PARSE_KEY_CHANNELS, channels);
             installation.saveInBackground(this);
         } else {
             String msg = "Parse user login failed";
@@ -71,6 +76,45 @@ public class ParseController implements LogInCallback, SaveCallback {
             String msg = "Parse installation failed";
             msg += "\n" + e.getMessage();
             Utils.logE(msg);
+        }
+    }
+
+    public boolean logOut() {
+        // check installation
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        if (installation == null) {
+            // no installation found
+            // logout logic is successful, so return true
+            Utils.logE("Parse logout failed because installation is not found");
+            return true;
+        }
+
+        try {
+            // remove channels value
+            installation.remove(Const.PARSE_KEY_CHANNELS);
+            installation.save();
+
+            // logout current user
+            logoutCurrentUser();
+
+            // log
+            Utils.logE("Parse logout successful");
+
+            return true;
+        } catch (ParseException e) {
+            // check exception
+            if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                // no user found
+                // logout logic is successful, so return true
+                Utils.logE("Parse logout failed because object is not found");
+                return true;
+            } else {
+                String msg = "Parse logout failed";
+                msg += "\n" + e.getMessage();
+                Utils.logE(msg);
+
+                return false;
+            }
         }
     }
 

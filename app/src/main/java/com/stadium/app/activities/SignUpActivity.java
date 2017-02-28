@@ -374,7 +374,7 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
         userController.save();
 
         // install parse
-        parseController.install(user.getId());
+        parseController.install(user.getId(), user.getChannels());
 
         // goto main activity
         Intent intent = new Intent(this, PlayerMainActivity.class);
