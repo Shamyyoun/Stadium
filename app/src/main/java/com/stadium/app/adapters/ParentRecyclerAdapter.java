@@ -53,6 +53,10 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
         this.itemRemovedListener = itemRemovedListener;
     }
 
+    public int getResColor(int id) {
+        return context.getResources().getColor(id);
+    }
+
     protected void logE(String msg) {
         Utils.logE(msg);
     }

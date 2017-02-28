@@ -75,6 +75,10 @@ public class ParentDialog extends Dialog implements View.OnClickListener, Connec
         }
     }
 
+    public int getResColor(int id) {
+        return context.getResources().getColor(id);
+    }
+
     public void logE(String msg) {
         Utils.logE(msg);
     }

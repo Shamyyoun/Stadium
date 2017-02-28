@@ -182,19 +182,10 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         Utils.loadImage(context, image, R.drawable.default_image, holder.ivImage);
 
         // check to show / hide the buttons layout
-        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS
-                || reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS
-                || reservationsType == ReservationsType.ADMIN_MY_RESERVATIONS) {
+        if (reservationsType == ReservationsType.PLAYER_RESERVATIONS
+                || reservationsType == ReservationsType.TEAM_RESERVATIONS) {
 
-            // show buttons layout
-            holder.layoutButtons.setVisibility(View.VISIBLE);
-        } else if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS ||
-                reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
-
-            // hide buttons layout
-            holder.layoutButtons.setVisibility(View.GONE);
-        } else {
-            // check his role in the team to show / hide the cancel button
+            // check player role in the team to show / hide the cancel button
             Team team = item.getReservationTeam();
             if (team != null && (teamController.isCaptain(team, user.getId())
                     || teamController.isAssistant(team, user.getId()))) {
@@ -202,6 +193,10 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             } else {
                 holder.layoutButtons.setVisibility(View.GONE);
             }
+        } else {
+            // this admin reservations adapter
+            // show buttons layout
+            holder.layoutButtons.setVisibility(View.VISIBLE);
         }
 
         // check reservations type to customize clickable root and action iv
@@ -276,7 +271,12 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         addClickListener(holder.btnAction3, clickListener);
 
         // customize buttons according to reservations type
-        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
+        if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
+            holder.btnAction1.setTextColor(getResColor(R.color.dark_gray));
+            holder.btnAction1.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.refuse_icon, 0, 0, 0);
+            holder.btnAction1.setVisibility(View.VISIBLE);
+        } else if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
             holder.btnAction1.setText(confirm);
             holder.btnAction2.setText(R.string.refuse);
             holder.btnAction3.setVisibility(View.GONE);
@@ -316,7 +316,10 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
     private void onAction1(int position) {
         // check reservations type to call suitable method
-        if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
+        if (reservationsType == ReservationsType.ADMIN_TODAY_RESERVATIONS
+                || reservationsType == ReservationsType.ADMIN_ACCEPTED_RESERVATIONS) {
+            showCancelAdminResConfirmDialog(position);
+        } else if (reservationsType == ReservationsType.ADMIN_NEW_RESERVATIONS) {
             showConfirmConfirmDialog(position, true);
         } else if (reservationsType == ReservationsType.ADMIN_PREVIOUS_RESERVATIONS) {
             showDidntAttendConfirmDialog(position);
