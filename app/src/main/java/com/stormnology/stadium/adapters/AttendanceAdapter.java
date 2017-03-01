@@ -185,7 +185,7 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmPresent(context, listener, user.getId(),
-                user.getToken(), reservationId, confirmType);
+                user.getToken(), user.getName(), reservationId, confirmType);
         cancelWhenDestroyed(connectionHandler);
     }
 

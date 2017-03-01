@@ -51,6 +51,9 @@ public class MonthlyReservationResponse extends ServerResponse {
     @SerializedName("teamId")
     @Expose
     private int teamId;
+    @SerializedName("teamName")
+    @Expose
+    private String teamName;
     @SerializedName("price")
     @Expose
     private float price;
@@ -157,6 +160,14 @@ public class MonthlyReservationResponse extends ServerResponse {
 
     public void setTeamId(int teamId) {
         this.teamId = teamId;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public float getPrice() {

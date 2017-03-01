@@ -18,6 +18,8 @@ import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.MonthlyReservationController;
 import com.stormnology.stadium.interfaces.OnReservationAddedListener;
 import com.stormnology.stadium.models.entities.RepeatedReservation;
+import com.stormnology.stadium.models.entities.Stadium;
+import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.models.enums.MonthlyReservationStatusType;
 import com.stormnology.stadium.models.responses.MonthlyReservationResponse;
@@ -150,11 +152,13 @@ public class MonthlyReservationDialog extends ParentDialog {
         // get current user
         ActiveUserController activeUserController = new ActiveUserController(context);
         User user = activeUserController.getUser();
+        Stadium stadium = user.getAdminStadium();
+        Team reservationTeam = repeatedReservation.getTeam();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.addMonthlyReservations(context, this, user.getId(),
-                user.getToken(), user.getAdminStadium().getId(), monthlyReservationResponse,
-                repeatedReservation.getTeam().getId(), repeatedReservation.getPrice());
+                user.getToken(), stadium.getId(), stadium.getName(), monthlyReservationResponse,
+                reservationTeam.getId(), reservationTeam.getName(), repeatedReservation.getPrice());
         cancelWhenDestroyed(connectionHandler);
     }
 

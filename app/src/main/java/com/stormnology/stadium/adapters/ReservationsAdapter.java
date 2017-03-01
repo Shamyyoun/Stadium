@@ -19,6 +19,7 @@ import com.stormnology.stadium.controllers.ReservationController;
 import com.stormnology.stadium.controllers.StadiumController;
 import com.stormnology.stadium.controllers.TeamController;
 import com.stormnology.stadium.dialogs.AttendanceDialog;
+import com.stormnology.stadium.models.entities.Field;
 import com.stormnology.stadium.models.entities.Reservation;
 import com.stormnology.stadium.models.entities.Stadium;
 import com.stormnology.stadium.models.entities.Team;
@@ -440,13 +441,15 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // prepare request params
         User user = userController.getUser();
-        int stadiumId = user.getAdminStadium().getId();
+        Stadium stadium = user.getAdminStadium();
+        Team resetvationTeam = reservation.getReservationTeam();
         final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
                 : ReservationConfirmType.DECLINE.getValue();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmReservation(context, listener,
-                user.getId(), user.getToken(), stadiumId, reservation.getId(), confirmType);
+                user.getId(), user.getToken(), stadium.getId(), stadium.getName(),
+                reservation.getId(), resetvationTeam.getId(), confirmType);
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -489,11 +492,13 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // prepare request params
         User user = userController.getUser();
-        int stadiumId = user.getAdminStadium().getId();
+        Stadium stadium = user.getAdminStadium();
+        Team reservationTeam = reservation.getReservationTeam();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.absentReservation(context, listener,
-                user.getId(), user.getToken(), stadiumId, reservation.getId());
+                user.getId(), user.getToken(), stadium.getId(), stadium.getName(),
+                reservation.getId(), reservationTeam.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -536,11 +541,13 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // prepare request params
         User user = userController.getUser();
-        int stadiumId = user.getAdminStadium().getId();
+        Stadium stadium = user.getAdminStadium();
+        Team reservationTeam = reservation.getReservationTeam();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.blockTeam(context, listener,
-                user.getId(), user.getToken(), stadiumId, reservation.getId());
+                user.getId(), user.getToken(), stadium.getId(), stadium.getName(),
+                reservation.getId(), reservationTeam.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -583,11 +590,13 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // prepare request params
         User user = userController.getUser();
-        int stadiumId = user.getAdminStadium().getId();
+        Stadium stadium = user.getAdminStadium();
+        Team reservationTeam = reservation.getReservationTeam();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.absentBlockReservation(context, listener,
-                user.getId(), user.getToken(), stadiumId, reservation.getId());
+                user.getId(), user.getToken(), stadium.getId(), stadium.getName(),
+                reservation.getId(), reservationTeam.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -629,11 +638,15 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
             }
         };
 
-        // send request
+        // prepare params
         User user = userController.getUser();
         Team team = reservation.getReservationTeam();
+        Field field = reservation.getField();
+
+        // send request
         ConnectionHandler connectionHandler = ApiRequests.deleteReservation(context, listener,
-                user.getId(), user.getToken(), team.getId(), team.getName(), reservation.getId());
+                user.getId(), user.getToken(), team.getId(), team.getName(),
+                reservation.getId(), field.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -676,11 +689,13 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // prepare request params
         User user = userController.getUser();
-        int stadiumId = user.getAdminStadium().getId();
+        Stadium stadium = user.getAdminStadium();
+        Team reservationTeam = reservation.getReservationTeam();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.cancelReservation(context, listener,
-                user.getId(), user.getToken(), stadiumId, reservation.getId());
+                user.getId(), user.getToken(), stadium.getId(), reservation.getId(),
+                reservationTeam.getId(), reservationTeam.getName());
         cancelWhenDestroyed(connectionHandler);
     }
 

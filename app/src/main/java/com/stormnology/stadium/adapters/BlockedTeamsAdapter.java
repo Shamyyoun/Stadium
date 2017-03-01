@@ -15,6 +15,7 @@ import com.stormnology.stadium.R;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.connection.ConnectionListener;
 import com.stormnology.stadium.controllers.ActiveUserController;
+import com.stormnology.stadium.models.entities.Stadium;
 import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.utils.AppUtils;
@@ -128,11 +129,11 @@ public class BlockedTeamsAdapter extends ParentRecyclerAdapter<Team> {
 
         // prepare request params
         User user = userController.getUser();
-        int stadiumId = user.getAdminStadium().getId();
+        Stadium stadium = user.getAdminStadium();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.unblockTeam(context, listener,
-                user.getId(), user.getToken(), stadiumId, team.getId());
+                user.getId(), user.getToken(), stadium.getId(), stadium.getName(), team.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 

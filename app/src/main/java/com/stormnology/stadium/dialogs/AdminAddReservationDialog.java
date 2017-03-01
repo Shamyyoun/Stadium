@@ -13,7 +13,9 @@ import com.stormnology.stadium.R;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.interfaces.OnReservationAddedListener;
+import com.stormnology.stadium.models.entities.Field;
 import com.stormnology.stadium.models.entities.Reservation;
+import com.stormnology.stadium.models.entities.Stadium;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.utils.AppUtils;
 import com.stormnology.stadium.utils.DateUtils;
@@ -116,17 +118,17 @@ public class AdminAddReservationDialog extends ParentDialog {
 
         showProgressView();
 
-        // get active user
+        // prepare params
         ActiveUserController userController = new ActiveUserController(context);
         User user = userController.getUser();
-        int price = (reservation.getField() != null) ? reservation.getField().getPrice() : 0;
-        int fieldId = (reservation.getField() != null) ? reservation.getField().getId() : 0;
+        Stadium stadium = user.getAdminStadium();
+        Field field = reservation.getField();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.adminAddReservation(context, this,
-                user.getId(), user.getToken(), user.getAdminStadium().getId(), name, phone,
-                reservation.getIntervalNum(), price, fieldId, reservation.getDate(),
-                reservation.getTimeStart(), reservation.getTimeEnd());
+                user.getId(), user.getToken(), stadium.getId(), stadium.getName(), name, phone,
+                reservation.getIntervalNum(), field.getPrice(), field.getId(), field.getFieldNumber(),
+                reservation.getDate(), reservation.getTimeStart(), reservation.getTimeEnd());
         cancelWhenDestroyed(connectionHandler);
     }
 
