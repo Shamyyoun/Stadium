@@ -52,7 +52,7 @@
                 android:textColor="@color/clickable_white_text"
                 android:visibility="gone" />
 
-            <com.stadium.app.views.DarkenedButton
+            <com.stormnology.stadium.views.DarkenedButton
                 android:id="@+id/btn_add"
                 style="@style/WhiteButton"
                 android:layout_width="match_parent"

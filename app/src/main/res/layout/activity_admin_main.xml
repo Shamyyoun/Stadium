@@ -116,7 +116,7 @@
     </LinearLayout>
 
     <fragment
-        android:name="com.stadium.app.fragments.SideMenuFragment"
+        android:name="com.stormnology.stadium.fragments.SideMenuFragment"
         android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="right"

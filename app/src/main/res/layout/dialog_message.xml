@@ -24,7 +24,7 @@
         android:textSize="@dimen/medium_text"
         tools:text="الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا الرسالة هنا " />
 
-    <com.stadium.app.views.DarkenedButton
+    <com.stormnology.stadium.views.DarkenedButton
         android:id="@+id/btn_close"
         style="@style/DialogOrangeButton"
         android:layout_width="wrap_content"

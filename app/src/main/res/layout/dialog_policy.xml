@@ -36,7 +36,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <com.stadium.app.views.DarkenedButton
+                <com.stormnology.stadium.views.DarkenedButton
                     android:id="@+id/btn_not_accept"
                     style="@style/DialogStrokedOrangeButton"
                     android:layout_width="0dp"
@@ -47,7 +47,7 @@
                     android:layout_weight="1"
                     android:text="@string/not_accept" />
 
-                <com.stadium.app.views.DarkenedButton
+                <com.stormnology.stadium.views.DarkenedButton
                     android:id="@+id/btn_accept"
                     style="@style/DialogOrangeButton"
                     android:layout_width="0dp"

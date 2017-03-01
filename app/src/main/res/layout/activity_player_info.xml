@@ -149,7 +149,7 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <com.stadium.app.views.DarkenedButton
+                    <com.stormnology.stadium.views.DarkenedButton
                         android:id="@+id/btn_add"
                         style="@style/SmallOrangeButton"
                         android:layout_width="wrap_content"

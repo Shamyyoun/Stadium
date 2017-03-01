@@ -99,7 +99,7 @@
                 android:selectAllOnFocus="true" />
         </LinearLayout>
 
-        <com.stadium.app.views.DarkenedButton
+        <com.stormnology.stadium.views.DarkenedButton
             android:id="@+id/btn_login"
             style="@style/WhiteButton"
             android:layout_width="match_parent"

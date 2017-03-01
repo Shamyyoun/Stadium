@@ -16,14 +16,14 @@
         android:layout_marginTop="5dp"
         android:layout_weight="1">
 
-        <com.stadium.app.views.EmptyView
+        <com.stormnology.stadium.views.EmptyView
             android:id="@+id/empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <com.stadium.app.views.ErrorView
+        <com.stormnology.stadium.views.ErrorView
             android:id="@+id/error_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
         </LinearLayout>
     </FrameLayout>
 
-    <com.stadium.app.views.DarkenedButton
+    <com.stormnology.stadium.views.DarkenedButton
         android:id="@+id/btn_submit"
         style="@style/DialogOrangeButton"
         android:layout_width="wrap_content"

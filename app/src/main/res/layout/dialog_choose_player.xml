@@ -15,14 +15,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
 
-        <com.stadium.app.views.EmptyView
+        <com.stormnology.stadium.views.EmptyView
             android:id="@+id/empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <com.stadium.app.views.ErrorView
+        <com.stormnology.stadium.views.ErrorView
             android:id="@+id/error_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

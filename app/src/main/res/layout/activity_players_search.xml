@@ -46,7 +46,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/position" />
 
-        <com.stadium.app.views.DarkenedButton
+        <com.stormnology.stadium.views.DarkenedButton
             android:id="@+id/btn_search"
             style="@style/WhiteButton"
             android:layout_width="match_parent"

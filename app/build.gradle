@@ -22,7 +22,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "com.stadium.app"
+        applicationId "com.stormnology.stadium"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1

@@ -154,7 +154,7 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <com.stadium.app.views.DarkenedButton
+                    <com.stormnology.stadium.views.DarkenedButton
                         android:id="@+id/btn_cancel"
                         style="@style/GreenButton"
                         android:layout_width="0dp"
@@ -163,7 +163,7 @@
                         android:layout_weight="1"
                         android:text="@string/cancel" />
 
-                    <com.stadium.app.views.DarkenedButton
+                    <com.stormnology.stadium.views.DarkenedButton
                         android:id="@+id/btn_update"
                         style="@style/StrokedGreenButton"
                         android:layout_width="0dp"

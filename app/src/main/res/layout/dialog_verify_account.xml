@@ -41,7 +41,7 @@
             android:textColor="@color/clickable_orange_text" />
     </LinearLayout>
 
-    <com.stadium.app.views.DarkenedButton
+    <com.stormnology.stadium.views.DarkenedButton
         android:id="@+id/btn_submit"
         style="@style/DialogOrangeButton"
         android:layout_width="wrap_content"

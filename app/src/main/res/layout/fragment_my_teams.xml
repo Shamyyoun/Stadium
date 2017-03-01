@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <com.stadium.app.views.DarkenedButton
+        <com.stormnology.stadium.views.DarkenedButton
             android:id="@+id/btn_create_team"
             style="@style/SmallOrangeButton"
             android:layout_width="wrap_content"
@@ -34,12 +34,12 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.stadium.app.views.EmptyView
+        <com.stormnology.stadium.views.EmptyView
             android:id="@+id/empty_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.stadium.app.views.ErrorView
+        <com.stormnology.stadium.views.ErrorView
             android:id="@+id/error_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

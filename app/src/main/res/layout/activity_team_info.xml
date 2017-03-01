@@ -37,7 +37,7 @@
                     android:gravity="right"
                     android:orientation="vertical">
 
-                    <com.stadium.app.views.BoundedLinearLayout
+                    <com.stormnology.stadium.views.BoundedLinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -61,9 +61,9 @@
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
-                    </com.stadium.app.views.BoundedLinearLayout>
+                    </com.stormnology.stadium.views.BoundedLinearLayout>
 
-                    <com.stadium.app.views.BoundedLinearLayout
+                    <com.stormnology.stadium.views.BoundedLinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -87,7 +87,7 @@
                             android:text="-----"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/below_medium_text" />
-                    </com.stadium.app.views.BoundedLinearLayout>
+                    </com.stormnology.stadium.views.BoundedLinearLayout>
 
                     <TextView
                         android:id="@+id/tv_desc"
@@ -120,7 +120,7 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <com.stadium.app.views.SlidingTabLayout
+            <com.stormnology.stadium.views.SlidingTabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

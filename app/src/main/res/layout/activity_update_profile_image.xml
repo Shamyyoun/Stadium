@@ -30,14 +30,14 @@
         android:padding="15dp"
         android:visibility="gone">
 
-        <com.stadium.app.views.DarkenedButton
+        <com.stormnology.stadium.views.DarkenedButton
             android:id="@+id/btn_save"
             style="@style/StrokedGreenButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/save" />
 
-        <com.stadium.app.views.DarkenedButton
+        <com.stormnology.stadium.views.DarkenedButton
             android:id="@+id/btn_cancel"
             style="@style/GreenButton"
             android:layout_width="match_parent"

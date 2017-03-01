@@ -192,7 +192,7 @@
                 </TableRow>
             </TableLayout>
 
-            <com.stadium.app.views.ExpandableHeightListView
+            <com.stormnology.stadium.views.ExpandableHeightListView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
                 android:orientation="horizontal"
                 android:padding="15dp">
 
-                <com.stadium.app.views.DarkenedButton
+                <com.stormnology.stadium.views.DarkenedButton
                     android:id="@+id/btn_cancel"
                     style="@style/DialogStrokedOrangeButton"
                     android:layout_width="0dp"
@@ -218,7 +218,7 @@
                     android:layout_weight="1"
                     android:text="@string/cancel" />
 
-                <com.stadium.app.views.DarkenedButton
+                <com.stormnology.stadium.views.DarkenedButton
                     android:id="@+id/btn_reserve"
                     style="@style/DialogOrangeButton"
                     android:layout_width="0dp"

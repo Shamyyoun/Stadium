@@ -85,7 +85,7 @@
             android:text="@string/day" />
     </LinearLayout>
 
-    <com.stadium.app.views.DarkenedButton
+    <com.stormnology.stadium.views.DarkenedButton
         android:id="@+id/btn_add"
         style="@style/GreenButton"
         android:layout_width="wrap_content"
