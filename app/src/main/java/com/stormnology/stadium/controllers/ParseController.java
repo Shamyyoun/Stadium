@@ -53,6 +53,7 @@ public class ParseController implements LogInCallback, SaveCallback {
 
             // install parse
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.deleteInBackground(); // remove it first then save new values
             installation.put(Const.PARSE_KEY_USER_ID, "" + userId);
             installation.put(Const.PARSE_KEY_CHANNELS, channels);
             installation.saveInBackground(this);
