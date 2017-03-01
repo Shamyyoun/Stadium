@@ -38,7 +38,6 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     private List<MenuItem> menuItems;
     private MenuItemsAdapter itemsAdapter;
 
-    private ChangePasswordDialog changePasswordDialog;
     private LogoutTask logoutTask;
 
     @Override
@@ -87,16 +86,6 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
         closeMenuDrawer();
     }
 
-    private void showChangePasswordDialog() {
-        // create the dialog if required
-        if (changePasswordDialog == null) {
-            changePasswordDialog = new ChangePasswordDialog(activity);
-        }
-
-        // show it
-        changePasswordDialog.show();
-    }
-
     private void closeMenuDrawer() {
         // close the menu drawer delayed to prevent animations confusing
         new Handler().postDelayed(new Runnable() {
@@ -110,6 +99,11 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     private void openContactUsActivity() {
         Intent intent = new Intent(activity, ContactUsActivity.class);
         startActivity(intent);
+    }
+
+    private void showChangePasswordDialog() {
+        ChangePasswordDialog dialog = new ChangePasswordDialog(activity);
+        dialog.show();
     }
 
     private void onLogout() {
