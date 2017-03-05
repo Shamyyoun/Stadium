@@ -183,10 +183,6 @@ public class CreateTeamActivity extends PicPickerActivity {
             etTitle.setError(getString(R.string.required));
             return;
         }
-        if (Utils.isEmpty(desc)) {
-            etDesc.setError(getString(R.string.required));
-            return;
-        }
 
         hideKeyboard();
 

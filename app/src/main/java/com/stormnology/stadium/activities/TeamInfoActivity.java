@@ -106,6 +106,7 @@ public class TeamInfoActivity extends ParentActivity {
         // set the stadium name
         if (!Utils.isNullOrEmpty(team.getPreferStadiumName())) {
             tvStadium.setText(team.getPreferStadiumName());
+            tvStadium.setVisibility(View.VISIBLE);
         } else {
             tvStadium.setVisibility(View.GONE);
         }
