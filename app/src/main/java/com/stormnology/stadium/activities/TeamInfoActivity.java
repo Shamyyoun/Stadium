@@ -40,7 +40,6 @@ public class TeamInfoActivity extends ParentActivity {
     private TextView tvName;
     private TextView tvPlayersCount;
     private TextView tvStadium;
-    private TextView tvResNums;
     private TextView tvDesc;
     private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
@@ -71,7 +70,6 @@ public class TeamInfoActivity extends ParentActivity {
         tvName = (TextView) findViewById(R.id.tv_name);
         tvPlayersCount = (TextView) findViewById(R.id.tv_players_count);
         tvStadium = (TextView) findViewById(R.id.tv_stadium);
-        tvResNums = (TextView) findViewById(R.id.tv_res_nums);
         tvDesc = (TextView) findViewById(R.id.tv_desc);
         tabLayout = (SlidingTabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -103,7 +101,6 @@ public class TeamInfoActivity extends ParentActivity {
         // set basic info
         tvName.setText(team.getName());
         tvPlayersCount.setText(getString(R.string.dot_x_player, team.getNumberOfPlayers()));
-        tvResNums.setText(team.getTotalRes() + " / " + team.getAbsentRes());
         tvDesc.setText(team.getDescription());
 
         // set the stadium name
