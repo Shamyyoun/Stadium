@@ -97,4 +97,27 @@ public class ReservationController {
             return -1;
         }
     }
+
+    public String getCustomerTeamName(Reservation reservation) {
+        Team team = reservation.getReservationTeam();
+
+        String text = "";
+        if (!Utils.isNullOrEmpty(reservation.getCustomerName())) {
+            text = reservation.getCustomerName();
+        }
+
+        if (team != null) {
+            if (Utils.isNullOrEmpty(text)) {
+                text = team.getName();
+            } else if (!Utils.isNullOrEmpty(team.getName())) {
+                text += " . " + team.getName();
+            }
+        }
+
+        if (Utils.isNullOrEmpty(text)) {
+            text = null;
+        }
+
+        return text;
+    }
 }
