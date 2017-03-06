@@ -34,12 +34,11 @@ import java.util.List;
 public class TeamReservationsFragment extends ParentFragment implements SwipeRefreshLayout.OnRefreshListener {
     private Team team;
     private SwipeRefreshLayout swipeLayout;
-    private View mainView;
+    private View layoutReservationsCount;
     private TextView tvReservationsCount;
     private TextView tvAbsentCount;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
-    private TextView tvEmpty;
     private TextView tvError;
     private ReservationsAdapter adapter;
     private List<Reservation> data;
@@ -54,12 +53,11 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
 
         // init views
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
-        mainView = findViewById(R.id.main_view);
+        layoutReservationsCount = findViewById(R.id.layout_reservations_count);
         tvReservationsCount = (TextView) findViewById(R.id.tv_reservations_count);
         tvAbsentCount = (TextView) findViewById(R.id.tv_absent_counts);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
-        tvEmpty = (TextView) findViewById(R.id.tv_empty);
         tvError = (TextView) findViewById(R.id.tv_error);
 
         // customize swipe layout
@@ -68,6 +66,9 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
         // customize the recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+
+        // update reservations count ui
+        updateReservationsCountUI();
 
         // get data from saved bundle if exists
         if (savedInstanceState != null) {
@@ -79,17 +80,27 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
 
         // check data
         if (data != null) {
-            updateUI();
+            updateReservationsListUI();
         }
 
         return rootView;
     }
 
-    private void updateUI() {
-        // set header data
-        tvReservationsCount.setText("" + team.getTotalRes());
-        tvAbsentCount.setText("" + team.getAbsentRes());
+    private void updateReservationsCountUI() {
+        // check team
+        if (team != null) {
+            // show reservations data
+            tvReservationsCount.setText("" + team.getTotalRes());
+            tvAbsentCount.setText("" + team.getAbsentRes());
 
+            layoutReservationsCount.setVisibility(View.VISIBLE);
+        } else {
+            // hide it
+            layoutReservationsCount.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateReservationsListUI() {
         // set the adapter
         adapter = new ReservationsAdapter(activity, data, R.layout.item_reservation_simple);
         adapter.setReservationsType(ReservationsType.TEAM_RESERVATIONS);
@@ -136,7 +147,7 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
         if (data.size() == 0) {
             showEmpty();
         } else {
-            updateUI();
+            updateReservationsListUI();
         }
     }
 
@@ -146,23 +157,23 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
     }
 
     private void showProgress() {
-        ViewUtil.showOneView(pbProgress, tvError, mainView, tvEmpty);
+        ViewUtil.showOneView(pbProgress, tvError, recyclerView);
         swipeLayout.setRefreshing(false);
         swipeLayout.setEnabled(false);
     }
 
     private void showEmpty() {
-        ViewUtil.showOneView(tvEmpty, pbProgress, tvError, mainView);
+        ViewUtil.hideViews(pbProgress, tvError, recyclerView);
         swipeLayout.setEnabled(true);
     }
 
     private void showError() {
-        ViewUtil.showOneView(tvError, tvEmpty, pbProgress, mainView);
+        ViewUtil.showOneView(tvError, pbProgress, recyclerView);
         swipeLayout.setEnabled(true);
     }
 
     private void showMain() {
-        ViewUtil.showOneView(mainView, tvError, tvEmpty, pbProgress);
+        ViewUtil.showOneView(recyclerView, tvError, pbProgress);
         swipeLayout.setEnabled(true);
     }
 
@@ -175,6 +186,7 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
 
     public void updateTeam(Team team) {
         this.team = team;
+        updateReservationsCountUI();
     }
 
     /**

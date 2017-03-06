@@ -116,4 +116,26 @@ public class ViewUtil {
             view.setVisibility(View.GONE);
         }
     }
+
+    /**
+     * method, used to hide views
+     *
+     * @param views
+     */
+    public static void hideViews(View... views) {
+        for (View view : views) {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * method, used to show views
+     *
+     * @param views
+     */
+    public static void showViews(View... views) {
+        for (View view : views) {
+            view.setVisibility(View.VISIBLE);
+        }
+    }
 }
