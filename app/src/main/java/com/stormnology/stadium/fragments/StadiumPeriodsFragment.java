@@ -17,6 +17,7 @@ import com.stormnology.stadium.activities.StadiumInfoActivity;
 import com.stormnology.stadium.adapters.StadiumPeriodsAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
+import com.stormnology.stadium.controllers.ReservationController;
 import com.stormnology.stadium.interfaces.OnItemClickListener;
 import com.stormnology.stadium.interfaces.OnItemRemovedListener;
 import com.stormnology.stadium.interfaces.OnReservationAddedListener;
@@ -35,9 +36,11 @@ import java.util.List;
  */
 public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemovedListener, OnReservationAddedListener, OnItemClickListener {
     private ActiveUserController userController;
+    private ReservationController reservationController;
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private Reservation reservation; // this is just to hold data like stadium, field size and date passed from activity.
     private boolean isAdminStadiumScreen; // this flag is used to notify the adapter to handle suitable item click
+    private View layoutMain;
     private TextView tvFieldCapacity;
     private RecyclerView recyclerView;
     private ProgressBar pbProgress;
@@ -50,11 +53,12 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // get main objects
+        // obtain main objects
         reservation = (Reservation) getArguments().getSerializable(Const.KEY_RESERVATION);
         selectedTeam = (Team) getArguments().getSerializable(Const.KEY_TEAM);
         isAdminStadiumScreen = getArguments().getBoolean(Const.KEY_IS_ADMIN_STADIUM_SCREEN);
         userController = new ActiveUserController(activity);
+        reservationController = new ReservationController();
     }
 
     @Override
@@ -62,6 +66,7 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         rootView = inflater.inflate(R.layout.fragment_stadium_periods, container, false);
 
         // init views
+        layoutMain = findViewById(R.id.layout_main);
         tvFieldCapacity = (TextView) findViewById(R.id.tv_field_capacity);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
@@ -96,6 +101,17 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     }
 
     private void updateUI() {
+        // set field capacity if possible
+        // field capacity is first field capacity cause they are similar
+        int fieldCapacity = reservationController.getFirstFieldCapacity(data);
+        if (fieldCapacity != -1) {
+            String capacityStr = getString(R.string.field_capacity_d_players, fieldCapacity);
+            tvFieldCapacity.setText(capacityStr);
+            tvFieldCapacity.setVisibility(View.VISIBLE);
+        } else {
+            tvFieldCapacity.setVisibility(View.GONE);
+        }
+
         // prepare suitable item layout id
         int itemLayoutId;
         if (isAdminStadiumScreen) {
@@ -117,24 +133,18 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         showMain();
     }
 
-    private void updateFieldCapacityUI(String capacityStr) {
-        tvFieldCapacity.setText(capacityStr);
-        tvFieldCapacity.setVisibility(View.VISIBLE);
-    }
-
     @Override
     public void onItemClick(View view, int position) {
         // prepare field capacity str
         Reservation reservation = data.get(position);
         String capacityStr;
         if (reservation.getField() != null) {
-            capacityStr = getString(R.string.field_capacity_d_players, reservation.getField().getPlayerCapcity());
+            capacityStr = getString(R.string.field_capacity_d_players, reservation.getField().getPlayerCapacity());
         } else {
             capacityStr = getString(R.string.field_capacity_undefined);
         }
 
-        // update field capacity ui & show it in msg
-        updateFieldCapacityUI(capacityStr);
+        // show field capacity in toast msg
         Utils.showShortToast(activity, capacityStr);
 
     }
@@ -195,19 +205,19 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
     }
 
     private void showProgress() {
-        ViewUtil.showOneView(pbProgress, tvError, recyclerView, tvEmpty);
+        ViewUtil.showOneView(pbProgress, tvError, layoutMain, tvEmpty);
     }
 
     private void showEmpty() {
-        ViewUtil.showOneView(tvEmpty, pbProgress, tvError, recyclerView);
+        ViewUtil.showOneView(tvEmpty, pbProgress, tvError, layoutMain);
     }
 
     private void showError() {
-        ViewUtil.showOneView(tvError, tvEmpty, pbProgress, recyclerView);
+        ViewUtil.showOneView(tvError, tvEmpty, pbProgress, layoutMain);
     }
 
     private void showMain() {
-        ViewUtil.showOneView(recyclerView, tvError, tvEmpty, pbProgress);
+        ViewUtil.showOneView(layoutMain, tvError, tvEmpty, pbProgress);
     }
 
     @Override

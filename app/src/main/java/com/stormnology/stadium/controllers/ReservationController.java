@@ -6,6 +6,8 @@ import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.utils.DateUtils;
 import com.stormnology.stadium.utils.Utils;
 
+import java.util.List;
+
 /**
  * Created by Shamyyoun on 10/27/16.
  */
@@ -81,10 +83,18 @@ public class ReservationController {
 
     public String getPhone(Reservation reservation) {
         Team team = reservation.getReservationTeam();
-        if (team != null &&  !Utils.isNullOrEmpty(team.getCaptainPhone())) {
+        if (team != null && !Utils.isNullOrEmpty(team.getCaptainPhone())) {
             return team.getCaptainPhone();
         } else {
             return reservation.getCustomerPhone();
+        }
+    }
+
+    public int getFirstFieldCapacity(List<Reservation> reservations) {
+        try {
+            return reservations.get(0).getField().getPlayerCapacity();
+        } catch (Exception e) {
+            return -1;
         }
     }
 }

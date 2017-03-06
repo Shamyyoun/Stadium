@@ -28,7 +28,7 @@ public class Field implements Serializable, Checkable {
     private int fieldWidth;
     @SerializedName("playerCapcity")
     @Expose
-    private int playerCapcity;
+    private int playerCapacity;
     @SerializedName("price")
     @Expose
     private int price;
@@ -119,17 +119,17 @@ public class Field implements Serializable, Checkable {
     }
 
     /**
-     * @return The playerCapcity
+     * @return The playerCapacity
      */
-    public int getPlayerCapcity() {
-        return playerCapcity;
+    public int getPlayerCapacity() {
+        return playerCapacity;
     }
 
     /**
-     * @param playerCapcity The playerCapcity
+     * @param playerCapacity The playerCapacity
      */
-    public void setPlayerCapcity(int playerCapcity) {
-        this.playerCapcity = playerCapcity;
+    public void setPlayerCapacity(int playerCapacity) {
+        this.playerCapacity = playerCapacity;
     }
 
     /**
