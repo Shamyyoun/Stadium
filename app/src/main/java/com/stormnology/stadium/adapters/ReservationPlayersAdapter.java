@@ -48,11 +48,11 @@ public class ReservationPlayersAdapter extends ParentRecyclerAdapter<User> {
             // check if checked
             if (isAllChecked()) {
                 // all selected
-                holder.tvName.setText(R.string.all_selected);
+                holder.tvName.setText(R.string.all_invited);
                 holder.tvName.setTextColor(context.getResources().getColor(R.color.green));
                 holder.ivImage.setImageResource(R.drawable.green_ok);
             } else {
-                holder.tvName.setText(R.string.select_all);
+                holder.tvName.setText(R.string.invite_all);
                 holder.tvName.setTextColor(context.getResources().getColor(R.color.dark_gray));
                 holder.ivImage.setImageResource(R.drawable.gray_ok);
             }

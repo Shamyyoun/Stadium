@@ -119,7 +119,7 @@ public class ReservationPlayersDialog extends ProgressDialog implements OnChecka
     private void updateSelectionCount() {
         // get checked items count and update the textview
         int checkedItemsCount = adapter.getCheckedItemsCount();
-        tvSelectionCount.setText(checkedItemsCount + " " + getString(R.string.selected));
+        tvSelectionCount.setText(checkedItemsCount + " " + getString(R.string.invitation));
     }
 
     @Override

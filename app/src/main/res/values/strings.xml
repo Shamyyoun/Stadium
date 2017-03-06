@@ -267,11 +267,12 @@
     <string name="stadium">ملعب</string>
     <string name="to">الى</string>
     <string name="player">لاعب</string>
-    <string name="select_all">تحديد الكل</string>
-    <string name="all_selected">الكل محدد</string>
+    <string name="invite_all">دعوة الكل</string>
+    <string name="all_invited">الكل مدعو</string>
     <string name="select_players">اختيار اللاعبين</string>
     <string name="you_must_choose_at_least_one_player">يجب اختيار لاعب واحد على الاقل</string>
-    <string name="selected">محدد</string>
+    <string name="invitations">دعوات</string>
+    <string name="invitation">دعوة</string>
     <string name="continue_and_request_reservation_with_these_details">الاستمرار وطلب حجز بهذه التفاصيل؟</string>
     <string name="reservation_requested_successfully">تم الطلب بنجاح</string>
     <string name="failed_requesting_reservation">فشل طلب الحجز</string>
@@ -387,6 +388,7 @@
     <string name="password_is_incorrect">كلمة المرور غير صحيحة</string>
     <string name="password_changed_successfully">تم تغيير كلمة المرور بنجاح</string>
     <string name="failed_changing_password">فشل تغيير كلمة المرور</string>
+    <string name="reservation_confirmation_has_limit_for_first">يتوقف السماح بقبول الدعوات على أول</string>
 
 
     <!-- Arrays -->
