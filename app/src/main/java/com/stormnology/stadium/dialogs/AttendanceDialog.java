@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.R.attr.id;
-
 /**
  * Created by Shamyyoun on 6/28/16.
  */
@@ -105,7 +103,7 @@ public class AttendanceDialog extends ProgressDialog {
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.playerConfirmList(context, this, user.getId(),
-                user.getToken(), id);
+                user.getToken(), reservation.getId());
         cancelWhenDestroyed(connectionHandler);
     }
 

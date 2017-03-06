@@ -96,7 +96,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showLeaveIcon(position);
+                onTeamLongClicked(position);
                 return true;
             }
         });
@@ -112,6 +112,18 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         }
     }
 
+    private void onTeamLongClicked(int position) {
+        // check if the item is checked
+        Team team = data.get(position);
+        if (team.isChecked()) {
+            // hide leave option
+            hideLeaveIcon(position);
+        } else {
+            // show leave option
+            showLeaveIcon(position);
+        }
+    }
+
     private void showLeaveIcon(int position) {
         // check old item position
         if (checkedItemPosition != -1) {
@@ -124,6 +136,14 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         Team team = data.get(position);
         team.setChecked(true);
         checkedItemPosition = position;
+        notifyDataSetChanged();
+    }
+
+    private void hideLeaveIcon(int position) {
+        // uncheck the item
+        Team team = data.get(position);
+        team.setChecked(false);
+        checkedItemPosition = -1;
         notifyDataSetChanged();
     }
 
