@@ -96,7 +96,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                onTeamLongClicked(position);
+                onItemLongClicked(position);
                 return true;
             }
         });
@@ -112,7 +112,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         }
     }
 
-    private void onTeamLongClicked(int position) {
+    private void onItemLongClicked(int position) {
         // check if the item is checked
         Team team = data.get(position);
         if (team.isChecked()) {

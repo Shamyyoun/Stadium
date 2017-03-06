@@ -69,4 +69,22 @@ public class UserController {
 
         return ids;
     }
+
+    public List<User> checkAll(List<User> users) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            user.setChecked(true);
+        }
+
+        return users;
+    }
+
+    public List<User> unCheckAll(List<User> users) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            user.setChecked(false);
+        }
+
+        return users;
+    }
 }

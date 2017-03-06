@@ -14,6 +14,7 @@ import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.adapters.ReservationPlayersAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
+import com.stormnology.stadium.controllers.UserController;
 import com.stormnology.stadium.interfaces.OnCheckableCheckedListener;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.interfaces.OnReservationPlayersSelectedListener;
@@ -34,6 +35,7 @@ import static com.stormnology.stadium.R.string.select;
  */
 public class ReservationPlayersDialog extends ProgressDialog implements OnCheckableCheckedListener {
     private int teamId;
+    private UserController userController;
     private EditText etPlayersCount;
     private TextView tvSelectionCount;
     private RecyclerView recyclerView;
@@ -45,7 +47,10 @@ public class ReservationPlayersDialog extends ProgressDialog implements OnChecka
     public ReservationPlayersDialog(final Context context, int teamId) {
         super(context);
         setTitle(R.string.select_players);
+
+        // obtain main objects
         this.teamId = teamId;
+        userController = new UserController(null);
 
         // init views
         etPlayersCount = (EditText) findViewById(R.id.et_players_count);
@@ -186,6 +191,9 @@ public class ReservationPlayersDialog extends ProgressDialog implements OnChecka
 
             // update the ui
             updateUI();
+
+            // check all by default
+            adapter.checkAll(true, 0);
         }
     }
 

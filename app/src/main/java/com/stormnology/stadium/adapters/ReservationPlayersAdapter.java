@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
+import com.stormnology.stadium.controllers.UserController;
 import com.stormnology.stadium.interfaces.OnCheckableCheckedListener;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.utils.Utils;
@@ -20,10 +21,14 @@ import java.util.List;
  * Created by karam on 7/17/16.
  */
 public class ReservationPlayersAdapter extends ParentRecyclerAdapter<User> {
+    private UserController userController;
     private OnCheckableCheckedListener itemCheckedListener;
 
     public ReservationPlayersAdapter(Context context, List<User> data, int layoutId) {
         super(context, data, layoutId);
+
+        // obtain main objects
+        userController = new UserController(null);
     }
 
     @Override
@@ -69,35 +74,31 @@ public class ReservationPlayersAdapter extends ParentRecyclerAdapter<User> {
         holder.layoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // check id
-                if (item.getId() == Const.DEFAULT_ITEM_ID) {
-                    // check if checked
-                    if (isAllChecked()) {
-                        // all checked, so uncheck all
-                        checkAll(false);
-                    } else {
-                        // not all checked, so check all
-                        checkAll(true);
-                    }
-                } else {
-                    if (item.isChecked()) {
-                        // uncheck it and the default item
-                        item.setChecked(false);
-                    } else {
-                        // check it and the default item
-                        item.setChecked(true);
-                    }
-                }
-
-                // notify the adapter
-                notifyDataSetChanged();
-
-                // fire the listener if possible
-                if (itemCheckedListener != null) {
-                    itemCheckedListener.onCheckableChecked(item, item.isChecked());
-                }
+                onItem(position);
             }
         });
+    }
+
+    private void onItem(int position) {
+        User user = data.get(position);
+
+        // check id
+        if (user.getId() == Const.DEFAULT_ITEM_ID) {
+            onCheckAll(position);
+        } else {
+            onCheckItem(position);
+        }
+    }
+
+    private void onCheckAll(int position) {
+        // check if checked
+        if (isAllChecked()) {
+            // all checked, so uncheck all
+            checkAll(false, position);
+        } else {
+            // not all checked, so check all
+            checkAll(true, position);
+        }
     }
 
     private boolean isAllChecked() {
@@ -115,12 +116,43 @@ public class ReservationPlayersAdapter extends ParentRecyclerAdapter<User> {
         return true;
     }
 
-    private void checkAll(boolean check) {
+    public void checkAll(boolean check, int position) {
         if (data.size() > 1) {
-            for (int i = 0; i < data.size(); i++) {
-                User user = data.get(i);
-                user.setChecked(check);
+            // check / uncheck
+            if (check) {
+                data = userController.checkAll(data);
+            } else {
+                data = userController.unCheckAll(data);
             }
+
+            // notify the adapter and fire the listener
+            notifyDataSetChanged();
+            fireItemCheckListener(position);
+        }
+    }
+
+    private void onCheckItem(int position) {
+        User user = data.get(position);
+
+        if (user.isChecked()) {
+            // uncheck it and the default item
+            user.setChecked(false);
+        } else {
+            // check it and the default item
+            user.setChecked(true);
+        }
+
+        // notify the adapter and fire the listener
+        notifyDataSetChanged();
+        fireItemCheckListener(position);
+    }
+
+    private void fireItemCheckListener(int position) {
+        User user = data.get(position);
+
+        // fire the listener if possible
+        if (itemCheckedListener != null) {
+            itemCheckedListener.onCheckableChecked(user, user.isChecked());
         }
     }
 
