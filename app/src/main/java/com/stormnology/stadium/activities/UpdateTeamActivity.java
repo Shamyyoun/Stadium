@@ -336,7 +336,8 @@ public class UpdateTeamActivity extends PicPickerActivity {
 
         Team team = (Team) response;
         if (statusCode == Const.SER_CODE_200) {
-            // show msg
+            // set team obj & show msg
+            this.team = team;
             Utils.showShortToast(this, R.string.team_updated_successfully);
 
             // invalidate the cached team image if changed
@@ -344,7 +345,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
                 Picasso.with(this).invalidate(team.getImageLink());
             }
 
-            // finis the activity
+            // finish the activity
             finishActivity();
         } else {
             String errorMsg = AppUtils.getResponseMsg(this, team);
