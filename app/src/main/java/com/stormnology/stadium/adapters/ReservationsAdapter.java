@@ -124,7 +124,13 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         }
 
         // date is shared to, set it
-        String dateTimeStr = getString(R.string.appointment_c) + " " + dateTime;
+        String dateTimeStr;
+        if (!Utils.isNullOrEmpty(item.getDayName())) {
+            dateTimeStr = item.getDayName() + " . ";
+        } else {
+            dateTimeStr = getString(R.string.appointment_c) + " ";
+        }
+        dateTimeStr += dateTime;
         holder.tvDateTime.setText(dateTimeStr);
 
         // check reservations type to set basic data

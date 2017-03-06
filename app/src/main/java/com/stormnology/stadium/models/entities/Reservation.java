@@ -40,6 +40,9 @@ public class Reservation extends ServerResponse implements Serializable {
     @SerializedName("date")
     @Expose
     private String date;
+    @SerializedName("dayName")
+    @Expose
+    private String dayName;
     @SerializedName("playerCounter")
     @Expose
     private int playerCounter;
@@ -192,6 +195,20 @@ public class Reservation extends ServerResponse implements Serializable {
      */
     public void setDate(String date) {
         this.date = date;
+    }
+
+    /**
+     * @return The dayName
+     */
+    public String getDayName() {
+        return dayName;
+    }
+
+    /**
+     * @param dayName The dayName
+     */
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
     }
 
     /**
