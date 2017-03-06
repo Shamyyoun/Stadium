@@ -14,6 +14,7 @@ import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.AttendanceController;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.models.entities.Attendant;
+import com.stormnology.stadium.models.entities.Reservation;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.utils.Utils;
 import com.stormnology.stadium.views.DividerItemDecoration;
@@ -22,22 +23,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.R.attr.id;
+
 /**
  * Created by Shamyyoun on 6/28/16.
  */
 public class AttendanceDialog extends ProgressDialog {
-    private int id;
+    private Reservation reservation;
     private RecyclerView recyclerView;
     private Button btnClose;
     private AttendanceAdapter adapter;
     private List<Attendant> data;
 
-    public AttendanceDialog(final Context context, int reservationId) {
+    public AttendanceDialog(final Context context, Reservation reservation) {
         super(context);
         setTitle(R.string.confirm_attendance);
 
-        // set the reservation id
-        id = reservationId;
+        // set the reservation obj
+        this.reservation = reservation;
 
         // init views
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -81,7 +84,7 @@ public class AttendanceDialog extends ProgressDialog {
     }
 
     private void updateUI() {
-        adapter = new AttendanceAdapter(context, data, R.layout.item_checkable_player, id);
+        adapter = new AttendanceAdapter(context, data, R.layout.item_checkable_player, reservation);
         adapter.setWrapperDialog(this);
         recyclerView.setAdapter(adapter);
         showMain();

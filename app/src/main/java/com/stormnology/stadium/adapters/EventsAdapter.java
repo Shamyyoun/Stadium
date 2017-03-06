@@ -216,7 +216,7 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmPresent(context, listener, user.getId(),
-                user.getToken(), user.getName(), event.getResId(), confirmType);
+                user.getToken(), user.getName(), event.getResId(), event.getTitleId(), confirmType);
         cancelWhenDestroyed(connectionHandler);
     }
 

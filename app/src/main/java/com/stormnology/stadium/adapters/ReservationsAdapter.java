@@ -298,7 +298,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
     private void openAttendanceDialog(int position) {
         Reservation reservation = data.get(position);
-        AttendanceDialog dialog = new AttendanceDialog(context, reservation.getId());
+        AttendanceDialog dialog = new AttendanceDialog(context, reservation);
         dialog.show();
     }
 

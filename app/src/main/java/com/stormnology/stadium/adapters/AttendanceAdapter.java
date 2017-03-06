@@ -17,6 +17,8 @@ import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.AttendanceController;
 import com.stormnology.stadium.dialogs.ProgressDialog;
 import com.stormnology.stadium.models.entities.Attendant;
+import com.stormnology.stadium.models.entities.Reservation;
+import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.models.enums.ReservationConfirmType;
 import com.stormnology.stadium.models.enums.ReservationStatusType;
@@ -30,14 +32,14 @@ import java.util.List;
  * Created by Shamyyoun on 19/2/16.
  */
 public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
-    private int reservationId;
+    private Reservation reservation;
     private ActiveUserController userController;
     private AttendanceController attendanceController;
     private ProgressDialog wrapperDialog;
 
-    public AttendanceAdapter(Context context, List<Attendant> data, int layoutId, int reservationId) {
+    public AttendanceAdapter(Context context, List<Attendant> data, int layoutId, Reservation reservation) {
         super(context, data, layoutId);
-        this.reservationId = reservationId;
+        this.reservation = reservation;
 
         // create controllers
         userController = new ActiveUserController(context);
@@ -78,23 +80,23 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         if (attendanceController.isCurrentActiveUser(item, user.getId())) {
             // check confirm status and update ui
             if (item.getType() == ReservationStatusType.CONFIRM.getValue()) {
-                // hide refuse tv and update confirm tv
-                holder.tvRefuse.setVisibility(View.GONE);
+                // update confirm tv
                 holder.tvConfirm.setText(R.string.confirmed);
                 holder.tvConfirm.setEnabled(false);
+
+                // enable refuse option
+                enableRefuseOption(holder);
             } else if (item.getType() == ReservationStatusType.DECLINE.getValue()) {
-                // hide confirm tv and update refuse tv
-                holder.tvConfirm.setVisibility(View.GONE);
+                // update refuse tv
                 holder.tvRefuse.setText(R.string.refused);
                 holder.tvRefuse.setEnabled(false);
+
+                // enable confirm option
+                enableConfirmOption(holder);
             } else {
-                // show two tvs and update their text
-                holder.tvConfirm.setText(R.string.confirm_your_attendance_u);
-                holder.tvConfirm.setEnabled(true);
-                holder.tvConfirm.setVisibility(View.VISIBLE);
-                holder.tvRefuse.setText(R.string.refuse_u);
-                holder.tvRefuse.setEnabled(true);
-                holder.tvRefuse.setVisibility(View.VISIBLE);
+                // show two options (confirm and refuse)
+                enableConfirmOption(holder);
+                enableRefuseOption(holder);
             }
             // show actions layout and hide name
             holder.layoutActions.setVisibility(View.VISIBLE);
@@ -124,6 +126,16 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         // add listeners
         holder.tvConfirm.setOnClickListener(clickListener);
         holder.tvRefuse.setOnClickListener(clickListener);
+    }
+
+    private void enableConfirmOption(ViewHolder viewHolder) {
+        viewHolder.tvConfirm.setText(R.string.confirm_your_attendance_u);
+        viewHolder.tvConfirm.setEnabled(true);
+    }
+
+    private void enableRefuseOption(ViewHolder viewHolder) {
+        viewHolder.tvRefuse.setText(R.string.refuse_u);
+        viewHolder.tvRefuse.setEnabled(true);
     }
 
     private void showConfirmDialog(final int position, final boolean confirm) {
@@ -180,12 +192,13 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
 
         // prepare request params
         User user = userController.getUser();
-        final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
+        Team reservationTeam = reservation.getReservationTeam();
+        int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
                 : ReservationConfirmType.DECLINE.getValue();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.confirmPresent(context, listener, user.getId(),
-                user.getToken(), user.getName(), reservationId, confirmType);
+                user.getToken(), user.getName(), reservation.getId(), reservationTeam.getId(), confirmType);
         cancelWhenDestroyed(connectionHandler);
     }
 

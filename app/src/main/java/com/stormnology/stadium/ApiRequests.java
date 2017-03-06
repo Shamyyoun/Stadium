@@ -218,8 +218,9 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler confirmPresent(Context context, ConnectionListener listener,
-                                                   int userId, String userToken, String playerName,
-                                                   int resId, int type) {
+                                                   int userId, String userToken,
+                                                   String playerName, int resId,
+                                                   int teamId, int type) {
         // create the request body
         ConfirmPresentBody body = new ConfirmPresentBody();
         User player = new User();
@@ -229,6 +230,9 @@ public class ApiRequests {
         body.setPlayer(player);
         Reservation res = new Reservation();
         res.setId(resId);
+        Team team = new Team();
+        team.setId(teamId);
+        res.setReservationTeam(team);
         body.setRes(res);
         body.setType(type);
 
