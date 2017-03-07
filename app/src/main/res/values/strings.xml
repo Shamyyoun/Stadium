@@ -389,6 +389,7 @@
     <string name="password_changed_successfully">تم تغيير كلمة المرور بنجاح</string>
     <string name="failed_changing_password">فشل تغيير كلمة المرور</string>
     <string name="reservation_confirmation_has_limit_for_first">يتوقف السماح بقبول الدعوات على أول</string>
+    <string name="search_dotted">بحث...</string>
 
 
     <!-- Arrays -->

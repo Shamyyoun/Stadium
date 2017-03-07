@@ -4,17 +4,22 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import com.stormnology.stadium.ApiRequests;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.adapters.TeamsAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
+import com.stormnology.stadium.controllers.SearchController;
 import com.stormnology.stadium.interfaces.OnItemClickListener;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.interfaces.OnTeamSelectedListener;
 import com.stormnology.stadium.models.SerializableListWrapper;
 import com.stormnology.stadium.models.entities.Team;
+import com.stormnology.stadium.models.entities.TeamsFilter;
 import com.stormnology.stadium.utils.Utils;
 import com.stormnology.stadium.views.DividerItemDecoration;
 
@@ -25,7 +30,10 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 6/28/16.
  */
-public class ChooseFromAllTeamsDialog extends ProgressDialog implements OnItemClickListener {
+public class ChooseFromAllTeamsDialog extends ProgressDialog implements TextWatcher {
+    private SearchController searchController;
+    private TeamsFilter teamsFilter;
+    private EditText etSearch;
     private RecyclerView recyclerView;
     private TeamsAdapter adapter;
     private List<Team> data;
@@ -35,11 +43,33 @@ public class ChooseFromAllTeamsDialog extends ProgressDialog implements OnItemCl
         super(context);
         setTitle(R.string.all_teams);
 
-        // init & customize the recycler view
+        // obtain main objects
+        searchController = new SearchController();
+        teamsFilter = new TeamsFilter();
+
+        // init views
+        etSearch = (EditText) findViewById(R.id.et_search);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        // customize recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+
+        // add listener
+        etSearch.addTextChangedListener(this);
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        search(s.toString());
+    }
+
+    private void search(String name) {
+        // search and update the ui with results
+        teamsFilter.setName(name);
+        List<Team> results = searchController.searchTeams(data, teamsFilter);
+        updateUI(results);
     }
 
     @Override
@@ -56,7 +86,7 @@ public class ChooseFromAllTeamsDialog extends ProgressDialog implements OnItemCl
 
         // check data
         if (data != null) {
-            updateUI();
+            updateUI(data);
         } else {
             loadData();
         }
@@ -69,7 +99,7 @@ public class ChooseFromAllTeamsDialog extends ProgressDialog implements OnItemCl
 
     @Override
     protected int getMainViewResId() {
-        return R.id.recycler_view;
+        return R.id.layout_main;
     }
 
     @Override
@@ -82,20 +112,20 @@ public class ChooseFromAllTeamsDialog extends ProgressDialog implements OnItemCl
         };
     }
 
-    private void updateUI() {
-        adapter = new TeamsAdapter(context, data, R.layout.item_team);
+    private void updateUI(final List<Team> teams) {
+        adapter = new TeamsAdapter(context, teams, R.layout.item_team);
         recyclerView.setAdapter(adapter);
         showMain();
-        adapter.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        Team team = data.get(position);
-        if (teamSelectedListener != null) {
-            teamSelectedListener.onTeamSelected(team);
-            dismiss();
-        }
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Team team = teams.get(position);
+                if (teamSelectedListener != null) {
+                    teamSelectedListener.onTeamSelected(team);
+                    dismiss();
+                }
+            }
+        });
     }
 
     private void loadData() {
@@ -122,7 +152,7 @@ public class ChooseFromAllTeamsDialog extends ProgressDialog implements OnItemCl
         if (data.size() == 0) {
             showEmpty(R.string.no_teams_found);
         } else {
-            updateUI();
+            updateUI(data);
         }
     }
 
@@ -143,5 +173,13 @@ public class ChooseFromAllTeamsDialog extends ProgressDialog implements OnItemCl
 
     public void setOnTeamSelectedListener(OnTeamSelectedListener teamSelectedListener) {
         this.teamSelectedListener = teamSelectedListener;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
     }
 }
