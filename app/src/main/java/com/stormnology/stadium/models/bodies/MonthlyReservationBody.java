@@ -21,7 +21,7 @@ public class MonthlyReservationBody {
     @SerializedName("dayName")
     @Expose
     private String dayName;
-    @SerializedName("intervalNum")
+    @SerializedName("IntrvalNum")
     @Expose
     private int intervalNum;
     @SerializedName("stdiumId")

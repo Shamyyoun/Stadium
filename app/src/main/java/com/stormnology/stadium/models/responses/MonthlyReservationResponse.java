@@ -36,7 +36,7 @@ public class MonthlyReservationResponse extends ServerResponse {
     @SerializedName("dayName")
     @Expose
     private String dayName;
-    @SerializedName("intervalNum")
+    @SerializedName("IntrvalNum")
     @Expose
     private int intervalNum;
     @SerializedName("resDate")
@@ -57,6 +57,14 @@ public class MonthlyReservationResponse extends ServerResponse {
     @SerializedName("price")
     @Expose
     private float price;
+
+    public List<Reservation> getAvailableRes() {
+        return availableRes;
+    }
+
+    public void setAvailableRes(List<Reservation> availableRes) {
+        this.availableRes = availableRes;
+    }
 
     public List<Reservation> getAvailableReservations() {
         return availableReservations;
