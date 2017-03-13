@@ -40,9 +40,12 @@ import java.util.Locale;
  * Created by karam on 8/10/16.
  */
 public abstract class StadiumInfoParentFragment extends ParentFragment {
+    private static final String DISPLAYED_DATE_FORMAT = "EEEE yyyy/M/d";
+
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     protected int id;
     private boolean isAdminStadiumScreen;
+    private Reservation dataHolder;
     protected StadiumController stadiumController;
 
     private ImageView ivImage;
@@ -73,6 +76,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
             id = bundle.getInt(Const.KEY_ID, 0);
             selectedTeam = (Team) bundle.getSerializable(Const.KEY_TEAM);
         }
+        dataHolder = new Reservation();
         stadiumController = new StadiumController();
     }
 
@@ -105,7 +109,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         super.onViewCreated(view, savedInstanceState);
 
         // update date ui with current date
-        updateDateUI(null);
+        updateDateUI();
 
         // load stadium info
         loadStadiumInfo();
@@ -118,14 +122,19 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
      */
     protected abstract int getContentViewResId();
 
-    private void updateDateUI(String date) {
-        if (date == null) {
-            // get current date
+    private void updateDateUI() {
+        // check the date in data holder
+        if (dataHolder.getDate() == null) {
+            // get current date and set it in data hodler
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
-            date = DateUtils.convertToString(calendar, Const.SER_DATE_FORMAT);
+            String date = DateUtils.convertToString(calendar, Const.SER_DATE_FORMAT);
+            dataHolder.setDate(date);
         }
 
-        tvDate.setText(date);
+        // format the date and set it in the text view
+        String formattedDate = DateUtils.formatDate(dataHolder.getDate(),
+                Const.SER_DATE_FORMAT, DISPLAYED_DATE_FORMAT, Utils.getArabicLocale());
+        tvDate.setText(formattedDate);
     }
 
     protected void updateStadiumUI() {
@@ -232,10 +241,11 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
             datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    // set date and update its ui
+                    // set date in data holder and update its ui
                     String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
                     date = DateUtils.formatDate(date, "yyyy/M/d", Const.SER_DATE_FORMAT);
-                    updateDateUI(date);
+                    dataHolder.setDate(date);
+                    updateDateUI();
 
                     // refresh the fragments
                     refreshPeriods();
@@ -244,8 +254,7 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
         }
 
         // set selected date
-        String dateStr = tvDate.getText().toString();
-        Calendar date = DateUtils.convertToCalendar(dateStr, Const.SER_DATE_FORMAT);
+        Calendar date = DateUtils.convertToCalendar(dataHolder.getDate(), Const.SER_DATE_FORMAT);
         datePickerFragment.setDate(date);
 
         // show date dialog
@@ -253,16 +262,17 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     }
 
     private void decreaseDate() {
-        String dateStr = tvDate.getText().toString();
-        Calendar date = DateUtils.convertToCalendar(dateStr, Const.SER_DATE_FORMAT);
+        // get current date calendar
+        Calendar date = DateUtils.convertToCalendar(dataHolder.getDate(), Const.SER_DATE_FORMAT);
 
         // check this date
         if (date != null && !DateUtils.isToday(date)) {
             // this is a day higher than today
-            // decrease it and update its ui
+            // decrease it and set it in the data holder then update its ui
             date.add(Calendar.DATE, -1);
-            dateStr = DateUtils.convertToString(date, Const.SER_DATE_FORMAT);
-            updateDateUI(dateStr);
+            String dateStr = DateUtils.convertToString(date, Const.SER_DATE_FORMAT);
+            dataHolder.setDate(dateStr);
+            updateDateUI();
 
             // refresh the fragments
             refreshPeriods();
@@ -270,25 +280,29 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
     }
 
     private void increaseDate() {
-        String date = DateUtils.getNewStringDate(tvDate.getText().toString(), Const.SER_DATE_FORMAT, 1);
+        // get the new date after increasing it one day
+        String date = DateUtils.getNewStringDate(dataHolder.getDate(), Const.SER_DATE_FORMAT, 1);
         if (date != null) {
-            updateDateUI(date);
+            // set the new date in data holder and update its ui
+            dataHolder.setDate(date);
+            updateDateUI();
 
-            // refresh the fragments
+            // then refresh the fragments
             refreshPeriods();
         }
     }
 
     private void refreshPeriods() {
-        String date = tvDate.getText().toString();
+        // check fragments first
         if (fragments == null) {
             return;
         }
 
+        // loop for fragments to update each one
         for (StadiumPeriodsFragment fragment : fragments) {
             if (fragment != null) {
                 // update the date and refresh it
-                fragment.updateDate(date);
+                fragment.updateDate(dataHolder.getDate());
                 fragment.refresh();
             }
         }
@@ -402,16 +416,14 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
             // get fragment and check it
             StadiumPeriodsFragment fragment = fragments[position];
             if (fragment == null) {
-                // prepare reservation object with all required parameters
-                Reservation reservation = new Reservation();
-                reservation.setReservationStadium(stadium);
-                String date = tvDate.getText().toString();
-                reservation.setDate(date);
-                reservation.setField(fieldCapacities[position]);
+                // add all required parameters to the data holder object to send it with the fragment bundle
+                dataHolder.setReservationStadium(stadium);
+                Field field = fieldCapacities[position];
+                dataHolder.setField(field);
 
                 // create bundle with this object
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Const.KEY_RESERVATION, reservation);
+                bundle.putSerializable(Const.KEY_RESERVATION, dataHolder);
                 bundle.putSerializable(Const.KEY_TEAM, selectedTeam);
                 bundle.putSerializable(Const.KEY_IS_ADMIN_STADIUM_SCREEN, isAdminStadiumScreen);
 

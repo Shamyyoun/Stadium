@@ -878,4 +878,13 @@ public class Utils {
             editText.setText("");
         }
     }
+
+    /**
+     * method, used to create a new locale object with the arabic iso code
+     *
+     * @return
+     */
+    public static Locale getArabicLocale() {
+        return new Locale("ar");
+    }
 }

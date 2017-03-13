@@ -23,8 +23,12 @@ public class DateUtils {
     }
 
     public static String convertToString(Calendar calendar, String strFormat) {
+        return convertToString(calendar, strFormat, Locale.ENGLISH);
+    }
+
+    public static String convertToString(Calendar calendar, String strFormat, Locale locale) {
         try {
-            SimpleDateFormat format = new SimpleDateFormat(strFormat, Locale.ENGLISH);
+            SimpleDateFormat format = new SimpleDateFormat(strFormat, locale);
             String strDate = format.format(calendar.getTime());
             return strDate;
         } catch (Exception e) {
@@ -33,7 +37,11 @@ public class DateUtils {
     }
 
     public static String formatDate(String strDate, String originalFormat, String desiredFormat) {
-        return convertToString(convertToCalendar(strDate, originalFormat), desiredFormat);
+        return formatDate(strDate, originalFormat, desiredFormat, Locale.ENGLISH);
+    }
+
+    public static String formatDate(String strDate, String originalFormat, String desiredFormat, Locale locale) {
+        return convertToString(convertToCalendar(strDate, originalFormat), desiredFormat, locale);
     }
 
     public static String getDayName(String date, String dateFormat) {
