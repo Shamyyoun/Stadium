@@ -416,14 +416,15 @@ public abstract class StadiumInfoParentFragment extends ParentFragment {
             // get fragment and check it
             StadiumPeriodsFragment fragment = fragments[position];
             if (fragment == null) {
-                // add all required parameters to the data holder object to send it with the fragment bundle
-                dataHolder.setReservationStadium(stadium);
-                Field field = fieldCapacities[position];
-                dataHolder.setField(field);
+                // prepare reservation object with all required parameters
+                Reservation reservation = new Reservation();
+                reservation.setReservationStadium(stadium);
+                reservation.setDate(dataHolder.getDate());
+                reservation.setField(fieldCapacities[position]);
 
                 // create bundle with this object
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Const.KEY_RESERVATION, dataHolder);
+                bundle.putSerializable(Const.KEY_RESERVATION, reservation);
                 bundle.putSerializable(Const.KEY_TEAM, selectedTeam);
                 bundle.putSerializable(Const.KEY_IS_ADMIN_STADIUM_SCREEN, isAdminStadiumScreen);
 
