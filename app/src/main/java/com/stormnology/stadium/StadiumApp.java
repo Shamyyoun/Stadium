@@ -7,6 +7,8 @@ import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.stormnology.stadium.utils.Utils;
 
@@ -18,6 +20,8 @@ import io.fabric.sdk.android.Fabric;
  * Created by Shamyyoun on 4/23/16.
  */
 public class StadiumApp extends Application {
+    private Tracker tracker;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,6 +41,9 @@ public class StadiumApp extends Application {
                 .applicationId(Const.PARSE_APP_ID)
                 .clientKey(Const.PARSE_CLIENT_KEY)
                 .build());
+
+        // init google analytics
+        getDefaultTracker();
     }
 
     /**
@@ -57,6 +64,29 @@ public class StadiumApp extends Application {
         android.content.res.Configuration conf = res.getConfiguration();
         conf.locale = new Locale(lang.toLowerCase());
         res.updateConfiguration(conf, dm);
+    }
+
+    /**
+     * static method, used to get the default analytics tracker
+     *
+     * @param context
+     * @return
+     */
+    public static Tracker getDefaultTracker(Context context) {
+        return getInstance(context).getDefaultTracker();
+    }
+
+    /**
+     * method, used to get the default analytics tracker
+     *
+     * @return
+     */
+    synchronized private Tracker getDefaultTracker() {
+        if (tracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker(Const.ANALYTICS_PROPERTY_ID);
+        }
+        return tracker;
     }
 
 }

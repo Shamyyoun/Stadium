@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "743760603011",
+    "project_id": "stadium-166215"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743760603011:android:e5c7ff702973614a",
+        "android_client_info": {
+          "package_name": "com.stormnology.stadium"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuE8VdSbB3ibPmdkJvW12E_ZZ-TZuixz8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-96102220-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
