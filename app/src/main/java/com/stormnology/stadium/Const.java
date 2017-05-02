@@ -5,6 +5,7 @@ package com.stormnology.stadium;
  */
 public class Const {
     // App level constants:--------------
+    public static final boolean DEBUGGABLE = true;
     public static final String LOG_TAG = "Stadium";
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
@@ -93,6 +94,8 @@ public class Const {
     public static final String API_PHONE_VALIDATION = "phoneValidation";
     public static final String API_RESEND_VALIDATION = "resendValidation";
     public static final String API_CHANGE_PASSWORD = "ChangePassword";
+    public static final String API_MY_INVITATIONS = "MyInvitations";
+    public static final String API_ACCEPT_INVITATION = "AcceptInvitation";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -128,6 +131,7 @@ public class Const {
     public static final int REQ_UPDATE_STADIUM = 11;
     public static final int REQ_VIEW_PLAYER_INFO = 12;
     public static final int REQ_ADD_DURATIONS = 13;
+    public static final int REQ_VIEW_INVITATIONS = 14;
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

@@ -167,5 +167,9 @@
         <activity
             android:name=".activities.ContactUsActivity"
             android:label="@string/contact_us" />
+
+        <activity
+            android:name=".activities.InvitationsActivity"
+            android:label="@string/the_invitations" />
     </application>
 </manifest>

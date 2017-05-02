@@ -28,8 +28,8 @@ public class AdminStadiumFragment extends StadiumInfoParentFragment {
         super.onCreate(savedInstanceState);
 
         // set id with admin stadium id
-        ActiveUserController userController = new ActiveUserController(activity);
-        id = userController.getUser().getAdminStadium().getId();
+        ActiveUserController activeUserController = new ActiveUserController(activity);
+        id = activeUserController.getUser().getAdminStadium().getId();
 
         // set admin stadium fragment flag
         setAdminStadiumScreen(true);

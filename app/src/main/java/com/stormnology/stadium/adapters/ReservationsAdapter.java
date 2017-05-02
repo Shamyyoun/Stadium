@@ -41,7 +41,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
     private StadiumController stadiumController;
     private ReservationController reservationController;
     private TeamController teamController;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private ReservationsType reservationsType;
     // the team players when the adapter is a team reservations
     // to check if the user is a player in this team or not and specify what he can do
@@ -54,7 +54,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         stadiumController = new StadiumController();
         reservationController = new ReservationController();
         teamController = new TeamController();
-        userController = new ActiveUserController(context);
+        activeUserController = new ActiveUserController(context);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
 
         // obtain main objects
         final Reservation item = data.get(position);
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // prepare the stadium values
         String stadiumName = null;
@@ -443,7 +443,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         };
 
         // prepare request params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         Stadium stadium = user.getAdminStadium();
         Team resetvationTeam = reservation.getReservationTeam();
         final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
@@ -494,7 +494,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         };
 
         // prepare request params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         Stadium stadium = user.getAdminStadium();
         Team reservationTeam = reservation.getReservationTeam();
 
@@ -543,7 +543,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         };
 
         // prepare request params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         Stadium stadium = user.getAdminStadium();
         Team reservationTeam = reservation.getReservationTeam();
 
@@ -592,7 +592,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         };
 
         // prepare request params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         Stadium stadium = user.getAdminStadium();
         Team reservationTeam = reservation.getReservationTeam();
 
@@ -642,7 +642,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         };
 
         // prepare params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         Team team = reservation.getReservationTeam();
         Field field = reservation.getField();
 
@@ -691,7 +691,7 @@ public class ReservationsAdapter extends ParentRecyclerAdapter<Reservation> {
         };
 
         // prepare request params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         Stadium stadium = user.getAdminStadium();
         Team reservationTeam = reservation.getReservationTeam();
 

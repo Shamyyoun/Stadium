@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class UpdateProfileActivity extends ParentActivity {
     private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private ImageView ivImage;
     private EditText etName;
     private Button btnBirthdate;
@@ -57,7 +57,7 @@ public class UpdateProfileActivity extends ParentActivity {
         setContentView(R.layout.activity_update_profile);
 
         // create the user controller
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
@@ -86,7 +86,7 @@ public class UpdateProfileActivity extends ParentActivity {
     }
 
     private void updateUI() {
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // set basic info
         etName.setText(user.getName());
@@ -165,7 +165,7 @@ public class UpdateProfileActivity extends ParentActivity {
             // set dates
             datePickerFragment.setMinDate(Const.USER_MIN_BIRTHDATE, Const.SER_DATE_FORMAT);
             datePickerFragment.setMaxDate(Const.USER_MAX_BIRTHDATE, Const.SER_DATE_FORMAT);
-            datePickerFragment.setDate(userController.getUser().getDateOfBirth(), Const.SER_DATE_FORMAT);
+            datePickerFragment.setDate(activeUserController.getUser().getDateOfBirth(), Const.SER_DATE_FORMAT);
 
             // add date set listener
             datePickerFragment.setDatePickerListener(new DatePickerDialog.OnDateSetListener() {
@@ -198,8 +198,8 @@ public class UpdateProfileActivity extends ParentActivity {
         // check to select item if possible
         if (selectedPosition != null) {
             positionsDialog.setSelectedItem(selectedPosition.getName());
-        } else if (userController.getUser().getPosition() != null) {
-            positionsDialog.setSelectedItem(userController.getUser().getPosition());
+        } else if (activeUserController.getUser().getPosition() != null) {
+            positionsDialog.setSelectedItem(activeUserController.getUser().getPosition());
         }
 
         positionsDialog.show();
@@ -207,7 +207,7 @@ public class UpdateProfileActivity extends ParentActivity {
 
     private void update() {
         // get the user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // prepare params
         String birthdate = DateUtils.formatDate(btnBirthdate.getText().toString(), DISPLAYED_DATE_FORMAT, Const.SER_DATE_FORMAT);
@@ -270,9 +270,9 @@ public class UpdateProfileActivity extends ParentActivity {
                 User user = (User) response;
                 if (statusCode == Const.SER_CODE_200) {
                     // save the new user obj
-                    ActiveUserController userController = new ActiveUserController(this);
-                    userController.setUser(user);
-                    userController.save();
+                    ActiveUserController activeUserController = new ActiveUserController(this);
+                    activeUserController.setUser(user);
+                    activeUserController.save();
 
                     // show msg
                     Utils.showShortToast(this, R.string.profile_updated_successfully);
@@ -312,7 +312,7 @@ public class UpdateProfileActivity extends ParentActivity {
         spCity.setAdapter(adapter);
 
         // select the current user city if possible
-        City city = userController.getUser().getCity();
+        City city = activeUserController.getUser().getCity();
         if (city != null) {
             int position = cityController.getItemPosition(cities, city.getId());
             if (position != -1) {

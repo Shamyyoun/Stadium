@@ -11,7 +11,7 @@ import com.stormnology.stadium.models.entities.User;
 
 public class SplashActivity extends ParentActivity {
     private static final int SPLASH_DURATION = 2 * 1000;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private ParseController parseController;
     private Handler handler;
     private Runnable runnable;
@@ -22,18 +22,18 @@ public class SplashActivity extends ParentActivity {
         setContentView(R.layout.activity_splash);
 
         // obtain main objects
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
         parseController = new ParseController(this);
 
         // check saved user
-        if (userController.hasLoggedInUser()) {
+        if (activeUserController.hasLoggedInUser()) {
             // install parse if required
-            User user = userController.getUser();
+            User user = activeUserController.getUser();
             parseController.installIfRequired(user.getId(), user.getChannels());
 
             // check his role in the system, if admin or not to goto suitable activity
             Intent intent;
-            if (userController.isAdmin()) {
+            if (activeUserController.isAdmin()) {
                 intent = new Intent(this, AdminMainActivity.class);
             } else {
                 intent = new Intent(this, PlayerMainActivity.class);

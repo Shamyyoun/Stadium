@@ -52,6 +52,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.stormnology.stadium.Const.DEBUGGABLE;
 import static com.stormnology.stadium.Const.LOG_TAG;
 
 /**
@@ -59,7 +60,6 @@ import static com.stormnology.stadium.Const.LOG_TAG;
  * A class, with general purpose utility methods (useful for many projects).
  */
 public class Utils {
-    public static final boolean DEBUGGABLE = true;
     public static final String PACKAGE_FACEBOOK = "com.facebook.katana";
     public static final String PACKAGE_FACEBOOK_MESSENGER = "com.facebook.orca";
     public static final String PACKAGE_GOOGLE_PLUS = "com.google.android.apps.plus";
@@ -262,7 +262,7 @@ public class Utils {
     }
 
     public static void logE(String msg) {
-        if (!DEBUGGABLE) {
+        if (!Const.DEBUGGABLE) {
             return;
         }
 

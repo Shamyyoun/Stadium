@@ -24,7 +24,7 @@ import java.util.Random;
  */
 public class ParsePushReceiver extends ParsePushBroadcastReceiver {
     private Context context;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private NotificationManager notificationManager;
 
     @Override
@@ -32,8 +32,8 @@ public class ParsePushReceiver extends ParsePushBroadcastReceiver {
         this.context = context;
 
         // check logged in user
-        userController = new ActiveUserController(context);
-        if (!userController.hasLoggedInUser()) {
+        activeUserController = new ActiveUserController(context);
+        if (!activeUserController.hasLoggedInUser()) {
             return;
         }
 
@@ -84,7 +84,7 @@ public class ParsePushReceiver extends ParsePushBroadcastReceiver {
         String title = context.getString(R.string.app_name);
 
         // create pending intent
-        Intent intent = new Intent(context, userController.isAdmin() ?
+        Intent intent = new Intent(context, activeUserController.isAdmin() ?
                 AdminMainActivity.class : PlayerMainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(Const.KEY_REFRESH_HOME, true);

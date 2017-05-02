@@ -36,7 +36,7 @@ import java.io.File;
  */
 public class UpdateTeamActivity extends PicPickerActivity {
     private Team team;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private TeamController teamController;
 
     private ImageView ivImage;
@@ -61,7 +61,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
 
         // obtain main objects
         team = (Team) getIntent().getSerializableExtra(Const.KEY_TEAM);
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
         teamController = new TeamController();
 
         // init views
@@ -114,7 +114,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
         Utils.loadImage(this, team.getImageLink(), R.drawable.default_image, ivImage);
 
         // check the active user role
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         if (teamController.isCaptain(team, user.getId())) {
             // show change captain button
             btnCaptain.setVisibility(View.VISIBLE);
@@ -321,7 +321,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
         }
 
         // get the user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.editTeam(this, this, user.getId(),

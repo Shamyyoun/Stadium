@@ -47,7 +47,7 @@ import java.util.List;
 public class SignUpActivity extends PicPickerActivity implements ConfirmListener {
     private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
 
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private ParseController parseController;
 
     private ImageView ivImage;
@@ -73,7 +73,7 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
         setContentView(R.layout.activity_sign_up);
 
         // obtain main objects
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
         parseController = new ParseController(this);
 
         // init views
@@ -378,8 +378,8 @@ public class SignUpActivity extends PicPickerActivity implements ConfirmListener
         user.setPassword(password);
 
         // save it
-        userController.setUser(user);
-        userController.save();
+        activeUserController.setUser(user);
+        activeUserController.save();
 
         // install parse
         parseController.install(user.getId(), user.getChannels());

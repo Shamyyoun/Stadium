@@ -10,6 +10,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
+import com.stormnology.stadium.Const;
 import com.stormnology.stadium.utils.Utils;
 
 import java.io.File;
@@ -323,7 +324,7 @@ public class ConnectionHandler<T> {
      * @param message
      */
     private void logE(String message) {
-        if (!Utils.DEBUGGABLE) {
+        if (!Const.DEBUGGABLE) {
             return;
         }
 

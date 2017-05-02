@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class AdminReservationsFragment extends ProgressFragment implements OnItemRemovedListener {
     private ReservationsType reservationsType;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private RecyclerView recyclerView;
     private List<Reservation> data;
     private ReservationsAdapter adapter;
@@ -41,7 +41,7 @@ public class AdminReservationsFragment extends ProgressFragment implements OnIte
 
         // obtain main objects
         reservationsType = (ReservationsType) getArguments().getSerializable(Const.KEY_RESERVATIONS_TYPE);
-        userController = new ActiveUserController(activity);
+        activeUserController = new ActiveUserController(activity);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class AdminReservationsFragment extends ProgressFragment implements OnIte
         }
 
         // prepare params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         int userId = user.getId();
         String userToken = user.getToken();
         int stadiumId = user.getAdminStadium().getId();

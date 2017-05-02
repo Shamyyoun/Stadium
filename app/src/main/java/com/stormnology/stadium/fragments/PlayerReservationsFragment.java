@@ -32,7 +32,7 @@ import java.util.List;
  * Created by Shamyyoun on 7/2/16.
  */
 public class PlayerReservationsFragment extends ProgressFragment {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private Button btnAdd;
     private RecyclerView recyclerView;
     private List<Reservation> data;
@@ -45,7 +45,7 @@ public class PlayerReservationsFragment extends ProgressFragment {
         removeOptionsMenu();
 
         // create the user controller
-        userController = new ActiveUserController(activity);
+        activeUserController = new ActiveUserController(activity);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class PlayerReservationsFragment extends ProgressFragment {
         showProgress();
 
         // get current user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.myTeamsReservations(activity, this, user.getId(), user.getToken());

@@ -27,7 +27,7 @@ import java.io.File;
  * Created by Shamyyoun on 10/22/16.
  */
 public class UpdateProfileImageActivity extends PicPickerActivity {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private ImageView ivImage;
     private ImageButton ibEdit;
     private View layoutButtons;
@@ -44,7 +44,7 @@ public class UpdateProfileImageActivity extends PicPickerActivity {
         setContentView(R.layout.activity_update_profile_image);
 
         // create the user controller
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
@@ -62,7 +62,7 @@ public class UpdateProfileImageActivity extends PicPickerActivity {
     }
 
     private void loadProfileImage() {
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         if (!Utils.isNullOrEmpty(user.getImageLink())) {
             Utils.loadImage(this, user.getImageLink(), 0, ivImage);
         } else if (user.getUserImage() != null && !Utils.isNullOrEmpty(user.getUserImage().getContentBase64())) {
@@ -136,7 +136,7 @@ public class UpdateProfileImageActivity extends PicPickerActivity {
 
         // encode the image and get the user
         imageEncoded = BitmapUtils.encodeBase64(image);
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.uploadImage(this, this, user.getId(),
@@ -153,13 +153,13 @@ public class UpdateProfileImageActivity extends PicPickerActivity {
             Utils.showShortToast(this, R.string.image_updated_successfully);
 
             // update user image
-            User user = userController.getUser();
+            User user = activeUserController.getUser();
             Image image = new Image();
             image.setContentBase64(imageEncoded);
             user.setImageLink(null);
             user.setUserImage(image);
-            userController.setUser(user);
-            userController.save();
+            activeUserController.setUser(user);
+            activeUserController.save();
 
             // update the flag
             imageUpdated = true;

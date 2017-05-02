@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class TeamInfoActivity extends ParentActivity {
     private int id;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private TeamController teamController;
 
     private ImageView ivImage;
@@ -62,7 +62,7 @@ public class TeamInfoActivity extends ParentActivity {
 
         // create main objects
         id = getIntent().getIntExtra(Const.KEY_ID, 0);
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
         teamController = new TeamController();
 
         // init views
@@ -115,7 +115,7 @@ public class TeamInfoActivity extends ParentActivity {
         Utils.loadImage(this, team.getImageLink(), R.drawable.default_image, ivImage);
 
         // check the active user role to set his actions
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         if (teamController.isCaptain(team, user.getId())
                 || teamController.isAssistant(team, user.getId())) {
             // user is a captain or an assistant

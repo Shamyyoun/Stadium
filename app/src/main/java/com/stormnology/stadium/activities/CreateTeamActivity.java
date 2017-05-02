@@ -204,8 +204,8 @@ public class CreateTeamActivity extends PicPickerActivity {
         int favStadiumId = favoriteStadium != null ? favoriteStadium.getId() : 0;
 
         // get the user
-        ActiveUserController userController = new ActiveUserController(this);
-        User user = userController.getUser();
+        ActiveUserController activeUserController = new ActiveUserController(this);
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.createTeam(this, this, user.getId(),

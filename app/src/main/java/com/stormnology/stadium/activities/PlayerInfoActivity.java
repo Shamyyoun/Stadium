@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class PlayerInfoActivity extends ParentActivity {
     private int id;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
 
     private ImageView ivImage;
     private TextView tvRating;
@@ -66,7 +66,7 @@ public class PlayerInfoActivity extends ParentActivity {
 
         // obtain main objects
         id = getIntent().getIntExtra(Const.KEY_ID, 0);
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
 
         // init views
         ivImage = (ImageView) findViewById(R.id.iv_image);
@@ -210,7 +210,7 @@ public class PlayerInfoActivity extends ParentActivity {
         showTeamsProgress();
 
         // send request
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.listOfMyTeams(this, this, user.getToken(), id);
         cancelWhenDestroyed(connectionHandler);
     }
@@ -225,7 +225,7 @@ public class PlayerInfoActivity extends ParentActivity {
         showProgressDialog();
 
         // send request
-        User activeUser = userController.getUser();
+        User activeUser = activeUserController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.ratePlayer(this, this, activeUser.getId(),
                 activeUser.getToken(), activeUser.getName(), player.getId(), rate);
         cancelWhenDestroyed(connectionHandler);
@@ -241,7 +241,7 @@ public class PlayerInfoActivity extends ParentActivity {
         showProgressDialog();
 
         // send request
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.addMemberToTeam(this, this, user.getId(),
                 user.getToken(), team.getId(), team.getName(), id, player.getName());
         cancelWhenDestroyed(connectionHandler);

@@ -26,14 +26,16 @@ public class ParseController implements LogInCallback, SaveCallback {
     }
 
     public void install(int userId, List<String> channels) {
-        this.userId = userId;
-        this.channels = channels;
+        // TODO re-enable when generate signed apk
 
-        // logout current user if exists
-        logoutCurrentUser();
-
-        // login parse
-        ParseUser.logInInBackground(Const.PARSE_USERNAME, Const.PARSE_PASSWORD, this);
+//        this.userId = userId;
+//        this.channels = channels;
+//
+//        // logout current user if exists
+//        logoutCurrentUser();
+//
+//        // login parse
+//        ParseUser.logInInBackground(Const.PARSE_USERNAME, Const.PARSE_PASSWORD, this);
     }
 
     public void installIfRequired(int userId, List<String> channels) {

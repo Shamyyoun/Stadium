@@ -23,7 +23,7 @@ import com.stormnology.stadium.utils.AppUtils;
 import com.stormnology.stadium.utils.Utils;
 
 public class LoginActivity extends ParentActivity {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private ParseController parseController;
 
     private EditText etPhone;
@@ -39,7 +39,7 @@ public class LoginActivity extends ParentActivity {
         setContentView(R.layout.activity_login);
 
         // obtain main objects
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
         parseController = new ParseController(this);
 
         // init views
@@ -139,15 +139,15 @@ public class LoginActivity extends ParentActivity {
         user.setPassword(password);
 
         // save him
-        userController.setUser(user);
-        userController.save();
+        activeUserController.setUser(user);
+        activeUserController.save();
 
         // install parse
         parseController.install(user.getId(), user.getChannels());
 
         // check his role in the system, if admin or not to goto suitable activity
         Intent intent;
-        if (userController.isAdmin()) {
+        if (activeUserController.isAdmin()) {
             intent = new Intent(this, AdminMainActivity.class);
         } else {
             intent = new Intent(this, PlayerMainActivity.class);

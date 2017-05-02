@@ -98,8 +98,8 @@ public class AttendanceDialog extends ProgressDialog {
         showProgress();
 
         // get current user
-        ActiveUserController userController = new ActiveUserController(context);
-        User user = userController.getUser();
+        ActiveUserController activeUserController = new ActiveUserController(context);
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.playerConfirmList(context, this, user.getId(),

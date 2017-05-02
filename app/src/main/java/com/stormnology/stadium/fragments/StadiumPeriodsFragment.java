@@ -35,7 +35,7 @@ import java.util.List;
  * Created by karam on 7/31/16.
  */
 public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemovedListener, OnReservationAddedListener, OnItemClickListener {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private ReservationController reservationController;
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private Reservation reservation; // this is just to hold data like stadium, field size and date passed from activity.
@@ -57,7 +57,7 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         reservation = (Reservation) getArguments().getSerializable(Const.KEY_RESERVATION);
         selectedTeam = (Team) getArguments().getSerializable(Const.KEY_TEAM);
         isAdminStadiumScreen = getArguments().getBoolean(Const.KEY_IS_ADMIN_STADIUM_SCREEN);
-        userController = new ActiveUserController(activity);
+        activeUserController = new ActiveUserController(activity);
         reservationController = new ReservationController();
     }
 
@@ -116,7 +116,7 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         int itemLayoutId;
         if (isAdminStadiumScreen) {
             itemLayoutId = R.layout.item_green_stadium_period;
-        } else if (userController.isAdmin()) {
+        } else if (activeUserController.isAdmin()) {
             itemLayoutId = R.layout.item_gray_stadium_period;
         } else {
             itemLayoutId = R.layout.item_green_stadium_period;

@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class UpdateStadiumActivity extends PicPickerActivity {
     private Stadium stadium;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private StadiumController stadiumController;
 
     private ImageView ivImage;
@@ -70,7 +70,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
 
         // obtain main objects
         stadium = (Stadium) getIntent().getSerializableExtra(Const.KEY_STADIUM);
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
         stadiumController = new StadiumController();
 
         // init views
@@ -252,7 +252,7 @@ public class UpdateStadiumActivity extends PicPickerActivity {
         }
 
         // get the user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.editStadium(this, this, user.getId(),

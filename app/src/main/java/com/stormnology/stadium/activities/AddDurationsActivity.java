@@ -41,7 +41,7 @@ import java.util.List;
 public class AddDurationsActivity extends ParentActivity {
     private static final String DISPLAYED_DATE_FORMAT = "yyyy/M/d";
 
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private DurationController durationController;
 
     private View layoutContent;
@@ -67,7 +67,7 @@ public class AddDurationsActivity extends ParentActivity {
         setToolbarIcon(R.drawable.white_close_icon);
         enableBackButton();
 
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
         durationController = new DurationController();
 
         // init views
@@ -227,7 +227,7 @@ public class AddDurationsActivity extends ParentActivity {
         showProgressDialog();
 
         // send request
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.changeDuration(this, this, user.getId(),
                 user.getToken(), user.getAdminStadium().getId(), startDate, durations);
         cancelWhenDestroyed(connectionHandler);

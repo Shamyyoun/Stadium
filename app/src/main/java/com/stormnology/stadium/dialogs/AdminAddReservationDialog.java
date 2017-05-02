@@ -119,8 +119,8 @@ public class AdminAddReservationDialog extends ParentDialog {
         showProgressView();
 
         // prepare params
-        ActiveUserController userController = new ActiveUserController(context);
-        User user = userController.getUser();
+        ActiveUserController activeUserController = new ActiveUserController(context);
+        User user = activeUserController.getUser();
         Stadium stadium = user.getAdminStadium();
         Field field = reservation.getField();
 

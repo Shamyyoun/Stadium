@@ -34,11 +34,11 @@ import java.util.List;
  */
 public class ContactsActivity extends ProgressActivity implements OnPlayerAddedListener, OnItemClickListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private RecyclerView recyclerView;
     private List<User> data;
     private PlayersAdapter adapter;
-    private boolean isPlayersAdded; // used to set the result when leaving the activity to notify parents if players added
+    private boolean arePlayersAdded; // used to set the result when leaving the activity to notify parents if players added
     private int selectedItemPosition; // used to hold clicked player to open his info
 
     @Override
@@ -48,7 +48,7 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
 
         // obtain main objects
         selectedTeam = (Team) getIntent().getSerializableExtra(Const.KEY_TEAM);
-        userController = new ActiveUserController(this);
+        activeUserController = new ActiveUserController(this);
 
         // customize the recycler view
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -135,7 +135,7 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
 
     @Override
     public void onPlayerAdded(User player) {
-        isPlayersAdded = true;
+        arePlayersAdded = true;
     }
 
     private void loadData() {
@@ -155,7 +155,7 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
                 List<String> phoneNumbers = AppUtils.prepareContactsPhonesList(activity);
 
                 // get active user
-                User user = userController.getUser();
+                User user = activeUserController.getUser();
 
                 // send request
                 ConnectionHandler connectionHandler = ApiRequests.checkListOfContact(activity, ContactsActivity.this,
@@ -218,7 +218,7 @@ public class ContactsActivity extends ProgressActivity implements OnPlayerAddedL
 
     @Override
     public void onBackPressed() {
-        if (isPlayersAdded) {
+        if (arePlayersAdded) {
             setResult(RESULT_OK);
         }
 

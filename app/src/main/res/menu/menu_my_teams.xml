@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_invitations"
+        android:name="@string/the_invitations"
+        android:icon="@drawable/white_group_icon"
+        android:title="@string/the_invitations"
+        app:showAsAction="always" />
+</menu>

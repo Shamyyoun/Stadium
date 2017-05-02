@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import com.stormnology.stadium.ApiRequests;
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.activities.CreateTeamActivity;
+import com.stormnology.stadium.activities.InvitationsActivity;
 import com.stormnology.stadium.activities.TeamInfoActivity;
 import com.stormnology.stadium.adapters.TeamsAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
@@ -33,7 +35,7 @@ import java.util.List;
  * Created by Shamyyoun on 7/2/16.
  */
 public class MyTeamsFragment extends ProgressFragment {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private Button btnCreateTeam;
     private RecyclerView recyclerView;
     private List<Team> data;
@@ -42,11 +44,11 @@ public class MyTeamsFragment extends ProgressFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createOptionsMenu(R.menu.menu_my_teams);
         setTitle(R.string.my_teams);
-        removeOptionsMenu();
 
         // create the user controller
-        userController = new ActiveUserController(activity);
+        activeUserController = new ActiveUserController(activity);
     }
 
     @Override
@@ -115,7 +117,7 @@ public class MyTeamsFragment extends ProgressFragment {
 
     private void updateUI() {
         adapter = new TeamsAdapter(activity, data, R.layout.item_team_simple);
-        adapter.setPlayerId(userController.getUser().getId());
+        adapter.setPlayerId(activeUserController.getUser().getId());
         recyclerView.setAdapter(adapter);
         showMain();
 
@@ -142,7 +144,7 @@ public class MyTeamsFragment extends ProgressFragment {
         showProgress();
 
         // get current user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.listOfMyTeams(activity, this, user.getToken(), user.getId());
@@ -173,6 +175,20 @@ public class MyTeamsFragment extends ProgressFragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_invitations) {
+            openInvitationsActivity();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openInvitationsActivity() {
+        Intent intent = new Intent(activity, InvitationsActivity.class);
+        startActivityForResult(intent, Const.REQ_VIEW_INVITATIONS);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
@@ -181,7 +197,9 @@ public class MyTeamsFragment extends ProgressFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Const.REQ_CREATE_TEAM && resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK
+                && (requestCode == Const.REQ_CREATE_TEAM) || (requestCode == Const.REQ_VIEW_INVITATIONS)) {
+            // refresh my teams
             refresh();
         } else {
             super.onActivityResult(requestCode, resultCode, data);

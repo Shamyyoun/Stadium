@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
     private Reservation reservation;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private AttendanceController attendanceController;
     private ProgressDialog wrapperDialog;
 
@@ -42,7 +42,7 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         this.reservation = reservation;
 
         // create controllers
-        userController = new ActiveUserController(context);
+        activeUserController = new ActiveUserController(context);
         attendanceController = new AttendanceController();
     }
 
@@ -76,7 +76,7 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         }
 
         // check if current item is the current active user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         if (attendanceController.isCurrentActiveUser(item, user.getId())) {
             // check confirm status and update ui
             if (item.getType() == ReservationStatusType.CONFIRM.getValue()) {
@@ -191,7 +191,7 @@ public class AttendanceAdapter extends ParentRecyclerAdapter<Attendant> {
         };
 
         // prepare request params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         Team reservationTeam = reservation.getReservationTeam();
         int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
                 : ReservationConfirmType.DECLINE.getValue();

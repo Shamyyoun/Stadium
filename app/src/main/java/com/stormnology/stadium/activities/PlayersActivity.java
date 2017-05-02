@@ -10,7 +10,7 @@ import com.stormnology.stadium.models.entities.Team;
 public class PlayersActivity extends ParentActivity {
     private Team team; // this is the team object when the user navigates to the add players from team info screen
     private PlayersFragment fragment;
-    private boolean isPlayersAdded = false;
+    private boolean arePlayersAdded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +39,12 @@ public class PlayersActivity extends ParentActivity {
     }
 
     public void onPlayerAdded() {
-        isPlayersAdded = true;
+        arePlayersAdded = true;
     }
 
     @Override
     public void onBackPressed() {
-        if (isPlayersAdded) {
+        if (arePlayersAdded) {
             setResult(RESULT_OK);
         }
 

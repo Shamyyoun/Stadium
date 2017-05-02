@@ -23,7 +23,7 @@ import com.stormnology.stadium.utils.Utils;
  * Created by Shamyyoun on 2/17/2016.
  */
 public class ChangePasswordDialog extends ParentDialog {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
 
     private EditText etCurrentPassword;
     private EditText etNewPassword;
@@ -34,7 +34,7 @@ public class ChangePasswordDialog extends ParentDialog {
         super(context);
 
         // obtain main objects
-        userController = new ActiveUserController(context);
+        activeUserController = new ActiveUserController(context);
 
         // customize dialog
         setContentView(R.layout.dialog_change_password);
@@ -76,7 +76,7 @@ public class ChangePasswordDialog extends ParentDialog {
 
     private void changePassword() {
         // get user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // prepare inputs
         String currentPassword = Utils.getText(etCurrentPassword);
@@ -133,7 +133,7 @@ public class ChangePasswordDialog extends ParentDialog {
         if (statusCode == Const.SER_CODE_200) {
             // update user password
             String password = Utils.getText(etNewPassword);
-            userController.updatePassword(password);
+            activeUserController.updatePassword(password);
 
             // show msg and dismiss
             Utils.showShortToast(context, R.string.password_changed_successfully);

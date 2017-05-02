@@ -132,8 +132,8 @@ public class ChooseFieldDialog extends ProgressDialog {
         showProgress();
 
         // prepare the stadium id
-        ActiveUserController userController = new ActiveUserController(context);
-        int stadiumId = userController.getUser().getAdminStadium().getId();
+        ActiveUserController activeUserController = new ActiveUserController(context);
+        int stadiumId = activeUserController.getUser().getAdminStadium().getId();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.getMyFields(context, this, stadiumId);

@@ -194,8 +194,8 @@ public class StadiumsFragment extends ProgressFragment implements OnItemClickLis
         if (resetFilters) resetFilters();
 
         // get current user
-        ActiveUserController userController = new ActiveUserController(activity);
-        User user = userController.getUser();
+        ActiveUserController activeUserController = new ActiveUserController(activity);
+        User user = activeUserController.getUser();
 
         // send suitable request
         ConnectionHandler connectionHandler;

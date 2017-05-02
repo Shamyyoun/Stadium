@@ -46,7 +46,7 @@ import java.util.List;
  */
 public class PlayersFragment extends ProgressFragment implements OnPlayerAddedListener, OnItemClickListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private SearchController searchController;
     private OrderController orderController;
     private TextView tvOrderBy;
@@ -87,7 +87,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         }
 
         // create controllers
-        userController = new ActiveUserController(activity);
+        activeUserController = new ActiveUserController(activity);
         searchController = new SearchController();
         orderController = new OrderController();
 
@@ -211,7 +211,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         resetFilters();
 
         // get active user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.allPlayers(activity, this, user.getId());

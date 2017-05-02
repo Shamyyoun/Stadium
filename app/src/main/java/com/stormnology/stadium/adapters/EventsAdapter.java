@@ -41,12 +41,12 @@ import java.util.Locale;
  */
 public class EventsAdapter extends ParentRecyclerAdapter<Event> {
     private PrettyTime prettyTime;
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
 
     public EventsAdapter(Context context, List<Event> data, int layoutId) {
         super(context, data, layoutId);
         prettyTime = new PrettyTime(new Locale("ar"));
-        userController = new ActiveUserController(context);
+        activeUserController = new ActiveUserController(context);
     }
 
     @Override
@@ -210,7 +210,7 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
         };
 
         // prepare request params
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         final int confirmType = confirm ? ReservationConfirmType.CONFIRM.getValue()
                 : ReservationConfirmType.DECLINE.getValue();
 

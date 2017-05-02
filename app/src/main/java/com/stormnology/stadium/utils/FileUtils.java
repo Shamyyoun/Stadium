@@ -30,6 +30,8 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 
+import com.stormnology.stadium.Const;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -209,7 +211,7 @@ public class FileUtils {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
                     null);
             if (cursor != null && cursor.moveToFirst()) {
-                if (Utils.DEBUGGABLE)
+                if (Const.DEBUGGABLE)
                     DatabaseUtils.dumpCursor(cursor);
 
                 final int column_index = cursor.getColumnIndexOrThrow(column);
@@ -427,7 +429,7 @@ public class FileUtils {
                     }
                 }
             } catch (Exception e) {
-                if (Utils.DEBUGGABLE) e.printStackTrace();
+                if (Const.DEBUGGABLE) e.printStackTrace();
             } finally {
                 if (cursor != null)
                     cursor.close();

@@ -122,11 +122,11 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     }
 
     private class LogoutTask extends AsyncTask<Void, Void, Boolean> {
-        ActiveUserController userController;
+        ActiveUserController activeUserController;
         ParseController parseController;
 
         public LogoutTask() {
-            userController = new ActiveUserController(activity);
+            activeUserController = new ActiveUserController(activity);
             parseController = new ParseController(activity);
         }
 
@@ -156,7 +156,7 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
 
             if (result != null && result.booleanValue()) {
                 // logout from user controller
-                userController.logout();
+                activeUserController.logout();
 
                 // goto login activity
                 Intent intent = new Intent(activity, LoginActivity.class);

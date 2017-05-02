@@ -31,14 +31,14 @@ import java.util.List;
  * Created by Shamyyoun on 19/2/16.
  */
 public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private TeamController teamController;
     private int playerId; // the player id to check his role in the every team and display it if required
     private int checkedItemPosition = -1; // used to hold last checked item position to uncheck it after checking new item
 
     public TeamsAdapter(Context context, List<Team> data, int layoutId) {
         super(context, data, layoutId);
-        userController = new ActiveUserController(context);
+        activeUserController = new ActiveUserController(context);
         teamController = new TeamController();
     }
 
@@ -150,7 +150,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     private void onLeaveTeam(final int position) {
         // get objects
         Team team = data.get(position);
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // check user role
         if (teamController.isCaptain(team, user.getId())) {
@@ -243,7 +243,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
         };
 
         // send request
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
         ConnectionHandler connectionHandler = ApiRequests.changeCaptain(context, connectionListener, user.getId(),
                 user.getToken(), team.getId(), newCaptain.getId());
         cancelWhenDestroyed(connectionHandler);
@@ -262,7 +262,7 @@ public class TeamsAdapter extends ParentRecyclerAdapter<Team> {
     private void leaveTeam(final int position) {
         // get objects
         Team team = data.get(position);
-        final User user = userController.getUser();
+        final User user = activeUserController.getUser();
 
         // check internet connection
         if (!Utils.hasConnection(context)) {

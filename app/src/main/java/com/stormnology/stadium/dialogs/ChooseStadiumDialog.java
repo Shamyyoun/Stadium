@@ -129,8 +129,8 @@ public class ChooseStadiumDialog extends ProgressDialog {
         showProgress();
 
         // get current user
-        ActiveUserController userController = new ActiveUserController(context);
-        User user = userController.getUser();
+        ActiveUserController activeUserController = new ActiveUserController(context);
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.listOfStadiums(context, this, user.getId(), user.getToken());

@@ -124,8 +124,8 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
         showProgress();
 
         // get active user
-        ActiveUserController userController = new ActiveUserController(activity);
-        User user = userController.getUser();
+        ActiveUserController activeUserController = new ActiveUserController(activity);
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.reservationsOfTeam(activity, this, user.getId(),

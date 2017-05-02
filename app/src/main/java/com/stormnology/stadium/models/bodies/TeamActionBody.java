@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.models.entities.User;
 
-public class ReservationsOfTeamBody {
+public class TeamActionBody {
 
     @SerializedName("user")
     @Expose

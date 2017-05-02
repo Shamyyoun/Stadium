@@ -39,7 +39,7 @@ import java.util.List;
  * Created by Shamyyoun on 7/2/16.
  */
 public class PlayerHomeFragment extends ProgressFragment implements OnItemClickListener {
-    private ActiveUserController userController;
+    private ActiveUserController activeUserController;
     private View layoutImage;
     private ImageView ivImage;
     private TextView tvRating;
@@ -60,7 +60,7 @@ public class PlayerHomeFragment extends ProgressFragment implements OnItemClickL
         super.onCreateView(inflater, container, savedInstanceState);
 
         // create the user controller
-        userController = new ActiveUserController(activity);
+        activeUserController = new ActiveUserController(activity);
 
         // init views
         layoutImage = findViewById(R.id.layout_image);
@@ -128,8 +128,8 @@ public class PlayerHomeFragment extends ProgressFragment implements OnItemClickL
     }
 
     private void updateUserUI() {
-        User user = userController.getUser();
-        tvName.setText(userController.getNamePosition());
+        User user = activeUserController.getUser();
+        tvName.setText(activeUserController.getNamePosition());
         tvRating.setText(Utils.formatDouble(user.getRate()));
 
         // load the profile image
@@ -191,7 +191,7 @@ public class PlayerHomeFragment extends ProgressFragment implements OnItemClickL
         showProgress();
 
         // get current user
-        User user = userController.getUser();
+        User user = activeUserController.getUser();
 
         // send request
         ConnectionHandler connectionHandler = ApiRequests.getEvent(activity, this, user.getId());

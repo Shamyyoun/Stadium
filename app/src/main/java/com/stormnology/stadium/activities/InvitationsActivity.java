@@ -1,17 +1,15 @@
-package com.stormnology.stadium.fragments;
+package com.stormnology.stadium.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.stormnology.stadium.ApiRequests;
 import com.stormnology.stadium.R;
-import com.stormnology.stadium.adapters.BlockedTeamsAdapter;
+import com.stormnology.stadium.adapters.InvitationsAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
+import com.stormnology.stadium.interfaces.OnInvitationAcceptedListener;
 import com.stormnology.stadium.interfaces.OnItemRemovedListener;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.models.SerializableListWrapper;
@@ -24,34 +22,29 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Shamyyoun on 7/2/16.
+ * Created by Shamyyoun on 5/1/17.
  */
-public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemovedListener {
+public class InvitationsActivity extends ProgressActivity implements OnInvitationAcceptedListener, OnItemRemovedListener {
     private ActiveUserController activeUserController;
     private RecyclerView recyclerView;
     private List<Team> data;
-    private BlockedTeamsAdapter adapter;
+    private InvitationsAdapter adapter;
+    private boolean areInvitationsAccepted; // used to set the result when leaving the activity to notify parents if players added
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.blocked_teams);
-        removeOptionsMenu();
+        enableBackButton();
 
-        // create the user controller
-        activeUserController = new ActiveUserController(activity);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+        // obtain main objects
+        activeUserController = new ActiveUserController(this);
 
         // customize the recycler view
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        // get data from saved bundle if exists
+        // obtain saved data if possible
         if (savedInstanceState != null) {
             SerializableListWrapper<Team> dataWrapper = (SerializableListWrapper<Team>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
@@ -64,18 +57,16 @@ public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemo
             if (!data.isEmpty()) {
                 updateUI();
             } else {
-                showEmpty(R.string.no_teams_found);
+                showEmpty(R.string.no_invitations_found);
             }
         } else {
             loadData();
         }
-
-        return rootView;
     }
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.fragment_blocked_teams;
+        return R.layout.activity_invitations;
     }
 
     @Override
@@ -94,10 +85,24 @@ public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemo
     }
 
     private void updateUI() {
-        adapter = new BlockedTeamsAdapter(activity, data, R.layout.item_blocked_team);
+        adapter = new InvitationsAdapter(activity, data, R.layout.item_invitation);
         adapter.setOnItemRemovedListener(this);
+        adapter.setOnInvitationAcceptedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onItemRemoved(int position) {
+        // show empty view if required
+        if (data.size() == 0) {
+            showEmpty(R.string.no_invitations_found);
+        }
+    }
+
+    @Override
+    public void onInvitationAccepted(Team team) {
+        areInvitationsAccepted = true;
     }
 
     private void loadData() {
@@ -109,13 +114,11 @@ public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemo
 
         showProgress();
 
-        // prepare request params
+        // get active user
         User user = activeUserController.getUser();
-        int stadiumId = user.getAdminStadium().getId();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.myBlockedList(activity, this, user.getId(),
-                user.getToken(), stadiumId);
+        ConnectionHandler connectionHandler = ApiRequests.myInvitations(activity, this, user.getId(), user.getToken());
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -126,12 +129,12 @@ public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemo
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
         // get data
-        Team[] teamsArr = (Team[]) response;
-        data = new ArrayList<>(Arrays.asList(teamsArr));
+        Team[] invitationsArr = (Team[]) response;
+        data = new ArrayList<>(Arrays.asList(invitationsArr));
 
         // check size
         if (data.size() == 0) {
-            showEmpty(R.string.no_blocked_teams_found);
+            showEmpty(R.string.no_invitations_found);
         } else {
             updateUI();
         }
@@ -139,7 +142,7 @@ public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemo
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        showError(R.string.failed_loading_teams);
+        showError(R.string.failed_loading_invitations);
     }
 
     @Override
@@ -150,10 +153,11 @@ public class BlockedTeamsFragment extends ProgressFragment implements OnItemRemo
     }
 
     @Override
-    public void onItemRemoved(int position) {
-        // check new size
-        if (data.size() == 0) {
-            showEmpty(R.string.no_blocked_teams_found);
+    public void onBackPressed() {
+        if (areInvitationsAccepted) {
+            setResult(RESULT_OK);
         }
+
+        finish();
     }
 }
