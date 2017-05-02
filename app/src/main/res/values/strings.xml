@@ -396,6 +396,7 @@
     <string name="you_have_been_added_to_the_team">تم إضافتك الى الفريق</string>
     <string name="confirm_invitation_q">تأكيد الدعوة؟</string>
     <string name="confirmed_successfully">تم التأكيد بنجاح</string>
+    <string name="sent_invitations">الدعوات المرسلة</string>
 
 
     <!-- Arrays -->

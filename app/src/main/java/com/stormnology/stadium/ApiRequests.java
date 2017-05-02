@@ -22,6 +22,7 @@ import com.stormnology.stadium.models.bodies.MonthlyReservationBody;
 import com.stormnology.stadium.models.bodies.PlayerConfirmListBody;
 import com.stormnology.stadium.models.bodies.RatePlayerBody;
 import com.stormnology.stadium.models.bodies.TeamActionBody;
+import com.stormnology.stadium.models.bodies.TeamInvitationsBody;
 import com.stormnology.stadium.models.bodies.TeamPlayerActionBody;
 import com.stormnology.stadium.models.bodies.UnblockTeamBody;
 import com.stormnology.stadium.models.entities.Attendant;
@@ -1321,6 +1322,23 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_ACCEPT_INVITATION), null, listener, body, Const.API_ACCEPT_INVITATION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<User[]> teamInvitations(Context context, ConnectionListener<User[]> listener,
+                                                            int userId, String userToken, int teamId) {
+        // create the request body
+        TeamInvitationsBody body = new TeamInvitationsBody();
+        body.setId(teamId);
+        User captain = new User();
+        captain.setId(userId);
+        captain.setToken(userToken);
+        body.setCaptain(captain);
+
+        // create & execute the request
+        ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_TEAM_INVITATION), User[].class, listener, body, Const.API_TEAM_INVITATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
