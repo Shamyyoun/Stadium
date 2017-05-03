@@ -52,20 +52,38 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
     }
 
     @Override
-    public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
-        ViewHolder holder = new ViewHolder(itemView);
-        holder.setOnItemClickListener(itemClickListener);
+    public int getItemViewType(int position) {
+        return data.get(position).getId();
+    }
 
+    @Override
+    public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int itemId) {
+        // check the view type
+        ParentRecyclerViewHolder holder;
+        if (itemId == Const.DEFAULT_ITEM_ID) {
+            // this is a footer progress
+            holder = createFooterProgressViewHolder(parent);
+        } else {
+            View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
+            holder = new ViewHolder(itemView);
+        }
+
+        // add the item click listener and return
+        holder.setOnItemClickListener(itemClickListener);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
-        final ViewHolder holder = (ViewHolder) viewHolder;
+        // check the item id
+        final User item = data.get(position);
+        if (item.getId() == Const.DEFAULT_ITEM_ID) {
+            // this is footer, just finish
+            return;
+        }
 
         // load the image as it is shared among all views
-        final User item = data.get(position);
+        final ViewHolder holder = (ViewHolder) viewHolder;
         Utils.loadImage(context, item.getImageLink(), R.drawable.default_image, holder.ivImage);
 
         // set basic data
@@ -223,5 +241,20 @@ public class PlayersAdapter extends ParentRecyclerAdapter<User> {
 
     public void setOnPlayerAddedListener(OnPlayerAddedListener playerAddedListener) {
         this.playerAddedListener = playerAddedListener;
+    }
+
+    public void addProgressFooter() {
+        // add new item with def id to the bottom of the list
+        User defItem = new User();
+        defItem.setId(Const.DEFAULT_ITEM_ID);
+        data.add(defItem);
+
+        // then notify
+        notifyItemInserted(data.size() - 1);
+    }
+
+    public void removeFooterItem() {
+        int position = data.size() - 1;
+        removeItem(position);
     }
 }

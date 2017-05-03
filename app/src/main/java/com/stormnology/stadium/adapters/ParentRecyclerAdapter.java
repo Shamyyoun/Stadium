@@ -3,6 +3,9 @@ package com.stormnology.stadium.adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.connection.ConnectionHandler;
@@ -103,5 +106,10 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
         if (itemRemovedListener != null) {
             itemRemovedListener.onItemRemoved(position);
         }
+    }
+
+    public RecyclerFooterProgressViewHolder createFooterProgressViewHolder(ViewGroup parent) {
+        View itemView = LayoutInflater.from(context).inflate(R.layout.item_footer_progress, parent, false);
+        return new RecyclerFooterProgressViewHolder(itemView);
     }
 }

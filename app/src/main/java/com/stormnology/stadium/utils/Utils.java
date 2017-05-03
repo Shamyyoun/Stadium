@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
@@ -52,7 +53,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.stormnology.stadium.Const.DEBUGGABLE;
 import static com.stormnology.stadium.Const.LOG_TAG;
 
 /**
@@ -886,5 +886,19 @@ public class Utils {
      */
     public static Locale getArabicLocale() {
         return new Locale("ar");
+    }
+
+    /**
+     * method used to check if the recycler linear layout manager has reached the end or not
+     *
+     * @param layoutManager
+     * @return
+     */
+    public static boolean isReachedEndOfRecycler(LinearLayoutManager layoutManager) {
+        // check if reached end of the list
+        int visibleItemCount = layoutManager.getChildCount();
+        int totalItemCount = layoutManager.getItemCount();
+        int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+        return ((visibleItemCount + pastVisibleItems) >= totalItemCount);
     }
 }

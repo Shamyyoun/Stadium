@@ -51,8 +51,12 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     private OrderController orderController;
     private TextView tvOrderBy;
     private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+
+    private ConnectionHandler connectionHandler;
     private List<User> data;
     private PlayersAdapter adapter;
+    private int page;
 
     private List<User> searchResults;
     private boolean enableControls = true;
@@ -96,7 +100,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         // customize the recycler view
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         // set default order as the data is returned ordered from the server
@@ -107,6 +111,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         // obtain saved data if possible
         if (savedInstanceState != null) {
             selectedItemPosition = savedInstanceState.getInt("selectedItemPosition");
+            page = savedInstanceState.getInt("page");
             SerializableListWrapper<User> dataWrapper = (SerializableListWrapper<User>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
@@ -125,10 +130,11 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         }
 
         // add listeners
-        tvOrderBy.setOnClickListener(new View.OnClickListener() {
+        tvOrderBy.setOnClickListener(this);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View v) {
-                showOrderDialog();
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                loadMoreIfRequired();
             }
         });
 
@@ -153,6 +159,15 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
                 refresh();
             }
         };
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_order_by) {
+            showOrderDialog();
+        } else {
+            super.onClick(v);
+        }
     }
 
     private void updateUI(List<User> data) {
@@ -201,47 +216,105 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     private void loadData() {
         // check internet connection
         if (!Utils.hasConnection(activity)) {
-            showError(R.string.no_internet_connection);
-            disableControls();
+            // check if first load
+            if (isFirstLoad()) {
+                // show error and disable controls
+                showError(R.string.no_internet_connection);
+                disableControls();
+            } else {
+                // decrement the page no.
+                page--;
+            }
+
             return;
         }
 
-        // show progress and reset filters
-        showProgress();
+        // reset filters
         resetFilters();
+
+        // show suitable progress
+        if (isFirstLoad()) {
+            showProgress();
+        } else {
+            showProgressFooter();
+        }
 
         // get active user
         User user = activeUserController.getUser();
 
         // send request
-        ConnectionHandler connectionHandler = ApiRequests.allPlayers(activity, this, user.getId());
+        connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page);
         cancelWhenDestroyed(connectionHandler);
     }
 
+    private void loadMoreIfRequired() {
+        // check if it is still loading some data
+        if (ConnectionHandler.isLoading(connectionHandler)) {
+            return;
+        }
+
+        // check if reached end of the list
+        if (Utils.isReachedEndOfRecycler(layoutManager)) {
+            // load more
+            loadMore();
+        }
+    }
+
+    private void loadMore() {
+        // increment the page no. and load data
+        page++;
+        loadData();
+    }
+
     private void refresh() {
+        // reset the page no. and load data
+        page = 0;
         loadData();
     }
 
     @Override
     public void onSuccess(Object response, int statusCode, String tag) {
-        enableControls();
-
         // get data
         User[] usersArr = (User[]) response;
-        data = new ArrayList<>(Arrays.asList(usersArr));
+        List<User> usersList = new ArrayList<>(Arrays.asList(usersArr));
 
-        // check size
-        if (data.size() == 0) {
-            showEmpty(R.string.no_players_found);
+        // check if first load
+        if (isFirstLoad()) {
+            // enable controls & set the data
+            enableControls();
+            data = usersList;
+
+            // check size
+            if (usersList.size() == 0) {
+                showEmpty(R.string.no_players_found);
+            } else {
+                updateUI(data);
+            }
         } else {
-            updateUI(data);
+            // hide progress and add new items
+            hideProgressFooter();
+            addNewPlayers(usersList);
         }
+    }
+
+    private void addNewPlayers(List<User> usersList) {
+        // add new players to the data list then notify the adapter
+        data.addAll(usersList);
+        adapter.notifyItemRangeInserted(data.size() - usersList.size(), data.size());
     }
 
     @Override
     public void onFail(Exception ex, int statusCode, String tag) {
-        showError(R.string.failed_loading_players);
-        disableControls();
+        // check if first load
+        if (isFirstLoad()) {
+            // show error view and disable controls
+            showError(R.string.failed_loading_players);
+            disableControls();
+        } else {
+            // show error msg and decrement the page no.
+            Utils.showShortToast(activity, R.string.failed_loading_players);
+            page--;
+        }
     }
 
     @Override
@@ -249,6 +322,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
         outState.putSerializable("dataWrapper", dataWrapper);
         outState.putInt("selectedItemPosition", selectedItemPosition);
+        outState.putInt("page", page);
         super.onSaveInstanceState(outState);
     }
 
@@ -260,6 +334,18 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     private void disableControls() {
         tvOrderBy.setEnabled(false);
         enableControls = false;
+    }
+
+    private boolean isFirstLoad() {
+        return (page == 0);
+    }
+
+    private void showProgressFooter() {
+        adapter.addProgressFooter();
+    }
+
+    private void hideProgressFooter() {
+        adapter.removeFooterItem();
     }
 
     @Override
@@ -306,12 +392,10 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
                 if (rating != -1) {
                     updatePlayerRating(selectedItemPosition, rating);
                 }
-            } else {
-                super.onActivityResult(requestCode, resultCode, data);
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void updatePlayerRating(int position, double rating) {

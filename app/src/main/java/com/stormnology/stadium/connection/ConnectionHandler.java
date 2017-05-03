@@ -300,13 +300,28 @@ public class ConnectionHandler<T> {
     }
 
     /**
+     * method, used to check if it is loading and return result
+     *
+     * @return
+     */
+    public boolean isLoading() {
+        if (future == null) {
+            return false;
+        } else {
+            return !(future.isCancelled() || future.isDone());
+        }
+    }
+
+    /**
      * Cancels the request.
      *
      * @param interruptThread true if the thread executing this task should be interrupted; otherwise, in-progress tasks are allowed to complete.
      * @return false if the task could not be cancelled, typically because it has already completed normally; true otherwise.
      */
     public boolean cancel(boolean interruptThread) {
-        return !(future.isCancelled() || future.isDone()) && future.cancel(interruptThread);
+        return (future != null
+                && !(future.isCancelled() || future.isDone())
+                && future.cancel(interruptThread));
     }
 
     /**
@@ -339,6 +354,20 @@ public class ConnectionHandler<T> {
             int end = (i + 1) * maxLogSize;
             end = end > message.length() ? message.length() : end;
             Log.e(LOG_TAG, message.substring(start, end));
+        }
+    }
+
+    /**
+     * static method, used to check the connection handler and if it is loading and return result
+     *
+     * @param connectionHandler
+     * @return
+     */
+    public static boolean isLoading(ConnectionHandler connectionHandler) {
+        if (connectionHandler == null) {
+            return false;
+        } else {
+            return connectionHandler.isLoading();
         }
     }
 }

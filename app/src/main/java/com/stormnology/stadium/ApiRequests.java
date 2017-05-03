@@ -540,9 +540,10 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener, int userId) {
+    public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener,
+                                                       int userId, int page) {
         // prepare url
-        String url = AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS) + "/" + userId;
+        String url = AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS) + "/" + userId + "/" + page;
 
         // create & execute the request
         ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context, url,
