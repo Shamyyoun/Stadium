@@ -901,4 +901,21 @@ public class Utils {
         int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
         return ((visibleItemCount + pastVisibleItems) >= totalItemCount);
     }
+
+    /**
+     * method, used to add a query param to the url
+     *
+     * @param url
+     * @param paramName
+     * @param paramValue
+     * @return
+     */
+    public static String addQueryParam(String url, String paramName, Object paramValue) {
+        if (!url.endsWith("?")) {
+            url += "&";
+        }
+
+        url += paramName + "=" + paramValue.toString();
+        return url;
+    }
 }

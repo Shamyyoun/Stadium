@@ -2,7 +2,6 @@ package com.stormnology.stadium.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,6 @@ import com.stormnology.stadium.adapters.PlayersAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.OrderController;
-import com.stormnology.stadium.controllers.SearchController;
 import com.stormnology.stadium.dialogs.OrderDialog;
 import com.stormnology.stadium.interfaces.OnCheckableSelectedListener;
 import com.stormnology.stadium.interfaces.OnItemClickListener;
@@ -47,7 +45,6 @@ import java.util.List;
 public class PlayersFragment extends ProgressFragment implements OnPlayerAddedListener, OnItemClickListener {
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private ActiveUserController activeUserController;
-    private SearchController searchController;
     private OrderController orderController;
     private TextView tvOrderBy;
     private RecyclerView recyclerView;
@@ -58,8 +55,6 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     private PlayersAdapter adapter;
     private int page;
 
-    private List<User> searchResults;
-    private boolean enableControls = true;
     private PlayersFilter filter;
     private OrderDialog orderDialog;
     private OrderCriteria orderCriteria;
@@ -92,7 +87,6 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
 
         // create controllers
         activeUserController = new ActiveUserController(activity);
-        searchController = new SearchController();
         orderController = new OrderController();
 
         // init views
@@ -121,7 +115,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         // check data
         if (data != null) {
             if (!data.isEmpty()) {
-                updateUI(data);
+                updateUI();
             } else {
                 showEmpty(R.string.no_players_found);
             }
@@ -170,7 +164,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         }
     }
 
-    private void updateUI(List<User> data) {
+    private void updateUI() {
         adapter = new PlayersAdapter(activity, data, R.layout.item_player, PlayersAdapter.TYPE_SHOW_ADDRESS);
         adapter.setSelectedTeam(selectedTeam);
         adapter.setOnItemClickListener(this);
@@ -206,11 +200,17 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         tvOrderBy.setText(orderStr);
     }
 
-    private void resetFilters() {
-        filter = null;
-        searchResults = null;
+    private void resetOrderCriteria() {
         orderCriteria = orderDialog.getDefaultCriteria();
         updateOrderByUI();
+    }
+
+    private void resetSearchFilter() {
+        filter = null;
+    }
+
+    private void resetPageNo() {
+        page = 0;
     }
 
     private void loadData() {
@@ -229,8 +229,8 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
             return;
         }
 
-        // reset filters
-        resetFilters();
+        // reset order criteria
+        resetOrderCriteria();
 
         // show suitable progress
         if (isFirstLoad()) {
@@ -242,8 +242,16 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         // get active user
         User user = activeUserController.getUser();
 
-        // send request
-        connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page);
+        // send suitable request
+        if (filter == null) {
+            // send normal request
+            connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page);
+        } else {
+            // send request with filter
+            int cityId = filter.getCity() != null ? filter.getCity().getId() : 0;
+            connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page, cityId,
+                    filter.getName(), filter.getPosition(), filter.getPhone());
+        }
         cancelWhenDestroyed(connectionHandler);
     }
 
@@ -267,8 +275,8 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     }
 
     private void refresh() {
-        // reset the page no. and load data
-        page = 0;
+        // reset page no. and load data
+        resetPageNo();
         loadData();
     }
 
@@ -288,7 +296,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
             if (usersList.size() == 0) {
                 showEmpty(R.string.no_players_found);
             } else {
-                updateUI(data);
+                updateUI();
             }
         } else {
             // hide progress and add new items
@@ -328,12 +336,10 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
 
     private void enableControls() {
         tvOrderBy.setEnabled(true);
-        enableControls = true;
     }
 
     private void disableControls() {
         tvOrderBy.setEnabled(false);
-        enableControls = false;
     }
 
     private boolean isFirstLoad() {
@@ -356,7 +362,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
                 break;
 
             case R.id.action_search:
-                if (enableControls) openSearchActivity();
+                openSearchActivity();
                 break;
         }
 
@@ -398,40 +404,16 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private void search() {
+        // reset page no. and load data
+        resetPageNo();
+        loadData();
+    }
+
     private void updatePlayerRating(int position, double rating) {
         User player = this.data.get(position);
         player.setRate(rating);
         adapter.notifyDataSetChanged();
-    }
-
-    private void search() {
-        new AsyncTask() {
-            @Override
-            protected void onPreExecute() {
-                showProgressDialog();
-            }
-
-            @Override
-            protected Object doInBackground(Object[] params) {
-                searchResults = searchController.searchPlayers(data, filter);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                hideProgressDialog();
-                updateUI(searchResults);
-
-                // check the results size
-                if (searchResults.size() == 0) {
-                    // results is empty, show empty view
-                    showEmpty(R.string.no_search_results);
-                } else if (orderCriteria != null) { // check if an order exists
-                    // an order exits, order data
-                    order();
-                }
-            }
-        }.execute();
     }
 
     private void showOrderDialog() {
@@ -453,14 +435,8 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     }
 
     private void order() {
-        // check if has a visible search
-        if (searchResults != null) {
-            // order search results
-            orderController.orderPlayers(searchResults, orderCriteria.getType());
-        } else {
-            // order original data
-            orderController.orderPlayers(data, orderCriteria.getType());
-        }
+        // order
+        orderController.orderPlayers(data, orderCriteria.getType());
 
         // update the ui
         adapter.notifyDataSetChanged();

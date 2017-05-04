@@ -30,6 +30,7 @@ public class PlayersSearchActivity extends ParentActivity {
     private Button btnCity;
     private EditText etName;
     private Button btnPosition;
+    private EditText etPhone;
     private Button btnSearch;
 
     private Rect contentLayoutRect; // to handle the outside click
@@ -54,6 +55,7 @@ public class PlayersSearchActivity extends ParentActivity {
         btnCity = (Button) findViewById(R.id.btn_city);
         etName = (EditText) findViewById(R.id.et_name);
         btnPosition = (Button) findViewById(R.id.btn_position);
+        etPhone = (EditText) findViewById(R.id.et_phone);
         btnSearch = (Button) findViewById(R.id.btn_search);
 
         // add listeners
@@ -87,6 +89,7 @@ public class PlayersSearchActivity extends ParentActivity {
         updateCityUI();
         updateNameUI();
         updatePositionUI();
+        updatePhoneUI();
     }
 
     private void updateCityUI() {
@@ -112,6 +115,14 @@ public class PlayersSearchActivity extends ParentActivity {
             btnPosition.setText(str);
         } else {
             btnPosition.setText(R.string.position);
+        }
+    }
+
+    private void updatePhoneUI() {
+        if (filter.getPhone() != null) {
+            etPhone.setText(filter.getPhone());
+        } else {
+            etPhone.setText("");
         }
     }
 
@@ -191,12 +202,20 @@ public class PlayersSearchActivity extends ParentActivity {
     }
 
     private void onSearch() {
-        // get the name
+        // set the name
         String name = Utils.getText(etName);
         if (!name.isEmpty()) {
             filter.setName(name);
         } else {
             filter.setName(null);
+        }
+
+        // set the phone
+        String phone = Utils.getText(etPhone);
+        if (!phone.isEmpty()) {
+            filter.setPhone(phone);
+        } else {
+            filter.setPhone(null);
         }
 
         Intent intent = new Intent();

@@ -39,6 +39,7 @@ import com.stormnology.stadium.models.responses.DurationsResponse;
 import com.stormnology.stadium.models.responses.MonthlyReservationResponse;
 import com.stormnology.stadium.models.responses.ServerResponse;
 import com.stormnology.stadium.utils.AppUtils;
+import com.stormnology.stadium.utils.Utils;
 
 import java.util.List;
 
@@ -542,8 +543,29 @@ public class ApiRequests {
 
     public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener,
                                                        int userId, int page) {
+        return allPlayers(context, listener, userId, page, 0, null, null, null);
+    }
+
+    public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener,
+                                                       int userId, int page,
+                                                       int cityId, String name,
+                                                       String position, String phone) {
         // prepare url
-        String url = AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS) + "/" + userId + "/" + page;
+        String url = AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS) + "?";
+        url = Utils.addQueryParam(url, Const.PARAM_ID, userId);
+        url = Utils.addQueryParam(url, Const.PARAM_PAGE, page);
+        if (cityId != 0) {
+            url = Utils.addQueryParam(url, Const.PARAM_CITY, cityId);
+        }
+        if (name != null) {
+            url = Utils.addQueryParam(url, Const.PARAM_NAME, name);
+        }
+        if (position != null) {
+            url = Utils.addQueryParam(url, Const.PARAM_POSITION, position);
+        }
+        if (phone != null) {
+            url = Utils.addQueryParam(url, Const.PARAM_PHONE, phone);
+        }
 
         // create & execute the request
         ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context, url,

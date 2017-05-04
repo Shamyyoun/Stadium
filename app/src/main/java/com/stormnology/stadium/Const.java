@@ -134,6 +134,14 @@ public class Const {
     public static final int REQ_ADD_DURATIONS = 13;
     public static final int REQ_VIEW_INVITATIONS = 14;
 
+    // APIs Params:---------------------------
+    public static final String PARAM_ID = "id";
+    public static final String PARAM_PAGE = "page";
+    public static final String PARAM_CITY = "city";
+    public static final String PARAM_NAME = "name";
+    public static final String PARAM_POSITION = "position";
+    public static final String PARAM_PHONE = "phone";
+
     // Keys:----------------------------------
     public static final String KEY_ID = "id";
     public static final String KEY_TEAM = "team";

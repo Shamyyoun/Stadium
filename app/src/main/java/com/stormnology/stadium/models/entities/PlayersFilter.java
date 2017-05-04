@@ -10,6 +10,7 @@ public class PlayersFilter implements Serializable {
     private City city;
     private String name;
     private String position;
+    private String phone;
 
     public City getCity() {
         return city;
@@ -33,5 +34,13 @@ public class PlayersFilter implements Serializable {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
