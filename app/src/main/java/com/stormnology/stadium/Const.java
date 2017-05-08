@@ -9,7 +9,7 @@ public class Const {
     public static final String LOG_TAG = "Stadium";
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
-    public static final String ANALYTICS_PROPERTY_ID = "UA-96102220-1";
+    public static final String ANALYTICS_PROPERTY_ID = "UA-98369772-1";
     public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
 //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
 //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/android/Service1.svc";
