@@ -397,6 +397,8 @@
     <string name="confirm_invitation_q">تأكيد الدعوة؟</string>
     <string name="confirmed_successfully">تم التأكيد بنجاح</string>
     <string name="sent_invitations">الدعوات المرسلة</string>
+    <string name="share_app">مشاركة التطبيق</string>
+    <string name="share_app_text">نظم حجوزات فريقك واعرف كم عدد المباريات الي لعبتوها\nحمله من الرابط :</string>
 
 
     <!-- Arrays -->

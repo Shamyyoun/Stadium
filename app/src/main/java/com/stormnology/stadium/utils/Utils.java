@@ -918,4 +918,17 @@ public class Utils {
         url += paramName + "=" + paramValue.toString();
         return url;
     }
+
+    /**
+     * method, used to get the app url in play store
+     *
+     * @param context
+     * @return
+     */
+    public static String getPlayStoreAppUrl(Context context) {
+        String url = "https://play.google.com/store/apps/details?id=";
+        url += context.getPackageName();
+
+        return url;
+    }
 }

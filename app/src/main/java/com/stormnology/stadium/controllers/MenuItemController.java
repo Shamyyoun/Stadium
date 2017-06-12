@@ -28,6 +28,9 @@ public class MenuItemController {
         MenuItem settingsItem = new MenuItem(MenuItemType.CHANGE_PASSWORD, context.getString(R.string.change_password), R.drawable.settings_icon);
         menuItems.add(settingsItem);
 
+        MenuItem shareAppItem = new MenuItem(MenuItemType.SHARE_APP, context.getString(R.string.share_app), R.drawable.white_share_icon);
+        menuItems.add(shareAppItem);
+
         MenuItem logoutItem = new MenuItem(MenuItemType.LOGOUT, context.getString(R.string.logout), R.drawable.logout_icon);
         menuItems.add(logoutItem);
 

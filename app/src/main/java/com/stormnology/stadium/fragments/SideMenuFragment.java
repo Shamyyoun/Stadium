@@ -78,6 +78,10 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
                 showChangePasswordDialog();
                 break;
 
+            case SHARE_APP:
+                onShareApp();
+                break;
+
             case LOGOUT:
                 onLogout();
                 break;
@@ -104,6 +108,12 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     private void showChangePasswordDialog() {
         ChangePasswordDialog dialog = new ChangePasswordDialog(activity);
         dialog.show();
+    }
+
+    private void onShareApp() {
+        // prepare the text and share it
+        String text = getString(R.string.share_app_text) + " " + Utils.getPlayStoreAppUrl(activity);
+        Utils.shareText(activity, text);
     }
 
     private void onLogout() {
