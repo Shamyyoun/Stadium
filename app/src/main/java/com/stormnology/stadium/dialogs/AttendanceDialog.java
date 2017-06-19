@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.stormnology.stadium.ApiRequests;
 import com.stormnology.stadium.R;
@@ -12,6 +13,7 @@ import com.stormnology.stadium.adapters.AttendanceAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.AttendanceController;
+import com.stormnology.stadium.controllers.ReservationController;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.models.entities.Attendant;
 import com.stormnology.stadium.models.entities.Reservation;
@@ -28,6 +30,9 @@ import java.util.List;
  */
 public class AttendanceDialog extends ProgressDialog {
     private Reservation reservation;
+    private ReservationController reservationController;
+
+    private TextView tvShareInfo;
     private RecyclerView recyclerView;
     private Button btnClose;
     private AttendanceAdapter adapter;
@@ -37,10 +42,12 @@ public class AttendanceDialog extends ProgressDialog {
         super(context);
         setTitle(R.string.confirm_attendance);
 
-        // set the reservation obj
+        // obtain main objects
         this.reservation = reservation;
+        reservationController = new ReservationController();
 
         // init views
+        tvShareInfo = (TextView) findViewById(R.id.tv_share_info);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         btnClose = (Button) findViewById(R.id.btn_close);
 
@@ -50,12 +57,8 @@ public class AttendanceDialog extends ProgressDialog {
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
 
         // add click listeners
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        tvShareInfo.setOnClickListener(this);
+        btnClose.setOnClickListener(this);
 
         // load the data
         loadData();
@@ -68,7 +71,7 @@ public class AttendanceDialog extends ProgressDialog {
 
     @Override
     protected int getMainViewResId() {
-        return R.id.recycler_view;
+        return R.id.layout_main;
     }
 
     @Override
@@ -86,6 +89,30 @@ public class AttendanceDialog extends ProgressDialog {
         adapter.setWrapperDialog(this);
         recyclerView.setAdapter(adapter);
         showMain();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_share_info:
+                shareInfo();
+                break;
+
+            case R.id.btn_close:
+                dismiss();
+                break;
+
+            default:
+                super.onClick(v);
+        }
+    }
+
+    private void shareInfo() {
+        // get the sharable text
+        String text = reservationController.getShareableText(context, reservation);
+
+        // share it
+        Utils.shareText(context, text);
     }
 
     private void loadData() {

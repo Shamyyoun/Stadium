@@ -398,7 +398,13 @@
     <string name="confirmed_successfully">تم التأكيد بنجاح</string>
     <string name="sent_invitations">الدعوات المرسلة</string>
     <string name="share_app">مشاركة التطبيق</string>
-    <string name="share_app_text">نظم حجوزات فريقك واعرف كم عدد المباريات الي لعبتوها\nحمله من الرابط :</string>
+    <string name="share_app_text">نظم حجوزات فريقك واعرف كم عدد المباريات الي لعبتوها\nحمله من الرابط :\n%s</string>
+    <string name="stadium_reserved_successfully_invitations_sent">تم حجز الملعب بنجاح وارسال الدعوات الى اعضاء الفريق</string>
+    <string name="share_reservation_info_u"><u>مشاركة بيانات الحجز</u></string>
+    <string name="reservation_result">نتيجة الحجز</string>
+    <string name="share_reservation_text">التمرين يوم %1$s\nالمكان : %2$s ، رقم الملعب : %3$s\nالوقت : %4$s الى %5$s\n\n
+أكد حضورك في تطبيق Stadium عشان تعرف عدد المباريات اللي لعبتها !!\n\n
+تم الحجز عن طريق تطبيق Stadium ، للتحميل : \n%6$s</string>
 
 
     <!-- Arrays -->

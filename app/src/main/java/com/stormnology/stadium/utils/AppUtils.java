@@ -172,4 +172,15 @@ public class AppUtils {
         price += " " + context.getString(R.string.currency);
         return price;
     }
+
+    /**
+     * method, used to prepare the share text and return it
+     *
+     * @param context
+     * @return
+     */
+    public static String getShareAppText(Context context) {
+        String text = context.getString(R.string.share_app_text, Utils.getPlayStoreAppUrl(context));
+        return text;
+    }
 }

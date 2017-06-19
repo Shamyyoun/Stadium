@@ -17,6 +17,7 @@ import com.stormnology.stadium.controllers.UserController;
 import com.stormnology.stadium.dialogs.AdminAddReservationDialog;
 import com.stormnology.stadium.dialogs.ChooseFromCaptainTeamsDialog;
 import com.stormnology.stadium.dialogs.ReservationPlayersDialog;
+import com.stormnology.stadium.dialogs.ReservationResultDialog;
 import com.stormnology.stadium.interfaces.OnCheckableSelectedListener;
 import com.stormnology.stadium.interfaces.OnReservationAddedListener;
 import com.stormnology.stadium.interfaces.OnReservationPlayersSelectedListener;
@@ -187,7 +188,9 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
 
                 // check result
                 if (statusCode == Const.SER_CODE_200) {
-                    Utils.showShortToast(context, R.string.reservation_requested_successfully);
+                    // show reservation result dialog and remove the period
+                    ReservationResultDialog dialog = new ReservationResultDialog(context, response);
+                    dialog.show();
                     removeItem(position);
 
                     // fire the listener if possible

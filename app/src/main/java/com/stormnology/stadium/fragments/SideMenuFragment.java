@@ -24,6 +24,7 @@ import com.stormnology.stadium.dialogs.ChangePasswordDialog;
 import com.stormnology.stadium.interfaces.OnMenuItemClickListener;
 import com.stormnology.stadium.models.entities.MenuItem;
 import com.stormnology.stadium.models.enums.MenuItemType;
+import com.stormnology.stadium.utils.AppUtils;
 import com.stormnology.stadium.utils.DialogUtils;
 import com.stormnology.stadium.utils.Utils;
 
@@ -111,8 +112,8 @@ public class SideMenuFragment extends ParentFragment implements OnMenuItemClickL
     }
 
     private void onShareApp() {
-        // prepare the text and share it
-        String text = getString(R.string.share_app_text) + " " + Utils.getPlayStoreAppUrl(activity);
+        // get the text and share it
+        String text = AppUtils.getShareAppText(activity);
         Utils.shareText(activity, text);
     }
 

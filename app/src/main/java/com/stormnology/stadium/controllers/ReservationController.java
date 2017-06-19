@@ -1,5 +1,9 @@
 package com.stormnology.stadium.controllers;
 
+import android.content.Context;
+
+import com.stormnology.stadium.Const;
+import com.stormnology.stadium.R;
 import com.stormnology.stadium.models.entities.Reservation;
 import com.stormnology.stadium.models.entities.Stadium;
 import com.stormnology.stadium.models.entities.Team;
@@ -118,6 +122,27 @@ public class ReservationController {
             text = null;
         }
 
+        return text;
+    }
+
+    public String getShareableText(Context context, Reservation reservation) {
+        // prepare stadium and field info
+        String stadiumName = reservation.getReservationStadium() != null ?
+                reservation.getReservationStadium().getName() : null;
+        String fieldName = reservation.getField() != null ?
+                reservation.getField().getFieldNumber() : null;
+
+        // prepare times
+        String timeFormat = "h:mm a";
+        String startTime = DateUtils.formatDate(reservation.getTimeStart(), Const.SER_TIME_FORMAT, timeFormat);
+        String endTime = DateUtils.formatDate(reservation.getTimeEnd(), Const.SER_TIME_FORMAT, timeFormat);
+
+        // get app play store url
+        String appUrl = Utils.getPlayStoreAppUrl(context);
+
+        // prepare the text and return it
+        String text = context.getString(R.string.share_reservation_text,
+                reservation.getDayName(), stadiumName, fieldName, startTime, endTime, appUrl);
         return text;
     }
 }
