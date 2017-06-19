@@ -123,7 +123,7 @@ public class StadiumPeriodsFragment extends ParentFragment implements OnItemRemo
         }
 
         // create and set the adapter
-        adapter = new StadiumPeriodsAdapter(activity, data, itemLayoutId, reservation);
+        adapter = new StadiumPeriodsAdapter(activity, data, itemLayoutId);
         adapter.setSelectedTeam(selectedTeam);
         adapter.setOnItemClickListener(this);
         adapter.setOnItemRemovedListener(this);

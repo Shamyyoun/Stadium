@@ -41,15 +41,13 @@ public class StadiumPeriodsAdapter extends ParentRecyclerAdapter<Reservation> {
 
     private Team selectedTeam; // this is the team object when the user navigates to the add players from team info screen
     private ActiveUserController activeUserController;
-    private Reservation reservation; // this is just to hold data like stadium, field size and date.
     private boolean isAdminStadiumScreen; // this flag is used to notify the adapter to handle suitable item click
     private ChooseFromCaptainTeamsDialog teamsDialog;
     private ReservationPlayersDialog playersDialog;
     private OnReservationAddedListener reservationAddedListener;
 
-    public StadiumPeriodsAdapter(Context context, List<Reservation> data, int layoutId, Reservation reservation) {
+    public StadiumPeriodsAdapter(Context context, List<Reservation> data, int layoutId) {
         super(context, data, layoutId);
-        this.reservation = reservation;
         activeUserController = new ActiveUserController(context);
     }
 
