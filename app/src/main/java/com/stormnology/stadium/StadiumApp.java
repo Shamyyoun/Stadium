@@ -85,6 +85,7 @@ public class StadiumApp extends Application {
         if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             tracker = analytics.newTracker(Const.ANALYTICS_PROPERTY_ID);
+            tracker.enableAutoActivityTracking(true);
         }
         return tracker;
     }
