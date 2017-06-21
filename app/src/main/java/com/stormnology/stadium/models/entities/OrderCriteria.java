@@ -2,11 +2,13 @@ package com.stormnology.stadium.models.entities;
 
 import com.stormnology.stadium.models.Checkable;
 
+import java.io.Serializable;
+
 /**
  * Created by Shamyyoun on 11/4/16.
  */
 
-public class OrderCriteria implements Checkable {
+public class OrderCriteria implements Serializable, Checkable {
     public static final int TYPE_DEFAULT = 0;
     public static final int TYPE_NAME = 1;
     public static final int TYPE_RATE = 2;

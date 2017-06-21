@@ -97,20 +97,28 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        // set default order as the data is returned ordered from the server
-        orderDialog = new OrderDialog(activity, orderController.getPlayersCriterias(activity));
-        orderCriteria = orderDialog.getDefaultCriteria();
-        updateOrderByUI();
-
-        // obtain saved data if possible
+        // check saved instance
         if (savedInstanceState != null) {
+            // get saved options
             selectedItemPosition = savedInstanceState.getInt("selectedItemPosition");
             page = savedInstanceState.getInt("page");
+            orderCriteria = (OrderCriteria) savedInstanceState.getSerializable("orderCriteria");
+
+            // get saved data if possible
             SerializableListWrapper<User> dataWrapper = (SerializableListWrapper<User>) savedInstanceState.getSerializable("dataWrapper");
             if (dataWrapper != null) {
                 data = dataWrapper.getList();
             }
         }
+
+        // create order dialog and set suitable order criteria
+        orderDialog = new OrderDialog(activity, orderController.getPlayersCriterias(activity));
+        if (orderCriteria == null) {
+            // get default default order
+            orderCriteria = orderDialog.getDefaultCriteria();
+        }
+        // then update order ui
+        updateOrderByUI();
 
         // check data
         if (data != null) {
@@ -319,6 +327,7 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         outState.putSerializable("dataWrapper", dataWrapper);
         outState.putInt("selectedItemPosition", selectedItemPosition);
         outState.putInt("page", page);
+        outState.putSerializable("orderCriteria", orderCriteria);
         super.onSaveInstanceState(outState);
     }
 
