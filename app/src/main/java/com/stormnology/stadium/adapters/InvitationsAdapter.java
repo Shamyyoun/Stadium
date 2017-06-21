@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stormnology.stadium.ApiRequests;
-import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.connection.ConnectionListener;
@@ -89,13 +88,13 @@ public class InvitationsAdapter extends ParentRecyclerAdapter<Team> {
         showProgressDialog();
 
         // create the connection listener
-        ConnectionListener listener = new ConnectionListener() {
+        ConnectionListener<Boolean> listener = new ConnectionListener<Boolean>() {
             @Override
-            public void onSuccess(Object response, int statusCode, String tag) {
+            public void onSuccess(Boolean response, int statusCode, String tag) {
                 hideProgressDialog();
 
-                // check the status code
-                if (statusCode == Const.SER_CODE_200) {
+                // check response
+                if (Utils.checkBoolean(response)) {
                     // remove this item and show success msg
                     Utils.showShortToast(context, R.string.confirmed_successfully);
                     removeItem(position);

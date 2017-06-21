@@ -175,6 +175,7 @@ public class TeamPlayersFragment extends ParentFragment implements OnItemRemoved
     }
 
     public void loadInvitations() {
+        // TODO refactor invitations views in a better way (progress, error, empty...etc)
         // check players list size
         if (players.size() == 0) {
             // players list is empty

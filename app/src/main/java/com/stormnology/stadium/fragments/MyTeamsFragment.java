@@ -198,7 +198,7 @@ public class MyTeamsFragment extends ProgressFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK
-                && (requestCode == Const.REQ_CREATE_TEAM) || (requestCode == Const.REQ_VIEW_INVITATIONS)) {
+                && (requestCode == Const.REQ_CREATE_TEAM || requestCode == Const.REQ_VIEW_INVITATIONS)) {
             // refresh my teams
             refresh();
         } else {

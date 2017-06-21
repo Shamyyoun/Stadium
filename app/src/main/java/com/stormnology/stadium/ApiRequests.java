@@ -1327,9 +1327,9 @@ public class ApiRequests {
         return connectionHandler;
     }
 
-    public static ConnectionHandler acceptInvitation(Context context, ConnectionListener listener,
-                                                     int userId, String userToken, String userName,
-                                                     int teamId, String teamName) {
+    public static ConnectionHandler<Boolean> acceptInvitation(Context context, ConnectionListener<Boolean> listener,
+                                                              int userId, String userToken, String userName,
+                                                              int teamId, String teamName) {
         // create the request body
         TeamActionBody body = new TeamActionBody();
         User user = new User();
@@ -1343,8 +1343,8 @@ public class ApiRequests {
         body.setTeam(team);
 
         // create & execute the request
-        ConnectionHandler connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_ACCEPT_INVITATION), null, listener, body, Const.API_ACCEPT_INVITATION);
+        ConnectionHandler<Boolean> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ACCEPT_INVITATION), Boolean.class, listener, body, Const.API_ACCEPT_INVITATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
@@ -1367,8 +1367,8 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Boolean> removeInvitation(Context context, ConnectionListener<Boolean> listener,
-                                                     int userId, String userToken,
-                                                     int teamId, int playerId) {
+                                                              int userId, String userToken,
+                                                              int teamId, int playerId) {
         // create the request body
         TeamActionBody body = new TeamActionBody();
         Team team = new Team();
