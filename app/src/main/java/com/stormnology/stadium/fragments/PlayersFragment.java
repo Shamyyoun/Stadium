@@ -200,15 +200,6 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         tvOrderBy.setText(orderStr);
     }
 
-    private void resetOrderCriteria() {
-        orderCriteria = orderDialog.getDefaultCriteria();
-        updateOrderByUI();
-    }
-
-    private void resetSearchFilter() {
-        filter = null;
-    }
-
     private void resetPageNo() {
         page = 0;
     }
@@ -229,9 +220,6 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
             return;
         }
 
-        // reset order criteria
-        resetOrderCriteria();
-
         // show suitable progress
         if (isFirstLoad()) {
             showProgress();
@@ -245,12 +233,12 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
         // send suitable request
         if (filter == null) {
             // send normal request
-            connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page);
+            connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page, orderCriteria.getType());
         } else {
             // send request with filter
             int cityId = filter.getCity() != null ? filter.getCity().getId() : 0;
-            connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page, cityId,
-                    filter.getName(), filter.getPosition(), filter.getPhone());
+            connectionHandler = ApiRequests.allPlayers(activity, this, user.getId(), page, orderCriteria.getType(),
+                    cityId, filter.getName(), filter.getPosition(), filter.getPhone());
         }
         cancelWhenDestroyed(connectionHandler);
     }
@@ -426,7 +414,6 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
             public void onCheckableSelected(Checkable item) {
                 orderCriteria = (OrderCriteria) item;
                 order();
-                Utils.showShortToast(activity, R.string.ordered);
             }
         });
 
@@ -435,11 +422,10 @@ public class PlayersFragment extends ProgressFragment implements OnPlayerAddedLi
     }
 
     private void order() {
-        // order
-        orderController.orderPlayers(data, orderCriteria.getType());
-
-        // update the ui
-        adapter.notifyDataSetChanged();
+        // update order ui
         updateOrderByUI();
+
+        // then load data
+        loadData();
     }
 }

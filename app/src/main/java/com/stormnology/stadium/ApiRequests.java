@@ -542,18 +542,19 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener,
-                                                       int userId, int page) {
-        return allPlayers(context, listener, userId, page, 0, null, null, null);
+                                                       int userId, int page, int order) {
+        return allPlayers(context, listener, userId, page, order, 0, null, null, null);
     }
 
     public static ConnectionHandler<User[]> allPlayers(Context context, ConnectionListener<User[]> listener,
-                                                       int userId, int page,
+                                                       int userId, int page, int order,
                                                        int cityId, String name,
                                                        String position, String phone) {
         // prepare url
         String url = AppUtils.getUserApiUrl(Const.API_ALL_PLAYERS) + "?";
         url = Utils.addQueryParam(url, Const.PARAM_ID, userId);
         url = Utils.addQueryParam(url, Const.PARAM_PAGE, page);
+        url = Utils.addQueryParam(url, Const.PARAM_ORDER, order);
         if (cityId != 0) {
             url = Utils.addQueryParam(url, Const.PARAM_CITY, cityId);
         }

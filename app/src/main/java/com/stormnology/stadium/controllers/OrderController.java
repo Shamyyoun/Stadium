@@ -5,7 +5,6 @@ import android.content.Context;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.models.entities.OrderCriteria;
 import com.stormnology.stadium.models.entities.Stadium;
-import com.stormnology.stadium.models.entities.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,38 +21,16 @@ public class OrderController {
         List<OrderCriteria> orderCriterias = new ArrayList<>();
 
         OrderCriteria orderCriteria1 = new OrderCriteria();
-        orderCriteria1.setType(OrderCriteria.TYPE_RATE);
-        orderCriteria1.setName(context.getString(R.string.player_rating));
+        orderCriteria1.setType(OrderCriteria.TYPE_NAME);
+        orderCriteria1.setName(context.getString(R.string.player_name));
         orderCriterias.add(orderCriteria1);
 
         OrderCriteria orderCriteria2 = new OrderCriteria();
-        orderCriteria2.setType(OrderCriteria.TYPE_NAME);
-        orderCriteria2.setName(context.getString(R.string.player_name));
+        orderCriteria2.setType(OrderCriteria.TYPE_RATE);
+        orderCriteria2.setName(context.getString(R.string.player_rating));
         orderCriterias.add(orderCriteria2);
 
         return orderCriterias;
-    }
-
-    public void orderPlayers(List<User> players, final int criteriaType) {
-        Comparator<User> comparator = new Comparator<User>() {
-            @Override
-            public int compare(User lhs, User rhs) {
-                if (criteriaType == OrderCriteria.TYPE_NAME) {
-                    return lhs.getName().compareToIgnoreCase(rhs.getName());
-                } else if (criteriaType == OrderCriteria.TYPE_RATE) {
-                    if (lhs.getRate() > rhs.getRate())
-                        return -1;
-                    else if (lhs.getRate() < rhs.getRate())
-                        return 1;
-                    else
-                        return 0;
-                } else {
-                    return 0;
-                }
-            }
-        };
-
-        Collections.sort(players, comparator);
     }
 
     public int getItemPosition(List<OrderCriteria> orderCriterias, int itemType) {

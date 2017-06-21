@@ -7,10 +7,10 @@ import com.stormnology.stadium.models.Checkable;
  */
 
 public class OrderCriteria implements Checkable {
-    public static final int TYPE_DEFAULT = 1;
+    public static final int TYPE_DEFAULT = 0;
+    public static final int TYPE_NAME = 1;
     public static final int TYPE_RATE = 2;
-    public static final int TYPE_NAME = 3;
-    public static final int TYPE_LOCATION = 4;
+    public static final int TYPE_LOCATION = 3;
 
     private int type;
     private String name;
