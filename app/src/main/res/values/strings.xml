@@ -405,6 +405,8 @@
     <string name="share_reservation_text">التمرين يوم %1$s\nالمكان : %2$s ، رقم الملعب : %3$s\nالوقت : %4$s الى %5$s\n\n
 أكد حضورك في تطبيق Stadium عشان تعرف عدد المباريات اللي لعبتها !!\n\n
 تم الحجز عن طريق تطبيق Stadium ، للتحميل : \n%6$s</string>
+    <string name="cancel_invitation">الغاء الدعوة</string>
+    <string name="cancel_invitation_q">الغاء الدعوة؟</string>
 
 
     <!-- Arrays -->

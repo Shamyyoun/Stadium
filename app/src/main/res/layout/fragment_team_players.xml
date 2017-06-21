@@ -4,47 +4,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical">
 
-        <ProgressBar
-            android:id="@+id/pb_progress"
-            android:layout_width="@dimen/medium_progress_bar_size"
-            android:layout_height="@dimen/medium_progress_bar_size"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:gravity="center"
-            android:text="@string/no_players_in_this_team"
-            android:textSize="@dimen/medium_text"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:gravity="center"
-            android:text="@string/failed_loading_team_players"
-            android:textSize="@dimen/medium_text"
-            android:visibility="gone" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <LinearLayout
+            android:id="@+id/layout_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
-            android:overScrollMode="ifContentScrolls"
-            android:scrollbars="vertical"
-            android:visibility="gone" />
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/pb_progress"
+                    android:layout_width="@dimen/medium_progress_bar_size"
+                    android:layout_height="@dimen/medium_progress_bar_size"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="15dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="15dp"
+                    android:gravity="center"
+                    android:text="@string/no_players_in_this_team"
+                    android:textSize="@dimen/medium_text"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="15dp"
+                    android:gravity="center"
+                    android:text="@string/failed_loading_team_players"
+                    android:textSize="@dimen/medium_text"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_players"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_invitations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/sent_invitations" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_invitations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

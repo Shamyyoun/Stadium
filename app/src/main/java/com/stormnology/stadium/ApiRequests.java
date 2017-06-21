@@ -1361,7 +1361,30 @@ public class ApiRequests {
 
         // create & execute the request
         ConnectionHandler<User[]> connectionHandler = new ConnectionHandler(context,
-                AppUtils.getUserApiUrl(Const.API_TEAM_INVITATION), User[].class, listener, body, Const.API_TEAM_INVITATION);
+                AppUtils.getCaptainApiUrl(Const.API_TEAM_INVITATIONS), User[].class, listener, body, Const.API_TEAM_INVITATIONS);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Boolean> removeInvitation(Context context, ConnectionListener<Boolean> listener,
+                                                     int userId, String userToken,
+                                                     int teamId, int playerId) {
+        // create the request body
+        TeamActionBody body = new TeamActionBody();
+        Team team = new Team();
+        team.setId(teamId);
+        User captain = new User();
+        captain.setId(userId);
+        captain.setToken(userToken);
+        team.setCaptain(captain);
+        body.setTeam(team);
+        User player = new User();
+        player.setId(playerId);
+        body.setPlayer(player);
+
+        // create & execute the request
+        ConnectionHandler<Boolean> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getCaptainApiUrl(Const.API_REMOVE_INVITATION), Boolean.class, listener, body, Const.API_REMOVE_INVITATION);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

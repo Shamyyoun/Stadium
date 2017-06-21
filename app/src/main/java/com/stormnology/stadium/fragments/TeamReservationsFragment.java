@@ -117,6 +117,7 @@ public class TeamReservationsFragment extends ParentFragment implements SwipeRef
     public void loadData() {
         // check internet connection
         if (!Utils.hasConnection(activity)) {
+            swipeLayout.setRefreshing(false);
             Utils.showShortToast(activity, R.string.no_internet_connection);
             return;
         }

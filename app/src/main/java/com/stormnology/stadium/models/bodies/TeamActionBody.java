@@ -10,6 +10,9 @@ public class TeamActionBody {
     @SerializedName("user")
     @Expose
     private User user;
+    @SerializedName("player")
+    @Expose
+    private User player;
     @SerializedName("team")
     @Expose
     private Team team;
@@ -26,6 +29,20 @@ public class TeamActionBody {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * @return The player
+     */
+    public User getPlayer() {
+        return player;
+    }
+
+    /**
+     * @param player The player
+     */
+    public void setPlayer(User player) {
+        this.player = player;
     }
 
     /**

@@ -201,7 +201,7 @@ public class TeamInfoActivity extends ParentActivity {
 
                 // load data in fragments
                 updatePagerUI();
-                playersFragment.loadData();
+                playersFragment.loadPlayers();
                 reservationsFragment.loadData();
 
                 // enable the controls

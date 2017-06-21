@@ -96,7 +96,8 @@ public class Const {
     public static final String API_CHANGE_PASSWORD = "ChangePassword";
     public static final String API_MY_INVITATIONS = "MyInvitations";
     public static final String API_ACCEPT_INVITATION = "AcceptInvitation";
-    public static final String API_TEAM_INVITATION = "teamInvitations";
+    public static final String API_TEAM_INVITATIONS = "teamInvitations";
+    public static final String API_REMOVE_INVITATION = "removeInvitation";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
