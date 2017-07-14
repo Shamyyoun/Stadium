@@ -8,24 +8,24 @@ import android.widget.TextView;
 
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
+import com.stormnology.stadium.fragments.ChallengesFragment;
 import com.stormnology.stadium.fragments.MyTeamsFragment;
 import com.stormnology.stadium.fragments.PlayerHomeFragment;
 import com.stormnology.stadium.fragments.PlayerReservationsFragment;
-import com.stormnology.stadium.fragments.PlayersFragment;
 import com.stormnology.stadium.fragments.StadiumsFragment;
 
 public class PlayerMainActivity extends MainActivity {
 
     private TextView tvHome;
-    private TextView tvStadiums;
+    private TextView tvChallenges;
     private TextView tvReservations;
-    private TextView tvPlayers;
+    private TextView tvStadiums;
     private TextView tvMyTeam;
 
     private PlayerHomeFragment homeFragment;
-    private StadiumsFragment stadiumsFragment;
     private PlayerReservationsFragment reservationsFragment;
-    private PlayersFragment playersFragment;
+    private StadiumsFragment stadiumsFragment;
+    private ChallengesFragment challengesFragment;
     private MyTeamsFragment myTeamsFragment;
 
     @Override
@@ -39,16 +39,16 @@ public class PlayerMainActivity extends MainActivity {
 
         // init tabs
         tvHome = (TextView) findViewById(R.id.tv_home);
-        tvStadiums = (TextView) findViewById(R.id.tv_stadiums);
+        tvChallenges = (TextView) findViewById(R.id.tv_challenges);
         tvReservations = (TextView) findViewById(R.id.tv_reservations);
-        tvPlayers = (TextView) findViewById(R.id.tv_players);
+        tvStadiums = (TextView) findViewById(R.id.tv_stadiums);
         tvMyTeam = (TextView) findViewById(R.id.tv_my_teams);
 
         // add tabs click listeners
         tvHome.setOnClickListener(this);
-        tvStadiums.setOnClickListener(this);
+        tvChallenges.setOnClickListener(this);
         tvReservations.setOnClickListener(this);
-        tvPlayers.setOnClickListener(this);
+        tvStadiums.setOnClickListener(this);
         tvMyTeam.setOnClickListener(this);
     }
 
@@ -64,9 +64,9 @@ public class PlayerMainActivity extends MainActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_home:
-            case R.id.tv_stadiums:
+            case R.id.tv_challenges:
             case R.id.tv_reservations:
-            case R.id.tv_players:
+            case R.id.tv_stadiums:
             case R.id.tv_my_teams:
                 selectTab(v);
                 break;
@@ -79,9 +79,9 @@ public class PlayerMainActivity extends MainActivity {
     private void selectTab(View tvTab) {
         // deselect all tabs first
         tvHome.setSelected(false);
-        tvStadiums.setSelected(false);
+        tvChallenges.setSelected(false);
         tvReservations.setSelected(false);
-        tvPlayers.setSelected(false);
+        tvStadiums.setSelected(false);
         tvMyTeam.setSelected(false);
 
         // switch to load the tab fragment
@@ -93,11 +93,11 @@ public class PlayerMainActivity extends MainActivity {
                 loadFragment(R.id.container, homeFragment);
                 break;
 
-            case R.id.tv_stadiums:
-                if (stadiumsFragment == null) {
-                    stadiumsFragment = new StadiumsFragment();
+            case R.id.tv_challenges:
+                if (challengesFragment == null) {
+                    challengesFragment = new ChallengesFragment();
                 }
-                loadFragment(R.id.container, stadiumsFragment);
+                loadFragment(R.id.container, challengesFragment);
                 break;
 
             case R.id.tv_reservations:
@@ -107,11 +107,11 @@ public class PlayerMainActivity extends MainActivity {
                 loadFragment(R.id.container, reservationsFragment);
                 break;
 
-            case R.id.tv_players:
-                if (playersFragment == null) {
-                    playersFragment = new PlayersFragment();
+            case R.id.tv_stadiums:
+                if (stadiumsFragment == null) {
+                    stadiumsFragment = new StadiumsFragment();
                 }
-                loadFragment(R.id.container, playersFragment);
+                loadFragment(R.id.container, stadiumsFragment);
                 break;
 
             case R.id.tv_my_teams:

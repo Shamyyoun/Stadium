@@ -28,10 +28,14 @@ public class PlayersActivity extends ParentActivity {
 
         // check to load the fragment
         if (savedInstanceState == null) {
-            // load the fragment
+            // prepare the bundle
             Bundle bundle = new Bundle();
             bundle.putSerializable(Const.KEY_TEAM, team);
-            bundle.putString(Const.KEY_TOOLBAR_TITLE, getString(R.string.add_players));
+            bundle.putString(Const.KEY_TOOLBAR_TITLE,
+                    getString(team == null ? R.string.players : R.string.add_players)); // if team is null,...
+            // it is just the players activity, otherwise, it is add players activity
+
+            // load fragment with the bundle
             fragment = new PlayersFragment();
             fragment.setArguments(bundle);
             loadFragment(R.id.container, fragment);

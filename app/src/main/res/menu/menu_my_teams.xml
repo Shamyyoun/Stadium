@@ -7,4 +7,11 @@
         android:icon="@drawable/white_group_icon"
         android:title="@string/the_invitations"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_players"
+        android:name="@string/players"
+        android:icon="@drawable/white_player_icon"
+        android:title="@string/players"
+        app:showAsAction="always" />
 </menu>

@@ -16,6 +16,7 @@ import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.activities.CreateTeamActivity;
 import com.stormnology.stadium.activities.InvitationsActivity;
+import com.stormnology.stadium.activities.PlayersActivity;
 import com.stormnology.stadium.activities.TeamInfoActivity;
 import com.stormnology.stadium.adapters.TeamsAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
@@ -176,8 +177,15 @@ public class MyTeamsFragment extends ProgressFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_invitations) {
-            openInvitationsActivity();
+        // check item id
+        switch (item.getItemId()) {
+            case R.id.action_invitations:
+                openInvitationsActivity();
+                break;
+
+            case R.id.action_players:
+                openPlayersActivity();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -186,6 +194,11 @@ public class MyTeamsFragment extends ProgressFragment {
     private void openInvitationsActivity() {
         Intent intent = new Intent(activity, InvitationsActivity.class);
         startActivityForResult(intent, Const.REQ_VIEW_INVITATIONS);
+    }
+
+    private void openPlayersActivity() {
+        Intent intent = new Intent(activity, PlayersActivity.class);
+        startActivity(intent);
     }
 
     @Override

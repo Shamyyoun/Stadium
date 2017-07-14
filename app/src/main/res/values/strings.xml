@@ -407,6 +407,8 @@
 تم الحجز عن طريق تطبيق Stadium ، للتحميل : \n%6$s</string>
     <string name="cancel_invitation">الغاء الدعوة</string>
     <string name="cancel_invitation_q">الغاء الدعوة؟</string>
+    <string name="challenges">تحديات</string>
+    <string name="the_challenges">التحديات</string>
 
 
     <!-- Arrays -->

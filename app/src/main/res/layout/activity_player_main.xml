@@ -52,12 +52,12 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/tv_players"
+                    android:id="@+id/tv_stadiums"
                     style="@style/TabTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/players_tab_icon"
-                    android:text="@string/players" />
+                    android:drawableTop="@drawable/stadiums_tab_icon"
+                    android:text="@string/stadiums" />
 
                 <View
                     android:layout_width="0dp"
@@ -87,12 +87,12 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/tv_stadiums"
+                    android:id="@+id/tv_challenges"
                     style="@style/TabTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/stadiums_tab_icon"
-                    android:text="@string/stadiums" />
+                    android:drawableTop="@drawable/challenges_tab_icon"
+                    android:text="@string/challenges" />
 
                 <View
                     android:layout_width="0dp"
