@@ -26,7 +26,7 @@ public class ParseController implements LogInCallback, SaveCallback {
     }
 
     public void install(int userId, List<String> channels) {
-        // TODO re-enable when generate signed apk
+        // TODO enable when generate signed apk
 
 //        this.userId = userId;
 //        this.channels = channels;
