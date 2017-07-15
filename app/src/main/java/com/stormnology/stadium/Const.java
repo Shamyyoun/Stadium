@@ -10,10 +10,10 @@ public class Const {
     public static final String SHARED_PREFERENCES_FILE_NAME = "Stadium";
     public static final String APP_FILES_DIR = "/.stadium";
     public static final String ANALYTICS_PROPERTY_ID = "UA-98369772-1";
-        public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
-//    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
-//    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/android/Service1.svc";
-//    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/production/Service1.svc";
+    //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/test/Service1.svc";
+    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/preproduction/Service1.svc";
+    //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/android/Service1.svc";
+    //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/production/Service1.svc";
     public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
 
     // App contacts:----------------------
@@ -98,6 +98,7 @@ public class Const {
     public static final String API_ACCEPT_INVITATION = "AcceptInvitation";
     public static final String API_TEAM_INVITATIONS = "teamInvitations";
     public static final String API_REMOVE_INVITATION = "removeInvitation";
+    public static final String API_NEW_CHALLENGES = "newChallenges";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -157,6 +158,7 @@ public class Const {
     public static final String KEY_RATING = "rating";
     public static final String KEY_DURATIONS = "durations";
     public static final String KEY_REFRESH_HOME = "refresh_home";
+    public static final String KEY_CHALLENGES_TYPE = "challenges_type";
 
     // Permission request:---------------------
     public static final int PERM_REQ_CONTACTS = 1;

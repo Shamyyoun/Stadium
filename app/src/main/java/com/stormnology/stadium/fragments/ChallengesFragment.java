@@ -1,162 +1,168 @@
 package com.stormnology.stadium.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stormnology.stadium.ApiRequests;
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
-import com.stormnology.stadium.models.enums.ReservationsType;
-import com.stormnology.stadium.views.SlidingTabLayout;
+import com.stormnology.stadium.adapters.ChallengesAdapter;
+import com.stormnology.stadium.connection.ConnectionHandler;
+import com.stormnology.stadium.controllers.ActiveUserController;
+import com.stormnology.stadium.interfaces.OnItemRemovedListener;
+import com.stormnology.stadium.interfaces.OnRefreshListener;
+import com.stormnology.stadium.models.SerializableListWrapper;
+import com.stormnology.stadium.models.entities.Challenge;
+import com.stormnology.stadium.models.enums.ChallengesType;
+import com.stormnology.stadium.utils.Utils;
 
-/*
- * Created by Shamyyoun on 7/14/17.
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Created by Shamyyoun on 7/2/16.
  */
-public class ChallengesFragment extends ParentFragment {
-    private static final int TODAY_RES_POS = 0;
-    private static final int ACCEPTED_RES_POS = 1;
-    private static final int NEW_RES_POS = 2;
-    private static final int PREVIOUS_RES_POS = 3;
-    private static final int MY_RES_POS = 4;
-
-    private SlidingTabLayout tabLayout;
-    private ViewPager viewPager;
-
-    private String[] tabTitles;
-    private PagerAdapter pagerAdapter;
-    private AdminReservationsFragment[] fragments;
+public class ChallengesFragment extends ProgressFragment implements OnItemRemovedListener {
+    private ChallengesType challengesType;
+    private ActiveUserController activeUserController;
+    private RecyclerView recyclerView;
+    private List<Challenge> data;
+    private ChallengesAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.challenges);
-//        removeOptionsMenu();
+
+        // obtain main objects
+        challengesType = (ChallengesType) getArguments().getSerializable(Const.KEY_CHALLENGES_TYPE);
+        activeUserController = new ActiveUserController(activity);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_admin_home, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
 
-//        // init views
-//        tabLayout = (SlidingTabLayout) findViewById(R.id.tab_layout);
-//        viewPager = (ViewPager) findViewById(R.id.view_pager);
-//
-//        // customize view pager & its tab layout
-//        tabTitles = getResources().getStringArray(R.array.admin_home_tabs);
-//        tabLayout.setDistributeEvenly(true);
-//        updatePagerUI();
+        // init views
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        // customize the recycler view
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // get data from saved bundle if exists
+        if (savedInstanceState != null) {
+            SerializableListWrapper<Challenge> dataWrapper = (SerializableListWrapper<Challenge>) savedInstanceState.getSerializable("dataWrapper");
+            if (dataWrapper != null) {
+                data = dataWrapper.getList();
+            }
+        }
+
+        // check data
+        if (data != null) {
+            if (!data.isEmpty()) {
+                updateUI();
+            } else {
+                showEmpty(R.string.no_challenges_found);
+            }
+        }
 
         return rootView;
     }
 
-    private void updatePagerUI() {
-//        // create the fragments arr
-//        fragments = new AdminReservationsFragment[tabTitles.length];
-//
-//        // create and set the pager adapter
-//        pagerAdapter = new PagerAdapter(activity.getSupportFragmentManager());
-//        viewPager.setAdapter(pagerAdapter);
-//        tabLayout.setViewPager(viewPager);
-//
-//        // add page change listener to load the data only when the fragment is selected
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                // reverse the position cause the UI is arabic from right to left
-//                position = tabTitles.length - 1 - position;
-//
-//                // check the fragment to load the data
-//                AdminReservationsFragment fragment = fragments[position];
-//                if (fragment != null) {
-//                    fragment.loadDataIfRequired();
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//            }
-//        });
-//
-//        // this trick to pass the bug of adapter creation
-//        // when select the tab its fragment is still not created so can't load the data
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                // select last tab by default as the most right one
-//                viewPager.setCurrentItem(tabTitles.length - 1);
-//            }
-//        }, 20);
+    @Override
+    protected int getContentViewResId() {
+        return R.layout.fragment_challenges;
     }
 
-    public class PagerAdapter extends FragmentStatePagerAdapter {
+    @Override
+    protected int getMainViewResId() {
+        return R.id.recycler_view;
+    }
 
-        public PagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // reverse the position cause the UI is arabic from right to left
-            position = tabTitles.length - 1 - position;
-
-            // get the fragment and check it
-            AdminReservationsFragment fragment = fragments[position];
-            if (fragment != null) {
-                return fragment;
+    @Override
+    protected OnRefreshListener getOnRefreshListener() {
+        return new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
             }
+        };
+    }
 
-            // prepare the reservations type to create the fragment
-            ReservationsType reservationsType = null;
-            switch (position) {
-                case TODAY_RES_POS:
-                    reservationsType = ReservationsType.ADMIN_TODAY_RESERVATIONS;
-                    break;
+    private void updateUI() {
+        // create and set the adapter
+        adapter = new ChallengesAdapter(activity, data, R.layout.item_challenge);
+        adapter.setChallengesType(challengesType);
+        adapter.setOnItemRemovedListener(this);
+        recyclerView.setAdapter(adapter);
+        showMain();
+    }
 
-                case ACCEPTED_RES_POS:
-                    reservationsType = ReservationsType.ADMIN_ACCEPTED_RESERVATIONS;
-                    break;
+    public void loadDataIfRequired() {
+        if (data == null) {
+            loadData();
+        }
+    }
 
-                case NEW_RES_POS:
-                    reservationsType = ReservationsType.ADMIN_NEW_RESERVATIONS;
-                    break;
-
-                case PREVIOUS_RES_POS:
-                    reservationsType = ReservationsType.ADMIN_PREVIOUS_RESERVATIONS;
-                    break;
-
-                case MY_RES_POS:
-                    reservationsType = ReservationsType.ADMIN_MY_RESERVATIONS;
-                    break;
-            }
-
-            // create the fragment and add it to the array
-            fragment = new AdminReservationsFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Const.KEY_RESERVATIONS_TYPE, reservationsType);
-            fragment.setArguments(bundle);
-            fragments[position] = fragment;
-
-            return fragment;
+    private void loadData() {
+        // check internet connection
+        if (!Utils.hasConnection(activity)) {
+            showError(R.string.no_internet_connection);
+            return;
         }
 
-        @Override
-        public int getCount() {
-            return fragments.length;
+        // TODO send suitable request
+        ConnectionHandler connectionHandler = null;
+        connectionHandler = ApiRequests.newChallenges(activity, this);
+
+        // show progress if suitable
+        if (connectionHandler != null) {
+            showProgress();
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
+        cancelWhenDestroyed(connectionHandler);
+    }
+
+    private void refresh() {
+        loadData();
+    }
+
+    @Override
+    public void onSuccess(Object response, int statusCode, String tag) {
+        // get data
+        Challenge[] challengesArr = (Challenge[]) response;
+        data = new ArrayList<>(Arrays.asList(challengesArr));
+
+        // check size
+        if (data.size() == 0) {
+            showEmpty(R.string.no_challenges_found);
+        } else {
+            updateUI();
+        }
+    }
+
+    @Override
+    public void onFail(Exception ex, int statusCode, String tag) {
+        showError(R.string.failed_loading_challenges);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        SerializableListWrapper dataWrapper = new SerializableListWrapper<>(data);
+        outState.putSerializable("dataWrapper", dataWrapper);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onItemRemoved(int position) {
+        // check data size
+        if (data.size() == 0) {
+            showEmpty(R.string.no_challenges_found);
         }
     }
 }
-

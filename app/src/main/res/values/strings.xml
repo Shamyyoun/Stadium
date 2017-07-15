@@ -409,6 +409,9 @@
     <string name="cancel_invitation_q">الغاء الدعوة؟</string>
     <string name="challenges">تحديات</string>
     <string name="the_challenges">التحديات</string>
+    <string name="accept_challenge">قبول التحدي</string>
+    <string name="no_challenges_found">لا يوجد تحديات</string>
+    <string name="failed_loading_challenges">فشل تحميل التحديات</string>
 
 
     <!-- Arrays -->
@@ -423,6 +426,13 @@
         <item>حجوزات جديدة</item>
         <item>حجوزات مقبولة</item>
         <item>حجوزات اليوم</item>
+    </string-array>
+
+    <string-array name="player_challenges_tabs">
+        <item>تحدياتي</item>
+        <item>تحديات تاريخية</item>
+        <item>تحديات قادمة</item>
+        <item>تحديات جديدة</item>
     </string-array>
 
 </resources>

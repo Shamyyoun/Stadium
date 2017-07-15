@@ -26,6 +26,7 @@ import com.stormnology.stadium.models.bodies.TeamInvitationsBody;
 import com.stormnology.stadium.models.bodies.TeamPlayerActionBody;
 import com.stormnology.stadium.models.bodies.UnblockTeamBody;
 import com.stormnology.stadium.models.entities.Attendant;
+import com.stormnology.stadium.models.entities.Challenge;
 import com.stormnology.stadium.models.entities.City;
 import com.stormnology.stadium.models.entities.Duration;
 import com.stormnology.stadium.models.entities.Event;
@@ -1387,6 +1388,15 @@ public class ApiRequests {
         ConnectionHandler<Boolean> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getCaptainApiUrl(Const.API_REMOVE_INVITATION), Boolean.class, listener, body, Const.API_REMOVE_INVITATION);
         connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge[]> newChallenges(Context context, ConnectionListener<Challenge[]> listener) {
+        // create & execute the request
+        ConnectionHandler<Challenge[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_NEW_CHALLENGES), Challenge[].class, listener, Const.API_NEW_CHALLENGES);
+
+        connectionHandler.executeGet();
         return connectionHandler;
     }
 }

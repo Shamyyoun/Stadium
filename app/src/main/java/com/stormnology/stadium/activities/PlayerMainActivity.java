@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
-import com.stormnology.stadium.fragments.ChallengesFragment;
+import com.stormnology.stadium.fragments.PlayerChallengesFragment;
 import com.stormnology.stadium.fragments.MyTeamsFragment;
 import com.stormnology.stadium.fragments.PlayerHomeFragment;
 import com.stormnology.stadium.fragments.PlayerReservationsFragment;
@@ -23,9 +23,9 @@ public class PlayerMainActivity extends MainActivity {
     private TextView tvMyTeam;
 
     private PlayerHomeFragment homeFragment;
+    private PlayerChallengesFragment playerChallengesFragment;
     private PlayerReservationsFragment reservationsFragment;
     private StadiumsFragment stadiumsFragment;
-    private ChallengesFragment challengesFragment;
     private MyTeamsFragment myTeamsFragment;
 
     @Override
@@ -94,10 +94,10 @@ public class PlayerMainActivity extends MainActivity {
                 break;
 
             case R.id.tv_challenges:
-                if (challengesFragment == null) {
-                    challengesFragment = new ChallengesFragment();
+                if (playerChallengesFragment == null) {
+                    playerChallengesFragment = new PlayerChallengesFragment();
                 }
-                loadFragment(R.id.container, challengesFragment);
+                loadFragment(R.id.container, playerChallengesFragment);
                 break;
 
             case R.id.tv_reservations:
