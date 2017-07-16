@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
+import com.stormnology.stadium.models.entities.Field;
 import com.stormnology.stadium.models.entities.Reservation;
 import com.stormnology.stadium.models.entities.Stadium;
 import com.stormnology.stadium.models.entities.Team;
@@ -18,18 +19,18 @@ import java.util.List;
 
 public class ReservationController {
     public String getDateTime(Reservation reservation) {
-        String dateTime = "";
+        String text = "";
 
         String date = DateUtils.formatDate(reservation.getDate(), Reservation.DATE_FORMAT, "d-M-yyyy");
-        dateTime += date;
+        text += date;
 
         String endTime = DateUtils.formatDate(reservation.getTimeEnd(), Reservation.TIME_FORMAT, "a hh:mm");
-        dateTime += " . " + endTime;
+        text += " . " + endTime;
 
         String startTime = DateUtils.formatDate(reservation.getTimeStart(), Reservation.TIME_FORMAT, "a hh:mm");
-        dateTime += " - " + startTime;
+        text += " - " + startTime;
 
-        return dateTime;
+        return text;
     }
 
     public String getFieldNumber(Reservation reservation) {
@@ -143,6 +144,21 @@ public class ReservationController {
         // prepare the text and return it
         String text = context.getString(R.string.share_reservation_text,
                 reservation.getDayName(), stadiumName, fieldName, startTime, endTime, appUrl);
+        return text;
+    }
+
+    public String getStadiumFieldName(Context context, Reservation reservation) {
+        Stadium stadium = reservation.getReservationStadium();
+        Field field = reservation.getField();
+
+        String text = stadium.getName() + " . " + context.getString(R.string.field_c) + " " + field.getFieldNumber();
+        return text;
+    }
+
+    public String getDayDateTime(Reservation reservation) {
+        String text = reservation.getDayName();
+        text += " . " + getDateTime(reservation);
+
         return text;
     }
 }

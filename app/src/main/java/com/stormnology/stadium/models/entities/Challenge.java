@@ -4,7 +4,10 @@ package com.stormnology.stadium.models.entities;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Challenge {
+import java.io.Serializable;
+
+public class Challenge implements Serializable {
+    public static final String DATE_FORMAT = "MM/dd/yyyy hh:mm:ss a";
 
     @SerializedName("Id")
     @Expose

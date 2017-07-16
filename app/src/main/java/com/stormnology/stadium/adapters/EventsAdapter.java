@@ -40,6 +40,7 @@ import java.util.Locale;
  * Created by Shamyyoun on 19/2/16.
  */
 public class EventsAdapter extends ParentRecyclerAdapter<Event> {
+    private static final String DISPLAY_DATE_FORMAT = "yyyy-M-d";
     private PrettyTime prettyTime;
     private ActiveUserController activeUserController;
 
@@ -75,7 +76,7 @@ public class EventsAdapter extends ParentRecyclerAdapter<Event> {
         if (DateUtils.isToday(calendar)) {
             formattedDate = prettyTime.format(calendar);
         } else {
-            formattedDate = DateUtils.formatDate(item.getDate(), Event.DATE_FORMAT, "yyyy-M-d");
+            formattedDate = DateUtils.formatDate(item.getDate(), Event.DATE_FORMAT, DISPLAY_DATE_FORMAT);
         }
         holder.tvDate.setText(formattedDate);
 
