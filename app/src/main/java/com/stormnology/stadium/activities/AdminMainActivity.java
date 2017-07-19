@@ -86,10 +86,8 @@ public class AdminMainActivity extends MainActivity {
         // switch to load the tab fragment
         switch (tvTab.getId()) {
             case R.id.tv_home:
-//                if (homeFragment == null) {
-//                    homeFragment = new AdminHomeFragment();
-//                }
-                homeFragment = new AdminHomeFragment(); // TODO must be refactored in a better way
+                // TODO must be refactored in a better way
+                homeFragment = new AdminHomeFragment();
                 loadFragment(R.id.container, homeFragment);
                 break;
 
@@ -101,10 +99,8 @@ public class AdminMainActivity extends MainActivity {
                 break;
 
             case R.id.tv_stadium:
-//                if (stadiumFragment == null) {
-//                    stadiumFragment = new AdminStadiumFragment();
-//                }
-                stadiumFragment = new AdminStadiumFragment(); // TODO must be refactored in a better way
+                // TODO must be refactored in a better way
+                stadiumFragment = new AdminStadiumFragment();
                 loadFragment(R.id.container, stadiumFragment);
                 break;
 

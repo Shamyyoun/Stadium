@@ -9,7 +9,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.stormnology.stadium.ApiRequests;
+import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
+import com.stormnology.stadium.connection.ConnectionHandler;
+import com.stormnology.stadium.connection.ConnectionListener;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.ChallengeController;
 import com.stormnology.stadium.controllers.ReservationController;
@@ -17,6 +21,7 @@ import com.stormnology.stadium.models.entities.Challenge;
 import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.models.enums.ChallengesType;
+import com.stormnology.stadium.utils.AppUtils;
 import com.stormnology.stadium.utils.DialogUtils;
 import com.stormnology.stadium.utils.Utils;
 
@@ -76,25 +81,17 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         holder.tvHostTeamName.setText(challengeController.getHostTeamName(item));
         Utils.loadImage(context, hostTeam.getImageLink(), R.drawable.default_image, holder.ivHostTeamImage);
 
-        // set its comment
-        if (!Utils.isNullOrEmpty(item.getHostComment())) {
-            holder.tvHostTeamComment.setText(item.getHostComment());
-            holder.tvHostTeamComment.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvHostTeamComment.setVisibility(View.GONE);
-        }
-
         // set guest team info
         Team guestTeam = item.getGuestTeam();
         holder.tvGuestTeamName.setText(challengeController.getGuestTeamName(context, item));
         Utils.loadImage(context, guestTeam.getImageLink(), R.drawable.default_image, holder.ivGuestTeamImage);
 
-        // set its comment
-        if (!Utils.isNullOrEmpty(item.getGuestComment())) {
-            holder.tvGuestTeamComment.setText(item.getGuestComment());
-            holder.tvGuestTeamComment.setVisibility(View.VISIBLE);
+        // set comment
+        if (!Utils.isNullOrEmpty(item.getHostComment())) {
+            holder.tvComment.setText(item.getHostComment());
+            holder.tvComment.setVisibility(View.VISIBLE);
         } else {
-            holder.tvGuestTeamComment.setVisibility(View.GONE);
+            holder.tvComment.setVisibility(View.GONE);
         }
 
         // set place info
@@ -150,18 +147,61 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         }, null);
     }
 
-    private void accept(int position) {
-        // TODO implement this method
+    private void accept(final int position) {
+        // get the challenge
+        final Challenge challenge = data.get(position);
+
+        // check internet connection
+        if (!Utils.hasConnection(context)) {
+            Utils.showShortToast(context, R.string.no_internet_connection);
+            return;
+        }
+
+        showProgressDialog();
+
+        // create the connection listener
+        ConnectionListener<Challenge> listener = new ConnectionListener<Challenge>() {
+            @Override
+            public void onSuccess(Challenge response, int statusCode, String tag) {
+                hideProgressDialog();
+
+                // check the status code
+                if (statusCode == Const.SER_CODE_200) {
+                    // show success msg
+                    Utils.showShortToast(context, R.string.accepted_successfully);
+
+                    // and remove this item
+                    removeItem(position);
+                } else {
+                    // show error msg
+                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.error_accepting);
+                    Utils.showShortToast(context, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFail(Exception ex, int statusCode, String tag) {
+                hideProgressDialog();
+                Utils.showShortToast(context, R.string.error_accepting);
+            }
+        };
+
+        // get active user
+        User user = activeUserController.getUser();
+
+        // send request
+        ConnectionHandler connectionHandler = ApiRequests.acceptChallenge(context, listener,
+                user.getId(), user.getToken(), challenge.getId(), challenge.getGuestTeam().getId());
+        cancelWhenDestroyed(connectionHandler);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
         private TextView tvCreationDate;
         private TextView tvHostTeamName;
         private ImageView ivHostTeamImage;
-        private TextView tvHostTeamComment;
         private TextView tvGuestTeamName;
         private ImageView ivGuestTeamImage;
-        private TextView tvGuestTeamComment;
+        private TextView tvComment;
         private TextView tvHostTeamScore;
         private TextView tvGuestTeamScore;
         private View viewTopDivider;
@@ -176,10 +216,9 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             tvCreationDate = (TextView) findViewById(R.id.tv_creation_date);
             tvHostTeamName = (TextView) findViewById(R.id.tv_host_team_name);
             ivHostTeamImage = (ImageView) findViewById(R.id.iv_host_team_image);
-            tvHostTeamComment = (TextView) findViewById(R.id.tv_host_team_comment);
             tvGuestTeamName = (TextView) findViewById(R.id.tv_guest_team_name);
             ivGuestTeamImage = (ImageView) findViewById(R.id.iv_guest_team_image);
-            tvGuestTeamComment = (TextView) findViewById(R.id.tv_guest_team_comment);
+            tvComment = (TextView) findViewById(R.id.tv_comment);
             tvHostTeamScore = (TextView) findViewById(R.id.tv_host_team_score);
             tvGuestTeamScore = (TextView) findViewById(R.id.tv_guest_team_score);
             viewTopDivider = findViewById(R.id.view_top_divider);

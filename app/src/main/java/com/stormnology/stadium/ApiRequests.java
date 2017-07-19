@@ -11,6 +11,7 @@ import com.stormnology.stadium.models.bodies.AdminReservationActionBody;
 import com.stormnology.stadium.models.bodies.AvailableReservationsBody;
 import com.stormnology.stadium.models.bodies.CaptainBody;
 import com.stormnology.stadium.models.bodies.CaptainReservationActionBody;
+import com.stormnology.stadium.models.bodies.ChallengeActionBody;
 import com.stormnology.stadium.models.bodies.ChangeDurationsBody;
 import com.stormnology.stadium.models.bodies.CheckListOfContactsBody;
 import com.stormnology.stadium.models.bodies.ConfirmPresentBody;
@@ -1397,6 +1398,29 @@ public class ApiRequests {
                 AppUtils.getUserApiUrl(Const.API_NEW_CHALLENGES), Challenge[].class, listener, Const.API_NEW_CHALLENGES);
 
         connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge> acceptChallenge(Context context, ConnectionListener<Challenge> listener,
+                                                               int userId, String userToken,
+                                                               int challengeId, int guestTeamId) {
+        // create the request body
+        ChallengeActionBody body = new ChallengeActionBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+        Challenge challenge = new Challenge();
+        challenge.setId(challengeId);
+        Team team = new Team();
+        team.setId(guestTeamId);
+        challenge.setGuestTeam(team);
+        body.setChallenge(challenge);
+
+        // create & execute the request
+        ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ACCEPT_CHALLENGE), Challenge.class, listener, body, Const.API_ACCEPT_CHALLENGE);
+        connectionHandler.executeRawJson();
         return connectionHandler;
     }
 }

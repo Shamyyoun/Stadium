@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
-import com.stormnology.stadium.fragments.PlayerChallengesFragment;
 import com.stormnology.stadium.fragments.MyTeamsFragment;
+import com.stormnology.stadium.fragments.PlayerChallengesFragment;
 import com.stormnology.stadium.fragments.PlayerHomeFragment;
 import com.stormnology.stadium.fragments.PlayerReservationsFragment;
 import com.stormnology.stadium.fragments.StadiumsFragment;
@@ -94,9 +94,8 @@ public class PlayerMainActivity extends MainActivity {
                 break;
 
             case R.id.tv_challenges:
-                if (playerChallengesFragment == null) {
-                    playerChallengesFragment = new PlayerChallengesFragment();
-                }
+                // TODO must be refactored in a better way
+                playerChallengesFragment = new PlayerChallengesFragment();
                 loadFragment(R.id.container, playerChallengesFragment);
                 break;
 
