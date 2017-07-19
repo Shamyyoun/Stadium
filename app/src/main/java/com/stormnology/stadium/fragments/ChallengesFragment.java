@@ -116,9 +116,17 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
             return;
         }
 
-        // TODO send suitable request
         ConnectionHandler connectionHandler = null;
-        connectionHandler = ApiRequests.newChallenges(activity, this);
+        if (challengesType == ChallengesType.NEW_CHALLENGES) {
+            connectionHandler = ApiRequests.newChallenges(activity, this);
+        } else if (challengesType == ChallengesType.ACCEPTED_CHALLENGES) {
+            connectionHandler = ApiRequests.acceptedChallenges(activity, this);
+        } else if (challengesType == ChallengesType.HISTORICAL_CHALLENGES) {
+            connectionHandler = ApiRequests.historicChallenges(activity, this);
+        } else if (challengesType == ChallengesType.MY_CHALLENGES) {
+            connectionHandler = ApiRequests.myChallenges(activity, this,
+                    activeUserController.getUser().getId());
+        }
 
         // show progress if suitable
         if (connectionHandler != null) {

@@ -99,6 +99,9 @@ public class Const {
     public static final String API_TEAM_INVITATIONS = "teamInvitations";
     public static final String API_REMOVE_INVITATION = "removeInvitation";
     public static final String API_NEW_CHALLENGES = "newChallenges";
+    public static final String API_ACCEPTED_CHALLENGES = "accptedChallenges";
+    public static final String API_HISTORIC_CHALLENGES = "historicChallenges";
+    public static final String API_MY_CHALLENGES = "MyChallenges";
     public static final String API_ACCEPT_CHALLENGE = "accpteChallenge";
 
     // SP Constants:----------------------

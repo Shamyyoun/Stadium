@@ -1401,6 +1401,39 @@ public class ApiRequests {
         return connectionHandler;
     }
 
+    public static ConnectionHandler<Challenge[]> acceptedChallenges(Context context, ConnectionListener<Challenge[]> listener) {
+        // create & execute the request
+        ConnectionHandler<Challenge[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ACCEPTED_CHALLENGES), Challenge[].class, listener, Const.API_ACCEPTED_CHALLENGES);
+
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge[]> historicChallenges(Context context, ConnectionListener<Challenge[]> listener) {
+        // create & execute the request
+        ConnectionHandler<Challenge[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_HISTORIC_CHALLENGES), Challenge[].class, listener, Const.API_HISTORIC_CHALLENGES);
+
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge[]> myChallenges(Context context, ConnectionListener<Challenge[]> listener,
+                                                              int userId) {
+
+        // prepare the url
+        String url = AppUtils.getUserApiUrl(Const.API_MY_CHALLENGES);
+        url += "?" + Const.PARAM_ID + "=" + userId;
+
+        // create & execute the request
+        ConnectionHandler<Challenge[]> connectionHandler = new ConnectionHandler(context,
+                url, Challenge[].class, listener, Const.API_MY_CHALLENGES);
+
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
     public static ConnectionHandler<Challenge> acceptChallenge(Context context, ConnectionListener<Challenge> listener,
                                                                int userId, String userToken,
                                                                int challengeId, int guestTeamId) {

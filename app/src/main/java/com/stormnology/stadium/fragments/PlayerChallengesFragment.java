@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,7 +36,7 @@ public class PlayerChallengesFragment extends ParentFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.the_challenges);
-        removeOptionsMenu();
+        createOptionsMenu(R.menu.menu_challenges);
     }
 
     @Override
@@ -95,6 +96,11 @@ public class PlayerChallengesFragment extends ParentFragment {
                 viewPager.setCurrentItem(tabTitles.length - 1);
             }
         }, 20);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
