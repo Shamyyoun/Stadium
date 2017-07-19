@@ -4,7 +4,9 @@ package com.stormnology.stadium.models.entities;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ChallengeType {
+import java.io.Serializable;
+
+public class ChallengeType implements Serializable {
 
     @SerializedName("Id")
     @Expose
