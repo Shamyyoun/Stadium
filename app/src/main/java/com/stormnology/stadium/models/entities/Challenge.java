@@ -52,6 +52,9 @@ public class Challenge extends ServerResponse implements Serializable {
     @SerializedName("type")
     @Expose
     private ChallengeType type;
+    @SerializedName("captainRole")
+    @Expose
+    private boolean captainRole;
 
     public int getId() {
         return id;
@@ -163,5 +166,13 @@ public class Challenge extends ServerResponse implements Serializable {
 
     public void setType(ChallengeType type) {
         this.type = type;
+    }
+
+    public boolean isCaptainRole() {
+        return captainRole;
+    }
+
+    public void setCaptainRole(boolean captainRole) {
+        this.captainRole = captainRole;
     }
 }

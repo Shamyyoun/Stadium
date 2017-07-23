@@ -16,7 +16,7 @@ import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.connection.ConnectionListener;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.ChallengeController;
-import com.stormnology.stadium.controllers.ReservationController;
+import com.stormnology.stadium.controllers.TeamController;
 import com.stormnology.stadium.models.entities.Challenge;
 import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.models.entities.User;
@@ -30,6 +30,8 @@ import org.ocpsoft.prettytime.PrettyTime;
 import java.util.List;
 import java.util.Locale;
 
+import static com.stormnology.stadium.R.string.position;
+
 /**
  * Created by Shamyyoun on 19/2/16.
  */
@@ -38,7 +40,7 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
 
     private ActiveUserController activeUserController;
     private ChallengeController challengeController;
-    private ReservationController reservationController;
+    private TeamController teamController;
     private PrettyTime prettyTime;
 
     public ChallengesAdapter(Context context, List<Challenge> data, int layoutId) {
@@ -47,14 +49,21 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         // obtain main objects
         activeUserController = new ActiveUserController(context);
         challengeController = new ChallengeController();
-        reservationController = new ReservationController();
+        teamController = new TeamController();
         prettyTime = new PrettyTime(new Locale("ar"));
     }
 
     @Override
     public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
-        ViewHolder holder = new ViewHolder(itemView);
+
+        // create suitable view holder
+        ViewHolder holder;
+        if (challengesType == ChallengesType.NEW_CHALLENGES) {
+            holder = new NewChallengeViewHolder(itemView);
+        } else {
+            holder = new NewChallengeViewHolder(itemView);
+        }
         holder.setOnItemClickListener(itemClickListener);
 
         return holder;
@@ -62,140 +71,15 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
 
     @Override
     public void onBindViewHolder(ParentRecyclerViewHolder viewHolder, final int position) {
+        // get item and bind views
         ViewHolder holder = (ViewHolder) viewHolder;
-
-        // get item
         Challenge item = data.get(position);
-
-        // set date
-        String creationDate = challengeController.getCreationDate(item, prettyTime);
-        if (creationDate != null) {
-            holder.tvCreationDate.setText(creationDate);
-            holder.tvCreationDate.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvCreationDate.setVisibility(View.GONE);
-        }
-
-        // set host team info
-        Team hostTeam = item.getHostTeam();
-        holder.tvHostTeamName.setText(challengeController.getHostTeamName(item));
-        Utils.loadImage(context, hostTeam.getImageLink(), R.drawable.default_image, holder.ivHostTeamImage);
-
-        // set guest team info
-        Team guestTeam = item.getGuestTeam();
-        holder.tvGuestTeamName.setText(challengeController.getGuestTeamName(context, item));
-        Utils.loadImage(context, guestTeam.getImageLink(), R.drawable.default_image, holder.ivGuestTeamImage);
-
-        // set comment
-        if (!Utils.isNullOrEmpty(item.getHostComment())) {
-            holder.tvComment.setText(item.getHostComment());
-            holder.tvComment.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvComment.setVisibility(View.GONE);
-        }
-
-        // set place info
-        String placeInfo = challengeController.getPlaceInfo(context, item);
-        if (!Utils.isNullOrEmpty(placeInfo)) {
-            holder.tvPlace.setText(placeInfo);
-            holder.tvPlace.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvPlace.setVisibility(View.GONE);
-        }
-
-        // set date info
-        String dateInfo = challengeController.getDateInfo(item);
-        if (!Utils.isNullOrEmpty(dateInfo)) {
-            holder.tvDateTime.setText(dateInfo);
-            holder.tvDateTime.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvDateTime.setVisibility(View.GONE);
-        }
-
-        // check to show / hide the top divider
-        if (Utils.isNullOrEmpty(placeInfo) && Utils.isNullOrEmpty(dateInfo)) {
-            holder.viewTopDivider.setVisibility(View.GONE);
-        } else {
-            holder.viewTopDivider.setVisibility(View.VISIBLE);
-        }
-
-        // check if current user can accept the challenge
-        User user = activeUserController.getUser();
-        if (challengeController.playerCanAcceptChallenge(user.getId(), item)) {
-            // show buttons layout
-            holder.layoutButtons.setVisibility(View.VISIBLE);
-        } else {
-            // hide buttons layout
-            holder.layoutButtons.setVisibility(View.GONE);
-        }
-
-        // add listeners
-        holder.btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAcceptConfirmDialog(position);
-            }
-        });
-    }
-
-    private void showAcceptConfirmDialog(final int position) {
-        DialogUtils.showConfirmDialog(context, R.string.accept_challenge_q, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                accept(position);
-            }
-        }, null);
-    }
-
-    private void accept(final int position) {
-        // get the challenge
-        final Challenge challenge = data.get(position);
-
-        // check internet connection
-        if (!Utils.hasConnection(context)) {
-            Utils.showShortToast(context, R.string.no_internet_connection);
-            return;
-        }
-
-        showProgressDialog();
-
-        // create the connection listener
-        ConnectionListener<Challenge> listener = new ConnectionListener<Challenge>() {
-            @Override
-            public void onSuccess(Challenge response, int statusCode, String tag) {
-                hideProgressDialog();
-
-                // check the status code
-                if (statusCode == Const.SER_CODE_200) {
-                    // show success msg
-                    Utils.showShortToast(context, R.string.accepted_successfully);
-
-                    // and remove this item
-                    removeItem(position);
-                } else {
-                    // show error msg
-                    String errorMsg = AppUtils.getResponseMsg(context, response, R.string.error_accepting);
-                    Utils.showShortToast(context, errorMsg);
-                }
-            }
-
-            @Override
-            public void onFail(Exception ex, int statusCode, String tag) {
-                hideProgressDialog();
-                Utils.showShortToast(context, R.string.error_accepting);
-            }
-        };
-
-        // get active user
-        User user = activeUserController.getUser();
-
-        // send request
-        ConnectionHandler connectionHandler = ApiRequests.acceptChallenge(context, listener,
-                user.getId(), user.getToken(), challenge.getId(), challenge.getGuestTeam().getId());
-        cancelWhenDestroyed(connectionHandler);
+        holder.bindViews(item);
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
+        protected Challenge challenge;
+
         private TextView tvCreationDate;
         private TextView tvHostTeamName;
         private ImageView ivHostTeamImage;
@@ -207,8 +91,6 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         private View viewTopDivider;
         private TextView tvPlace;
         private TextView tvDateTime;
-        private View layoutButtons;
-        private Button btnAccept;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -224,8 +106,168 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             viewTopDivider = findViewById(R.id.view_top_divider);
             tvPlace = (TextView) findViewById(R.id.tv_place);
             tvDateTime = (TextView) findViewById(R.id.tv_date_time);
+        }
+
+        public void bindViews(Challenge challenge) {
+            // set the challenge
+            this.challenge = challenge;
+
+            // set date
+            String creationDate = challengeController.getCreationDate(challenge, prettyTime);
+            if (creationDate != null) {
+                tvCreationDate.setText(creationDate);
+                tvCreationDate.setVisibility(View.VISIBLE);
+            } else {
+                tvCreationDate.setVisibility(View.GONE);
+            }
+
+            // set host team info
+            Team hostTeam = challenge.getHostTeam();
+            tvHostTeamName.setText(challengeController.getHostTeamName(challenge));
+            Utils.loadImage(context, hostTeam.getImageLink(), R.drawable.default_image, ivHostTeamImage);
+
+            // set guest team info
+            Team guestTeam = challenge.getGuestTeam();
+            tvGuestTeamName.setText(challengeController.getGuestTeamName(context, challenge));
+            Utils.loadImage(context, guestTeam.getImageLink(), R.drawable.default_image, ivGuestTeamImage);
+
+            // set comment
+            if (!Utils.isNullOrEmpty(challenge.getHostComment())) {
+                tvComment.setText(challenge.getHostComment());
+                tvComment.setVisibility(View.VISIBLE);
+            } else {
+                tvComment.setVisibility(View.GONE);
+            }
+
+            // set place info
+            String placeInfo = challengeController.getPlaceInfo(context, challenge);
+            if (!Utils.isNullOrEmpty(placeInfo)) {
+                tvPlace.setText(placeInfo);
+                tvPlace.setVisibility(View.VISIBLE);
+            } else {
+                tvPlace.setVisibility(View.GONE);
+            }
+
+            // set date info
+            String dateInfo = challengeController.getDateInfo(challenge);
+            if (!Utils.isNullOrEmpty(dateInfo)) {
+                tvDateTime.setText(dateInfo);
+                tvDateTime.setVisibility(View.VISIBLE);
+            } else {
+                tvDateTime.setVisibility(View.GONE);
+            }
+
+            // check to show / hide the top divider
+            if (Utils.isNullOrEmpty(placeInfo) && Utils.isNullOrEmpty(dateInfo)) {
+                viewTopDivider.setVisibility(View.GONE);
+            } else {
+                viewTopDivider.setVisibility(View.VISIBLE);
+            }
+        }
+
+        protected void showAcceptConfirmDialog() {
+            DialogUtils.showConfirmDialog(context, R.string.accept_challenge_q, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    accept();
+                }
+            }, null);
+        }
+
+        private void accept() {
+            // check internet connection
+            if (!Utils.hasConnection(context)) {
+                Utils.showShortToast(context, R.string.no_internet_connection);
+                return;
+            }
+
+            showProgressDialog();
+
+            // create the connection listener
+            ConnectionListener<Challenge> listener = new ConnectionListener<Challenge>() {
+                @Override
+                public void onSuccess(Challenge response, int statusCode, String tag) {
+                    hideProgressDialog();
+
+                    // check the status code
+                    if (statusCode == Const.SER_CODE_200) {
+                        // show success msg
+                        Utils.showShortToast(context, R.string.accepted_successfully);
+
+                        // and remove this item
+                        removeItem(position);
+                    } else {
+                        // show error msg
+                        String errorMsg = AppUtils.getResponseMsg(context, response, R.string.error_accepting);
+                        Utils.showShortToast(context, errorMsg);
+                    }
+                }
+
+                @Override
+                public void onFail(Exception ex, int statusCode, String tag) {
+                    hideProgressDialog();
+                    Utils.showShortToast(context, R.string.error_accepting);
+                }
+            };
+
+            // get active user
+            User user = activeUserController.getUser();
+
+            // send request
+            ConnectionHandler connectionHandler = ApiRequests.acceptChallenge(context, listener,
+                    user.getId(), user.getToken(), challenge.getId(), challenge.getGuestTeam().getId());
+            cancelWhenDestroyed(connectionHandler);
+        }
+    }
+
+    class NewChallengeViewHolder extends ViewHolder {
+        private View layoutButtons;
+        private Button btnAccept;
+
+        public NewChallengeViewHolder(final View itemView) {
+            super(itemView);
+
             layoutButtons = findViewById(R.id.layout_buttons);
             btnAccept = (Button) findViewById(R.id.btn_accept);
+        }
+
+        @Override
+        public void bindViews(Challenge challenge) {
+            super.bindViews(challenge);
+
+            // get the user
+            User user = activeUserController.getUser();
+
+            // check his role in the host team
+            if (teamController.isCaptain(challenge.getHostTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getHostTeam(), user.getId())) {
+                // hide buttons layout
+                layoutButtons.setVisibility(View.GONE);
+            } else if (challengeController.isChallengeForAll(challenge)) { // check if the challenge is for all
+                // check his captainRole to show / hide the buttons layout
+                boolean captainRole = challenge.isCaptainRole();
+
+                layoutButtons.setVisibility(captainRole ? View.VISIBLE : View.GONE);
+            } else {
+                // check his role in the guest team to show / hide buttons layout
+                boolean captainOrAssist = teamController.isCaptain(challenge.getGuestTeam(), user.getId())
+                        || teamController.isAssistant(challenge.getGuestTeam(), user.getId());
+
+                layoutButtons.setVisibility(captainOrAssist ? View.VISIBLE : View.GONE);
+            }
+
+            // add listeners
+            btnAccept.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // check view id
+            if (v.getId() == R.id.btn_accept) {
+                showAcceptConfirmDialog();
+            } else {
+                super.onClick(v);
+            }
         }
     }
 

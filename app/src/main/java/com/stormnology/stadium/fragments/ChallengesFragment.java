@@ -96,7 +96,7 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
 
     private void updateUI() {
         // create and set the adapter
-        adapter = new ChallengesAdapter(activity, data, R.layout.item_challenge);
+        adapter = new ChallengesAdapter(activity, data, R.layout.item_new_challenge);
         adapter.setChallengesType(challengesType);
         adapter.setOnItemRemovedListener(this);
         recyclerView.setAdapter(adapter);
@@ -116,16 +116,19 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
             return;
         }
 
+        // get active user id
+        int userId = activeUserController.getUser().getId();
+
+        // send suitable request
         ConnectionHandler connectionHandler = null;
         if (challengesType == ChallengesType.NEW_CHALLENGES) {
-            connectionHandler = ApiRequests.newChallenges(activity, this);
+            connectionHandler = ApiRequests.newChallenges(activity, this, userId);
         } else if (challengesType == ChallengesType.ACCEPTED_CHALLENGES) {
-            connectionHandler = ApiRequests.acceptedChallenges(activity, this);
+            connectionHandler = ApiRequests.acceptedChallenges(activity, this, userId);
         } else if (challengesType == ChallengesType.HISTORICAL_CHALLENGES) {
-            connectionHandler = ApiRequests.historicChallenges(activity, this);
+            connectionHandler = ApiRequests.historicChallenges(activity, this, userId);
         } else if (challengesType == ChallengesType.MY_CHALLENGES) {
-            connectionHandler = ApiRequests.myChallenges(activity, this,
-                    activeUserController.getUser().getId());
+            connectionHandler = ApiRequests.myChallenges(activity, this, userId);
         }
 
         // show progress if suitable

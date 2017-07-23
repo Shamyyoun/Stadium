@@ -4,11 +4,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.stormnology.stadium.interfaces.OnItemClickListener;
+import com.stormnology.stadium.utils.Utils;
 
 /**
  * Created by Shamyyoun on 5/11/16.
  */
-public class ParentRecyclerViewHolder extends RecyclerView.ViewHolder {
+public class ParentRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private View clickableRootView; // this is used to change the default onItemClickListener
 
     public ParentRecyclerViewHolder(final View itemView) {
@@ -47,5 +48,14 @@ public class ParentRecyclerViewHolder extends RecyclerView.ViewHolder {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        logE("onClick has been invoked from ParentViewHolder");
+    }
+
+    public void logE(String msg) {
+        Utils.logE(msg);
     }
 }
