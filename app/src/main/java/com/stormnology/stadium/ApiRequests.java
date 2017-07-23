@@ -1470,4 +1470,25 @@ public class ApiRequests {
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
+
+    public static ConnectionHandler<Challenge> leaveChallenge(Context context, ConnectionListener<Challenge> listener,
+                                                              int userId, String userToken, int challengeId) {
+        // create the request body
+        ChallengeActionBody body = new ChallengeActionBody();
+        CaptainBody captain = new CaptainBody();
+        User userInfo = new User();
+        userInfo.setId(userId);
+        userInfo.setToken(userToken);
+        captain.setUserinfo(userInfo);
+        body.setCaptain(captain);
+        Challenge challenge = new Challenge();
+        challenge.setId(challengeId);
+        body.setChallenge(challenge);
+
+        // create & execute the request
+        ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_LEAVE_CHALLENGE), Challenge.class, listener, body, Const.API_LEAVE_CHALLENGE);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
 }

@@ -95,8 +95,23 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
     }
 
     private void updateUI() {
+        // prepare item layout id
+        int itemLayoutId;
+        switch (challengesType) {
+            case NEW_CHALLENGES:
+                itemLayoutId = R.layout.item_new_challenge;
+                break;
+
+            case ACCEPTED_CHALLENGES:
+                itemLayoutId = R.layout.item_accepted_challenge;
+                break;
+
+            default:
+                itemLayoutId = R.layout.item_main_challenge;
+        }
+
         // create and set the adapter
-        adapter = new ChallengesAdapter(activity, data, R.layout.item_new_challenge);
+        adapter = new ChallengesAdapter(activity, data, itemLayoutId);
         adapter.setChallengesType(challengesType);
         adapter.setOnItemRemovedListener(this);
         recyclerView.setAdapter(adapter);

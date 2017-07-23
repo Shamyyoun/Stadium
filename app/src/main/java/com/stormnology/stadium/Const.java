@@ -103,6 +103,7 @@ public class Const {
     public static final String API_HISTORIC_CHALLENGES = "historicChallenges";
     public static final String API_MY_CHALLENGES = "MyChallenges";
     public static final String API_ACCEPT_CHALLENGE = "accpteChallenge";
+    public static final String API_LEAVE_CHALLENGE = "leaveChallenge";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

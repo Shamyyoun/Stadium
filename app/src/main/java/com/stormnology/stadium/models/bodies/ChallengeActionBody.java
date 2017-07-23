@@ -13,6 +13,9 @@ public class ChallengeActionBody {
     @SerializedName("user")
     @Expose
     private User user;
+    @SerializedName("captain")
+    @Expose
+    private CaptainBody captain;
     @SerializedName("challenge")
     @Expose
     private Challenge challenge;
@@ -23,6 +26,14 @@ public class ChallengeActionBody {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public CaptainBody getCaptain() {
+        return captain;
+    }
+
+    public void setCaptain(CaptainBody captain) {
+        this.captain = captain;
     }
 
     public Challenge getChallenge() {

@@ -117,20 +117,4 @@ public class ChallengeController {
             return "---------";
         }
     }
-
-    public boolean playerCanAcceptChallenge(int playerId, Challenge challenge) {
-        // check if challenge is for all
-        if (isChallengeForAll(challenge)) {
-            return true;
-        }
-
-        // check if the user is captain in the guest team of the challenge
-        TeamController teamController = new TeamController();
-        Team guestTeam = challenge.getGuestTeam();
-        if (teamController.isCaptain(guestTeam, playerId)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

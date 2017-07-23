@@ -61,6 +61,8 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         ViewHolder holder;
         if (challengesType == ChallengesType.NEW_CHALLENGES) {
             holder = new NewChallengeViewHolder(itemView);
+        } else if (challengesType == ChallengesType.ACCEPTED_CHALLENGES) {
+            holder = new AcceptedChallengeViewHolder(itemView);
         } else {
             holder = new NewChallengeViewHolder(itemView);
         }
@@ -75,6 +77,10 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         ViewHolder holder = (ViewHolder) viewHolder;
         Challenge item = data.get(position);
         holder.bindViews(item);
+    }
+
+    public void setChallengesType(ChallengesType challengesType) {
+        this.challengesType = challengesType;
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {
@@ -174,6 +180,15 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             }, null);
         }
 
+        protected void showWithdrawConfirmDialog() {
+            DialogUtils.showConfirmDialog(context, R.string.withdraw_from_challenge_q, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    withdraw();
+                }
+            }, null);
+        }
+
         private void accept() {
             // check internet connection
             if (!Utils.hasConnection(context)) {
@@ -218,6 +233,62 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                     user.getId(), user.getToken(), challenge.getId(), challenge.getGuestTeam().getId());
             cancelWhenDestroyed(connectionHandler);
         }
+
+        private void withdraw() {
+            // check internet connection
+            if (!Utils.hasConnection(context)) {
+                Utils.showShortToast(context, R.string.no_internet_connection);
+                return;
+            }
+
+            showProgressDialog();
+
+            // create the connection listener
+            ConnectionListener<Challenge> listener = new ConnectionListener<Challenge>() {
+                @Override
+                public void onSuccess(Challenge response, int statusCode, String tag) {
+                    hideProgressDialog();
+
+                    // check the status code
+                    if (statusCode == Const.SER_CODE_200) {
+                        // show success msg
+                        Utils.showShortToast(context, R.string.withdrawn_successfully);
+
+                        // check user role in challenge teams
+                        User user = activeUserController.getUser();
+                        if (teamController.isCaptain(challenge.getHostTeam(), user.getId())
+                                || teamController.isAssistant(challenge.getHostTeam(), user.getId())) {
+                            // user is an admin the host team
+                            // so remove this item from the adapter
+                            removeItem(position);
+                        } else {
+                            // user is an admin the guest team
+                            // so, just update this item with the new object
+                            data.set(getPosition(), response);
+                            notifyItemChanged(getPosition());
+                        }
+                    } else {
+                        // show error msg
+                        String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_withdrawing);
+                        Utils.showShortToast(context, errorMsg);
+                    }
+                }
+
+                @Override
+                public void onFail(Exception ex, int statusCode, String tag) {
+                    hideProgressDialog();
+                    Utils.showShortToast(context, R.string.failed_withdrawing);
+                }
+            };
+
+            // get active user
+            User user = activeUserController.getUser();
+
+            // send request
+            ConnectionHandler connectionHandler = ApiRequests.leaveChallenge(context, listener,
+                    user.getId(), user.getToken(), challenge.getId());
+            cancelWhenDestroyed(connectionHandler);
+        }
     }
 
     class NewChallengeViewHolder extends ViewHolder {
@@ -250,10 +321,10 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                 layoutButtons.setVisibility(captainRole ? View.VISIBLE : View.GONE);
             } else {
                 // check his role in the guest team to show / hide buttons layout
-                boolean captainOrAssist = teamController.isCaptain(challenge.getGuestTeam(), user.getId())
+                boolean admin = teamController.isCaptain(challenge.getGuestTeam(), user.getId())
                         || teamController.isAssistant(challenge.getGuestTeam(), user.getId());
 
-                layoutButtons.setVisibility(captainOrAssist ? View.VISIBLE : View.GONE);
+                layoutButtons.setVisibility(admin ? View.VISIBLE : View.GONE);
             }
 
             // add listeners
@@ -271,7 +342,76 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         }
     }
 
-    public void setChallengesType(ChallengesType challengesType) {
-        this.challengesType = challengesType;
+    class AcceptedChallengeViewHolder extends ViewHolder {
+        private View layoutButtons;
+        private Button btnAddRes;
+        private Button btnWithdraw;
+        private View viewDivider;
+
+        public AcceptedChallengeViewHolder(final View itemView) {
+            super(itemView);
+
+            layoutButtons = findViewById(R.id.layout_buttons);
+            btnAddRes = (Button) findViewById(R.id.btn_add_res);
+            btnWithdraw = (Button) findViewById(R.id.btn_withdraw);
+            viewDivider = findViewById(R.id.view_divider);
+        }
+
+        @Override
+        public void bindViews(Challenge challenge) {
+            super.bindViews(challenge);
+
+            // get the user
+            User user = activeUserController.getUser();
+
+            // prepare user roles
+            boolean hostTeamAdmin = teamController.isCaptain(challenge.getHostTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getHostTeam(), user.getId());
+            boolean guestTeamAdmin = teamController.isCaptain(challenge.getHostTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getHostTeam(), user.getId());
+
+            // prepare flags
+            boolean canWithdraw = hostTeamAdmin || guestTeamAdmin;
+            boolean canAddRes = hostTeamAdmin && challenge.getReservation() == null;
+
+            // show / hide withdraw btn
+            btnWithdraw.setVisibility(canWithdraw ? View.VISIBLE : View.GONE);
+
+            // show / hide add res btn
+            btnAddRes.setVisibility(canAddRes ? View.VISIBLE : View.GONE);
+
+            // customize the whole view
+            if (!canWithdraw && !canAddRes) {
+                // he can't take any action
+                // hide buttons layout
+                layoutButtons.setVisibility(View.GONE);
+            } else {
+                if (canWithdraw && canAddRes) {
+                    // he can take the two actions
+                    // show divider view
+                    viewDivider.setVisibility(View.VISIBLE);
+                } else {
+                    // he can take just one action
+                    // hide the divider view
+                    viewDivider.setVisibility(View.GONE);
+                }
+            }
+
+            // add listeners
+            btnAddRes.setOnClickListener(this);
+            btnWithdraw.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // check view id
+            if (v.getId() == R.id.btn_add_res) {
+                // TODO
+            } else if (v.getId() == R.id.btn_withdraw) {
+                showWithdrawConfirmDialog();
+            } else {
+                super.onClick(v);
+            }
+        }
     }
 }

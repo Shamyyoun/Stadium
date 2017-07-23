@@ -415,6 +415,11 @@
     <string name="the_all">الكل</string>
     <string name="accept_challenge_q">قبول التحدي؟</string>
     <string name="add_challenge">اضافة تحدي</string>
+    <string name="add_reservation">اضافة تحدي</string>
+    <string name="withdraw">انسحاب</string>
+    <string name="withdraw_from_challenge_q">انسحاب من التحدي؟</string>
+    <string name="withdrawn_successfully">تم الانسحاب بنجاح</string>
+    <string name="failed_withdrawing">فشل الانسحاب</string>
 
 
     <!-- Arrays -->
