@@ -2,13 +2,15 @@ package com.stormnology.stadium.models.entities;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.stormnology.stadium.controllers.ReservationController;
+import com.stormnology.stadium.models.Checkable;
 import com.stormnology.stadium.models.responses.ServerResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reservation extends ServerResponse implements Serializable {
+public class Reservation extends ServerResponse implements Serializable, Checkable {
     public static final String DATE_FORMAT = "yyyy/MM/dd";
     public static final String TIME_FORMAT = "hh:mm:ss";
     public static final String CONFIRM_WAITING = "waiting";
@@ -70,6 +72,7 @@ public class Reservation extends ServerResponse implements Serializable {
     @SerializedName("Stadiumid")
     @Expose
     private int stadiumId;
+    private boolean checked;
 
     /**
      * @return The id
@@ -337,4 +340,18 @@ public class Reservation extends ServerResponse implements Serializable {
         this.stadiumId = stadiumId;
     }
 
+    @Override
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    @Override
+    public boolean isChecked() {
+        return checked;
+    }
+
+    @Override
+    public String toString() {
+        return new ReservationController().getDayDateTime(this);
+    }
 }

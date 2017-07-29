@@ -104,6 +104,8 @@ public class Const {
     public static final String API_MY_CHALLENGES = "MyChallenges";
     public static final String API_ACCEPT_CHALLENGE = "accpteChallenge";
     public static final String API_LEAVE_CHALLENGE = "leaveChallenge";
+    public static final String API_CHALLENGE_RESERVATIONS = "challengeReservations";
+    public static final String API_ADD_RES_TO_CHALLENGE = "addResToChallenge";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -149,6 +151,7 @@ public class Const {
     public static final String PARAM_POSITION = "position";
     public static final String PARAM_PHONE = "phone";
     public static final String PARAM_ORDER = "order";
+    public static final String PARAM_TEAM_ID = "teamId";
 
     // Keys:----------------------------------
     public static final String KEY_ID = "id";

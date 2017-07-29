@@ -156,9 +156,25 @@ public class ReservationController {
     }
 
     public String getDayDateTime(Reservation reservation) {
+        // set text as day name
         String text = reservation.getDayName();
-        text += " . " + getDateTime(reservation);
+
+        // check date and times
+        if (reservation.getDate() != null && reservation.getTimeStart() != null && reservation.getTimeEnd() != null) {
+            // add the date and times
+            text += " . " + getDateTime(reservation);
+        }
 
         return text;
+    }
+
+    public int getItemPosition(List<Reservation> reservations, int itemId) {
+        for (int i = 0; i < reservations.size(); i++) {
+            if (reservations.get(i).getId() == itemId) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

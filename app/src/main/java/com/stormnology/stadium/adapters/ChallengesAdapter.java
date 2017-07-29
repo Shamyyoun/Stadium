@@ -17,7 +17,11 @@ import com.stormnology.stadium.connection.ConnectionListener;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.ChallengeController;
 import com.stormnology.stadium.controllers.TeamController;
+import com.stormnology.stadium.dialogs.ChooseReservationDialog;
+import com.stormnology.stadium.interfaces.OnCheckableSelectedListener;
+import com.stormnology.stadium.models.Checkable;
 import com.stormnology.stadium.models.entities.Challenge;
+import com.stormnology.stadium.models.entities.Reservation;
 import com.stormnology.stadium.models.entities.Team;
 import com.stormnology.stadium.models.entities.User;
 import com.stormnology.stadium.models.enums.ChallengesType;
@@ -29,8 +33,6 @@ import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.List;
 import java.util.Locale;
-
-import static com.stormnology.stadium.R.string.position;
 
 /**
  * Created by Shamyyoun on 19/2/16.
@@ -97,6 +99,8 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         private View viewTopDivider;
         private TextView tvPlace;
         private TextView tvDateTime;
+
+        private ChooseReservationDialog reservationsDialog;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -210,7 +214,7 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                         Utils.showShortToast(context, R.string.accepted_successfully);
 
                         // and remove this item
-                        removeItem(position);
+                        removeItem(getPosition());
                     } else {
                         // show error msg
                         String errorMsg = AppUtils.getResponseMsg(context, response, R.string.error_accepting);
@@ -225,12 +229,15 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                 }
             };
 
-            // get active user
+            // prepare objects
             User user = activeUserController.getUser();
+            Team hostTeam = challenge.getHostTeam();
+            Team guestTeam = challenge.getGuestTeam();
 
             // send request
             ConnectionHandler connectionHandler = ApiRequests.acceptChallenge(context, listener,
-                    user.getId(), user.getToken(), challenge.getId(), challenge.getGuestTeam().getId());
+                    user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
+                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
             cancelWhenDestroyed(connectionHandler);
         }
 
@@ -260,9 +267,9 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                                 || teamController.isAssistant(challenge.getHostTeam(), user.getId())) {
                             // user is an admin the host team
                             // so remove this item from the adapter
-                            removeItem(position);
+                            removeItem(getPosition());
                         } else {
-                            // user is an admin the guest team
+                            // user is an admin in the guest team
                             // so, just update this item with the new object
                             data.set(getPosition(), response);
                             notifyItemChanged(getPosition());
@@ -281,12 +288,80 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                 }
             };
 
-            // get active user
+            // prepare objects
             User user = activeUserController.getUser();
+            Team hostTeam = challenge.getHostTeam();
+            Team guestTeam = challenge.getGuestTeam();
 
             // send request
             ConnectionHandler connectionHandler = ApiRequests.leaveChallenge(context, listener,
-                    user.getId(), user.getToken(), challenge.getId());
+                    user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
+                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
+            cancelWhenDestroyed(connectionHandler);
+        }
+
+        protected void chooseReservation() {
+            // create & customize the dialog if required
+            if (reservationsDialog == null) {
+                reservationsDialog = new ChooseReservationDialog(context, challenge.getHostTeam().getId());
+                reservationsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
+                    @Override
+                    public void onCheckableSelected(Checkable item) {
+                        addReservation((Reservation) item);
+                    }
+                });
+            }
+
+            // show the dialog
+            reservationsDialog.show();
+        }
+
+        private void addReservation(Reservation reservation) {
+            // check internet connection
+            if (!Utils.hasConnection(context)) {
+                Utils.showShortToast(context, R.string.no_internet_connection);
+                return;
+            }
+
+            showProgressDialog();
+
+            // create the connection listener
+            ConnectionListener<Challenge> listener = new ConnectionListener<Challenge>() {
+                @Override
+                public void onSuccess(Challenge response, int statusCode, String tag) {
+                    hideProgressDialog();
+
+                    // check the status code
+                    if (statusCode == Const.SER_CODE_200) {
+                        // show success msg
+                        Utils.showShortToast(context, R.string.reservation_added_successfully);
+
+                        // update this item with the new object
+                        data.set(getPosition(), response);
+                        notifyItemChanged(getPosition());
+                    } else {
+                        // show error msg
+                        String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_adding_reservation);
+                        Utils.showShortToast(context, errorMsg);
+                    }
+                }
+
+                @Override
+                public void onFail(Exception ex, int statusCode, String tag) {
+                    hideProgressDialog();
+                    Utils.showShortToast(context, R.string.failed_adding_reservation);
+                }
+            };
+
+            // prepare objects
+            User user = activeUserController.getUser();
+            Team hostTeam = challenge.getHostTeam();
+            Team guestTeam = challenge.getGuestTeam();
+
+            // send request
+            ConnectionHandler connectionHandler = ApiRequests.addResToChallenge(context, listener,
+                    user.getId(), user.getToken(), challenge.getId(), reservation.getId(), hostTeam.getId(),
+                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
             cancelWhenDestroyed(connectionHandler);
         }
     }
@@ -309,23 +384,18 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             // get the user
             User user = activeUserController.getUser();
 
-            // check his role in the host team
-            if (teamController.isCaptain(challenge.getHostTeam(), user.getId())
-                    || teamController.isAssistant(challenge.getHostTeam(), user.getId())) {
-                // hide buttons layout
-                layoutButtons.setVisibility(View.GONE);
-            } else if (challengeController.isChallengeForAll(challenge)) { // check if the challenge is for all
-                // check his captainRole to show / hide the buttons layout
-                boolean captainRole = challenge.isCaptainRole();
+            // prepare user roles
+            boolean hostTeamAdmin = teamController.isCaptain(challenge.getHostTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getHostTeam(), user.getId());
+            boolean guestTeamAdmin = teamController.isCaptain(challenge.getGuestTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getGuestTeam(), user.getId());
 
-                layoutButtons.setVisibility(captainRole ? View.VISIBLE : View.GONE);
-            } else {
-                // check his role in the guest team to show / hide buttons layout
-                boolean admin = teamController.isCaptain(challenge.getGuestTeam(), user.getId())
-                        || teamController.isAssistant(challenge.getGuestTeam(), user.getId());
+            // prepare flags
+            boolean challengeForAll = challengeController.isChallengeForAll(challenge);
+            boolean canAccept = !hostTeamAdmin && ((challengeForAll && challenge.isCaptainRole()) || guestTeamAdmin);
 
-                layoutButtons.setVisibility(admin ? View.VISIBLE : View.GONE);
-            }
+            // show / hide buttons layout
+            layoutButtons.setVisibility(canAccept ? View.VISIBLE : View.GONE);
 
             // add listeners
             btnAccept.setOnClickListener(this);
@@ -367,8 +437,8 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             // prepare user roles
             boolean hostTeamAdmin = teamController.isCaptain(challenge.getHostTeam(), user.getId())
                     || teamController.isAssistant(challenge.getHostTeam(), user.getId());
-            boolean guestTeamAdmin = teamController.isCaptain(challenge.getHostTeam(), user.getId())
-                    || teamController.isAssistant(challenge.getHostTeam(), user.getId());
+            boolean guestTeamAdmin = teamController.isCaptain(challenge.getGuestTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getGuestTeam(), user.getId());
 
             // prepare flags
             boolean canWithdraw = hostTeamAdmin || guestTeamAdmin;
@@ -406,7 +476,7 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         public void onClick(View v) {
             // check view id
             if (v.getId() == R.id.btn_add_res) {
-                // TODO
+                chooseReservation();
             } else if (v.getId() == R.id.btn_withdraw) {
                 showWithdrawConfirmDialog();
             } else {

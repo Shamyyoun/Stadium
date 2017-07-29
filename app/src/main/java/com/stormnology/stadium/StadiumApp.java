@@ -21,10 +21,14 @@ import io.fabric.sdk.android.Fabric;
  */
 public class StadiumApp extends Application {
     private Tracker tracker;
+    private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // set the static context
+        context = getApplicationContext();
 
         // override default font
         Utils.overrideFont(this, "MONOSPACE", "app_font.ttf");
@@ -90,4 +94,12 @@ public class StadiumApp extends Application {
         return tracker;
     }
 
+    /**
+     * static method, used to get the static context from the application class
+     *
+     * @return
+     */
+    public static Context getContext() {
+        return context;
+    }
 }

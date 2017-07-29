@@ -1,9 +1,13 @@
 
 package com.stormnology.stadium.models.entities;
 
+import android.content.Context;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.stormnology.stadium.Const;
+import com.stormnology.stadium.R;
+import com.stormnology.stadium.StadiumApp;
 import com.stormnology.stadium.models.Checkable;
 import com.stormnology.stadium.utils.DateUtils;
 
@@ -79,11 +83,15 @@ public class Duration implements Serializable, Checkable {
 
     @Override
     public String toString() {
+        // get the context
+        Context context = StadiumApp.getContext();
+
+        // check start time and end time
         if (startTime != null && endTime != null) {
-            // TODO should extract hardcoded strings to the strings file
             String start = DateUtils.formatDate(startTime, Const.SER_TIME_FORMAT, "hh:mm a");
             String end = DateUtils.formatDate(endTime, Const.SER_TIME_FORMAT, "hh:mm a");
-            String str = "من " + start + "  -  الى " + end;
+            String str = context.getString(R.string.from) + " " + start
+                    + context.getString(R.string.to) + " - " + end;
             return str;
         } else {
             if (defaultName != null) {

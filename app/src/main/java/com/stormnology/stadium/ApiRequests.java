@@ -1409,7 +1409,7 @@ public class ApiRequests {
     public static ConnectionHandler<Challenge[]> acceptedChallenges(Context context, ConnectionListener<Challenge[]> listener,
                                                                     int userId) {
         // prepare the url
-        String url = AppUtils.getUserApiUrl(Const.API_ACCEPTED_CHALLENGES);
+        String url = AppUtils.getUserApiUrl(Const.API_NEW_CHALLENGES); // TODO remove !!!
         url += "?" + Const.PARAM_ID + "=" + userId;
 
         // create & execute the request
@@ -1450,7 +1450,9 @@ public class ApiRequests {
 
     public static ConnectionHandler<Challenge> acceptChallenge(Context context, ConnectionListener<Challenge> listener,
                                                                int userId, String userToken,
-                                                               int challengeId, int guestTeamId) {
+                                                               int challengeId, int hostTeamId,
+                                                               String hostTeamName, int guestTeamId,
+                                                               String guestTeamName) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         User user = new User();
@@ -1459,9 +1461,14 @@ public class ApiRequests {
         body.setUser(user);
         Challenge challenge = new Challenge();
         challenge.setId(challengeId);
-        Team team = new Team();
-        team.setId(guestTeamId);
-        challenge.setGuestTeam(team);
+        Team hostTeam = new Team();
+        hostTeam.setId(hostTeamId);
+        hostTeam.setName(hostTeamName);
+        challenge.setHostTeam(hostTeam);
+        Team guestTeam = new Team();
+        guestTeam.setId(guestTeamId);
+        guestTeam.setName(guestTeamName);
+        challenge.setGuestTeam(guestTeam);
         body.setChallenge(challenge);
 
         // create & execute the request
@@ -1472,7 +1479,10 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Challenge> leaveChallenge(Context context, ConnectionListener<Challenge> listener,
-                                                              int userId, String userToken, int challengeId) {
+                                                              int userId, String userToken,
+                                                              int challengeId, int hostTeamId,
+                                                              String hostTeamName, int guestTeamId,
+                                                              String guestTeamName) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         CaptainBody captain = new CaptainBody();
@@ -1483,11 +1493,66 @@ public class ApiRequests {
         body.setCaptain(captain);
         Challenge challenge = new Challenge();
         challenge.setId(challengeId);
+        Team hostTeam = new Team();
+        hostTeam.setId(hostTeamId);
+        hostTeam.setName(hostTeamName);
+        challenge.setHostTeam(hostTeam);
+        Team guestTeam = new Team();
+        guestTeam.setId(guestTeamId);
+        guestTeam.setName(guestTeamName);
+        challenge.setGuestTeam(guestTeam);
         body.setChallenge(challenge);
 
         // create & execute the request
         ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_LEAVE_CHALLENGE), Challenge.class, listener, body, Const.API_LEAVE_CHALLENGE);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Reservation[]> challengeReservations(Context context, ConnectionListener<Reservation[]> listener,
+                                                                         int teamId) {
+
+        // prepare the url
+        String url = AppUtils.getUserApiUrl(Const.API_CHALLENGE_RESERVATIONS);
+        url += "?" + Const.PARAM_TEAM_ID + "=" + teamId;
+
+        // create & execute the request
+        ConnectionHandler<Reservation[]> connectionHandler = new ConnectionHandler(context,
+                url, Reservation[].class, listener, Const.API_CHALLENGE_RESERVATIONS);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge> addResToChallenge(Context context, ConnectionListener<Challenge> listener,
+                                                                 int userId, String userToken,
+                                                                 int challengeId, int reservationId,
+                                                                 int hostTeamId, String hostTeamName,
+                                                                 int guestTeamId, String guestTeamName) {
+        // create the request body
+        ChallengeActionBody body = new ChallengeActionBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+        Challenge challenge = new Challenge();
+        challenge.setId(challengeId);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        challenge.setReservation(reservation);
+        Team hostTeam = new Team();
+        hostTeam.setId(hostTeamId);
+        hostTeam.setName(hostTeamName);
+        challenge.setHostTeam(hostTeam);
+        Team guestTeam = new Team();
+        guestTeam.setId(guestTeamId);
+        guestTeam.setName(guestTeamName);
+        challenge.setGuestTeam(guestTeam);
+        body.setChallenge(challenge);
+
+        // create & execute the request
+        ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ADD_RES_TO_CHALLENGE), Challenge.class, listener, body, Const.API_ADD_RES_TO_CHALLENGE);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
