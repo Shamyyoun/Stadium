@@ -106,6 +106,10 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
                 itemLayoutId = R.layout.item_accepted_challenge;
                 break;
 
+            case HISTORICAL_CHALLENGES:
+                itemLayoutId = R.layout.item_historical_challenge;
+                break;
+
             default:
                 itemLayoutId = R.layout.item_main_challenge;
         }

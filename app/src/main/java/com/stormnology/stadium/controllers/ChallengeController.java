@@ -117,4 +117,12 @@ public class ChallengeController {
             return "---------";
         }
     }
+
+    public boolean hasHostScore(Challenge challenge) {
+        return challenge.getHostGoals() != -1;
+    }
+
+    public boolean hasGuestScore(Challenge challenge) {
+        return challenge.getGuestGoals() != -1;
+    }
 }

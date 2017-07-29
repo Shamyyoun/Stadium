@@ -106,6 +106,8 @@ public class Const {
     public static final String API_LEAVE_CHALLENGE = "leaveChallenge";
     public static final String API_CHALLENGE_RESERVATIONS = "challengeReservations";
     public static final String API_ADD_RES_TO_CHALLENGE = "addResToChallenge";
+    public static final String API_RESULT_OBJECTION = "ResultObjection";
+    public static final String API_ADD_CHALLENGE_RESULT = "addChallengeResult";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";

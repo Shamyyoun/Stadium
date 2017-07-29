@@ -17,7 +17,9 @@ import com.stormnology.stadium.connection.ConnectionListener;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.ChallengeController;
 import com.stormnology.stadium.controllers.TeamController;
+import com.stormnology.stadium.dialogs.AddChallengeResultDialog;
 import com.stormnology.stadium.dialogs.ChooseReservationDialog;
+import com.stormnology.stadium.interfaces.OnChallengeUpdatedListener;
 import com.stormnology.stadium.interfaces.OnCheckableSelectedListener;
 import com.stormnology.stadium.models.Checkable;
 import com.stormnology.stadium.models.entities.Challenge;
@@ -65,6 +67,8 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             holder = new NewChallengeViewHolder(itemView);
         } else if (challengesType == ChallengesType.ACCEPTED_CHALLENGES) {
             holder = new AcceptedChallengeViewHolder(itemView);
+        } else if (challengesType == ChallengesType.HISTORICAL_CHALLENGES) {
+            holder = new HistoricalChallengeViewHolder(itemView);
         } else {
             holder = new NewChallengeViewHolder(itemView);
         }
@@ -101,6 +105,7 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         private TextView tvDateTime;
 
         private ChooseReservationDialog reservationsDialog;
+        private AddChallengeResultDialog addResultDialog;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -175,20 +180,37 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             }
         }
 
+        protected void updateScoresUI() {
+            // check the challenge
+            if (challenge == null) {
+                return;
+            }
+
+            // set host team score
+            if (challengeController.hasHostScore(challenge)) {
+                tvHostTeamScore.setText("" + challenge.getHostGoals());
+            } else {
+                tvHostTeamScore.setText("--");
+            }
+
+            // set guest team score
+            if (challengeController.hasGuestScore(challenge)) {
+                tvGuestTeamScore.setText("" + challenge.getGuestGoals());
+            } else {
+                tvGuestTeamScore.setText("--");
+            }
+        }
+
+        protected void removeScores() {
+            tvHostTeamScore.setText("--");
+            tvGuestTeamScore.setText("--");
+        }
+
         protected void showAcceptConfirmDialog() {
             DialogUtils.showConfirmDialog(context, R.string.accept_challenge_q, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     accept();
-                }
-            }, null);
-        }
-
-        protected void showWithdrawConfirmDialog() {
-            DialogUtils.showConfirmDialog(context, R.string.withdraw_from_challenge_q, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    withdraw();
                 }
             }, null);
         }
@@ -239,6 +261,15 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                     user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
                     hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
             cancelWhenDestroyed(connectionHandler);
+        }
+
+        protected void showWithdrawConfirmDialog() {
+            DialogUtils.showConfirmDialog(context, R.string.withdraw_from_challenge_q, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    withdraw();
+                }
+            }, null);
         }
 
         private void withdraw() {
@@ -364,6 +395,82 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                     hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
             cancelWhenDestroyed(connectionHandler);
         }
+
+        protected void showObjectConfirmDialog() {
+            DialogUtils.showConfirmDialog(context, R.string.object_to_result_q, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    objectToResult();
+                }
+            }, null);
+        }
+
+        private void objectToResult() {
+            // check internet connection
+            if (!Utils.hasConnection(context)) {
+                Utils.showShortToast(context, R.string.no_internet_connection);
+                return;
+            }
+
+            showProgressDialog();
+
+            // create the connection listener
+            ConnectionListener<Challenge> listener = new ConnectionListener<Challenge>() {
+                @Override
+                public void onSuccess(Challenge response, int statusCode, String tag) {
+                    hideProgressDialog();
+
+                    // check the status code
+                    if (statusCode == Const.SER_CODE_200) {
+                        // show success msg
+                        Utils.showShortToast(context, R.string.objected_successfully);
+
+                        // update this item with the new object
+                        data.set(getPosition(), response);
+                        notifyItemChanged(getPosition());
+                    } else {
+                        // show error msg
+                        String errorMsg = AppUtils.getResponseMsg(context, response, R.string.failed_objection);
+                        Utils.showShortToast(context, errorMsg);
+                    }
+                }
+
+                @Override
+                public void onFail(Exception ex, int statusCode, String tag) {
+                    hideProgressDialog();
+                    Utils.showShortToast(context, R.string.failed_objection);
+                }
+            };
+
+            // prepare objects
+            User user = activeUserController.getUser();
+            Team hostTeam = challenge.getHostTeam();
+            Team guestTeam = challenge.getGuestTeam();
+
+            // send request
+            ConnectionHandler connectionHandler = ApiRequests.resultObjection(context, listener,
+                    user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
+                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
+            cancelWhenDestroyed(connectionHandler);
+        }
+
+        protected void showAddResultDialog() {
+            // create the dialog if required
+            if (addResultDialog == null) {
+                addResultDialog = new AddChallengeResultDialog(context, challenge);
+                addResultDialog.setOnChallengeUpdatedListener(new OnChallengeUpdatedListener() {
+                    @Override
+                    public void onChallengeUpdated(Challenge challenge) {
+                        // update in the adapter
+                        data.set(getPosition(), challenge);
+                        notifyItemChanged(getPosition());
+                    }
+                });
+            }
+
+            // show the dialog
+            addResultDialog.show();
+        }
     }
 
     class NewChallengeViewHolder extends ViewHolder {
@@ -380,6 +487,9 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         @Override
         public void bindViews(Challenge challenge) {
             super.bindViews(challenge);
+
+            // remove scores from the UI
+            removeScores();
 
             // get the user
             User user = activeUserController.getUser();
@@ -431,6 +541,9 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         public void bindViews(Challenge challenge) {
             super.bindViews(challenge);
 
+            // remove scores from the UI
+            removeScores();
+
             // get the user
             User user = activeUserController.getUser();
 
@@ -481,6 +594,78 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                 showWithdrawConfirmDialog();
             } else {
                 super.onClick(v);
+            }
+        }
+    }
+
+    class HistoricalChallengeViewHolder extends ViewHolder {
+        private View layoutButtons;
+        private Button btnAction;
+        private boolean canAddResult;
+        private boolean canObjectScores;
+
+        public HistoricalChallengeViewHolder(final View itemView) {
+            super(itemView);
+
+            layoutButtons = findViewById(R.id.layout_buttons);
+            btnAction = (Button) findViewById(R.id.btn_action);
+        }
+
+        @Override
+        public void bindViews(Challenge challenge) {
+            super.bindViews(challenge);
+
+            // update scores UI
+            updateScoresUI();
+
+            // get the user
+            User user = activeUserController.getUser();
+
+            // prepare user roles
+            boolean hostTeamAdmin = teamController.isCaptain(challenge.getHostTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getHostTeam(), user.getId());
+            boolean guestTeamAdmin = teamController.isCaptain(challenge.getGuestTeam(), user.getId())
+                    || teamController.isAssistant(challenge.getGuestTeam(), user.getId());
+
+            // prepare flags
+            canAddResult = hostTeamAdmin && !challengeController.hasHostScore(challenge);
+            canObjectScores = guestTeamAdmin && challengeController.hasGuestScore(challenge);
+            boolean canTakeAction = canAddResult || canObjectScores;
+
+            // customize the action button
+            if (canAddResult) {
+                btnAction.setText(R.string.add_result);
+                btnAction.setTextColor(getResColor(R.color.dark_gray));
+                btnAction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.confirm_icon, 0, 0, 0);
+            } else if (canObjectScores) {
+                btnAction.setText(R.string.object_to_result);
+                btnAction.setTextColor(getResColor(R.color.red));
+                btnAction.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_warning_icon, 0, 0, 0);
+            }
+
+            // show / hide buttons layout
+            layoutButtons.setVisibility(canTakeAction ? View.VISIBLE : View.GONE);
+
+            // add listeners
+            btnAction.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // check view id
+            if (v.getId() == R.id.btn_action) {
+                onAction();
+            } else {
+                super.onClick(v);
+            }
+        }
+
+        private void onAction() {
+            // check the action
+            if (canAddResult) {
+                showAddResultDialog();
+            } else if (canObjectScores) {
+                showObjectConfirmDialog();
             }
         }
     }

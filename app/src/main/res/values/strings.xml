@@ -420,6 +420,13 @@
     <string name="withdraw_from_challenge_q">انسحاب من التحدي؟</string>
     <string name="withdrawn_successfully">تم الانسحاب بنجاح</string>
     <string name="failed_withdrawing">فشل الانسحاب</string>
+    <string name="add_result">تسجيل النتيجة</string>
+    <string name="object_to_result">اعتراض على النتيجة</string>
+    <string name="object_to_result_q">اعتراض على النتيجة؟</string>
+    <string name="objected_successfully">تم الاعتراض بنجاح</string>
+    <string name="failed_objection">فشل الاعتراض</string>
+    <string name="fill_result">قم باضافة النتيحة</string>
+    <string name="failed_adding_result">فشل اضافة النتيجة</string>
 
 
     <!-- Arrays -->

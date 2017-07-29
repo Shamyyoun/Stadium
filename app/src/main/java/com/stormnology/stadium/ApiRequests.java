@@ -1409,7 +1409,7 @@ public class ApiRequests {
     public static ConnectionHandler<Challenge[]> acceptedChallenges(Context context, ConnectionListener<Challenge[]> listener,
                                                                     int userId) {
         // prepare the url
-        String url = AppUtils.getUserApiUrl(Const.API_NEW_CHALLENGES); // TODO remove !!!
+        String url = AppUtils.getUserApiUrl(Const.API_ACCEPTED_CHALLENGES);
         url += "?" + Const.PARAM_ID + "=" + userId;
 
         // create & execute the request
@@ -1553,6 +1553,69 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_ADD_RES_TO_CHALLENGE), Challenge.class, listener, body, Const.API_ADD_RES_TO_CHALLENGE);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge> resultObjection(Context context, ConnectionListener<Challenge> listener,
+                                                               int userId, String userToken,
+                                                               int challengeId, int hostTeamId,
+                                                               String hostTeamName, int guestTeamId,
+                                                               String guestTeamName) {
+        // create the request body
+        ChallengeActionBody body = new ChallengeActionBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+        Challenge challenge = new Challenge();
+        challenge.setId(challengeId);
+        Team hostTeam = new Team();
+        hostTeam.setId(hostTeamId);
+        hostTeam.setName(hostTeamName);
+        challenge.setHostTeam(hostTeam);
+        Team guestTeam = new Team();
+        guestTeam.setId(guestTeamId);
+        guestTeam.setName(guestTeamName);
+        challenge.setGuestTeam(guestTeam);
+        body.setChallenge(challenge);
+
+        // create & execute the request
+        ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_RESULT_OBJECTION), Challenge.class, listener, body, Const.API_RESULT_OBJECTION);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge> addChallengeResult(Context context, ConnectionListener<Challenge> listener,
+                                                               int userId, String userToken,
+                                                               int challengeId, int hostGoals,
+                                                               int guestGoals, int hostTeamId,
+                                                               String hostTeamName, int guestTeamId,
+                                                               String guestTeamName) {
+        // create the request body
+        ChallengeActionBody body = new ChallengeActionBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+        Challenge challenge = new Challenge();
+        challenge.setId(challengeId);
+        challenge.setHostGoals(hostGoals);
+        challenge.setGuestGoals(guestGoals);
+        Team hostTeam = new Team();
+        hostTeam.setId(hostTeamId);
+        hostTeam.setName(hostTeamName);
+        challenge.setHostTeam(hostTeam);
+        Team guestTeam = new Team();
+        guestTeam.setId(guestTeamId);
+        guestTeam.setName(guestTeamName);
+        challenge.setGuestTeam(guestTeam);
+        body.setChallenge(challenge);
+
+        // create & execute the request
+        ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ADD_CHALLENGE_RESULT), Challenge.class, listener, body, Const.API_ADD_CHALLENGE_RESULT);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

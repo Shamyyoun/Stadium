@@ -10,6 +10,7 @@
     <dimen name="medium_text">16sp</dimen>
     <dimen name="above_medium_text">18sp</dimen>
     <dimen name="large_text">20sp</dimen>
+    <dimen name="above_large_text">30sp</dimen>
     <dimen name="huge_text">40sp</dimen>
     <dimen name="drawer_width">200dp</dimen>
     <dimen name="signup_user_image_size">80dp</dimen>
