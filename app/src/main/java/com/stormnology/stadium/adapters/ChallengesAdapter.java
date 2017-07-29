@@ -2,6 +2,7 @@ package com.stormnology.stadium.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.stormnology.stadium.ApiRequests;
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
+import com.stormnology.stadium.activities.TeamInfoActivity;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.connection.ConnectionListener;
 import com.stormnology.stadium.controllers.ActiveUserController;
@@ -47,8 +49,8 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
     private TeamController teamController;
     private PrettyTime prettyTime;
 
-    public ChallengesAdapter(Context context, List<Challenge> data, int layoutId) {
-        super(context, data, layoutId);
+    public ChallengesAdapter(Context context, List<Challenge> data) {
+        super(context, data);
 
         // obtain main objects
         activeUserController = new ActiveUserController(context);
@@ -59,22 +61,44 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
 
     @Override
     public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
-
         // create suitable view holder
         ViewHolder holder;
-        if (challengesType == ChallengesType.NEW_CHALLENGES) {
+        if (viewType == ChallengesType.NEW_CHALLENGES.getValue()) {
+            View itemView = LayoutInflater.from(context).inflate(R.layout.item_new_challenge, parent, false);
             holder = new NewChallengeViewHolder(itemView);
-        } else if (challengesType == ChallengesType.ACCEPTED_CHALLENGES) {
+
+        } else if (viewType == ChallengesType.ACCEPTED_CHALLENGES.getValue()) {
+            View itemView = LayoutInflater.from(context).inflate(R.layout.item_accepted_challenge, parent, false);
             holder = new AcceptedChallengeViewHolder(itemView);
-        } else if (challengesType == ChallengesType.HISTORICAL_CHALLENGES) {
+
+        } else if (viewType == ChallengesType.HISTORICAL_CHALLENGES.getValue()) {
+            View itemView = LayoutInflater.from(context).inflate(R.layout.item_historical_challenge, parent, false);
             holder = new HistoricalChallengeViewHolder(itemView);
+
         } else {
-            holder = new NewChallengeViewHolder(itemView);
+            // return basic view holder
+            View itemView = LayoutInflater.from(context).inflate(R.layout.item_main_challenge, parent, false);
+            holder = new ViewHolder(itemView);
         }
         holder.setOnItemClickListener(itemClickListener);
 
         return holder;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        // get item type
+        Challenge challenge = data.get(position);
+        int type = challenge.getType() != null ? challenge.getType().getId() : 0;
+
+        // check challengesType
+        if (challengesType == ChallengesType.MY_CHALLENGES) {
+            // this is my challenge, so return it
+            return type;
+        } else {
+            // return challengesType value
+            return challengesType.getValue();
+        }
     }
 
     @Override
@@ -178,6 +202,14 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             } else {
                 viewTopDivider.setVisibility(View.VISIBLE);
             }
+
+            // check if the challenge for all to enable / disable the guest team image
+            boolean challengeForAll = challengeController.isChallengeForAll(challenge);
+            ivGuestTeamImage.setEnabled(!challengeForAll);
+
+            // add listeners
+            ivHostTeamImage.setOnClickListener(this);
+            ivGuestTeamImage.setOnClickListener(this);
         }
 
         protected void updateScoresUI() {
@@ -204,6 +236,22 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         protected void removeScores() {
             tvHostTeamScore.setText("--");
             tvGuestTeamScore.setText("--");
+        }
+
+        @Override
+        public void onClick(View v) {
+            // check view id
+            if (v.getId() == R.id.iv_host_team_image) {
+                openTeamInfoActivity(challenge.getHostTeam().getId());
+            } else if (v.getId() == R.id.iv_guest_team_image) {
+                openTeamInfoActivity(challenge.getGuestTeam().getId());
+            }
+        }
+
+        private void openTeamInfoActivity(int teamId) {
+            Intent intent = new Intent(context, TeamInfoActivity.class);
+            intent.putExtra(Const.KEY_ID, teamId);
+            context.startActivity(intent);
         }
 
         protected void showAcceptConfirmDialog() {

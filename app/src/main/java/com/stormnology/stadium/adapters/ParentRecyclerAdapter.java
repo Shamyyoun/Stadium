@@ -37,10 +37,16 @@ public abstract class ParentRecyclerAdapter<Item> extends RecyclerView.Adapter<P
         this.layoutId = layoutId;
     }
 
+    public ParentRecyclerAdapter(Context context, List<Item> data) {
+        this(context, data, -1);
+    }
+
     public ParentRecyclerAdapter(Context context, Item[] data, int layoutId) {
-        this.context = context;
-        this.data = Arrays.asList(data);
-        this.layoutId = layoutId;
+        this(context, Arrays.asList(data), layoutId);
+    }
+
+    public ParentRecyclerAdapter(Context context, Item[] data) {
+        this(context, data, -1);
     }
 
     @Override

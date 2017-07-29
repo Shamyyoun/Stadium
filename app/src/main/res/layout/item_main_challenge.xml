@@ -33,6 +33,7 @@
                 android:layout_width="@dimen/challenge_team_image_size"
                 android:layout_height="@dimen/challenge_team_image_size"
                 android:layout_marginTop="7dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/default_image"
                 app:riv_oval="true" />
         </LinearLayout>
@@ -107,6 +108,7 @@
                 android:layout_width="@dimen/challenge_team_image_size"
                 android:layout_height="@dimen/challenge_team_image_size"
                 android:layout_marginTop="7dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/default_image"
                 app:riv_oval="true" />
         </LinearLayout>
