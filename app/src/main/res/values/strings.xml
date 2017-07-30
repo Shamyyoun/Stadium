@@ -413,7 +413,7 @@
     <string name="no_challenges_found">لا يوجد تحديات</string>
     <string name="failed_loading_challenges">فشل تحميل التحديات</string>
     <string name="the_all">الكل</string>
-    <string name="accept_challenge_q">قبول التحدي؟</string>
+    <string name="accept_challenge_with_team_x_q">قبول التحدي بفريق %s؟</string>
     <string name="add_challenge">اضافة تحدي</string>
     <string name="add_reservation">اضافة تحدي</string>
     <string name="withdraw">انسحاب</string>

@@ -20,6 +20,7 @@ import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.ChallengeController;
 import com.stormnology.stadium.controllers.TeamController;
 import com.stormnology.stadium.dialogs.AddChallengeResultDialog;
+import com.stormnology.stadium.dialogs.ChooseFromCaptainTeamsDialog;
 import com.stormnology.stadium.dialogs.ChooseReservationDialog;
 import com.stormnology.stadium.interfaces.OnChallengeUpdatedListener;
 import com.stormnology.stadium.interfaces.OnCheckableSelectedListener;
@@ -128,6 +129,7 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         private TextView tvPlace;
         private TextView tvDateTime;
 
+        private ChooseFromCaptainTeamsDialog teamsDialog;
         private ChooseReservationDialog reservationsDialog;
         private AddChallengeResultDialog addResultDialog;
 
@@ -254,16 +256,44 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             context.startActivity(intent);
         }
 
-        protected void showAcceptConfirmDialog() {
-            DialogUtils.showConfirmDialog(context, R.string.accept_challenge_q, new DialogInterface.OnClickListener() {
+        protected void onAccept() {
+            // check if the challenge is for all
+            if (challengeController.isChallengeForAll(challenge)) {
+                // choose the team first
+                chooseTeam();
+            } else {
+                // show confirm accept dialog with the guest team
+                showAcceptConfirmDialog(challenge.getGuestTeam());
+            }
+        }
+
+        private void chooseTeam() {
+            // create & customize the dialog if required
+            if (teamsDialog == null) {
+                teamsDialog = new ChooseFromCaptainTeamsDialog(context);
+                teamsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
+                    @Override
+                    public void onCheckableSelected(Checkable item) {
+                        showAcceptConfirmDialog((Team) item);
+                    }
+                });
+            }
+
+            // show the dialog
+            teamsDialog.show();
+        }
+
+        private void showAcceptConfirmDialog(final Team team) {
+            String msg = context.getString(R.string.accept_challenge_with_team_x_q, team.getName());
+            DialogUtils.showConfirmDialog(context, msg, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    accept();
+                    accept(team);
                 }
             }, null);
         }
 
-        private void accept() {
+        private void accept(Team team) {
             // check internet connection
             if (!Utils.hasConnection(context)) {
                 Utils.showShortToast(context, R.string.no_internet_connection);
@@ -302,12 +332,11 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             // prepare objects
             User user = activeUserController.getUser();
             Team hostTeam = challenge.getHostTeam();
-            Team guestTeam = challenge.getGuestTeam();
 
             // send request
             ConnectionHandler connectionHandler = ApiRequests.acceptChallenge(context, listener,
                     user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
-                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
+                    hostTeam.getName(), team.getId(), team.getName());
             cancelWhenDestroyed(connectionHandler);
         }
 
@@ -563,7 +592,7 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         public void onClick(View v) {
             // check view id
             if (v.getId() == R.id.btn_accept) {
-                showAcceptConfirmDialog();
+                onAccept();
             } else {
                 super.onClick(v);
             }
