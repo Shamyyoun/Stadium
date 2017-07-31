@@ -55,9 +55,6 @@ public class Challenge extends ServerResponse implements Serializable {
     @SerializedName("captainRole")
     @Expose
     private boolean captainRole;
-    @SerializedName("status")
-    @Expose
-    private String status;
 
     public int getId() {
         return id;
@@ -177,13 +174,5 @@ public class Challenge extends ServerResponse implements Serializable {
 
     public void setCaptainRole(boolean captainRole) {
         this.captainRole = captainRole;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

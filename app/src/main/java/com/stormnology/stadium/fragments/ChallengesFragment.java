@@ -136,12 +136,12 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
             connectionHandler = ApiRequests.myChallenges(activity, this, userId);
         } else if (filter != null) {
             // prepare values
-            String typeName = filter.getType() != null ? filter.getType().getName() : null;
+            int typeId = filter.getType() != null ? filter.getType().getId() : 0;
             int teamId = filter.getHostTeam() != null ? filter.getHostTeam().getId() : 0;
             String placeName = filter.getPlace() != null ? filter.getPlace().getName() : null;
 
             // send the request
-            connectionHandler = ApiRequests.challengeSearch(activity, this, typeName, teamId,
+            connectionHandler = ApiRequests.challengeSearch(activity, this, typeId, teamId,
                     placeName, filter.getDay(), filter.getTime());
         }
 

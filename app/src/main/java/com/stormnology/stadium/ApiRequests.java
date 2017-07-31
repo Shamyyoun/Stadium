@@ -1662,12 +1662,16 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Challenge[]> challengeSearch(Context context, ConnectionListener<Challenge[]> listener,
-                                                                 String type, int teamId,
+                                                                 int typeId, int teamId,
                                                                  String place, String day,
                                                                  String time) {
         // create the request body
         Challenge body = new Challenge();
-        body.setStatus(type);
+        if (typeId != 0) {
+            ChallengeType type = new ChallengeType();
+            type.setId(typeId);
+            body.setType(type);
+        }
         if (teamId != 0) {
             Team team = new Team();
             team.setId(teamId);
