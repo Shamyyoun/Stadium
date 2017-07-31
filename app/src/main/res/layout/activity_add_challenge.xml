@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:text="@string/add_your_challenge_with_reservation_or_later_reservation"
+                android:textSize="@dimen/small_text" />
+
+            <Button
+                android:id="@+id/btn_host_team"
+                style="@style/GrayETButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/challenger_team" />
+
+            <Button
+                android:id="@+id/btn_guest_team"
+                style="@style/GrayETButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/who_you_are_challenging" />
+
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/challenge_message"
+                android:maxLength="@integer/challenge_max_comment_chars"
+                android:selectAllOnFocus="true" />
+
+            <Button
+                android:id="@+id/btn_reservation"
+                style="@style/GrayETButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/reservation" />
+
+            <LinearLayout
+                android:id="@+id/layout_place_time_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btn_place"
+                    style="@style/GrayETButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/place" />
+
+                <Button
+                    android:id="@+id/btn_day"
+                    style="@style/GrayETButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/day" />
+
+                <Button
+                    android:id="@+id/btn_time"
+                    style="@style/GrayETButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/time" />
+            </LinearLayout>
+
+            <com.stormnology.stadium.views.DarkenedButton
+                android:id="@+id/btn_add"
+                style="@style/GreenButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/add" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

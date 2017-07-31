@@ -8,4 +8,5 @@
     <integer name="dialog_translate_anim_duration">300</integer>
     <integer name="dialog_scale_fade_anim_duration">150</integer>
     <integer name="profile_bio_max_chars">250</integer>
+    <integer name="challenge_max_comment_chars">300</integer>
 </resources>

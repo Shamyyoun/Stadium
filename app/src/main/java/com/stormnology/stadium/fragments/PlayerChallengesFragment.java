@@ -15,8 +15,9 @@ import android.view.ViewGroup;
 
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
+import com.stormnology.stadium.activities.AddChallengeActivity;
 import com.stormnology.stadium.activities.ChallengesSearchActivity;
-import com.stormnology.stadium.models.entities.ChallengesFilter;
+import com.stormnology.stadium.models.entities.ChallengeInfoHolder;
 import com.stormnology.stadium.models.enums.ChallengesType;
 import com.stormnology.stadium.views.SlidingTabLayout;
 
@@ -35,7 +36,7 @@ public class PlayerChallengesFragment extends ParentFragment {
     private String[] tabTitles;
     private PagerAdapter pagerAdapter;
     private ChallengesFragment[] fragments;
-    private ChallengesFilter filter;
+    private ChallengeInfoHolder filter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,9 @@ public class PlayerChallengesFragment extends ParentFragment {
         if (item.getItemId() == R.id.action_search) {
             openSearchActivity();
             return true;
+        } else if (item.getItemId() == R.id.action_add) {
+            openAddChallengeActivity();
+            return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
@@ -121,13 +125,29 @@ public class PlayerChallengesFragment extends ParentFragment {
         activity.overridePendingTransition(R.anim.top_translate_enter, R.anim.no_anim);
     }
 
+    private void openAddChallengeActivity() {
+        Intent intent = new Intent(activity, AddChallengeActivity.class);
+        startActivityForResult(intent, Const.REQ_ADD_CHALLENGE);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Const.REQ_SEARCH_CHALLENGES && resultCode == Activity.RESULT_OK) {
-            // update the  filter
-            filter = (ChallengesFilter) data.getSerializableExtra(Const.KEY_FILTER);
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Const.REQ_SEARCH_CHALLENGES) {
+                // update the  filter
+                filter = (ChallengeInfoHolder) data.getSerializableExtra(Const.KEY_FILTER);
+            } else {
+                // refresh new challenges fragment
+                refreshNewChallenges();
+            }
+        }
+    }
+
+    private void refreshNewChallenges() {
+        // check the fragment
+        ChallengesFragment fragment = fragments[NEW_CHAL_POS];
+        if (fragment != null) {
+            fragment.refresh();
         }
     }
 

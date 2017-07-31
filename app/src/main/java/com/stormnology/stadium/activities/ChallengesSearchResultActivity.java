@@ -5,13 +5,13 @@ import android.os.Bundle;
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.fragments.ChallengesFragment;
-import com.stormnology.stadium.models.entities.ChallengesFilter;
+import com.stormnology.stadium.models.entities.ChallengeInfoHolder;
 
 /**
  * Created by karam on 7/17/16.
  */
 public class ChallengesSearchResultActivity extends ParentActivity {
-    private ChallengesFilter filter;
+    private ChallengeInfoHolder filter;
     private ChallengesFragment challengesFragment;
 
     @Override
@@ -21,7 +21,7 @@ public class ChallengesSearchResultActivity extends ParentActivity {
         enableBackButton();
 
         // obtain main objects
-        filter = (ChallengesFilter) getIntent().getSerializableExtra(Const.KEY_FILTER);
+        filter = (ChallengeInfoHolder) getIntent().getSerializableExtra(Const.KEY_FILTER);
 
         // load the fragment if possible
         if (savedInstanceState == null) {

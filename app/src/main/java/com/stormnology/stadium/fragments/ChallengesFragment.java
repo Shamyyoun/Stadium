@@ -17,7 +17,7 @@ import com.stormnology.stadium.interfaces.OnItemRemovedListener;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.models.SerializableListWrapper;
 import com.stormnology.stadium.models.entities.Challenge;
-import com.stormnology.stadium.models.entities.ChallengesFilter;
+import com.stormnology.stadium.models.entities.ChallengeInfoHolder;
 import com.stormnology.stadium.models.enums.ChallengesType;
 import com.stormnology.stadium.utils.Utils;
 
@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class ChallengesFragment extends ProgressFragment implements OnItemRemovedListener {
     private ChallengesType challengesType;
-    private ChallengesFilter filter;
+    private ChallengeInfoHolder filter;
     private ActiveUserController activeUserController;
     private RecyclerView recyclerView;
     private List<Challenge> data;
@@ -42,7 +42,7 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
 
         // obtain main objects
         challengesType = (ChallengesType) getArguments().getSerializable(Const.KEY_CHALLENGES_TYPE);
-        filter = (ChallengesFilter) getArguments().getSerializable(Const.KEY_FILTER);
+        filter = (ChallengeInfoHolder) getArguments().getSerializable(Const.KEY_FILTER);
         activeUserController = new ActiveUserController(activity);
     }
 
@@ -137,7 +137,7 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
         } else if (filter != null) {
             // prepare values
             String typeName = filter.getType() != null ? filter.getType().getName() : null;
-            int teamId = filter.getTeam() != null ? filter.getTeam().getId() : -1;
+            int teamId = filter.getHostTeam() != null ? filter.getHostTeam().getId() : 0;
             String placeName = filter.getPlace() != null ? filter.getPlace().getName() : null;
 
             // send the request
@@ -153,7 +153,7 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
         cancelWhenDestroyed(connectionHandler);
     }
 
-    private void refresh() {
+    public void refresh() {
         loadData();
     }
 

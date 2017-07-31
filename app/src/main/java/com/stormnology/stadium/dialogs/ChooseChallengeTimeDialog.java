@@ -33,6 +33,7 @@ public class ChooseChallengeTimeDialog extends ProgressDialog {
     private List<ChallengeTime> data;
     private OnCheckableSelectedListener itemSelectedListener;
     private String selectedItem;
+    private boolean addDefaultItem;
 
     public ChooseChallengeTimeDialog(final Context context) {
         super(context);
@@ -94,9 +95,12 @@ public class ChooseChallengeTimeDialog extends ProgressDialog {
     }
 
     private void updateUI() {
-        // add the default item
-        data = timeController.addDefaultItem(data, getString(R.string.all_times));
+        // add default item if possible
+        if (addDefaultItem) {
+            data = timeController.addDefaultItem(data, getString(R.string.all_times));
+        }
 
+        // create and set the adapter
         adapter = new RadioButtonsAdapter(context, data, R.layout.item_radio_button);
         recyclerView.setAdapter(adapter);
         showMain();
@@ -196,6 +200,10 @@ public class ChooseChallengeTimeDialog extends ProgressDialog {
         if (itemPosition != -1) {
             adapter.setSelectedItem(itemPosition);
         }
+    }
+
+    public void setAddDefaultItem(boolean addDefaultItem) {
+        this.addDefaultItem = addDefaultItem;
     }
 
     @Override

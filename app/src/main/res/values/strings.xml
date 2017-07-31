@@ -445,6 +445,20 @@
     <string name="failed_loading_days">فشل تحميل الايام</string>
     <string name="challenges_times">توقيتات التحديات</string>
     <string name="search_result">نتيجة البحث</string>
+    <string name="add_your_challenge_with_reservation_or_later_reservation">اضف تحديك بحجز سابق او احجز بعد الاتفاق مع المتحدي</string>
+    <string name="who_you_are_challenging">من تتحدى</string>
+    <string name="challenge_message">رسالة التحدي</string>
+    <string name="reservation">الحجز</string>
+    <string name="challenged">المتحدى</string>
+    <string name="choose_challenger_team_first">برجاء اختيار الفريق المتحدي اولا</string>
+    <string name="challenger_team">الفريق المتحدي</string>
+    <string name="please_choose_challenger_team">برجاء اختيار الفريق المتحدي</string>
+    <string name="please_choose_who_you_are_challenging">برجاء اختيار من تتحدى</string>
+    <string name="please_choose_reservation">برجاء اختيار الحجز</string>
+    <string name="please_choose_place">برجاء اختيار المكان</string>
+    <string name="please_choose_day">برجاء اختيار اليوم</string>
+    <string name="please_choose_time">برجاء اختيار التوقيت</string>
+    <string name="failed_adding_challenge">فشل اضافة التحدي</string>
 
 
     <!-- Arrays -->

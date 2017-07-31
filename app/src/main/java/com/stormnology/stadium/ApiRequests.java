@@ -1668,7 +1668,7 @@ public class ApiRequests {
         // create the request body
         Challenge body = new Challenge();
         body.setStatus(type);
-        if (teamId != -1) {
+        if (teamId != 0) {
             Team team = new Team();
             team.setId(teamId);
             body.setHostTeam(team);
@@ -1680,6 +1680,45 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<Challenge[]> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_CHALLENGE_SEARCH), Challenge[].class, listener, body, Const.API_CHALLENGE_SEARCH);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge> addChallenge(Context context, ConnectionListener<Challenge> listener,
+                                                            int userId, String userToken,
+                                                            int hostTeamId, String hostTeamName,
+                                                            int guestTeamId, String guestTeamName,
+                                                            String hostComment, int reservationId,
+                                                            String place, String day, String time) {
+        // create the request body
+        ChallengeActionBody body = new ChallengeActionBody();
+        User user = new User();
+        user.setId(userId);
+        user.setToken(userToken);
+        body.setUser(user);
+        Challenge challenge = new Challenge();
+        Team hostTeam = new Team();
+        hostTeam.setId(hostTeamId);
+        hostTeam.setName(hostTeamName);
+        challenge.setHostTeam(hostTeam);
+        Team guestTeam = new Team();
+        guestTeam.setId(guestTeamId);
+        guestTeam.setName(guestTeamName);
+        challenge.setGuestTeam(guestTeam);
+        challenge.setHostComment(hostComment);
+        Reservation reservation = new Reservation();
+        reservation.setId(reservationId);
+        challenge.setReservation(reservation);
+        if (reservationId == 0) {
+            challenge.setPlace(place);
+            challenge.setDay(day);
+            challenge.setTime(time);
+        }
+        body.setChallenge(challenge);
+
+        // create & execute the request
+        ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_ADD_CHALLENGE), Challenge.class, listener, body, Const.API_ADD_CHALLENGE);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }

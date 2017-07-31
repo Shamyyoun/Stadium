@@ -181,5 +181,10 @@
         <activity
             android:name=".activities.ChallengesSearchResultActivity"
             android:label="@string/search_result" />
+
+        <activity
+            android:name=".activities.AddChallengeActivity"
+            android:label="@string/add_challenge"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 </manifest>

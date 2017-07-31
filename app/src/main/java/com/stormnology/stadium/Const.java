@@ -15,6 +15,7 @@ public class Const {
     //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/android/Service1.svc";
     //    public static final String END_POINT = "http://ec2-52-33-173-21.us-west-2.compute.amazonaws.com/Staduim/production/Service1.svc";
     public static final int DEFAULT_ITEM_ID = -1; // this is used to add a default item in lists used in adapter
+    public static final int DEFAULT_SERVER_ITEM_ID = 0; // this is used to identify default item coming from the server
 
     // App contacts:----------------------
     public static final String CON_STADIUM_EMAIL = "stadium@stormnology.com";
@@ -114,6 +115,7 @@ public class Const {
     public static final String API_CHALLENGE_DAY = "challengeDay";
     public static final String API_CHALLENGE_TIMES = "challengeTimes";
     public static final String API_CHALLENGE_SEARCH = "challengeSearch";
+    public static final String API_ADD_CHALLENGE = "addChallenge";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -151,6 +153,7 @@ public class Const {
     public static final int REQ_ADD_DURATIONS = 13;
     public static final int REQ_VIEW_INVITATIONS = 14;
     public static final int REQ_SEARCH_CHALLENGES = 15;
+    public static final int REQ_ADD_CHALLENGE = 16;
 
     // APIs Params:---------------------------
     public static final String PARAM_ID = "id";

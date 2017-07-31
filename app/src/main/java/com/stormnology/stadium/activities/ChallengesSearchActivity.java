@@ -21,7 +21,7 @@ import com.stormnology.stadium.models.Checkable;
 import com.stormnology.stadium.models.entities.ChallengeDay;
 import com.stormnology.stadium.models.entities.ChallengeTime;
 import com.stormnology.stadium.models.entities.ChallengeType;
-import com.stormnology.stadium.models.entities.ChallengesFilter;
+import com.stormnology.stadium.models.entities.ChallengeInfoHolder;
 import com.stormnology.stadium.models.entities.Stadium;
 import com.stormnology.stadium.models.entities.Team;
 
@@ -29,7 +29,7 @@ import com.stormnology.stadium.models.entities.Team;
  * Created by Shamyyoun on 11/2/16.
  */
 public class ChallengesSearchActivity extends ParentActivity {
-    private ChallengesFilter filter;
+    private ChallengeInfoHolder filter;
     private View layoutContent;
     private Button btnType;
     private Button btnTeam;
@@ -56,7 +56,7 @@ public class ChallengesSearchActivity extends ParentActivity {
         enableBackButton();
 
         // get the filter
-        filter = (ChallengesFilter) getIntent().getSerializableExtra(Const.KEY_FILTER);
+        filter = (ChallengeInfoHolder) getIntent().getSerializableExtra(Const.KEY_FILTER);
 
         // init views
         layoutContent = findViewById(R.id.layout_content);
@@ -82,7 +82,7 @@ public class ChallengesSearchActivity extends ParentActivity {
         if (filter != null) {
             updateUI();
         } else {
-            filter = new ChallengesFilter();
+            filter = new ChallengeInfoHolder();
         }
     }
 
@@ -115,8 +115,8 @@ public class ChallengesSearchActivity extends ParentActivity {
     }
 
     private void updateTeamUI() {
-        if (filter.getTeam() != null) {
-            String str = getString(R.string.the_team) + ": " + filter.getTeam().toString();
+        if (filter.getHostTeam() != null) {
+            String str = getString(R.string.the_team) + ": " + filter.getHostTeam().toString();
             btnTeam.setText(str);
         } else {
             btnTeam.setText(R.string.the_team);
@@ -210,15 +210,15 @@ public class ChallengesSearchActivity extends ParentActivity {
                 @Override
                 public void onCheckableSelected(Checkable item) {
                     Team team = (Team) item;
-                    filter.setTeam(team);
+                    filter.setHostTeam(team);
                     updateTeamUI();
                 }
             });
         }
 
         // check to select item if possible
-        if (filter.getTeam() != null) {
-            teamsDialog.setSelectedItemId(filter.getTeam().getId());
+        if (filter.getHostTeam() != null) {
+            teamsDialog.setSelectedItemId(filter.getHostTeam().getId());
         }
 
         teamsDialog.show();
@@ -248,6 +248,7 @@ public class ChallengesSearchActivity extends ParentActivity {
     private void chooseDay() {
         if (daysDialog == null) {
             daysDialog = new ChooseChallengeDayDialog(this);
+            daysDialog.setAddDefaultItem(true);
             daysDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {
@@ -275,6 +276,7 @@ public class ChallengesSearchActivity extends ParentActivity {
     private void chooseTime() {
         if (timesDialog == null) {
             timesDialog = new ChooseChallengeTimeDialog(this);
+            timesDialog.setAddDefaultItem(true);
             timesDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {
@@ -287,7 +289,6 @@ public class ChallengesSearchActivity extends ParentActivity {
                         filter.setTime(challengeTime.getName());
                     }
                     updateTimeUI();
-                    ;
                 }
             });
         }

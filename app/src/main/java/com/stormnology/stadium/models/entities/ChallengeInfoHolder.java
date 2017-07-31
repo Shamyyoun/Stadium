@@ -6,12 +6,30 @@ import java.io.Serializable;
  * Created by Shamyyoun on 7/30/17.
  */
 
-public class ChallengesFilter implements Serializable {
+public class ChallengeInfoHolder implements Serializable {
+    private Team hostTeam;
+    private Team guestTeam;
     private ChallengeType type;
-    private Team team;
+    private Reservation reservation;
     private Stadium place;
     private String day;
     private String time;
+
+    public Team getHostTeam() {
+        return hostTeam;
+    }
+
+    public void setHostTeam(Team hostTeam) {
+        this.hostTeam = hostTeam;
+    }
+
+    public Team getGuestTeam() {
+        return guestTeam;
+    }
+
+    public void setGuestTeam(Team guestTeam) {
+        this.guestTeam = guestTeam;
+    }
 
     public ChallengeType getType() {
         return type;
@@ -21,12 +39,12 @@ public class ChallengesFilter implements Serializable {
         this.type = type;
     }
 
-    public Team getTeam() {
-        return team;
+    public Reservation getReservation() {
+        return reservation;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
     public Stadium getPlace() {
