@@ -171,5 +171,15 @@
         <activity
             android:name=".activities.InvitationsActivity"
             android:label="@string/the_invitations" />
+
+        <activity
+            android:name=".activities.ChallengesSearchActivity"
+            android:label="@string/challenges_search"
+            android:theme="@style/AppTheme.FloatingTransparent"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".activities.ChallengesSearchResultActivity"
+            android:label="@string/search_result" />
     </application>
 </manifest>

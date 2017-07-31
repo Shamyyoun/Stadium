@@ -43,8 +43,6 @@ import java.util.Locale;
  * Created by Shamyyoun on 19/2/16.
  */
 public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
-    private ChallengesType challengesType;
-
     private ActiveUserController activeUserController;
     private ChallengeController challengeController;
     private TeamController teamController;
@@ -91,15 +89,7 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         // get item type
         Challenge challenge = data.get(position);
         int type = challenge.getType() != null ? challenge.getType().getId() : 0;
-
-        // check challengesType
-        if (challengesType == ChallengesType.MY_CHALLENGES) {
-            // this is my challenge, so return it
-            return type;
-        } else {
-            // return challengesType value
-            return challengesType.getValue();
-        }
+        return type;
     }
 
     @Override
@@ -108,10 +98,6 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
         ViewHolder holder = (ViewHolder) viewHolder;
         Challenge item = data.get(position);
         holder.bindViews(item);
-    }
-
-    public void setChallengesType(ChallengesType challengesType) {
-        this.challengesType = challengesType;
     }
 
     class ViewHolder extends ParentRecyclerViewHolder {

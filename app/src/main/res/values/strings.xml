@@ -427,6 +427,24 @@
     <string name="failed_objection">فشل الاعتراض</string>
     <string name="fill_result">قم باضافة النتيحة</string>
     <string name="failed_adding_result">فشل اضافة النتيجة</string>
+    <string name="challenges_search">بحث عن تحدي</string>
+    <string name="challenge_type">نوع التحدي</string>
+    <string name="place">المكان</string>
+    <string name="challenges_type">انواع التحديات</string>
+    <string name="all_types">كل الانواع</string>
+    <string name="no_types_found">لا يوجد انواع</string>
+    <string name="failed_loading_types">فشل تحميل الانواع</string>
+    <string name="type">النوع</string>
+    <string name="places">الاماكن</string>
+    <string name="no_places_found">لا يوجد اماكن</string>
+    <string name="failed_loading_places">فشل تحميل الاماكن</string>
+    <string name="all_places">كل الاماكن</string>
+    <string name="challenges_days">ايام التحديات</string>
+    <string name="all_days">كل الايام</string>
+    <string name="no_days_found">لا يوجد ايام</string>
+    <string name="failed_loading_days">فشل تحميل الايام</string>
+    <string name="challenges_times">توقيتات التحديات</string>
+    <string name="search_result">نتيجة البحث</string>
 
 
     <!-- Arrays -->

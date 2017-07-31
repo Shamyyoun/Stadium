@@ -1,5 +1,7 @@
 package com.stormnology.stadium.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
+import com.stormnology.stadium.activities.ChallengesSearchActivity;
+import com.stormnology.stadium.models.entities.ChallengesFilter;
 import com.stormnology.stadium.models.enums.ChallengesType;
 import com.stormnology.stadium.views.SlidingTabLayout;
 
@@ -31,6 +35,7 @@ public class PlayerChallengesFragment extends ParentFragment {
     private String[] tabTitles;
     private PagerAdapter pagerAdapter;
     private ChallengesFragment[] fragments;
+    private ChallengesFilter filter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +105,30 @@ public class PlayerChallengesFragment extends ParentFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        // check item id
+        if (item.getItemId() == R.id.action_search) {
+            openSearchActivity();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openSearchActivity() {
+        Intent intent = new Intent(activity, ChallengesSearchActivity.class);
+        intent.putExtra(Const.KEY_FILTER, filter);
+        startActivityForResult(intent, Const.REQ_SEARCH_CHALLENGES);
+        activity.overridePendingTransition(R.anim.top_translate_enter, R.anim.no_anim);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_SEARCH_CHALLENGES && resultCode == Activity.RESULT_OK) {
+            // update the  filter
+            filter = (ChallengesFilter) data.getSerializableExtra(Const.KEY_FILTER);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {

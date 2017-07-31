@@ -1,29 +1,12 @@
-
 package com.stormnology.stadium.models.entities;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.stormnology.stadium.models.Checkable;
 
 import java.io.Serializable;
 
-public class ChallengeType implements Serializable, Checkable {
-
-    @SerializedName("Id")
-    @Expose
-    private int id;
-    @SerializedName("name")
-    @Expose
+public class ChallengeDay implements Serializable, Checkable {
     private String name;
     private boolean checked;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -34,6 +17,11 @@ public class ChallengeType implements Serializable, Checkable {
     }
 
     @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
@@ -41,10 +29,5 @@ public class ChallengeType implements Serializable, Checkable {
     @Override
     public boolean isChecked() {
         return checked;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

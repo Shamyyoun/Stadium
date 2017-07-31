@@ -17,7 +17,7 @@ import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
 import com.stormnology.stadium.controllers.TeamController;
 import com.stormnology.stadium.dialogs.ChoosePlayerDialog;
-import com.stormnology.stadium.dialogs.ChooseStadiumDialog;
+import com.stormnology.stadium.dialogs.ChooseFromAllStadiumDialog;
 import com.stormnology.stadium.interfaces.OnCheckableSelectedListener;
 import com.stormnology.stadium.interfaces.OnUserSelectedListener;
 import com.stormnology.stadium.models.Checkable;
@@ -49,7 +49,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
     private Button btnCancel;
 
     private File image;
-    private ChooseStadiumDialog stadiumsDialog;
+    private ChooseFromAllStadiumDialog stadiumsDialog;
     private ChoosePlayerDialog playersDialog;
 
     @Override
@@ -192,7 +192,7 @@ public class UpdateTeamActivity extends PicPickerActivity {
 
     private void chooseStadium() {
         if (stadiumsDialog == null) {
-            stadiumsDialog = new ChooseStadiumDialog(this);
+            stadiumsDialog = new ChooseFromAllStadiumDialog(this);
             stadiumsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {

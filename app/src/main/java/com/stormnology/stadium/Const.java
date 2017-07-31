@@ -108,6 +108,12 @@ public class Const {
     public static final String API_ADD_RES_TO_CHALLENGE = "addResToChallenge";
     public static final String API_RESULT_OBJECTION = "ResultObjection";
     public static final String API_ADD_CHALLENGE_RESULT = "addChallengeResult";
+    public static final String API_CHALLENGE_TYPES = "ChallengeTypes";
+    public static final String API_CHALLENGE_AGAINST = "ChallengeAgainst";
+    public static final String API_CHALLENGE_PLACES = "challengePlaces";
+    public static final String API_CHALLENGE_DAY = "challengeDay";
+    public static final String API_CHALLENGE_TIMES = "challengeTimes";
+    public static final String API_CHALLENGE_SEARCH = "challengeSearch";
 
     // SP Constants:----------------------
     public static final String SP_USER = "user";
@@ -144,6 +150,7 @@ public class Const {
     public static final int REQ_VIEW_PLAYER_INFO = 12;
     public static final int REQ_ADD_DURATIONS = 13;
     public static final int REQ_VIEW_INVITATIONS = 14;
+    public static final int REQ_SEARCH_CHALLENGES = 15;
 
     // APIs Params:---------------------------
     public static final String PARAM_ID = "id";

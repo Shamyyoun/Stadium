@@ -17,6 +17,7 @@ import com.stormnology.stadium.interfaces.OnItemRemovedListener;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.models.SerializableListWrapper;
 import com.stormnology.stadium.models.entities.Challenge;
+import com.stormnology.stadium.models.entities.ChallengesFilter;
 import com.stormnology.stadium.models.enums.ChallengesType;
 import com.stormnology.stadium.utils.Utils;
 
@@ -29,6 +30,7 @@ import java.util.List;
  */
 public class ChallengesFragment extends ProgressFragment implements OnItemRemovedListener {
     private ChallengesType challengesType;
+    private ChallengesFilter filter;
     private ActiveUserController activeUserController;
     private RecyclerView recyclerView;
     private List<Challenge> data;
@@ -40,6 +42,7 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
 
         // obtain main objects
         challengesType = (ChallengesType) getArguments().getSerializable(Const.KEY_CHALLENGES_TYPE);
+        filter = (ChallengesFilter) getArguments().getSerializable(Const.KEY_FILTER);
         activeUserController = new ActiveUserController(activity);
     }
 
@@ -69,6 +72,9 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
             } else {
                 showEmpty(R.string.no_challenges_found);
             }
+        } else if (filter != null) { // check if search results screen
+            // load the data
+            loadData();
         }
 
         return rootView;
@@ -97,7 +103,6 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
     private void updateUI() {
         // create and set the adapter
         adapter = new ChallengesAdapter(activity, data);
-        adapter.setChallengesType(challengesType);
         adapter.setOnItemRemovedListener(this);
         recyclerView.setAdapter(adapter);
         showMain();
@@ -129,6 +134,15 @@ public class ChallengesFragment extends ProgressFragment implements OnItemRemove
             connectionHandler = ApiRequests.historicChallenges(activity, this, userId);
         } else if (challengesType == ChallengesType.MY_CHALLENGES) {
             connectionHandler = ApiRequests.myChallenges(activity, this, userId);
+        } else if (filter != null) {
+            // prepare values
+            String typeName = filter.getType() != null ? filter.getType().getName() : null;
+            int teamId = filter.getTeam() != null ? filter.getTeam().getId() : -1;
+            String placeName = filter.getPlace() != null ? filter.getPlace().getName() : null;
+
+            // send the request
+            connectionHandler = ApiRequests.challengeSearch(activity, this, typeName, teamId,
+                    placeName, filter.getDay(), filter.getTime());
         }
 
         // show progress if suitable

@@ -215,7 +215,7 @@ public class StadiumsSearchActivity extends ParentActivity {
             fieldsDialog.setOnItemSelectedListener(new OnCheckableSelectedListener() {
                 @Override
                 public void onCheckableSelected(Checkable item) {
-                    // check the city item
+                    // check the capacity item
                     FieldCapacity fieldCapacity = (FieldCapacity) item;
                     if (fieldCapacity.getName().equals(getString(R.string.all_sizes))) {
                         // all sizes item

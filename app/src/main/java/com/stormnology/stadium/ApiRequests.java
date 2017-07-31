@@ -28,6 +28,7 @@ import com.stormnology.stadium.models.bodies.TeamPlayerActionBody;
 import com.stormnology.stadium.models.bodies.UnblockTeamBody;
 import com.stormnology.stadium.models.entities.Attendant;
 import com.stormnology.stadium.models.entities.Challenge;
+import com.stormnology.stadium.models.entities.ChallengeType;
 import com.stormnology.stadium.models.entities.City;
 import com.stormnology.stadium.models.entities.Duration;
 import com.stormnology.stadium.models.entities.Event;
@@ -1588,11 +1589,11 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Challenge> addChallengeResult(Context context, ConnectionListener<Challenge> listener,
-                                                               int userId, String userToken,
-                                                               int challengeId, int hostGoals,
-                                                               int guestGoals, int hostTeamId,
-                                                               String hostTeamName, int guestTeamId,
-                                                               String guestTeamName) {
+                                                                  int userId, String userToken,
+                                                                  int challengeId, int hostGoals,
+                                                                  int guestGoals, int hostTeamId,
+                                                                  String hostTeamName, int guestTeamId,
+                                                                  String guestTeamName) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         User user = new User();
@@ -1616,6 +1617,69 @@ public class ApiRequests {
         // create & execute the request
         ConnectionHandler<Challenge> connectionHandler = new ConnectionHandler(context,
                 AppUtils.getUserApiUrl(Const.API_ADD_CHALLENGE_RESULT), Challenge.class, listener, body, Const.API_ADD_CHALLENGE_RESULT);
+        connectionHandler.executeRawJson();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<ChallengeType[]> challengeTypes(Context context, ConnectionListener<ChallengeType[]> listener) {
+        // create & execute the request
+        ConnectionHandler<ChallengeType[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHALLENGE_TYPES), ChallengeType[].class, listener, Const.API_CHALLENGE_TYPES);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Team[]> challengeAgainst(Context context, ConnectionListener<Team[]> listener) {
+        // create & execute the request
+        ConnectionHandler<Team[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHALLENGE_AGAINST), Team[].class, listener, Const.API_CHALLENGE_AGAINST);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Stadium[]> challengePlaces(Context context, ConnectionListener<Stadium[]> listener) {
+        // create & execute the request
+        ConnectionHandler<Stadium[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHALLENGE_PLACES), Stadium[].class, listener, Const.API_CHALLENGE_PLACES);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String[]> challengeDay(Context context, ConnectionListener<String[]> listener) {
+        // create & execute the request
+        ConnectionHandler<String[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHALLENGE_DAY), String[].class, listener, Const.API_CHALLENGE_DAY);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<String[]> challengeTimes(Context context, ConnectionListener<String[]> listener) {
+        // create & execute the request
+        ConnectionHandler<String[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHALLENGE_TIMES), String[].class, listener, Const.API_CHALLENGE_TIMES);
+        connectionHandler.executeGet();
+        return connectionHandler;
+    }
+
+    public static ConnectionHandler<Challenge[]> challengeSearch(Context context, ConnectionListener<Challenge[]> listener,
+                                                                 String type, int teamId,
+                                                                 String place, String day,
+                                                                 String time) {
+        // create the request body
+        Challenge body = new Challenge();
+        body.setStatus(type);
+        if (teamId != -1) {
+            Team team = new Team();
+            team.setId(teamId);
+            body.setHostTeam(team);
+        }
+        body.setPlace(place);
+        body.setDay(day);
+        body.setTime(time);
+
+        // create & execute the request
+        ConnectionHandler<Challenge[]> connectionHandler = new ConnectionHandler(context,
+                AppUtils.getUserApiUrl(Const.API_CHALLENGE_SEARCH), Challenge[].class, listener, body, Const.API_CHALLENGE_SEARCH);
         connectionHandler.executeRawJson();
         return connectionHandler;
     }
