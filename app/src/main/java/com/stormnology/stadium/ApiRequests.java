@@ -1667,16 +1667,12 @@ public class ApiRequests {
                                                                  String time) {
         // create the request body
         Challenge body = new Challenge();
-        if (typeId != 0) {
-            ChallengeType type = new ChallengeType();
-            type.setId(typeId);
-            body.setType(type);
-        }
-        if (teamId != 0) {
-            Team team = new Team();
-            team.setId(teamId);
-            body.setHostTeam(team);
-        }
+        ChallengeType type = new ChallengeType();
+        type.setId(typeId);
+        body.setType(type);
+        Team team = new Team();
+        team.setId(teamId);
+        body.setHostTeam(team);
         body.setPlace(place);
         body.setDay(day);
         body.setTime(time);
