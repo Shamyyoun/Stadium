@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stormnology.stadium.ApiRequests;
@@ -14,6 +15,7 @@ import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
+import com.stormnology.stadium.controllers.ChallengeController;
 import com.stormnology.stadium.interfaces.OnChallengeUpdatedListener;
 import com.stormnology.stadium.models.entities.Challenge;
 import com.stormnology.stadium.models.entities.Team;
@@ -27,9 +29,14 @@ import com.stormnology.stadium.utils.Utils;
  */
 public class AddChallengeResultDialog extends ParentDialog {
     private Challenge challenge;
+    private ChallengeController challengeController;
     private ActiveUserController activeUserController;
 
+    private TextView tvHostName;
+    private ImageView ivHostImage;
     private EditText etHostScore;
+    private TextView tvGuestName;
+    private ImageView ivGuestImage;
     private EditText etGuestScore;
     private Button btnSubmit;
 
@@ -40,6 +47,7 @@ public class AddChallengeResultDialog extends ParentDialog {
 
         // obtain main objects
         this.challenge = challenge;
+        challengeController = new ChallengeController();
         activeUserController = new ActiveUserController(context);
 
         // customize dialog
@@ -52,7 +60,11 @@ public class AddChallengeResultDialog extends ParentDialog {
         super.onCreate(savedInstanceState);
 
         // init views
+        tvHostName = (TextView) findViewById(R.id.tv_host_name);
+        ivHostImage = (ImageView) findViewById(R.id.iv_host_image);
         etHostScore = (EditText) findViewById(R.id.et_host_score);
+        tvGuestName = (TextView) findViewById(R.id.tv_guest_name);
+        ivGuestImage = (ImageView) findViewById(R.id.iv_guest_image);
         etGuestScore = (EditText) findViewById(R.id.et_guest_score);
         btnSubmit = (Button) findViewById(R.id.btn_submit);
 
@@ -68,6 +80,21 @@ public class AddChallengeResultDialog extends ParentDialog {
                 return false;
             }
         });
+
+        // update the ui
+        updateUI();
+    }
+
+    private void updateUI() {
+        // set host team info
+        Team hostTeam = challenge.getHostTeam();
+        tvHostName.setText(challengeController.getHostTeamName(challenge));
+        Utils.loadImage(context, hostTeam.getImageLink(), R.drawable.default_image, ivHostImage);
+
+        // set guest team info
+        Team guestTeam = challenge.getGuestTeam();
+        tvGuestName.setText(challengeController.getGuestTeamName(context, challenge));
+        Utils.loadImage(context, guestTeam.getImageLink(), R.drawable.default_image, ivGuestImage);
     }
 
     @Override
