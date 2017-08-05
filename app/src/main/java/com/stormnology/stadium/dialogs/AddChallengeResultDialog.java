@@ -107,11 +107,6 @@ public class AddChallengeResultDialog extends ParentDialog {
     }
 
     private void addResult() {
-        // get objects
-        User user = activeUserController.getUser();
-        Team hostTeam = challenge.getHostTeam();
-        Team guestTeam = challenge.getGuestTeam();
-
         // prepare inputs
         int hostScore = Utils.convertToInt(Utils.getText(etHostScore));
         int guestScore = Utils.convertToInt(Utils.getText(etGuestScore));
@@ -132,10 +127,13 @@ public class AddChallengeResultDialog extends ParentDialog {
 
         showProgressView();
 
+        // prepare objects
+        User user = activeUserController.getUser();
+        Challenge challenge = this.challenge.cloneObject();
+
         // send request
         ConnectionHandler connectionHandler = ApiRequests.addChallengeResult(context, this,
-                user.getId(), user.getToken(), challenge.getId(), hostScore, guestScore, hostTeam.getId(),
-                hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
+                user.getId(), user.getToken(), challenge, hostScore, guestScore);
         cancelWhenDestroyed(connectionHandler);
     }
 

@@ -1453,30 +1453,21 @@ public class ApiRequests {
                                                                int userId, String userToken,
                                                                int challengeId) {
 
-        return acceptChallenge(context, listener, userId, userToken, challengeId, 0, null, 0, null);
+        // create the challenge
+        Challenge challenge = new Challenge();
+        challenge.setId(challengeId);
+
+        return acceptChallenge(context, listener, userId, userToken, challenge);
     }
 
     public static ConnectionHandler<Challenge> acceptChallenge(Context context, ConnectionListener<Challenge> listener,
-                                                               int userId, String userToken,
-                                                               int challengeId, int hostTeamId,
-                                                               String hostTeamName, int guestTeamId,
-                                                               String guestTeamName) {
+                                                               int userId, String userToken, Challenge challenge) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         User user = new User();
         user.setId(userId);
         user.setToken(userToken);
         body.setUser(user);
-        Challenge challenge = new Challenge();
-        challenge.setId(challengeId);
-        Team hostTeam = new Team();
-        hostTeam.setId(hostTeamId);
-        hostTeam.setName(hostTeamName);
-        challenge.setHostTeam(hostTeam);
-        Team guestTeam = new Team();
-        guestTeam.setId(guestTeamId);
-        guestTeam.setName(guestTeamName);
-        challenge.setGuestTeam(guestTeam);
         body.setChallenge(challenge);
 
         // create & execute the request
@@ -1487,10 +1478,7 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Challenge> leaveChallenge(Context context, ConnectionListener<Challenge> listener,
-                                                              int userId, String userToken,
-                                                              int challengeId, int hostTeamId,
-                                                              String hostTeamName, int guestTeamId,
-                                                              String guestTeamName) {
+                                                              int userId, String userToken, Challenge challenge) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         CaptainBody captain = new CaptainBody();
@@ -1499,16 +1487,6 @@ public class ApiRequests {
         userInfo.setToken(userToken);
         captain.setUserinfo(userInfo);
         body.setCaptain(captain);
-        Challenge challenge = new Challenge();
-        challenge.setId(challengeId);
-        Team hostTeam = new Team();
-        hostTeam.setId(hostTeamId);
-        hostTeam.setName(hostTeamName);
-        challenge.setHostTeam(hostTeam);
-        Team guestTeam = new Team();
-        guestTeam.setId(guestTeamId);
-        guestTeam.setName(guestTeamName);
-        challenge.setGuestTeam(guestTeam);
         body.setChallenge(challenge);
 
         // create & execute the request
@@ -1534,28 +1512,16 @@ public class ApiRequests {
 
     public static ConnectionHandler<Challenge> addResToChallenge(Context context, ConnectionListener<Challenge> listener,
                                                                  int userId, String userToken,
-                                                                 int challengeId, int reservationId,
-                                                                 int hostTeamId, String hostTeamName,
-                                                                 int guestTeamId, String guestTeamName) {
+                                                                 Challenge challenge, int reservationId) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         User user = new User();
         user.setId(userId);
         user.setToken(userToken);
         body.setUser(user);
-        Challenge challenge = new Challenge();
-        challenge.setId(challengeId);
         Reservation reservation = new Reservation();
         reservation.setId(reservationId);
         challenge.setReservation(reservation);
-        Team hostTeam = new Team();
-        hostTeam.setId(hostTeamId);
-        hostTeam.setName(hostTeamName);
-        challenge.setHostTeam(hostTeam);
-        Team guestTeam = new Team();
-        guestTeam.setId(guestTeamId);
-        guestTeam.setName(guestTeamName);
-        challenge.setGuestTeam(guestTeam);
         body.setChallenge(challenge);
 
         // create & execute the request
@@ -1566,26 +1532,13 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Challenge> resultObjection(Context context, ConnectionListener<Challenge> listener,
-                                                               int userId, String userToken,
-                                                               int challengeId, int hostTeamId,
-                                                               String hostTeamName, int guestTeamId,
-                                                               String guestTeamName) {
+                                                               int userId, String userToken, Challenge challenge) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         User user = new User();
         user.setId(userId);
         user.setToken(userToken);
         body.setUser(user);
-        Challenge challenge = new Challenge();
-        challenge.setId(challengeId);
-        Team hostTeam = new Team();
-        hostTeam.setId(hostTeamId);
-        hostTeam.setName(hostTeamName);
-        challenge.setHostTeam(hostTeam);
-        Team guestTeam = new Team();
-        guestTeam.setId(guestTeamId);
-        guestTeam.setName(guestTeamName);
-        challenge.setGuestTeam(guestTeam);
         body.setChallenge(challenge);
 
         // create & execute the request
@@ -1596,29 +1549,16 @@ public class ApiRequests {
     }
 
     public static ConnectionHandler<Challenge> addChallengeResult(Context context, ConnectionListener<Challenge> listener,
-                                                                  int userId, String userToken,
-                                                                  int challengeId, int hostGoals,
-                                                                  int guestGoals, int hostTeamId,
-                                                                  String hostTeamName, int guestTeamId,
-                                                                  String guestTeamName) {
+                                                                  int userId, String userToken, Challenge challenge,
+                                                                  int hostGoals, int guestGoals) {
         // create the request body
         ChallengeActionBody body = new ChallengeActionBody();
         User user = new User();
         user.setId(userId);
         user.setToken(userToken);
         body.setUser(user);
-        Challenge challenge = new Challenge();
-        challenge.setId(challengeId);
         challenge.setHostGoals(hostGoals);
         challenge.setGuestGoals(guestGoals);
-        Team hostTeam = new Team();
-        hostTeam.setId(hostTeamId);
-        hostTeam.setName(hostTeamName);
-        challenge.setHostTeam(hostTeam);
-        Team guestTeam = new Team();
-        guestTeam.setId(guestTeamId);
-        guestTeam.setName(guestTeamName);
-        challenge.setGuestTeam(guestTeam);
         body.setChallenge(challenge);
 
         // create & execute the request

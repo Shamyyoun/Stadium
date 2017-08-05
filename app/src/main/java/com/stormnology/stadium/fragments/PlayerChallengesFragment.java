@@ -136,17 +136,18 @@ public class PlayerChallengesFragment extends ParentFragment {
             if (requestCode == Const.REQ_SEARCH_CHALLENGES) {
                 // update the  filter
                 filter = (ChallengeInfoHolder) data.getSerializableExtra(Const.KEY_FILTER);
-            } else {
+            } else if (requestCode == Const.REQ_ADD_CHALLENGE) {
                 // refresh new challenges fragment
-                refreshNewChallenges();
+                refreshNewChallengesIfPossible();
             }
         }
     }
 
-    private void refreshNewChallenges() {
-        // check the fragment
+    private void refreshNewChallengesIfPossible() {
+        // refresh it if not null and is the current screen
         ChallengesFragment fragment = fragments[NEW_CHAL_POS];
-        if (fragment != null) {
+        int position = getReversedItemPosition(viewPager.getCurrentItem());
+        if (fragment != null && position == NEW_CHAL_POS) {
             fragment.refresh();
         }
     }
@@ -160,7 +161,7 @@ public class PlayerChallengesFragment extends ParentFragment {
         @Override
         public Fragment getItem(int position) {
             // reverse the position cause the UI is arabic from right to left
-            position = tabTitles.length - 1 - position;
+            position = getReversedItemPosition(position);
 
             // get the fragment and check it
             ChallengesFragment fragment = fragments[position];
@@ -207,5 +208,9 @@ public class PlayerChallengesFragment extends ParentFragment {
         public CharSequence getPageTitle(int position) {
             return tabTitles[position];
         }
+    }
+
+    private int getReversedItemPosition(int originalPosition) {
+        return tabTitles.length - 1 - originalPosition;
     }
 }

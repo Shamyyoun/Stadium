@@ -315,14 +315,14 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
                 }
             };
 
-            // prepare objects
+            // prepare params
             User user = activeUserController.getUser();
-            Team hostTeam = challenge.getHostTeam();
+            Challenge challenge = this.challenge.cloneObject();
+            challenge.setGuestTeam(team);
 
             // send request
             ConnectionHandler connectionHandler = ApiRequests.acceptChallenge(context, listener,
-                    user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
-                    hostTeam.getName(), team.getId(), team.getName());
+                    user.getId(), user.getToken(), challenge);
             cancelWhenDestroyed(connectionHandler);
         }
 
@@ -384,13 +384,11 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
 
             // prepare objects
             User user = activeUserController.getUser();
-            Team hostTeam = challenge.getHostTeam();
-            Team guestTeam = challenge.getGuestTeam();
+            Challenge challenge = this.challenge.cloneObject();
 
             // send request
             ConnectionHandler connectionHandler = ApiRequests.leaveChallenge(context, listener,
-                    user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
-                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
+                    user.getId(), user.getToken(), challenge);
             cancelWhenDestroyed(connectionHandler);
         }
 
@@ -449,13 +447,11 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
 
             // prepare objects
             User user = activeUserController.getUser();
-            Team hostTeam = challenge.getHostTeam();
-            Team guestTeam = challenge.getGuestTeam();
+            Challenge challenge = this.challenge.cloneObject();
 
             // send request
             ConnectionHandler connectionHandler = ApiRequests.addResToChallenge(context, listener,
-                    user.getId(), user.getToken(), challenge.getId(), reservation.getId(), hostTeam.getId(),
-                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
+                    user.getId(), user.getToken(), challenge, reservation.getId());
             cancelWhenDestroyed(connectionHandler);
         }
 
@@ -507,13 +503,11 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
 
             // prepare objects
             User user = activeUserController.getUser();
-            Team hostTeam = challenge.getHostTeam();
-            Team guestTeam = challenge.getGuestTeam();
+            Challenge challenge = this.challenge.cloneObject();
 
             // send request
             ConnectionHandler connectionHandler = ApiRequests.resultObjection(context, listener,
-                    user.getId(), user.getToken(), challenge.getId(), hostTeam.getId(),
-                    hostTeam.getName(), guestTeam.getId(), guestTeam.getName());
+                    user.getId(), user.getToken(), challenge);
             cancelWhenDestroyed(connectionHandler);
         }
 

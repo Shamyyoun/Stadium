@@ -7,7 +7,7 @@ import com.stormnology.stadium.models.responses.ServerResponse;
 
 import java.io.Serializable;
 
-public class Challenge extends ServerResponse implements Serializable {
+public class Challenge extends ServerResponse implements Serializable, Cloneable {
     public static final String DATE_FORMAT = "MM/dd/yyyy hh:mm:ss a";
 
     @SerializedName("Id")
@@ -174,5 +174,18 @@ public class Challenge extends ServerResponse implements Serializable {
 
     public void setCaptainRole(boolean captainRole) {
         this.captainRole = captainRole;
+    }
+
+    @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
+    public Challenge cloneObject() {
+        return (Challenge) clone();
     }
 }
