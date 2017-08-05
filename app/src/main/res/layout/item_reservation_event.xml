@@ -9,64 +9,71 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical"
             android:paddingBottom="3dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp">
 
-            <include layout="@layout/item_parent_challenge" />
+            <include layout="@layout/item_parent_event" />
 
-            <LinearLayout
-                android:id="@+id/layout_buttons"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray" />
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/light_gray" />
+                android:layout_marginTop="3dp">
 
                 <LinearLayout
+                    android:id="@+id/layout_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <Button
-                        android:id="@+id/btn_withdraw"
+                        android:id="@+id/btn_decline"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/red_delete_icon"
-                        android:paddingLeft="10dp"
-                        android:text="@string/withdraw"
-                        android:textColor="@color/red" />
+                        android:drawableLeft="@drawable/refuse_icon"
+                        android:paddingLeft="30dp"
+                        android:text="@string/refuse" />
 
                     <View
-                        android:id="@+id/view_divider"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:background="@color/light_gray" />
 
                     <Button
-                        android:id="@+id/btn_add_res"
+                        android:id="@+id/btn_confirm"
                         style="@style/SmallBorderlessButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/confirm_icon"
-                        android:paddingLeft="10dp"
-                        android:text="@string/add_reservation" />
+                        android:paddingLeft="30dp"
+                        android:text="@string/confirm" />
                 </LinearLayout>
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_confirm_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="6dp"
+                    android:text="@string/confirmed"
+                    android:textColor="@color/gray" />
+            </FrameLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>

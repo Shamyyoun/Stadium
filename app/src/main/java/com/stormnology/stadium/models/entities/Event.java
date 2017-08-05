@@ -45,172 +45,144 @@ public class Event implements Serializable {
     @SerializedName("confirmStatus")
     @Expose
     private String confirmStatus;
+    @SerializedName("challengeId")
+    @Expose
+    private int challengeId;
+    @SerializedName("challengeType")
+    @Expose
+    private int challengeType;
+    @SerializedName("guestCaptain")
+    @Expose
+    private int guestCaptain;
+    @SerializedName("guestAssistant")
+    @Expose
+    private int guestAssistant;
 
-    /**
-     * @return The date
-     */
     public String getDate() {
         return date;
     }
 
-    /**
-     * @param date The Date
-     */
     public void setDate(String date) {
         this.date = date;
     }
 
-    /**
-     * @return The message
-     */
     public String getMessage() {
         return message;
     }
 
-    /**
-     * @param message The Message
-     */
     public void setMessage(String message) {
         this.message = message;
     }
 
-    /**
-     * @return The event type
-     */
     public int getEventType() {
         return eventType;
     }
 
-    /**
-     * @param eventType The event type
-     */
     public void setEventType(int eventType) {
         this.eventType = eventType;
     }
 
-    /**
-     * @return The imageLink
-     */
     public String getImageLink() {
         return imageLink;
     }
 
-    /**
-     * @param imageLink The imageLink
-     */
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
     }
 
-    /**
-     * @return The picId
-     */
     public int getPicId() {
         return picId;
     }
 
-    /**
-     * @param picId The picId
-     */
     public void setPicId(int picId) {
         this.picId = picId;
     }
 
-    /**
-     * @return The picType
-     */
     public int getPicType() {
         return picType;
     }
 
-    /**
-     * @param picType The picType
-     */
     public void setPicType(int picType) {
         this.picType = picType;
     }
 
-    /**
-     * @return The resId
-     */
     public int getResId() {
         return resId;
     }
 
-    /**
-     * @param resId The resId
-     */
     public void setResId(int resId) {
         this.resId = resId;
     }
 
-    /**
-     * @return The title
-     */
     public String getTitle() {
         return title;
     }
 
-    /**
-     * @param title The title
-     */
     public void setTitle(String title) {
         this.title = title;
     }
 
-    /**
-     * @return The titleId
-     */
     public int getTitleId() {
         return titleId;
     }
 
-    /**
-     * @param titleId The titleId
-     */
     public void setTitleId(int titleId) {
         this.titleId = titleId;
     }
 
-    /**
-     * @return The titleType
-     */
     public int getTitleType() {
         return titleType;
     }
 
-    /**
-     * @param titleType The titleType
-     */
     public void setTitleType(int titleType) {
         this.titleType = titleType;
     }
 
-    /**
-     * @return The confirmStatusId
-     */
     public int getConfirmStatusId() {
         return confirmStatusId;
     }
 
-    /**
-     * @param confirmStatusId The confirmStatusId
-     */
     public void setConfirmStatusId(int confirmStatusId) {
         this.confirmStatusId = confirmStatusId;
     }
 
-    /**
-     * @return The confirmStatus
-     */
     public String getConfirmStatus() {
         return confirmStatus;
     }
 
-    /**
-     * @param confirmStatus The confirmStatus
-     */
     public void setConfirmStatus(String confirmStatus) {
         this.confirmStatus = confirmStatus;
+    }
+
+    public int getChallengeId() {
+        return challengeId;
+    }
+
+    public void setChallengeId(int challengeId) {
+        this.challengeId = challengeId;
+    }
+
+    public int getChallengeType() {
+        return challengeType;
+    }
+
+    public void setChallengeType(int challengeType) {
+        this.challengeType = challengeType;
+    }
+
+    public int getGuestCaptain() {
+        return guestCaptain;
+    }
+
+    public void setGuestCaptain(int guestCaptain) {
+        this.guestCaptain = guestCaptain;
+    }
+
+    public int getGuestAssistant() {
+        return guestAssistant;
+    }
+
+    public void setGuestAssistant(int guestAssistant) {
+        this.guestAssistant = guestAssistant;
     }
 }

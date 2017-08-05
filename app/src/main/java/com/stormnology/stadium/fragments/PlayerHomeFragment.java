@@ -18,12 +18,11 @@ import com.stormnology.stadium.ApiRequests;
 import com.stormnology.stadium.Const;
 import com.stormnology.stadium.R;
 import com.stormnology.stadium.activities.CreateTeamActivity;
-import com.stormnology.stadium.activities.UpdateProfileImageActivity;
 import com.stormnology.stadium.activities.UpdateProfileActivity;
+import com.stormnology.stadium.activities.UpdateProfileImageActivity;
 import com.stormnology.stadium.adapters.EventsAdapter;
 import com.stormnology.stadium.connection.ConnectionHandler;
 import com.stormnology.stadium.controllers.ActiveUserController;
-import com.stormnology.stadium.interfaces.OnItemClickListener;
 import com.stormnology.stadium.interfaces.OnRefreshListener;
 import com.stormnology.stadium.models.SerializableListWrapper;
 import com.stormnology.stadium.models.entities.Event;
@@ -38,7 +37,7 @@ import java.util.List;
 /**
  * Created by Shamyyoun on 7/2/16.
  */
-public class PlayerHomeFragment extends ProgressFragment implements OnItemClickListener {
+public class PlayerHomeFragment extends ProgressFragment {
     private ActiveUserController activeUserController;
     private View layoutImage;
     private ImageView ivImage;
@@ -142,15 +141,9 @@ public class PlayerHomeFragment extends ProgressFragment implements OnItemClickL
     }
 
     private void updateEventsUI() {
-        EventsAdapter adapter = new EventsAdapter(activity, data, R.layout.item_event);
+        EventsAdapter adapter = new EventsAdapter(activity, data);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
         showMain();
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        logE("Item clicked: " + position);
     }
 
     @Override

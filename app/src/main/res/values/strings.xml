@@ -459,6 +459,7 @@
     <string name="please_choose_day">برجاء اختيار اليوم</string>
     <string name="please_choose_time">برجاء اختيار التوقيت</string>
     <string name="failed_adding_challenge">فشل اضافة التحدي</string>
+    <string name="accept_challenge_q">قبول التحدي؟</string>
 
 
     <!-- Arrays -->

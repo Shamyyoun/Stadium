@@ -59,6 +59,14 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        // get item type
+        Challenge challenge = data.get(position);
+        int type = challenge.getType() != null ? challenge.getType().getId() : 0;
+        return type;
+    }
+
+    @Override
     public ParentRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create suitable view holder
         ViewHolder holder;
@@ -75,21 +83,13 @@ public class ChallengesAdapter extends ParentRecyclerAdapter<Challenge> {
             holder = new HistoricalChallengeViewHolder(itemView);
 
         } else {
-            // return basic view holder
-            View itemView = LayoutInflater.from(context).inflate(R.layout.item_main_challenge, parent, false);
+            // basic view holder
+            View itemView = LayoutInflater.from(context).inflate(R.layout.item_parent_challenge, parent, false);
             holder = new ViewHolder(itemView);
         }
         holder.setOnItemClickListener(itemClickListener);
 
         return holder;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        // get item type
-        Challenge challenge = data.get(position);
-        int type = challenge.getType() != null ? challenge.getType().getId() : 0;
-        return type;
     }
 
     @Override

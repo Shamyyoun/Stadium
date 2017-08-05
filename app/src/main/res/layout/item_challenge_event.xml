@@ -9,22 +9,22 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical"
             android:paddingBottom="3dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp">
 
-            <include layout="@layout/item_parent_challenge" />
+            <include layout="@layout/item_parent_event" />
 
             <LinearLayout
                 android:id="@+id/layout_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <View

@@ -1451,6 +1451,13 @@ public class ApiRequests {
 
     public static ConnectionHandler<Challenge> acceptChallenge(Context context, ConnectionListener<Challenge> listener,
                                                                int userId, String userToken,
+                                                               int challengeId) {
+
+        return acceptChallenge(context, listener, userId, userToken, challengeId, 0, null, 0, null);
+    }
+
+    public static ConnectionHandler<Challenge> acceptChallenge(Context context, ConnectionListener<Challenge> listener,
+                                                               int userId, String userToken,
                                                                int challengeId, int hostTeamId,
                                                                String hostTeamName, int guestTeamId,
                                                                String guestTeamName) {
