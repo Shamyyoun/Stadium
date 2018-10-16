@@ -163,7 +163,7 @@
         <item name="tabIndicatorHeight">2dp</item>
     </style>
 
-    <style name="smallTeamTab" parent="Base.Widget.Design.TabLayout">
+    <style name="SmallTeamTab" parent="Base.Widget.Design.TabLayout">
         <item name="android:background">@android:color/white</item>
         <item name="tabTextAppearance">@style/MyCustomSmallText</item>
         <item name="tabSelectedTextColor">@color/green</item>
